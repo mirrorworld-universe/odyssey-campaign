@@ -6,14 +6,49 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Modal } from "./Modal";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
+import base58 from "bs58";
+import nacl from "tweetnacl";
 import { useAccountModal } from "../store/account";
 
 const queryClient = new QueryClient();
+const messageToSign = "the data to sign";
+const message = new TextEncoder().encode(messageToSign);
 
 export function WalletModal() {
   const { select, wallets, publicKey, disconnect, connecting, signMessage } =
     useWallet();
   const { isOpen, onOpen, onClose } = useAccountModal();
+  const [signature, setSignature] = useState<string | undefined>(undefined);
+
+  const sign = async () => {
+    try {
+      if (!signMessage) {
+        console.log("signMessage function is not available");
+        return;
+      }
+      const message = new TextEncoder().encode(messageToSign);
+      const uint8arraySignature = await signMessage(message);
+      setSignature(base58.encode(uint8arraySignature));
+    } catch (e) {
+      console.log("could not sign message");
+    }
+  };
+
+  // const verify = async () => {
+  //   const message = new TextEncoder().encode(messageToSign);
+  //   const uint8arraySignature = base58.decode(signature);
+  //   const walletIsSigner = nacl.sign.detached.verify(
+  //     message,
+  //     uint8arraySignature,
+  //     publicKey.toBuffer()
+  //   );
+
+  //   if (walletIsSigner) {
+  //     alert("The data was indeed signed with the connected wallet");
+  //   } else {
+  //     alert("The data was not signed with the connected wallet");
+  //   }
+  // };
 
   const handleWalletSelect = async (walletName: any) => {
     if (walletName) {
@@ -25,6 +60,12 @@ export function WalletModal() {
       }
     }
   };
+
+  useEffect(() => {
+    if (publicKey) {
+      sign();
+    }
+  }, [publicKey]);
 
   return (
     <Modal isOpen={isOpen}>
