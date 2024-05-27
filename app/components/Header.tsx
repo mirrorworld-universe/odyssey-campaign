@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import { useLatest, useMount } from "react-use";
 import Link from "next/link";
-import { useAccountModal, useWalletInfo } from "../store/account";
+import {
+  formatAddress,
+  useAccountModal,
+  useWalletInfo,
+} from "../store/account";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { Button } from "@/components/ui/button";
@@ -87,11 +91,8 @@ export function Header() {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <span
-                className="text-gray-700 truncate w-[100px]"
-                onClick={handleClickOpenWallet}
-              >
-                {publicKey.toBase58()}
+              <span className="text-gray-700" onClick={handleClickOpenWallet}>
+                {formatAddress(publicKey.toBase58())}
               </span>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-[300px]">
