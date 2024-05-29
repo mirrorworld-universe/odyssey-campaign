@@ -46,9 +46,30 @@ export function Header() {
     disconnect();
   };
 
+  const menu = [
+    {
+      name: "Task Center",
+      link: "#",
+    },
+    {
+      name: "Network",
+      link: "#",
+    },
+    {
+      name: "Odyssey Guide",
+      link: "#",
+    },
+    {
+      name: "About Sonic",
+      link: "#",
+    },
+  ];
+
   return (
-    <nav className="flex items-center justify-between px-4 py-2 bg-white shadow-md w-full sticky:backdrop-blur-[15px] top-0 ">
-      <div className="flex items-center space-x-4">
+    <nav className="flex items-center justify-between px-10 py-4 bg-[#111111] shadow-md w-full sticky:backdrop-blur-[15px] top-0 ">
+      {/* left */}
+      <div className="flex items-center gap-12 space-x-4">
+        {/* logo */}
         <img
           alt="Sonic Logo"
           className="h-10"
@@ -60,19 +81,23 @@ export function Header() {
           }}
           width="100"
         />
-        <Link className="text-gray-700 hover:text-gray-900" href="#">
-          Network
-        </Link>
-        <Link className="text-gray-700 hover:text-gray-900" href="#">
-          Odyssey Guide
-        </Link>
-        <Link className="text-gray-700 hover:text-gray-900" href="#">
-          About Sonic
-        </Link>
+
+        {/* nav */}
+        {menu.map((menuItem, menuIndex) => (
+          <Link
+            className="gap-12 text-white hover:text-white/50 font-['Orbitron'] transition-colors"
+            href={menuItem.link}
+            key={menuIndex}
+          >
+            {menuItem.name}
+          </Link>
+        ))}
       </div>
-      <div className="flex items-center space-x-4">
-        <span className="text-gray-700">- Monitor</span>
-        <span className="text-gray-700">- Rings</span>
+
+      {/* right */}
+      <div className="gap-12 flex items-center space-x-4">
+        <span className="text-white">- Monitor</span>
+        <span className="text-white">- Rings</span>
         {/* <Select>
           <SelectTrigger aria-label="User menu" id="user-menu">
             <SelectValue placeholder="Get Started" />
@@ -85,9 +110,12 @@ export function Header() {
         </Select> */}
 
         {!publicKey ? (
-          <span className="text-gray-700" onClick={handleClickOpenWallet}>
-            {connecting ? "connecting..." : "Get Started"}
-          </span>
+          <Button
+            className="px-8 py-[10px] bg-[#0000FF] text-white text-[16px]"
+            onClick={handleClickOpenWallet}
+          >
+            {connecting ? "Connecting..." : "Connect"}
+          </Button>
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
