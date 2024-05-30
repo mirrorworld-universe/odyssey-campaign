@@ -79,7 +79,7 @@ const config = {
   },
   plugins: [
     require("tailwindcss-animate"),
-    function ({ addUtilities }) {
+    function ({ addUtilities }: any) {
       const newUtilities = {
         ".text-shadow-text": {
           textShadow:
