@@ -1,7 +1,7 @@
-import { useAccountModal } from "../store/account";
+import { useWalletModal } from "../store/account";
 
 export function Modal({ children }: any) {
-  const { isOpen, onOpen, onClose } = useAccountModal();
+  const { isOpen, onOpen, onClose } = useWalletModal();
 
   const handleCloseModal = () => {
     onClose();

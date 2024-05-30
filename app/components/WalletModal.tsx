@@ -1,25 +1,38 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { Modal } from "./Modal";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useWallet } from "@solana/wallet-adapter-react";
-import base58 from "bs58";
-import nacl from "tweetnacl";
-import { useAccountModal } from "../store/account";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
-
-const queryClient = new QueryClient();
-const messageToSign = "the data to sign";
-const message = new TextEncoder().encode(messageToSign);
+import { useQuery } from "@tanstack/react-query";
+import base58 from "bs58";
+import { encodeBase64 } from "tweetnacl-util";
+import { useWalletModal, useAccountInfo } from "../store/account";
+import { fetchAuthorize, fetchBasicInfo } from "../data/account";
 
 export function WalletModal() {
   const { select, wallets, publicKey, disconnect, connecting, signMessage } =
     useWallet();
-  const { isOpen, onOpen, onClose } = useAccountModal();
-  const [signature, setSignature] = useState<string | undefined>(undefined);
+  const { address, setAddress, setToken } = useAccountInfo();
+  const { isOpen, onOpen, onClose } = useWalletModal();
+
+  const [signature, setSignature] = useState("");
+  const [messageToSign, setMessageToSign] = useState("");
+
+  const { data: dataBasicInfo, isLoading: loadingBasicInfo } = useQuery({
+    queryKey: ["queryBasicInfo", address],
+    queryFn: () => fetchBasicInfo(address),
+    enabled: !!address,
+  });
+
+  const { data: dataAuthorize, isLoading: loadingAuthorize } = useQuery({
+    queryKey: ["queryAuthorize", address],
+    queryFn: () =>
+      fetchAuthorize(address, encodeBase64(publicKey!.toBytes()), signature),
+    enabled: !!signature,
+  });
 
   const sign = async () => {
     try {
@@ -64,64 +77,83 @@ export function WalletModal() {
   };
 
   useEffect(() => {
+    if (dataBasicInfo) {
+      setMessageToSign(dataBasicInfo.data);
+    }
+  }, [dataBasicInfo]);
+
+  useEffect(() => {
+    if (dataAuthorize) {
+      // setToken(dataAuthorize.data.token);
+      console.log("dataAuthorize", dataAuthorize);
+    }
+  }, [signature, dataAuthorize]);
+
+  useEffect(() => {
     if (publicKey) {
+      setAddress(publicKey.toString());
       // sign();
-      onClose();
+      // onClose();
     }
   }, [publicKey]);
 
+  useEffect(() => {
+    if (messageToSign) {
+      sign();
+      onClose();
+    }
+  }, [messageToSign]);
+
   return (
     <Modal isOpen={isOpen}>
-      <QueryClientProvider client={queryClient}>
-        <div className="flex flex-col items-start justify-between w-[350px]">
-          <h2 className="font-orbitron text-white text-[32px]">
-            Connect Your Wallet
-          </h2>
-          <h3 className="text-[16px] font-normal text-white/60 mt-4">
-            Choose one of the wallets and install the corresponding browser
-            extension.
-          </h3>
-        </div>
-        <ul className="flex gap-8 flex-col w-full mt-12">
-          {wallets.map((wallet) => (
-            <li
-              key={wallet.adapter.name}
-              //onClick={() => select(wallet.adapter.name)}
-              className="h-[40px] flex items-center w-full justify-between"
+      <div className="flex flex-col items-start justify-between w-[350px]">
+        <h2 className="font-orbitron text-white text-[32px]">
+          Connect Your Wallet
+        </h2>
+        <h3 className="text-[16px] font-normal text-white/60 mt-4">
+          Choose one of the wallets and install the corresponding browser
+          extension.
+        </h3>
+      </div>
+      <ul className="flex gap-8 flex-col w-full mt-12">
+        {wallets.map((wallet) => (
+          <li
+            key={wallet.adapter.name}
+            //onClick={() => select(wallet.adapter.name)}
+            className="h-[40px] flex items-center w-full justify-between"
+          >
+            <div
+              className="flex items-center cursor-pointer hover:opacity-80 transition-all"
+              onClick={() => handleWalletSelect(wallet.adapter)}
             >
-              <div
-                className="flex items-center cursor-pointer hover:opacity-80 transition-all"
-                onClick={() => handleWalletSelect(wallet.adapter)}
-              >
-                <img
-                  src={wallet.adapter.icon}
-                  alt={wallet.adapter.name}
-                  height={30}
-                  width={30}
-                  className="mr-5 "
-                />
-                <span className="text-[20px] text-white">
-                  {wallet.adapter.name}
-                </span>
-              </div>
+              <img
+                src={wallet.adapter.icon}
+                alt={wallet.adapter.name}
+                height={30}
+                width={30}
+                className="mr-5 "
+              />
+              <span className="text-[20px] text-white">
+                {wallet.adapter.name}
+              </span>
+            </div>
 
-              <div
-                className={`min-w-[115px] text-center font-orbitron font-bold text-[16px] rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border transition-all ${
-                  wallet.readyState === WalletReadyState.Installed
-                    ? "text-white border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
-                    : "text-white border-white/80 hover:border-white"
-                }`}
-                onClick={() => handleWalletSelect(wallet.adapter)}
-              >
-                {wallet.readyState === WalletReadyState.Installed
-                  ? "Connect"
-                  : "Install"}
-              </div>
-            </li>
-          ))}
-          {/* <WalletMultiButton style={{}} /> */}
-        </ul>
-      </QueryClientProvider>
+            <div
+              className={`min-w-[115px] text-center font-orbitron font-bold text-[16px] rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border transition-all ${
+                wallet.readyState === WalletReadyState.Installed
+                  ? "text-white border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
+                  : "text-white border-white/80 hover:border-white"
+              }`}
+              onClick={() => handleWalletSelect(wallet.adapter)}
+            >
+              {wallet.readyState === WalletReadyState.Installed
+                ? "Connect"
+                : "Install"}
+            </div>
+          </li>
+        ))}
+        {/* <WalletMultiButton style={{}} /> */}
+      </ul>
     </Modal>
   );
 }

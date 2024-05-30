@@ -3,11 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLatest, useMount } from "react-use";
 import Link from "next/link";
-import {
-  formatAddress,
-  useAccountModal,
-  useWalletInfo,
-} from "../store/account";
+import { formatAddress, useWalletModal } from "../store/account";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { Button } from "@/components/ui/button";
@@ -17,10 +13,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toFixed } from "../store/wallet";
+import { toFixed } from "../store/account";
 
 export function Header() {
-  const { isOpen, onOpen } = useAccountModal();
+  const { isOpen, onOpen } = useWalletModal();
   const { connection } = useConnection();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
   const [userWalletAddress, setUserWalletAddress] = useState<string>("");
