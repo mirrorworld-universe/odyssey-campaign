@@ -15,7 +15,7 @@ export function Modal({ children }: any) {
       ></div>
       <div className="bg-[#1A1A1A] rounded-xl p-8 shadow-lg w-full max-w-md absolute">
         <img
-          className="cursor-pointer absolute top-8 right-8"
+          className="cursor-pointer hover:opacity-80 absolute top-8 right-8 transition-all"
           src="images/close.svg"
           alt=""
           onClick={handleCloseModal}
