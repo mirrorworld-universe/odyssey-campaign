@@ -33,21 +33,25 @@ export default function Home() {
     }
   };
 
+  const VideoBackground = () => (
+    <video
+      className="object-cover mix-blend-screen w-screen h-screen absolute top-0 bottom-0 left-0 right-0"
+      preload="auto"
+      loop
+      autoPlay
+      muted
+      // tabIndex="-1"
+    >
+      <source src="/background.mp4" type="video/mp4" />
+    </video>
+  );
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <Header />
 
       <div className="w-screen h-screen flex-grow flex flex-col items-center justify-center px-4 py-8 relative">
-        <video
-          className="object-cover mix-blend-screen w-screen h-screen absolute top-0 bottom-0 left-0 right-0"
-          preload="auto"
-          loop
-          autoPlay
-          // tabIndex="-1"
-          // muted="muted"
-        >
-          <source src="/background.mp4" type="video/mp4" />
-        </video>
+        <VideoBackground />
         <div className="text-center max-w-[800px] flex flex-col items-center absolute">
           <h1 className="flex flex-row gap-2 text-[96px] text-white font-orbitron font-bold">
             <img className="" src="/images/sonic-odyssey.png" alt="" />
@@ -57,7 +61,7 @@ export default function Home() {
           </p>
 
           <Button
-            className="w-[370px] rounded-[4px] bg-transparent relative mt-[132px]"
+            className="w-[370px] h-[80px] bg-transparent hover:bg-transparent rounded-md p-0 relative mt-[132px]"
             onClick={handleClickOpenWallet}
           >
             <img className="w-full" src="/images/get-started.png" alt="" />
