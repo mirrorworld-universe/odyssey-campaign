@@ -7,9 +7,9 @@ import AppWalletProvider from "./components/AppWalletProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sonic - The First Atomic SVM Chain",
+  title: "Sonic Odyssey",
   description:
-    "Sonic is a Solana Layer2 built to enable sovereign game economies on Solana, utilizing the HyperGrid horizontal scaling Solana Virtual Machine (SVM) rollup framework.",
+    "Description: Sonic testnet is live now! Join the Sonic Odyssey to earn potential airdrops!",
 };
 
 export default function RootLayout({
