@@ -39,7 +39,7 @@ export function Header() {
   }, [publicKey, connection, balance]);
 
   const handleClickOpenWallet = () => {
-    onOpen();
+    !publicKey && onOpen();
   };
 
   const handleDisconnect = async () => {
@@ -66,13 +66,13 @@ export function Header() {
   ];
 
   return (
-    <nav className="flex items-center justify-between px-10 py-4 bg-[#111111] w-full sticky sticky:backdrop-blur-[35px] top-0 transition-all">
+    <nav className="h-20 flex items-center justify-between px-10 py-4 bg-[#111111] w-full sticky sticky:backdrop-blur-[35px] top-0 transition-all">
       {/* left */}
       <div className="flex items-center gap-12 space-x-4">
         {/* logo */}
         <img
           alt="Sonic Logo"
-          className="h-10"
+          className="w-[135px]"
           height="40"
           src="/sonic.png"
           style={{
@@ -111,7 +111,7 @@ export function Header() {
 
         {!publicKey ? (
           <Button
-            className="px-8 py-[10px] bg-[#0000FF] font-orbitron text-white text-[16px]"
+            className="px-8 py-[10px] bg-[#0000FF] hover:bg-[#0000FF]/80 font-orbitron text-white text-[16px] transition-all"
             onClick={handleClickOpenWallet}
           >
             {connecting ? "Connecting..." : "Connect"}
@@ -119,12 +119,18 @@ export function Header() {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <span className="text-gray-700" onClick={handleClickOpenWallet}>
-                {formatAddress(publicKey.toBase58())}
-              </span>
+              <div
+                className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-5 py-[10px] rounded-[4px] cursor-pointer transition-all"
+                onClick={handleClickOpenWallet}
+              >
+                <img src="/images/wallet.svg" alt="" />
+                <span className="text-white font-orbitron">
+                  {formatAddress(publicKey.toBase58())}
+                </span>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-[300px]">
-              <DropdownMenuItem asChild>
+              {/* <DropdownMenuItem asChild>
                 {balance ? (
                   <div>{toFixed(balance, 2)} SOL</div>
                 ) : (
@@ -136,10 +142,10 @@ export function Header() {
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <span>Set up Sonic Network</span>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuItem className="flex justify-center">
                 <Button
-                  className="z-50 text-[20px]  text-white  border-2 border-white font-slackey"
+                  className="z-50 text-[16px]  text-white font-orbitron"
                   onClick={handleDisconnect}
                 >
                   Disconnect

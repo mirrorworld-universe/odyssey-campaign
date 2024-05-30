@@ -51,11 +51,12 @@ export function WalletModal() {
   //   }
   // };
 
-  const handleWalletSelect = async (walletName: any) => {
+  const handleWalletSelect = async (walletAdapter: any) => {
+    const walletName = walletAdapter.name;
     if (walletName) {
       try {
         select(walletName);
-        onClose();
+        // onClose();
       } catch (error) {
         console.log("wallet connection err : ", error);
       }
@@ -64,7 +65,8 @@ export function WalletModal() {
 
   useEffect(() => {
     if (publicKey) {
-      sign();
+      // sign();
+      onClose();
     }
   }, [publicKey]);
 
@@ -89,7 +91,7 @@ export function WalletModal() {
             >
               <div
                 className="flex items-center cursor-pointer hover:opacity-80 transition-all"
-                onClick={() => handleWalletSelect(wallet.adapter.name)}
+                onClick={() => handleWalletSelect(wallet.adapter)}
               >
                 <img
                   src={wallet.adapter.icon}
@@ -104,11 +106,12 @@ export function WalletModal() {
               </div>
 
               <div
-                className={`w-[115px] text-center font-orbitron font-bold text-[16px] rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border ${
+                className={`min-w-[115px] text-center font-orbitron font-bold text-[16px] rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border transition-all ${
                   wallet.readyState === WalletReadyState.Installed
-                    ? "text-white border-[#0000FF] bg-[#0000FF]"
-                    : "text-white border-white/80"
+                    ? "text-white border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
+                    : "text-white border-white/80 hover:border-white"
                 }`}
+                onClick={() => handleWalletSelect(wallet.adapter)}
               >
                 {wallet.readyState === WalletReadyState.Installed
                   ? "Connect"

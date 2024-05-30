@@ -50,20 +50,17 @@ export default function Home() {
         </video>
         <div className="text-center max-w-[800px] flex flex-col items-center absolute">
           <h1 className="flex flex-row gap-2 text-[96px] text-white font-orbitron font-bold">
-            <span>Sonic</span>
-            <span className="text-shadow-text font-semibold">Odyssey</span>
+            <img className="" src="/images/sonic-odyssey.png" alt="" />
           </h1>
           <p className="text-[32px] font-orbitron text-[#FFFFFF]/[0.8] mt-12">
             Join the Sonic Odyssey to earn potential Airdrops!
           </p>
 
           <Button
-            className="[border-image:linear-gradient(to_bottom,rgb(0,0,255),rgb(0,160.65,255)_50%,rgb(0,0,255)_100%)_1] border-[3px] border-solid border-transparent w-[424px] flex items-center gap-[10px] px-[32px] py-[24px] rounded-[4px] justify-center relative mt-[132px]"
+            className="w-[370px] rounded-[4px] bg-transparent relative mt-[132px]"
             onClick={handleClickOpenWallet}
           >
-            <div className="font-orbitron w-fit mt-[-3.00px] tracking-[0] text-[32px] text-white relative font-bold leading-[normal]">
-              Get Started
-            </div>
+            <img className="w-full" src="/images/get-started.png" alt="" />
           </Button>
         </div>
       </div>
