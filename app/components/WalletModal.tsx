@@ -9,6 +9,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import base58 from "bs58";
 import nacl from "tweetnacl";
 import { useAccountModal } from "../store/account";
+import { WalletReadyState } from "@solana/wallet-adapter-base";
 
 const queryClient = new QueryClient();
 const messageToSign = "the data to sign";
@@ -70,20 +71,26 @@ export function WalletModal() {
   return (
     <Modal isOpen={isOpen}>
       <QueryClientProvider client={queryClient}>
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-            Connect a wallet on Sonic to continue
+        <div className="flex flex-col items-start justify-between w-[350px]">
+          <h2 className="font-orbitron text-white text-[32px]">
+            Connect Your Wallet
+          </h2>
+          <h3 className="text-[16px] font-normal text-white/60 mt-4">
+            Choose one of the wallets and install the corresponding browser
+            extension.
           </h3>
         </div>
-        <p className="text-gray-700 dark:text-gray-400">
+        <ul className="flex gap-8 flex-col w-full mt-12">
           {wallets.map((wallet) => (
-            <p
+            <li
               key={wallet.adapter.name}
               //onClick={() => select(wallet.adapter.name)}
-              onClick={() => handleWalletSelect(wallet.adapter.name)}
-              className=" h-[40px] hover:bg-transparent hover:text-white text-[20px] text-white font-slackey flex items-center w-full justify-between items-center "
+              className="h-[40px] flex items-center w-full justify-between"
             >
-              <div className="flex items-center">
+              <div
+                className="flex items-center cursor-pointer hover:opacity-80 transition-all"
+                onClick={() => handleWalletSelect(wallet.adapter.name)}
+              >
                 <img
                   src={wallet.adapter.icon}
                   alt={wallet.adapter.name}
@@ -91,17 +98,26 @@ export function WalletModal() {
                   width={30}
                   className="mr-5 "
                 />
-                <span className="text-base text-gray-900">
+                <span className="text-[20px] text-white">
                   {wallet.adapter.name}
                 </span>
               </div>
-              <div className="text-sm text-gray-700 wallet-name text-[20px]">
-                {wallet.readyState}
+
+              <div
+                className={`w-[115px] text-center font-orbitron font-bold text-[16px] rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border ${
+                  wallet.readyState === WalletReadyState.Installed
+                    ? "text-white border-[#0000FF] bg-[#0000FF]"
+                    : "text-white border-white/80"
+                }`}
+              >
+                {wallet.readyState === WalletReadyState.Installed
+                  ? "Connect"
+                  : "Install"}
               </div>
-            </p>
+            </li>
           ))}
           {/* <WalletMultiButton style={{}} /> */}
-        </p>
+        </ul>
       </QueryClientProvider>
     </Modal>
   );

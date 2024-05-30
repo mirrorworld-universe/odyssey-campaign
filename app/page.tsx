@@ -48,21 +48,22 @@ export default function Home() {
         >
           <source src="/background.mp4" type="video/mp4" />
         </video>
-        <div className="text-center max-w-[800px] absolute">
-          <h1 className="text-[96px] text-white font-bold mb-4">
-            Sonic{" "}
-            <span className="[-webkit-text-stroke:8px_#25a3ed] font-semibold">
-              Odyssey
-            </span>
+        <div className="text-center max-w-[800px] flex flex-col items-center absolute">
+          <h1 className="flex flex-row gap-2 text-[96px] text-white font-orbitron font-bold">
+            <span>Sonic</span>
+            <span className="text-shadow-text font-semibold">Odyssey</span>
           </h1>
-          <p className="text-[32px] text-[#FFFFFF]/[0.8] mb-6">
+          <p className="text-[32px] font-orbitron text-[#FFFFFF]/[0.8] mt-12">
             Join the Sonic Odyssey to earn potential Airdrops!
           </p>
+
           <Button
-            className="w-[424px] px-8 py-6"
+            className="[border-image:linear-gradient(to_bottom,rgb(0,0,255),rgb(0,160.65,255)_50%,rgb(0,0,255)_100%)_1] border-[3px] border-solid border-transparent w-[424px] flex items-center gap-[10px] px-[32px] py-[24px] rounded-[4px] justify-center relative mt-[132px]"
             onClick={handleClickOpenWallet}
           >
-            <span className="text-[32px]">Get Started</span>
+            <div className="font-orbitron w-fit mt-[-3.00px] tracking-[0] text-[32px] text-white relative font-bold leading-[normal]">
+              Get Started
+            </div>
           </Button>
         </div>
       </div>

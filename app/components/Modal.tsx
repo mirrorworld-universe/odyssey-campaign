@@ -1,14 +1,25 @@
-export function Modal({ children, isOpen, onClose }: any) {
+import { useAccountModal } from "../store/account";
+
+export function Modal({ children }: any) {
+  const { isOpen, onOpen, onClose } = useAccountModal();
+
   const handleCloseModal = () => {
-    onClose && onClose();
+    onClose();
   };
 
   return isOpen ? (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-      onClick={handleCloseModal}
-    >
-      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg w-full max-w-md p-6 space-y-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div
+        className="w-full h-full absolute top-0 left-0 bottom-0 right-0"
+        onClick={handleCloseModal}
+      ></div>
+      <div className="bg-[#1A1A1A] rounded-xl p-8 shadow-lg w-full max-w-md absolute">
+        <img
+          className="cursor-pointer absolute top-8 right-8"
+          src="images/close.svg"
+          alt=""
+          onClick={handleCloseModal}
+        />
         {children}
       </div>
     </div>

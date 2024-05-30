@@ -66,7 +66,7 @@ export function Header() {
   ];
 
   return (
-    <nav className="flex items-center justify-between px-10 py-4 bg-[#111111] shadow-md w-full sticky:backdrop-blur-[15px] top-0 ">
+    <nav className="flex items-center justify-between px-10 py-4 bg-[#111111] w-full sticky sticky:backdrop-blur-[35px] top-0 transition-all">
       {/* left */}
       <div className="flex items-center gap-12 space-x-4">
         {/* logo */}
@@ -85,7 +85,7 @@ export function Header() {
         {/* nav */}
         {menu.map((menuItem, menuIndex) => (
           <Link
-            className="gap-12 text-white hover:text-white/50 font-['Orbitron'] transition-colors"
+            className="gap-12 text-white hover:text-white/50 font-orbitron transition-colors"
             href={menuItem.link}
             key={menuIndex}
           >
@@ -96,8 +96,8 @@ export function Header() {
 
       {/* right */}
       <div className="gap-12 flex items-center space-x-4">
-        <span className="text-white">- Monitor</span>
-        <span className="text-white">- Rings</span>
+        {/* <span className="text-white">- Monitor</span>
+        <span className="text-white">- Rings</span> */}
         {/* <Select>
           <SelectTrigger aria-label="User menu" id="user-menu">
             <SelectValue placeholder="Get Started" />
@@ -111,7 +111,7 @@ export function Header() {
 
         {!publicKey ? (
           <Button
-            className="px-8 py-[10px] bg-[#0000FF] text-white text-[16px]"
+            className="px-8 py-[10px] bg-[#0000FF] font-orbitron text-white text-[16px]"
             onClick={handleClickOpenWallet}
           >
             {connecting ? "Connecting..." : "Connect"}
