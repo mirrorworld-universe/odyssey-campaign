@@ -80,7 +80,7 @@ export function Header() {
   const menu = [
     {
       name: "Task Center",
-      link: "#",
+      link: "/task",
     },
     {
       name: "Network",
@@ -101,17 +101,19 @@ export function Header() {
       {/* left */}
       <div className="flex items-center gap-12 space-x-4">
         {/* logo */}
-        <img
-          alt="Sonic Logo"
-          className="w-[135px]"
-          height="40"
-          src="/sonic.png"
-          style={{
-            aspectRatio: "100/40",
-            objectFit: "contain",
-          }}
-          width="100"
-        />
+        <Link href="/">
+          <img
+            alt="Sonic Logo"
+            className="w-[135px]"
+            height="40"
+            src="/sonic.png"
+            style={{
+              aspectRatio: "100/40",
+              objectFit: "contain",
+            }}
+            width="100"
+          />
+        </Link>
 
         {/* nav */}
         {menu.map((menuItem, menuIndex) => (

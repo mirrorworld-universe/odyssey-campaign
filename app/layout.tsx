@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import "./globals.css";
+import Providers from "./providers";
 import AppWalletProvider from "./components/AppWalletProvider";
 import Script from "next/script";
+import { Header } from "./components/Header";
+import { WalletModal } from "./components/WalletModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,9 +43,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-[#01030C]">
-        <AppWalletProvider>{children}</AppWalletProvider>
-        <TikTokPixelScriptA />
-        <TikTokPixelScriptB />
+        <Providers>
+          <AppWalletProvider>
+            {/* header */}
+            <Header />
+            {/* chidren */}
+            {children}
+            {/* wallet modal */}
+            <WalletModal />
+          </AppWalletProvider>
+        </Providers>
       </body>
     </html>
   );

@@ -17,7 +17,7 @@ import { Keypair } from "@solana/web3.js";
 export function WalletModal() {
   const { select, wallets, publicKey, disconnect, connecting, signMessage } =
     useWallet();
-  const { address, setAddress, setToken } = useAccountInfo();
+  const { address, setAddress, token, setToken } = useAccountInfo();
   const { isOpen, onOpen, onClose } = useWalletModal();
 
   const [signature, setSignature] = useState("");
@@ -100,11 +100,11 @@ export function WalletModal() {
   }, [publicKey]);
 
   useEffect(() => {
-    if (messageToSign) {
+    if (messageToSign && !token) {
       sign();
       onClose();
     }
-  }, [messageToSign]);
+  }, [messageToSign, token]);
 
   return (
     <Modal isOpen={isOpen}>

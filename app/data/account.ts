@@ -17,7 +17,7 @@ export const fetchBasicInfo = async (address: string) => {
 
 export const fetchAuthorize = async (
   address: string,
-  address_encode: string,
+  address_encoded: string,
   signature: string
 ) => {
   const response = await fetch(`${API_BASE_URL.staging}/auth/sonic/authorize`, {
@@ -27,7 +27,7 @@ export const fetchAuthorize = async (
     method: "POST",
     body: JSON.stringify({
       address,
-      address_encode,
+      address_encoded,
       signature,
     }),
   });
