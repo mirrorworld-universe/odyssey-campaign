@@ -8,9 +8,11 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { useQuery } from "@tanstack/react-query";
 import base58 from "bs58";
-import { encodeBase64 } from "tweetnacl-util";
+import nacl from "tweetnacl";
+import { decodeUTF8, encodeBase64 } from "tweetnacl-util";
 import { useWalletModal, useAccountInfo } from "../store/account";
 import { fetchAuthorize, fetchBasicInfo } from "../data/account";
+import { Keypair } from "@solana/web3.js";
 
 export function WalletModal() {
   const { select, wallets, publicKey, disconnect, connecting, signMessage } =
@@ -41,8 +43,9 @@ export function WalletModal() {
         return;
       }
       const message = new TextEncoder().encode(messageToSign);
+      // const message = decodeUTF8(messageToSign);
       const uint8arraySignature = await signMessage(message);
-      setSignature(base58.encode(uint8arraySignature));
+      setSignature(encodeBase64(uint8arraySignature));
     } catch (e) {
       console.log("could not sign message");
     }
@@ -84,8 +87,7 @@ export function WalletModal() {
 
   useEffect(() => {
     if (dataAuthorize) {
-      // setToken(dataAuthorize.data.token);
-      console.log("dataAuthorize", dataAuthorize);
+      setToken(dataAuthorize.data?.token);
     }
   }, [signature, dataAuthorize]);
 

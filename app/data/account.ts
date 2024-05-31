@@ -17,16 +17,29 @@ export const fetchBasicInfo = async (address: string) => {
 
 export const fetchAuthorize = async (
   address: string,
-  address_encoded: string,
+  address_encode: string,
   signature: string
 ) => {
   const response = await fetch(`${API_BASE_URL.staging}/auth/sonic/authorize`, {
+    headers: {
+      "content-type": "application/json",
+    },
     method: "POST",
     body: JSON.stringify({
       address,
-      address_encoded,
+      address_encode,
       signature,
     }),
+  });
+  return response.json();
+};
+
+export const fetchLogout = async ({ token }: any) => {
+  const response = await fetch(`${API_BASE_URL.staging}/auth/logout`, {
+    headers: {
+      Authorization: token,
+    },
+    method: "GET",
   });
   return response.json();
 };

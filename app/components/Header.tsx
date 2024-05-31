@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { useLatest, useMount } from "react-use";
 import Link from "next/link";
-import { formatAddress, useWalletModal } from "../store/account";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,7 +13,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toFixed } from "../store/account";
+import {
+  formatAddress,
+  useAccountInfo,
+  useWalletModal,
+} from "../store/account";
+import { fetchLogout } from "../data/account";
 
 export function Header() {
   const { isOpen, onOpen } = useWalletModal();
@@ -22,7 +27,12 @@ export function Header() {
   const [userWalletAddress, setUserWalletAddress] = useState<string>("");
   const isOpenRef = useLatest(isOpen);
 
+  const { address, token } = useAccountInfo();
   const [balance, setBalance] = useState<number>(0);
+
+  const mutationLogout = useMutation({
+    mutationFn: () => fetchLogout({ token }),
+  });
 
   useEffect(() => {
     if (publicKey) {
@@ -64,6 +74,7 @@ export function Header() {
 
   const handleDisconnect = async () => {
     disconnect();
+    mutationLogout.mutate();
   };
 
   const menu = [
