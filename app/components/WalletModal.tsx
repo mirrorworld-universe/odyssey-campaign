@@ -37,18 +37,19 @@ export function WalletModal() {
   });
 
   const sign = async () => {
-    try {
-      if (!signMessage) {
-        console.log("signMessage function is not available");
-        return;
-      }
-      const message = new TextEncoder().encode(messageToSign);
-      // const message = decodeUTF8(messageToSign);
-      const uint8arraySignature = await signMessage(message);
-      setSignature(encodeBase64(uint8arraySignature));
-    } catch (e) {
-      console.log("could not sign message");
+    // try {
+    if (!signMessage) {
+      console.log("signMessage function is not available");
+      return;
     }
+    const message = new TextEncoder().encode(messageToSign);
+    // const message = decodeUTF8(messageToSign);
+    const uint8arraySignature = await signMessage(message);
+    debugger;
+    setSignature(encodeBase64(uint8arraySignature));
+    // } catch (e) {
+    //   console.log("could not sign message");
+    // }
   };
 
   // const verify = async () => {

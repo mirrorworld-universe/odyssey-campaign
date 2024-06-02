@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ConnectionProvider,
   WalletProvider,
@@ -8,7 +8,7 @@ import {
 } from "@solana/wallet-adapter-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { clusterApiUrl } from "@solana/web3.js";
+import { Connection, clusterApiUrl } from "@solana/web3.js";
 import {
   PhantomWalletAdapter,
   NightlyWalletAdapter,
@@ -22,19 +22,27 @@ export default function AppWalletProvider({
 }: {
   children: React.ReactNode;
 }) {
+  // const [network, setNetwork] = useState("https://devnet.sonic.game");
   const network = WalletAdapterNetwork.Devnet;
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+
+  const customRpcUrl = "https://devnet.sonic.game";
+
+  const connection = new Connection(customRpcUrl, { commitment: "confirmed" });
+
+  // const endpoint = useMemo(() => clusterApiUrl('https://devnet.sonic.game'), [network]);
+
+  // const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   const wallets = useMemo(
     () => [
       // manually add any legacy wallet adapters here
-      new PhantomWalletAdapter(),
+      // new PhantomWalletAdapter(),
       new NightlyWalletAdapter(),
     ],
     [network]
   );
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
+    <ConnectionProvider endpoint={customRpcUrl}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>

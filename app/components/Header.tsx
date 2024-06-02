@@ -13,6 +13,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
+import Notification from "./Notification";
 import {
   formatAddress,
   useAccountInfo,
@@ -27,22 +29,25 @@ export function Header() {
   const [userWalletAddress, setUserWalletAddress] = useState<string>("");
   const isOpenRef = useLatest(isOpen);
 
-  const { address, token } = useAccountInfo();
+  const { address, token, reset } = useAccountInfo();
   const [balance, setBalance] = useState<number>(0);
 
   const mutationLogout = useMutation({
     mutationFn: () => fetchLogout({ token }),
+    onSuccess: () => {
+      reset();
+    },
   });
 
-  useEffect(() => {
-    if (publicKey) {
-      (async function getBalanceEvery10Seconds() {
-        const newBalance = await connection.getBalance(publicKey);
-        setBalance(newBalance / LAMPORTS_PER_SOL);
-        setTimeout(getBalanceEvery10Seconds, 10000);
-      })();
-    }
-  }, [publicKey, connection, balance]);
+  // useEffect(() => {
+  //   if (publicKey) {
+  //     (async function getBalanceEvery10Seconds() {
+  //       const newBalance = await connection.getBalance(publicKey);
+  //       setBalance(newBalance / LAMPORTS_PER_SOL);
+  //       setTimeout(getBalanceEvery10Seconds, 10000);
+  //     })();
+  //   }
+  // }, [publicKey, connection, balance]);
 
   const handleClickOpenWallet = () => {
     !publicKey && onOpen();
@@ -97,7 +102,7 @@ export function Header() {
   ];
 
   return (
-    <nav className="h-20 flex items-center justify-between px-10 py-4 bg-[#111111] w-full sticky sticky:backdrop-blur-[35px] top-0 transition-all">
+    <nav className="h-20 flex items-center justify-between px-10 py-4 bg-[#111111] w-full sticky sticky:backdrop-blur-[35px] top-0 z-30 transition-all">
       {/* left */}
       <div className="flex items-center gap-12 space-x-4">
         {/* logo */}
@@ -128,7 +133,7 @@ export function Header() {
       </div>
 
       {/* right */}
-      <div className="gap-12 flex items-center space-x-4">
+      <div className="gap-12 flex items-center">
         {/* <span className="text-white">- Monitor</span>
         <span className="text-white">- Rings</span> */}
         {/* <Select>
@@ -141,6 +146,8 @@ export function Header() {
             <SelectItem value="logout">Logout</SelectItem>
           </SelectContent>
         </Select> */}
+
+        <Notification />
 
         {!publicKey ? (
           <Button
@@ -155,9 +162,10 @@ export function Header() {
               <div
                 className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-5 py-[10px] rounded-[4px] cursor-pointer transition-all"
                 onClick={handleClickOpenWallet}
+                title={publicKey.toBase58()}
               >
                 <img src="/images/wallet.svg" alt="" />
-                <span className="text-white font-orbitron">
+                <span className="text-white font-bold font-orbitron">
                   {formatAddress(publicKey.toBase58())}
                 </span>
               </div>

@@ -43,6 +43,7 @@ export const useAccountInfo = create(
       reset: () => {
         set({
           address: undefined,
+          token: undefined,
         });
       },
     }),
@@ -52,9 +53,12 @@ export const useAccountInfo = create(
   )
 );
 
-export function formatAddress(address?: string) {
+export function formatAddress(address?: string, length = 4) {
   if (!address) return null;
-  return `${address.slice(0, 6)}…${address.slice(38, 42)}`;
+  return `${address.substring(0, length)}…${address.substring(
+    address.length - length,
+    address.length
+  )}`;
 }
 
 export function toFixed(num: number, fixed: number): string {
