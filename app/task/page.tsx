@@ -17,10 +17,10 @@ const TaskCenter: NextPage = () => {
           extension.
         </p>
         <div className="flex flex-row gap-6 mt-16">
-          <Button className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] bg-[#0000FF] transition-all">
+          <Button className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 transition-all duration-300">
             Start My Task
           </Button>
-          <Button className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] bg-transparent border boder-solid border-white transition-all">
+          <Button className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] bg-transparent border boder-solid border-white transition-all duration-300">
             How to Play?
           </Button>
         </div>
