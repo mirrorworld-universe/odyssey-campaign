@@ -29,7 +29,7 @@ const TaskCenter: NextPage = () => {
   );
 
   const MainContent = () => (
-    <div className="bg-black mt-10">
+    <div className="bg-black mt-20 mb-20">
       <div className="w-full max-w-[1464px]">
         <div className="flex flex-col gap-24">
           {taskGroupList.map((taskGroup) => (
@@ -47,11 +47,11 @@ const TaskCenter: NextPage = () => {
                       {task.description}
                     </p>
                     <div className="flex flex-row justify-start items-center w-full absolute left-0 bottom-0">
-                      <div className="text-white text-[14x] font-orbitron">
+                      <div className="w-[174px] h-[40px] bg-cover bg-no-repeat text-white text-[14px] font-orbitron bg-[url('/images/period-background.png')] pt-3 pl-5">
                         {task.period}
                       </div>
                       {task.reward ? (
-                        <div className="text-[#FBB042] text-[14x] font-orbitron">
+                        <div className="text-[#FBB042] text-[14px] font-orbitron ml-1">
                           {task.reward}
                         </div>
                       ) : null}
