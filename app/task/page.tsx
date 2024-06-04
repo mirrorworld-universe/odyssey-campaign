@@ -39,7 +39,7 @@ const TaskCenter: NextPage = () => {
               </h4>
               {taskGroup.list.map((task) => (
                 <Link href={`/task/${task.id}`}>
-                  <div className="bg-[#1E1E1E] w-[663px] h-[263px] px-8 py-8 rounded-md cursor-pointer hover:scale-105 transition-transform relative">
+                  <div className="bg-[#1E1E1E] w-[663px] h-[263px] px-8 py-8 rounded-md cursor-pointer hover:scale-105 transition-transform duration-300 relative">
                     <h5 className="text-white/70 text-[48px] font-semibold font-orbitron">
                       {task.name}
                     </h5>

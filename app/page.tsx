@@ -17,6 +17,17 @@ export default function Home() {
     if (!publicKey) {
       onOpen();
     }
+    // window.ttq?.track('ClickButton', {
+    //   contents: [
+    //     {
+    //       content_id: '0001',
+    //       content_type: 'Sonic',
+    //       content_name: 'ClickButton'
+    //     }
+    //   ],
+    //   value: '1',
+    //   currency: 'USD'
+    // });
   };
 
   const scrollToTop = () => {

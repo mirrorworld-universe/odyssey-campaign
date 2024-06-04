@@ -51,30 +51,17 @@ export function Header() {
 
   const handleClickOpenWallet = () => {
     !publicKey && onOpen();
-    // tack code
-    const ttq = (window as any).ttq;
-    ttq.track("ClickButton", {
-      contents: [
-        {
-          content_id: "0001",
-          content_type: "Sonic",
-          content_name: "ClickButton",
-        },
-      ],
-      value: "1",
-      currency: "USD",
-    });
-    ttq.track("CompleteRegistration", {
-      contents: [
-        {
-          content_id: "0002",
-          content_type: "Sonic001",
-          content_name: "CompleteRegistration_001",
-        },
-      ],
-      value: "1",
-      currency: "USD",
-    });
+    // window.ttq?.track('ClickButton', {
+    //   contents: [
+    //     {
+    //       content_id: '0001',
+    //       content_type: 'Sonic',
+    //       content_name: 'ClickButton'
+    //     }
+    //   ],
+    //   value: '1',
+    //   currency: 'USD'
+    // });
   };
 
   const handleDisconnect = async () => {
@@ -151,7 +138,7 @@ export function Header() {
 
         {!publicKey ? (
           <Button
-            className="px-8 py-[10px] bg-[#0000FF] hover:bg-[#0000FF]/80 font-orbitron text-white text-[16px] transition-all duration-300"
+            className="px-8 py-[10px] bg-[#0000FF] hover:bg-[#0000FF]/80 font-orbitron font-semibold text-white text-[16px] transition-all duration-300"
             onClick={handleClickOpenWallet}
           >
             {connecting ? "Connecting..." : "Connect"}
@@ -165,7 +152,7 @@ export function Header() {
                 title={publicKey.toBase58()}
               >
                 <img src="/images/wallet.svg" alt="" />
-                <span className="text-white font-bold font-orbitron">
+                <span className="text-white font-semibold font-orbitron">
                   {formatAddress(publicKey.toBase58())}
                 </span>
               </div>

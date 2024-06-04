@@ -12,7 +12,7 @@ export default function Notification({ data }: any) {
 
   const NotificationIcon = () => (
     <div className="cursor-pointer" onClick={handleToggleShowPanel}>
-      <img className="w-6 h-6" src="images/notifications.png" alt="" />
+      <img className="w-6 h-6" src="/images/notifications.png" alt="" />
     </div>
   );
 
