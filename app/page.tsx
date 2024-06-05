@@ -35,12 +35,12 @@ export default function Home() {
       value: "1",
       currency: "USD",
     });
-    ttq.track("ClickButton", {
+    ttq.track("CompleteRegistration", {
       contents: [
         {
           content_id: "0002",
           content_type: "Sonic001",
-          content_name: "ClickButton_001",
+          content_name: "CompleteRegistration_001",
         },
       ],
       value: "1",
