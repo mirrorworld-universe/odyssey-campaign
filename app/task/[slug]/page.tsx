@@ -1,16 +1,26 @@
 import Link from "next/link";
-import { taskGroupList } from "../../data/task";
-import { Card, CardSize } from "@/app/components/Card";
-import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
 
+import { Button } from "@/components/ui/button";
+import { Card, CardSize } from "@/app/components/Card";
 import { Gift } from "@/app/icons/Gift";
 import { Twitter } from "@/app/icons/Twitter";
 import { Discord } from "@/app/icons/Discord";
+import { useAccountInfo } from "@/app/store/account";
+import { fetchFollowingStatus, taskGroupList } from "../../data/task";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const taskId = params.slug;
+  const { address, token } = useAccountInfo();
 
   const tasks = taskGroupList.map((item) => item.list).flat();
+
+  const { data: dataFollowingStatus, isLoading: loadingFollowingStatus } =
+    useQuery({
+      queryKey: ["queryFollowingStatus", address],
+      queryFn: () => fetchFollowingStatus({ token }),
+      enabled: !!token,
+    });
 
   const handleFollow = () => {
     console.log("follow");
