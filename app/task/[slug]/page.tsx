@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
@@ -7,6 +8,8 @@ import { Gift } from "@/app/icons/Gift";
 import { Twitter } from "@/app/icons/Twitter";
 import { Discord } from "@/app/icons/Discord";
 import { useAccountInfo } from "@/app/store/account";
+import { openDialoguePopup } from "@/lib/utils";
+
 import { fetchFollowingStatus, taskGroupList } from "../../data/task";
 
 export default function Page({ params }: { params: { slug: string } }) {
@@ -22,10 +25,6 @@ export default function Page({ params }: { params: { slug: string } }) {
       enabled: !!token,
     });
 
-  const handleFollow = () => {
-    console.log("follow");
-  };
-
   const socialMediaList = [
     {
       name: "Follow X Account",
@@ -34,7 +33,16 @@ export default function Page({ params }: { params: { slug: string } }) {
         "Follow @SonicSVM on X for the latest updates, project progress, and to stay informed about all the exciting developments and news.",
       buttonIcon: <Twitter width={20} height={20} />,
       buttonText: "Follow on X",
-      handler: () => {},
+      handler: () => {
+        const { data } = dataFollowingStatus;
+        const currentHref = window.location.href;
+        const redirectUrl = data.twitter.url;
+        const newUrl = redirectUrl.replace(
+          /(redirect_uri=)[^&]+/,
+          `$1${currentHref}`
+        );
+        openDialoguePopup(newUrl);
+      },
     },
     {
       name: "Join Discord",
@@ -43,7 +51,16 @@ export default function Page({ params }: { params: { slug: string } }) {
         "Join Sonic's Discord Server to participate in community discussions and contribute to its growth.",
       buttonIcon: <Discord width={20} height={20} />,
       buttonText: "Join Discord",
-      handler: () => {},
+      handler: () => {
+        const { data } = dataFollowingStatus;
+        const currentHref = window.location.href;
+        const redirectUrl = data.discord.url;
+        const newUrl = redirectUrl.replace(
+          /(redirect_uri=)[^&]+/,
+          `$1${currentHref}`
+        );
+        openDialoguePopup(newUrl);
+      },
     },
   ];
 
@@ -133,7 +150,7 @@ export default function Page({ params }: { params: { slug: string } }) {
               </div>
               <Button
                 className="inline-flex justify-center items-center w-[177px] h-[48px] rounded bg-[#0000FF] hover:bg-[#0000FF]/50 gap-2 px-[16px] py-[10px] transition-colors duration-300 ml-20"
-                // onClick={handleFollow}
+                onClick={socialMedia.handler}
               >
                 {socialMedia.buttonIcon}
                 <span className="text-white font-orbitron text-[16px] font-semibold">
