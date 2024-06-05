@@ -22,6 +22,30 @@ export default function Home() {
     if (!publicKey) {
       onOpen();
     }
+    // tack code
+    const ttq = (window as any).ttq;
+    ttq.track("ClickButton", {
+      contents: [
+        {
+          content_id: "0001",
+          content_type: "Sonic",
+          content_name: "ClickButton",
+        },
+      ],
+      value: "1",
+      currency: "USD",
+    });
+    ttq.track("ClickButton", {
+      contents: [
+        {
+          content_id: "0002",
+          content_type: "Sonic001",
+          content_name: "ClickButton_001",
+        },
+      ],
+      value: "1",
+      currency: "USD",
+    });
   };
 
   const scrollToTop = () => {
