@@ -4,6 +4,17 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 import { taskGroupList } from "../data/task";
+import { Twitter } from "../icons/Twitter";
+
+const icons: any = {
+  twitter: (
+    <Twitter
+      width={250}
+      height={250}
+      className="origin-center rotate-12 opacity-50 absolute -bottom-4 -right-10"
+    />
+  ),
+};
 
 const TaskCenter: NextPage = () => {
   const Header = () => (
@@ -39,7 +50,7 @@ const TaskCenter: NextPage = () => {
               </h4>
               {taskGroup.list.map((task) => (
                 <Link href={`/task/${task.id}`}>
-                  <div className="bg-[#1E1E1E] w-[663px] h-[263px] px-8 py-8 rounded-md cursor-pointer hover:scale-105 transition-transform duration-300 relative">
+                  <div className="bg-[#1E1E1E] w-[663px] h-[263px] px-8 py-8 rounded-md cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden relative">
                     <h5 className="text-white/70 text-[48px] font-semibold font-orbitron">
                       {task.name}
                     </h5>
@@ -56,6 +67,7 @@ const TaskCenter: NextPage = () => {
                         </div>
                       ) : null}
                     </div>
+                    {icons[task.iconName]}
                   </div>
                 </Link>
               ))}
