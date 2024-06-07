@@ -1,10 +1,48 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Gift } from "@/app/icons/Gift";
+import { Button } from "@/components/ui/button";
+import { useAccountInfo } from "@/app/store/account";
+import { fetchCheckinStatus } from "@/app/data/task";
+
 import { Card, CardSize } from "../Card";
 
 export function CheckIn() {
+  const { address, token } = useAccountInfo();
+
+  const [hasChecked, setHasChecked] = useState(true);
   const [checkInDays, setCheckInDays] = useState(0);
+
+  const { data: dataCheckInInfo, isLoading: loadingCheckInInfo } = useQuery({
+    queryKey: ["queryCheckInInfo", address],
+    queryFn: () => fetchCheckinStatus({ token }),
+    enabled: !!token,
+  });
+
+  // const mutationCheckIn = useMutation({
+  //   mutationKey: ["mutationCheckIn", address],
+  //   mutationFn: () => fetchCheckinStatus({ token }),
+  //   onSuccess(data) {
+
+  //   },
+  // });
+
+  useEffect(() => {
+    const checkInInfo = dataCheckInInfo?.data;
+    if (checkInInfo) {
+      const { checked, accumulative_days } = checkInInfo;
+      setHasChecked(checked);
+      setCheckInDays(accumulative_days);
+    }
+  }, [dataCheckInInfo]);
+
+  const handleCheckIn = () => {
+    // if (!hasChecked) {
+    //   mutationCheckIn.mutate();
+    // }
+  };
+
   return (
     <>
       {/* rules */}
@@ -73,6 +111,20 @@ export function CheckIn() {
             </ul>
           </div>
           {/* tools */}
+          <div className="flex flex-row items-center justify-between">
+            <p className="text-[20px] text-white font-orbitron font-semibold">
+              8 - 14 days Rewards:{" "}
+              <span className="inline-flex items-center text-[#FBB042] font-orbitron">
+                x 1 <Gift color="#FBB042" className="mx-[4px]" />
+              </span>
+            </p>
+            <Button
+              className="w-[177px] h-[48px] text-white font-orbitron bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 transition-colors duration-300"
+              onClick={handleCheckIn}
+            >
+              Check-in
+            </Button>
+          </div>
         </div>
       </Card>
     </>
