@@ -1,17 +1,42 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { clusterApiUrl } from "@solana/web3.js";
-import React, { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { useWalletModal } from "./store/account";
+import { useAccountInfo, useWalletModal } from "./store/account";
+import { inviteUser } from "./data/account";
 
 export default function Home() {
   const { publicKey } = useWallet();
+  const { address, token } = useAccountInfo();
   const { isOpen, onOpen, onClose } = useWalletModal();
-  const [network, setNetwork] = useState(clusterApiUrl("devnet")); // 默认网络
+
+  const [network, setNetwork] = useState(clusterApiUrl("devnet"));
+  const [invitationCode, setInvitationCode] = useState("");
+
+  const mutationInvitation = useMutation({
+    mutationKey: ["invitation", address],
+    mutationFn: () =>
+      inviteUser({
+        token,
+        code: invitationCode,
+      }),
+  });
+
+  useEffect(() => {
+    if (window.location.search && token) {
+      const queryParams = new URLSearchParams(window.location.search);
+      const params = Object.fromEntries(queryParams.entries());
+      if (params.join) {
+        setInvitationCode(params.join);
+        mutationInvitation.mutate();
+      }
+    }
+  }, []);
 
   const handleClickOpenWallet = () => {
     if (!publicKey) {

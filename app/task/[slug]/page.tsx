@@ -63,18 +63,17 @@ export default function Page({ params }: { params: { slug: string } }) {
             alt=""
           />
           <div
-            className={`w-full h-full absolute top-0 left-0 group-hover/nav:background-highlight ${
-              task.id === taskId ? "background-highlight" : ""
+            className={`w-full h-full absolute top-0 left-0 background-highlight opacity-0 group-hover/nav:opacity-100 ${
+              task.id === taskId ? "opacity-100" : ""
             } transition-opacity duration-300`}
+          ></div>
+          <span
+            className={`group-hover/nav:text-[#FBB042] font-orbitron text-[24px] font-normal absolute left-[32px] bottom-[24px] ${
+              task.id === taskId ? "text-[#FBB042]" : "text-white/50"
+            } transition-colors duration-300`}
           >
-            <span
-              className={`text-white/50 group-hover/nav:text-[#FBB042] font-orbitron text-[24px] font-normal absolute left-[32px] bottom-[24px] ${
-                task.id === taskId ? "text-[#FBB042]" : "text-white/50"
-              }`}
-            >
-              {task.name}
-            </span>
-          </div>
+            {task.name}
+          </span>
         </Link>
       ))}
     </div>

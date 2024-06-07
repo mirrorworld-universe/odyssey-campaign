@@ -185,10 +185,10 @@ export function MeetSonic() {
                   socialMedia.id === "twitter"
                     ? hasFollowedTwitter
                       ? "bg-[#888888] hover:bg-[#888888]"
-                      : "bg-[#0000FF] hover:bg-[#0000FF]/50"
+                      : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
                     : hasFollowedDiscord
                     ? "bg-[#888888] hover:bg-[#888888]"
-                    : "bg-[#0000FF] hover:bg-[#0000FF]/50"
+                    : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
                 }`}
                 onClick={socialMedia.handler}
               >

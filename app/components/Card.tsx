@@ -20,15 +20,15 @@ export function Card({
         <h4
           className={`text-white font-semibold font-orbitron px-4 bg-black absolute left-7 z-0 ${
             size === CardSize.Default
-              ? "text-[32px] top-[-32px]"
-              : "text-[28px] top-[-28px]"
+              ? "text-[32px] top-[-28px]"
+              : "text-[28px] top-[-22px]"
           }`}
         >
           {name}
         </h4>
       )}
       {/* content */}
-      <div className="content">{children}</div>
+      <div className="content w-full">{children}</div>
     </div>
   );
 }

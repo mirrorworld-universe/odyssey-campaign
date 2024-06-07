@@ -38,12 +38,15 @@ export const fetchLogout = async ({ token }: any) => {
   return response.json();
 };
 
-export const inviteUser = async ({ token }: any) => {
+export const inviteUser = async ({ token, code }: any) => {
   const response = await fetch(`${API_BASE_URL.staging}/user/referral`, {
     headers: {
       Authorization: token,
     },
     method: "POST",
+    body: JSON.stringify({
+      invitation_code: code,
+    }),
   });
   return response.json();
 };
