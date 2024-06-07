@@ -5,15 +5,19 @@ import Link from "next/link";
 
 import { taskGroupList } from "../data/task";
 import { Twitter } from "../icons/Twitter";
+import { Calendar } from "../icons/Calendar";
+import { Chip } from "../icons/Chip";
+import { Recommand } from "../icons/Recommand";
+import { Diversity } from "../icons/Diversity";
+import { Controller } from "../icons/Controller";
 
 const icons: any = {
-  twitter: (
-    <Twitter
-      width={250}
-      height={250}
-      className="origin-center rotate-12 opacity-50 absolute -bottom-4 -right-10"
-    />
-  ),
+  twitter: <Twitter width={250} height={250} color="#313131" />,
+  calendar: <Calendar width={250} height={250} color="#313131" />,
+  chip: <Chip width={250} height={250} color="#313131" />,
+  recommand: <Recommand width={250} height={250} color="#313131" />,
+  diversity: <Diversity width={250} height={250} color="#313131" />,
+  game: <Controller width={250} height={250} color="#313131" />,
 };
 
 const TaskCenter: NextPage = () => {
@@ -49,8 +53,8 @@ const TaskCenter: NextPage = () => {
                 {taskGroup.name}
               </h4>
               {taskGroup.list.map((task) => (
-                <Link href={`/task/${task.id}`}>
-                  <div className="bg-[#1E1E1E] w-[663px] h-[263px] px-8 py-8 rounded-md cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden relative">
+                <Link href={`/task/${task.id}`} className="group/task">
+                  <div className="bg-[#1E1E1E] group-hover/task:bg-[#181818] w-[663px] h-[263px] px-8 py-8 rounded-md cursor-pointer transition-colors duration-300 overflow-hidden relative">
                     <h5 className="text-white/70 text-[48px] font-semibold font-orbitron">
                       {task.name}
                     </h5>
@@ -67,7 +71,9 @@ const TaskCenter: NextPage = () => {
                         </div>
                       ) : null}
                     </div>
-                    {icons[task.iconName]}
+                    <div className="origin-center rotate-12 opacity-50 absolute -bottom-4 -right-10 transition-all duration-300 group-hover/task:-right-14">
+                      {icons[task.iconName]}
+                    </div>
                   </div>
                 </Link>
               ))}
