@@ -36,7 +36,7 @@ export default function Home() {
         mutationInvitation.mutate();
       }
     }
-  }, []);
+  }, [token]);
 
   const handleClickOpenWallet = () => {
     if (!publicKey) {

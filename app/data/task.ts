@@ -139,13 +139,16 @@ export const fetchCheckinTransaction = async ({ token }: any) => {
   return response.json();
 };
 
-export const fetchFinishCheckin = async ({ token }: any) => {
+export const fetchFinishCheckin = async ({ token, hash }: any) => {
   const response = await fetch(`${API_BASE_URL.staging}/user/check-in`, {
     headers: {
       Authorization: token,
       "content-type": "application/json",
     },
     method: "POST",
+    body: JSON.stringify({
+      hash,
+    }),
   });
   return response.json();
 };
