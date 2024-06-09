@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "./config";
 
-export const fetchDailyTransactionQuantity = async ({ token }: any) => {
+export const getMilestoneDailyInfo = async ({ token }: any) => {
   const response = await fetch(
     `${API_BASE_URL.staging}/user/transactions/state/daily`,
     {
@@ -13,7 +13,7 @@ export const fetchDailyTransactionQuantity = async ({ token }: any) => {
   return response.json();
 };
 
-export const fetchClaimReward = async ({ token }: any) => {
+export const claimMilestoneRewards = async ({ token }: any) => {
   const response = await fetch(
     `${API_BASE_URL.staging}/user/transactions/rewards/claim`,
     {
@@ -26,22 +26,31 @@ export const fetchClaimReward = async ({ token }: any) => {
   return response.json();
 };
 
-export const fetchRewardInfo = async ({ token }: any) => {
-  const response = await fetch(`${API_BASE_URL.staging}/user/rewards/info`, {
-    headers: {
-      Authorization: token,
-    },
-    method: "GET",
-  });
+export const getMysteryboxTx = async ({ token }: any) => {
+  const response = await fetch(
+    `${API_BASE_URL.staging}/user/rewards/mystery-box/build-tx`,
+    {
+      headers: {
+        Authorization: token,
+      },
+      method: "GET",
+    }
+  );
   return response.json();
 };
 
-export const fetchRewardsHistory = async ({ token }: any) => {
-  const response = await fetch(`${API_BASE_URL.staging}/user/rewards/history`, {
-    headers: {
-      Authorization: token,
-    },
-    method: "GET",
-  });
+export const openMysterybox = async ({ token, hash }: any) => {
+  const response = await fetch(
+    `${API_BASE_URL.staging}/user/transactions/rewards/mystery-box/open`,
+    {
+      headers: {
+        Authorization: token,
+      },
+      method: "POST",
+      body: JSON.stringify({
+        hash,
+      }),
+    }
+  );
   return response.json();
 };

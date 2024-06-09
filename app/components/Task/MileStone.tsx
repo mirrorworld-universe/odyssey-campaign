@@ -1,13 +1,35 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Gift } from "@/app/icons/Gift";
 import { Button } from "@/components/ui/button";
 import { Card, CardSize } from "../Card";
+import { useAccountInfo } from "@/app/store/account";
+import { getMilestoneDailyInfo } from "@/app/data/reward";
 
 export function MileStone() {
   const totalAmount = 100;
   const [transactionAmount, setTransactionAmount] = useState(0);
+  const [stageList, setStageList] = useState([]);
   const [hasChecked, setHasChecked] = useState(true);
+
+  const { address, token } = useAccountInfo();
+
+  const { data: dataMilestoneDailyInfo, isLoading: loadingMilestoneDailyInfo } =
+    useQuery({
+      queryKey: ["queryMilestoneDailyInfo", address],
+      queryFn: () => getMilestoneDailyInfo({ token }),
+      enabled: !!token,
+    });
+
+  useEffect(() => {
+    const data = dataMilestoneDailyInfo?.data;
+    if (data) {
+      const { total_transactions, stage_info } = data;
+      setTransactionAmount(total_transactions);
+      setStageList(stage_info);
+    }
+  }, [dataMilestoneDailyInfo]);
 
   const handleClaimGifts = () => {};
 

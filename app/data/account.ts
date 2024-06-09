@@ -38,6 +38,26 @@ export const fetchLogout = async ({ token }: any) => {
   return response.json();
 };
 
+export const getUserRewardInfo = async ({ token }: any) => {
+  const response = await fetch(`${API_BASE_URL.staging}/user/rewards/info`, {
+    headers: {
+      Authorization: token,
+    },
+    method: "GET",
+  });
+  return response.json();
+};
+
+export const getUserRewardsHistory = async ({ token }: any) => {
+  const response = await fetch(`${API_BASE_URL.staging}/user/rewards/history`, {
+    headers: {
+      Authorization: token,
+    },
+    method: "GET",
+  });
+  return response.json();
+};
+
 export const inviteUser = async ({ token, code }: any) => {
   const response = await fetch(`${API_BASE_URL.staging}/user/referral`, {
     headers: {

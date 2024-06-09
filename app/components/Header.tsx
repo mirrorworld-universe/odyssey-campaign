@@ -20,7 +20,11 @@ import {
   useAccountInfo,
   useWalletModal,
 } from "../store/account";
-import { fetchLogout } from "../data/account";
+import {
+  fetchLogout,
+  getUserRewardInfo,
+  getUserRewardsHistory,
+} from "../data/account";
 
 export function Header() {
   const { isOpen, onOpen } = useWalletModal();
@@ -30,7 +34,23 @@ export function Header() {
   const isOpenRef = useLatest(isOpen);
 
   const { address, token, reset } = useAccountInfo();
-  const [balance, setBalance] = useState<number>(0);
+  const [ringAmount, setRingAmount] = useState(0);
+  const [ringMonitorAmount, setRingMonitorAmount] = useState(0);
+  const [walletBalance, setWalletBalance] = useState(0);
+  const [rewardsHistory, setRewardsHistory] = useState([]);
+
+  const { data: dataRewardsInfo, isLoading: loadingRewardsInfo } = useQuery({
+    queryKey: ["queryUserRewardsInfo", address],
+    queryFn: () => getUserRewardInfo({ token }),
+    enabled: !!token,
+  });
+
+  const { data: dataRewardsHistory, isLoading: loadingRewardsHistory } =
+    useQuery({
+      queryKey: ["queryUserRewardsHistory", address],
+      queryFn: () => getUserRewardsHistory({ token }),
+      enabled: !!token,
+    });
 
   const mutationLogout = useMutation({
     mutationFn: () => fetchLogout({ token }),
@@ -38,6 +58,23 @@ export function Header() {
       reset();
     },
   });
+
+  useEffect(() => {
+    const data = dataRewardsInfo?.data;
+    if (data) {
+      const { wallet_balance, ring, ring_monitor } = data;
+      setWalletBalance(wallet_balance);
+      setRingAmount(ring);
+      setRingMonitorAmount(ring_monitor);
+    }
+  }, [dataRewardsInfo]);
+
+  useEffect(() => {
+    const data = dataRewardsHistory?.data;
+    if (data?.length) {
+      setRewardsHistory(data);
+    }
+  }, [dataRewardsHistory]);
 
   // useEffect(() => {
   //   if (publicKey) {

@@ -1,8 +1,17 @@
 "use client";
 import { Gift } from "@/app/icons/Gift";
 import { Card, CardSize } from "../Card";
+import { Ring } from "@/app/icons/Ring";
+import { useState } from "react";
 
 export function RingLottery() {
+  const totalRing = 100000000;
+  const [currentRing, setCurrentRing] = useState(0);
+
+  const prettyNumber = (number: number) => {
+    return new Intl.NumberFormat("en-US").format(number);
+  };
+
   return (
     <>
       {/* rules */}
@@ -33,8 +42,37 @@ export function RingLottery() {
         </ul>
       </Card>
 
-      {/* main */}
-      <Card size={CardSize.Medium} className="mt-20"></Card>
+      {/* minted rings */}
+      <Card name="Minted Rings" size={CardSize.Medium} className="mt-20">
+        <div className="flex flex-row justify-between items-center">
+          <Ring width={56} height={56} color="#FBB042" />
+          <span className="text-white text-[48px] font-semibold font-orbitron">
+            {`${prettyNumber(currentRing)}/${prettyNumber(totalRing)}`}
+          </span>
+        </div>
+      </Card>
+
+      <div className="flex flex-row gap-20 mt-20">
+        {/* winner board */}
+        <Card name="Winner Board" size={CardSize.Medium}>
+          <div className="flex flex-row justify-between items-center">
+            <Ring width={56} height={56} color="#FBB042" />
+            <span className="text-white text-[48px] font-semibold font-orbitron">
+              {`${prettyNumber(currentRing)}/${prettyNumber(totalRing)}`}
+            </span>
+          </div>
+        </Card>
+
+        {/* draw */}
+        <Card size={CardSize.Medium}>
+          <div className="flex flex-row justify-between items-center">
+            <Ring width={56} height={56} color="#FBB042" />
+            <span className="text-white text-[48px] font-semibold font-orbitron">
+              {`${prettyNumber(currentRing)}/${prettyNumber(totalRing)}`}
+            </span>
+          </div>
+        </Card>
+      </div>
     </>
   );
 }
