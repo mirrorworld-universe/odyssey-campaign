@@ -25,7 +25,7 @@ import {
   getUserRewardInfo,
   getNotificationRecords,
 } from "../data/account";
-import RingDropdown from "./RingDropdown";
+import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
 
 export function Header() {
@@ -165,7 +165,7 @@ export function Header() {
           </SelectContent>
         </Select> */}
 
-        <RingDropdown ring={ringAmount} ringMonitor={ringMonitorAmount} />
+        <RingPopover ring={ringAmount} ringMonitor={ringMonitorAmount} />
 
         <Notification data={notificationRecords} />
 
