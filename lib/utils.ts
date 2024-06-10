@@ -68,3 +68,7 @@ export const openDialoguePopup = (
     openPopup(url, "_blank");
   }
 };
+
+export const prettyNumber = (number: number) => {
+  return new Intl.NumberFormat("en-US").format(number);
+};

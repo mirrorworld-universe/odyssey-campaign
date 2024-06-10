@@ -48,7 +48,7 @@ export const getUserRewardInfo = async ({ token }: any) => {
   return response.json();
 };
 
-export const getUserRewardsHistory = async ({ token }: any) => {
+export const getNotificationRecords = async ({ token }: any) => {
   const response = await fetch(`${API_BASE_URL.staging}/user/rewards/history`, {
     headers: {
       Authorization: token,

@@ -11,6 +11,7 @@ export function Ring({
       height={height}
       viewBox="0 0 56 56"
       fill="none"
+      className={className}
     >
       <mask
         id="mask"
@@ -20,10 +21,10 @@ export function Ring({
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
-        width={width}
-        height={height}
+        width="56"
+        height="56"
       >
-        <rect width={width} height={height} fill="#D9D9D9" />
+        <rect width="56" height="56" fill="#D9D9D9" />
       </mask>
       <g mask="url(#mask)">
         <path

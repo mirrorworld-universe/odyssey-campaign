@@ -23,8 +23,10 @@ import {
 import {
   fetchLogout,
   getUserRewardInfo,
-  getUserRewardsHistory,
+  getNotificationRecords,
 } from "../data/account";
+import RingDropdown from "./RingDropdown";
+import { UserDropdown } from "./UserDropdown";
 
 export function Header() {
   const { isOpen, onOpen } = useWalletModal();
@@ -36,8 +38,9 @@ export function Header() {
   const { address, token, reset } = useAccountInfo();
   const [ringAmount, setRingAmount] = useState(0);
   const [ringMonitorAmount, setRingMonitorAmount] = useState(0);
-  const [walletBalance, setWalletBalance] = useState(0);
   const [rewardsHistory, setRewardsHistory] = useState([]);
+  const [notificationRecords, setNotificationRecords] = useState([]);
+  const [walletBalance, setWalletBalance] = useState(0);
 
   const { data: dataRewardsInfo, isLoading: loadingRewardsInfo } = useQuery({
     queryKey: ["queryUserRewardsInfo", address],
@@ -45,18 +48,14 @@ export function Header() {
     enabled: !!token,
   });
 
-  const { data: dataRewardsHistory, isLoading: loadingRewardsHistory } =
-    useQuery({
-      queryKey: ["queryUserRewardsHistory", address],
-      queryFn: () => getUserRewardsHistory({ token }),
-      enabled: !!token,
-    });
-
-  const mutationLogout = useMutation({
-    mutationFn: () => fetchLogout({ token }),
-    onSuccess: () => {
-      reset();
-    },
+  const {
+    data: dataNotificationRecords,
+    isLoading: loadingNotificationRecords,
+  } = useQuery({
+    queryKey: ["queryUserNotificationRecords", address],
+    queryFn: () => getNotificationRecords({ token }),
+    enabled: !!token,
+    refetchInterval: 10 * 1000,
   });
 
   useEffect(() => {
@@ -70,11 +69,11 @@ export function Header() {
   }, [dataRewardsInfo]);
 
   useEffect(() => {
-    const data = dataRewardsHistory?.data;
+    const data = dataNotificationRecords?.data;
     if (data?.length) {
-      setRewardsHistory(data);
+      setNotificationRecords(data);
     }
-  }, [dataRewardsHistory]);
+  }, [dataNotificationRecords]);
 
   // useEffect(() => {
   //   if (publicKey) {
@@ -99,11 +98,6 @@ export function Header() {
     //   value: '1',
     //   currency: 'USD'
     // });
-  };
-
-  const handleDisconnect = async () => {
-    disconnect();
-    mutationLogout.mutate();
   };
 
   const menu = [
@@ -171,7 +165,9 @@ export function Header() {
           </SelectContent>
         </Select> */}
 
-        <Notification />
+        <RingDropdown ring={ringAmount} ringMonitor={ringMonitorAmount} />
+
+        <Notification data={notificationRecords} />
 
         {!publicKey ? (
           <Button
@@ -181,43 +177,7 @@ export function Header() {
             {connecting ? "Connecting..." : "Connect"}
           </Button>
         ) : (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div
-                className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-5 py-[10px] rounded-[4px] cursor-pointer transition-all duration-300"
-                onClick={handleClickOpenWallet}
-                title={publicKey.toBase58()}
-              >
-                <img src="/images/wallet.svg" alt="" />
-                <span className="text-white font-semibold font-orbitron">
-                  {formatAddress(publicKey.toBase58())}
-                </span>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[300px]">
-              {/* <DropdownMenuItem asChild>
-                {balance ? (
-                  <div>{toFixed(balance, 2)} SOL</div>
-                ) : (
-                  <div>0 SOL</div>
-                )}
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <span>TX history</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <span>Set up Sonic Network</span>
-              </DropdownMenuItem> */}
-              <DropdownMenuItem className="flex justify-center">
-                <Button
-                  className="z-50 text-[16px]  text-white font-orbitron"
-                  onClick={handleDisconnect}
-                >
-                  Disconnect
-                </Button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <UserDropdown />
         )}
       </div>
     </nav>

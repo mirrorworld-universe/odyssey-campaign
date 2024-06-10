@@ -3,14 +3,11 @@ import { Gift } from "@/app/icons/Gift";
 import { Card, CardSize } from "../Card";
 import { Ring } from "@/app/icons/Ring";
 import { useState } from "react";
+import { prettyNumber } from "@/lib/utils";
 
 export function RingLottery() {
   const totalRing = 100000000;
   const [currentRing, setCurrentRing] = useState(0);
-
-  const prettyNumber = (number: number) => {
-    return new Intl.NumberFormat("en-US").format(number);
-  };
 
   return (
     <>
