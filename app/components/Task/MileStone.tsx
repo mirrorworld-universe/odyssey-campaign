@@ -43,8 +43,14 @@ export function MileStone() {
     }
   }, [dataMilestoneDailyInfo]);
 
-  const handleClaimGifts = (stage: number) => {
-    setClaimStage(stage);
+  const handleClaimGifts = (stageKey: string, stageIndex: number) => {
+    if (
+      stageList[stageKey].claimed ||
+      transactionAmount < stageList[stageKey].quantity
+    ) {
+      return;
+    }
+    setClaimStage(stageIndex + 1);
     mutationClaimRewards.mutate();
   };
 
@@ -132,7 +138,7 @@ export function MileStone() {
                         ? "hover:bg-[#0000FF] opacity-30"
                         : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
                     }`}
-                    onClick={() => handleClaimGifts(stageIndex + 1)}
+                    onClick={() => handleClaimGifts(stageKey, stageIndex)}
                   >
                     Claim x {stageList[stageKey].rewards}{" "}
                     <Gift color="#FFFFFF" className="mx-[4px]" />
