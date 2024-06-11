@@ -9,26 +9,36 @@ import { Ring } from "../icons/Ring";
 import { Arrow } from "../icons/Arrow";
 import { Gift } from "../icons/Gift";
 import { Card, CardSize } from "./Card";
-import { prettyNumber } from "@/lib/utils";
+import { cn, prettyNumber } from "@/lib/utils";
 
 export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
   const [ringAmount, setRingAmount] = useState(ring);
   const [ringMonitorAmount, setRingMonitorAmount] = useState(ringMonitor);
+  const [canOpenMysteryBox, setCanOpenMysteryBox] = useState(true);
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   return (
-    <Popover>
+    <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger>
         <div className="flex flex-row items-center gap-2 cursor-pointer">
           <Ring width={24} height={24} color="#FBB042" />
           <span className="text-white text-[16px] font-orbitron font-semibold">
             {prettyNumber(ringAmount)}
           </span>
-          <Arrow width={24} height={24} color="white" />
+          <Arrow
+            width={24}
+            height={24}
+            color="white"
+            className={cn(
+              "transition-transform duration-300",
+              popoverOpen ? "rotate-180" : "rotate-0"
+            )}
+          />
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-[320px] bg-[#1B1B1B] border-none rounded-[8px] px-0 py-0">
         {/* balance */}
-        <div className="flex px-[16px] py-[24px]">
+        <div className="flex flex-col gap-5 px-[16px] py-[24px]">
           <Card
             name="Current Balance"
             nameClassName="bg-[#1B1B1B]"
@@ -49,6 +59,19 @@ export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
               </div>
             </div>
           </Card>
+          <Button
+            className={cn(
+              "transition-colors duration-300",
+              !canOpenMysteryBox
+                ? "bg-[#888888] hover:bg-[#888888]"
+                : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+            )}
+          >
+            <span className="text-white text-[14px] font-orbitron">
+              Open Mystery Box
+            </span>
+            <Gift width={16} height={16} color="white" className="mx-[2px]" />
+          </Button>
         </div>
         {/* claim history */}
         <div className="flex flex-col px-[16px] py-[8px] font-orbitron border-t border-solid border-white/10">

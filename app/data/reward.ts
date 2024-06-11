@@ -54,3 +54,20 @@ export const openMysterybox = async ({ token, hash }: any) => {
   );
   return response.json();
 };
+
+export const getMysteryboxHistory = async ({ token, page, size }: any) => {
+  const response = await fetch(
+    `${API_BASE_URL.staging}/user/transactions/rewards/mystery-box/history`,
+    {
+      headers: {
+        Authorization: token,
+      },
+      method: "POST",
+      body: JSON.stringify({
+        page,
+        size,
+      }),
+    }
+  );
+  return response.json();
+};

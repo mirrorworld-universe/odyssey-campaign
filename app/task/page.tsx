@@ -10,6 +10,7 @@ import { Chip } from "../icons/Chip";
 import { Recommand } from "../icons/Recommand";
 import { Diversity } from "../icons/Diversity";
 import { Controller } from "../icons/Controller";
+import { Card, CardSize } from "../components/Card";
 
 const icons: any = {
   twitter: <Twitter width={250} height={250} color="#313131" />,
@@ -22,7 +23,12 @@ const icons: any = {
 
 const TaskCenter: NextPage = () => {
   const Header = () => (
-    <div className="bg-[#111111] w-full flex justify-center py-24 sticky top-20 z-10">
+    <div className="bg-[#000] w-full h-[411px] flex justify-center py-24 overflow-hidden relative">
+      <img
+        src="/images/fingerprint.png"
+        alt=""
+        className="w-[1610px] h-[1638px] absolute -top-80 -right-80"
+      />
       <div className="max-w-[1464px] 2xl:w-full">
         <h2 className="text-white font-orbitron text-[48px] font-semibold">
           Odyssey Task Center
@@ -32,7 +38,7 @@ const TaskCenter: NextPage = () => {
           extension.
         </p>
         <div className="flex flex-row gap-6 mt-16">
-          <Button className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 transition-all duration-300">
+          <Button className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] transition-all duration-300 bg-[#0000FF] hover:bg-[#0000FF]/60  active:bg-[#0000FF]/80">
             Start My Task
           </Button>
           <Button className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] bg-transparent border boder-solid border-white transition-all duration-300">
@@ -44,14 +50,15 @@ const TaskCenter: NextPage = () => {
   );
 
   const MainContent = () => (
-    <div className="bg-black mt-20 mb-20">
-      <div className="w-full max-w-[1464px]">
-        <div className="flex flex-col gap-24">
-          {taskGroupList.map((taskGroup) => (
-            <div className="flex flex-wrap flex-row gap-10 w-full border border-solid border-[#535353] rounded-xl px-12 py-12 relative">
-              <h4 className="text-white text-[32px] font-semibold font-orbitron px-4 bg-black absolute left-7 top-[-32px] z-0">
-                {taskGroup.name}
-              </h4>
+    <div className="w-full max-w-[1464px] bg-[#111111] mt-20 mb-20">
+      <div className="w-full flex flex-col gap-24">
+        {taskGroupList.map((taskGroup) => (
+          <Card
+            size={CardSize.Default}
+            name={taskGroup.name}
+            className="w-full relative"
+          >
+            <div className="flex flex-wrap flex-row gap-10">
               {taskGroup.list.map((task) => (
                 <Link href={`/task/${task.id}`} className="group/task">
                   <div className="bg-[#1E1E1E] group-hover/task:bg-[#181818] w-[663px] h-[263px] px-8 py-8 rounded-md cursor-pointer transition-colors duration-300 overflow-hidden relative">
@@ -78,13 +85,14 @@ const TaskCenter: NextPage = () => {
                 </Link>
               ))}
             </div>
-          ))}
-        </div>
+          </Card>
+        ))}
       </div>
     </div>
   );
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
+    <main className="bg-[#111111] flex min-h-screen flex-col items-center justify-between">
       <Header />
       <MainContent />
     </main>

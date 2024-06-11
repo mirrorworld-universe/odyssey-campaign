@@ -14,7 +14,7 @@ export function Arrow({
       className={className}
     >
       <mask
-        id="mask"
+        id="maskXarrow"
         style={{
           maskType: "alpha",
         }}
@@ -33,7 +33,7 @@ export function Arrow({
           fill="#D9D9D9"
         />
       </mask>
-      <g mask="url(#mask)">
+      <g mask="url(#maskXarrow)">
         <path
           d="M12 8.6L18 14.6L16.6 16L12 11.4L7.4 16L6 14.6L12 8.6Z"
           fill={color}

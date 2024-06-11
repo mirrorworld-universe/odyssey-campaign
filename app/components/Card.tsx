@@ -25,15 +25,18 @@ export function Card({
 
   return (
     <div
-      className={`flex flex-wrap flex-row gap-10 w-full border border-solid border-[#535353] text-white/60 relative ${
-        size === CardSize.Default ? "px-12 py-12 rounded-xl" : cardClass[size]
-      } ${className}`}
+      className={cn(
+        `flex flex-wrap flex-row gap-10 w-full border border-solid border-[#535353] text-white/60 relative ${
+          size === CardSize.Default ? "px-12 py-12 rounded-xl" : cardClass[size]
+        }`,
+        className
+      )}
     >
       {/* name */}
       {name && (
         <h4
           className={cn(
-            `text-white font-semibold font-orbitron px-4 bg-[#000000] absolute left-7 z-0 ${
+            `text-white font-semibold font-orbitron px-4 bg-[#111111] absolute left-7 z-0 ${
               size === CardSize.Default
                 ? "text-[32px] top-[-28px]"
                 : nameClass[size]

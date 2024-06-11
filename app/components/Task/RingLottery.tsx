@@ -4,6 +4,7 @@ import { Card, CardSize } from "../Card";
 import { Ring } from "@/app/icons/Ring";
 import { useState } from "react";
 import { prettyNumber } from "@/lib/utils";
+import { Arrow } from "@/app/icons/Arrow";
 
 export function RingLottery() {
   const totalRing = 100000000;
@@ -51,22 +52,27 @@ export function RingLottery() {
 
       <div className="flex flex-row gap-20 mt-20">
         {/* winner board */}
-        <Card name="Winner Board" size={CardSize.Medium}>
-          <div className="flex flex-row justify-between items-center">
-            <Ring width={56} height={56} color="#FBB042" />
-            <span className="text-white text-[48px] font-semibold font-orbitron">
-              {`${prettyNumber(currentRing)}/${prettyNumber(totalRing)}`}
-            </span>
-          </div>
+        <Card name="Winner Board" size={CardSize.Medium} className="w-[470px]">
+          <div className="flex flex-row justify-between items-center"></div>
         </Card>
 
         {/* draw */}
-        <Card size={CardSize.Medium}>
-          <div className="flex flex-row justify-between items-center">
-            <Ring width={56} height={56} color="#FBB042" />
-            <span className="text-white text-[48px] font-semibold font-orbitron">
-              {`${prettyNumber(currentRing)}/${prettyNumber(totalRing)}`}
-            </span>
+        <Card size={CardSize.Medium} className="w-[470px]">
+          <div className="w-full flex flex-col">
+            <div className="w-full flex flex-row justify-between">
+              <span className="text-white text-[20px] font-orbitron">
+                Number of draws
+              </span>
+              <div className="flex items-center">
+                <span className="text-white text-[18px] font-semibold">1</span>
+                <Arrow
+                  width={24}
+                  height={24}
+                  color="#717171"
+                  className=" rotate-180 ml-1"
+                />
+              </div>
+            </div>
           </div>
         </Card>
       </div>

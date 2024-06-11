@@ -104,18 +104,22 @@ export function Header() {
     {
       name: "Task Center",
       link: "/task",
+      target: "_self",
     },
     {
       name: "Network",
-      link: "#",
+      link: "https://faucet.sonic.game/",
+      target: "_blank",
     },
     {
       name: "Odyssey Guide",
       link: "#",
+      target: "_blank",
     },
     {
       name: "About Sonic",
-      link: "#",
+      link: "https://sonic.game/",
+      target: "_blank",
     },
   ];
 
@@ -141,9 +145,10 @@ export function Header() {
         {/* nav */}
         {menu.map((menuItem, menuIndex) => (
           <Link
-            className="gap-12 text-white hover:text-white/50 font-orbitron transition-colors"
+            className="gap-12 text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors"
             href={menuItem.link}
             key={menuIndex}
+            target={menuItem.target}
           >
             {menuItem.name}
           </Link>
