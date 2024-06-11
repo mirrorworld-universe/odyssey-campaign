@@ -1,16 +1,21 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Gift } from "@/app/icons/Gift";
 import { Button } from "@/components/ui/button";
 import { Card, CardSize } from "../Card";
 import { useAccountInfo } from "@/app/store/account";
-import { getMilestoneDailyInfo } from "@/app/data/reward";
+import {
+  claimMilestoneRewards,
+  getMilestoneDailyInfo,
+} from "@/app/data/reward";
+import { Check } from "@/app/icons/Check";
 
 export function MileStone() {
   const totalAmount = 100;
   const [transactionAmount, setTransactionAmount] = useState(0);
-  const [stageList, setStageList] = useState([]);
+  const [claimStage, setClaimStage] = useState(1);
+  const [stageList, setStageList] = useState<any>({});
   const [hasChecked, setHasChecked] = useState(true);
 
   const { address, token } = useAccountInfo();
@@ -22,6 +27,13 @@ export function MileStone() {
       enabled: !!token,
     });
 
+  const mutationClaimRewards = useMutation({
+    mutationFn: () => claimMilestoneRewards({ token, stage: claimStage }),
+    onSuccess: () => {
+      // reset();
+    },
+  });
+
   useEffect(() => {
     const data = dataMilestoneDailyInfo?.data;
     if (data) {
@@ -31,7 +43,10 @@ export function MileStone() {
     }
   }, [dataMilestoneDailyInfo]);
 
-  const handleClaimGifts = () => {};
+  const handleClaimGifts = (stage: number) => {
+    setClaimStage(stage);
+    mutationClaimRewards.mutate();
+  };
 
   return (
     <>
@@ -66,48 +81,64 @@ export function MileStone() {
             </span>
             {transactionAmount === 1 ? "transaction" : "transactions"} today.
           </p>
+
           {/* progress */}
           <div className="w-full h-[12px] bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
             <div
-              className="rounded h-[12px] bg-red-300"
+              className="rounded h-[12px] bg-gradient-to-r from-[#00F] via-[#25A3ED] to-[#90D2F9] absolute"
               style={{
                 width: `${(transactionAmount / totalAmount) * 100}%`,
               }}
             ></div>
-            <ul className="w-full flex flex-row justify-between text-white/50 text-[24px] font-semibold font-orbitron absolute -top-3">
-              <li className="c">1 day</li>
-              <li className="c">{totalAmount / 2} days</li>
-              <li className="c">{totalAmount} days</li>
+            <div
+              className="rounded h-[12px] bg-gradient-to-r from-[#00F] via-[#25A3ED] to-[#90D2F9] blur-[6px] absolute"
+              style={{
+                width: `${(transactionAmount / totalAmount) * 100}%`,
+              }}
+            ></div>
+            <ul className="w-full flex flex-row justify-between text-white/50 text-[24px] font-semibold font-orbitron absolute -top-6">
+              {Object.keys(stageList).map(
+                (stageKey: string, stageIndex: number) => (
+                  <li className="rounded-[50%] border-[8px] border-solid border-[#222222] mx-[52px]">
+                    {transactionAmount < stageList[stageKey].quantity ? (
+                      <span className="w-[48px] h-[48px] inline-flex justify-center items-center text-white text-xl font-bold bg-[#4C4C4C] rounded-[50%]">
+                        {stageList[stageKey].quantity}
+                      </span>
+                    ) : (
+                      <Check width={48} height={48} />
+                    )}
+                  </li>
+                )
+              )}
             </ul>
           </div>
+
           {/* tools */}
           <div className="flex flex-row items-center justify-between">
-            <p className="text-[20px] text-white font-orbitron font-semibold">
-              Received:{" "}
-              <span className="inline-flex items-center text-[#FBB042] font-orbitron">
-                x 10 <Gift color="#FBB042" className="mx-[4px]" />
-              </span>
-            </p>
-            <Button
-              className={`w-[177px] h-[48px] text-white text-[16px] font-semibold font-orbitron transition-colors duration-300 ${
-                hasChecked
-                  ? "bg-[#888888] hover:bg-[#888888]"
-                  : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
-              }`}
-              onClick={handleClaimGifts}
-            >
-              Claim x 50 <Gift color="#FFFFFF" className="mx-[4px]" />
-            </Button>
-            <Button
-              className={`w-[177px] h-[48px] text-white text-[16px] font-semibold font-orbitron transition-colors duration-300 ${
-                hasChecked
-                  ? "bg-[#888888] hover:bg-[#888888]"
-                  : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
-              }`}
-              onClick={handleClaimGifts}
-            >
-              Claim x 100 <Gift color="#FFFFFF" className="mx-[4px]" />
-            </Button>
+            {Object.keys(stageList).map(
+              (stageKey: string, stageIndex: number) =>
+                stageList[stageKey].claimed ? (
+                  <p className="text-[20px] text-white font-orbitron font-semibold">
+                    Received:{" "}
+                    <span className="inline-flex items-center text-[#FBB042] font-orbitron">
+                      x {stageList[stageKey].rewards}{" "}
+                      <Gift color="#FBB042" className="mx-[4px]" />
+                    </span>
+                  </p>
+                ) : (
+                  <Button
+                    className={`w-[177px] h-[48px] text-white text-[16px] font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300 ${
+                      transactionAmount < stageList[stageKey].quantity
+                        ? "hover:bg-[#0000FF] opacity-30"
+                        : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+                    }`}
+                    onClick={() => handleClaimGifts(stageIndex + 1)}
+                  >
+                    Claim x {stageList[stageKey].rewards}{" "}
+                    <Gift color="#FFFFFF" className="mx-[4px]" />
+                  </Button>
+                )
+            )}
           </div>
         </div>
       </Card>

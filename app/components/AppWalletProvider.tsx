@@ -36,7 +36,7 @@ export default function AppWalletProvider({
     () => [
       // manually add any legacy wallet adapters here
       // new PhantomWalletAdapter(),
-      new NightlyWalletAdapter(),
+      // new NightlyWalletAdapter(),
     ],
     [network]
   );

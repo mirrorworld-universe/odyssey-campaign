@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {
   Keypair,
+  SystemProgram,
   Transaction,
   sendAndConfirmTransaction,
 } from "@solana/web3.js";
@@ -18,28 +19,47 @@ import {
 
 import { Card, CardSize } from "../Card";
 import base58 from "bs58";
+import { Loader2 } from "lucide-react";
 
 export function CheckIn() {
   const totalDays = 14;
   const wordings = ["1 - 7", "8 - 14", "over 14"];
   const { address, token } = useAccountInfo();
   const { connection } = useConnection();
-  const { publicKey, wallet } = useWallet();
+  const { publicKey, wallet, signTransaction } = useWallet();
 
+  const [isChekingIn, setIsChekingIn] = useState(false);
   const [hasChecked, setHasChecked] = useState(true);
   const [transactionString, setTransactionString] = useState("");
   const [transactionHash, setTransactionHash] = useState("");
   const [checkInDays, setCheckInDays] = useState(0);
 
   const triggerTransaction = async () => {
-    // const tx_str =
-    //   "AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAID7283I4+LhFiR7GpeJuh4FIBZb41pEn/d9E4dbe1RFRkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMGRm/lIRcy/+ytunLDm+e8jOW7xfcSayxDmzpAAAAAlAIyUBsRKCmS74gsCIXYZgxuDCRg1Qlhi0Z6pKHXnEsCAQIAAAwCAAAAAAAAAAAAAAACAAUCwFwVAA==";
-    const tx_str = transactionString;
-    const wallet = Keypair.fromSecretKey(base58.decode("user private key"));
-    const tx = Transaction.from(Buffer.from(tx_str, "base64"));
-    const hash = await sendAndConfirmTransaction(connection, tx, [wallet]);
-    setTransactionHash(hash);
-    mutationCheckIn.mutate();
+    if (!publicKey || !signTransaction) {
+      console.error("Wallet not connected");
+      return;
+    }
+
+    const clusterUrl = process.env.NUXT_APP_PRODUCTION
+      ? "https://palpable-cool-night.solana-mainnet.quiknode.pro/86f10ce27e10692292d51f3a317e5c67703ef2d4/"
+      : "https://magical-damp-mound.solana-devnet.quiknode.pro/3d4c906044908ebfd0680d421871bc18df5e396d/";
+
+    try {
+      const tx = Transaction.from(Buffer.from(transactionString, "base64"));
+      const signedTx = await signTransaction(tx);
+      const hash = await sendAndConfirmTransaction(connection, signedTx, []);
+
+      // const wallet = Keypair.fromSecretKey(base58.decode("user private key"));
+      // const tx = Transaction.from(Buffer.from(transactionString, "base64"));
+      // const hash = await sendAndConfirmTransaction(connection, tx, [wallet]);
+
+      setTransactionHash(hash);
+      mutationCheckIn.mutate();
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+
+    setIsChekingIn(false);
   };
 
   const { data: dataCheckInInfo, isLoading: loadingCheckInInfo } = useQuery({
@@ -53,7 +73,7 @@ export function CheckIn() {
     mutationFn: () => fetchCheckinTransaction({ token }),
     onSuccess({ data }) {
       setTransactionString(data.hash);
-      mutationCheckIn.mutate();
+      triggerTransaction();
     },
   });
 
@@ -73,7 +93,8 @@ export function CheckIn() {
   }, [dataCheckInInfo]);
 
   const handleCheckIn = () => {
-    if (!hasChecked) {
+    if (!hasChecked && !isChekingIn) {
+      setIsChekingIn(true);
       getTransactionHash.mutate();
     }
   };
@@ -174,10 +195,14 @@ export function CheckIn() {
               className={`w-[177px] h-[48px] text-white text-[16px] font-semibold font-orbitron transition-colors duration-300 ${
                 hasChecked
                   ? "bg-[#888888] hover:bg-[#888888]"
+                  : isChekingIn
+                  ? "bg-[#0000FF]/80"
                   : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
               }`}
+              disabled={hasChecked || isChekingIn}
               onClick={handleCheckIn}
             >
+              {isChekingIn && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Check-in
             </Button>
           </div>

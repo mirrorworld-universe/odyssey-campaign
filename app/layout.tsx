@@ -7,6 +7,7 @@ import AppWalletProvider from "./components/AppWalletProvider";
 import Script from "next/script";
 import { Header } from "./components/Header";
 import { WalletModal } from "./components/WalletModal";
+import { Footer } from "./components/Footer";
 
 const manrope = Manrope({
   weight: ["400", "500"],
@@ -67,6 +68,8 @@ export default function RootLayout({
             {children}
             {/* wallet modal */}
             <WalletModal />
+            {/* footer */}
+            <Footer />
           </AppWalletProvider>
         </Providers>
 

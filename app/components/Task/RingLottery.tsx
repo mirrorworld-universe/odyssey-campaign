@@ -5,6 +5,15 @@ import { Ring } from "@/app/icons/Ring";
 import { useState } from "react";
 import { prettyNumber } from "@/lib/utils";
 import { Arrow } from "@/app/icons/Arrow";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function RingLottery() {
   const totalRing = 100000000;
@@ -64,13 +73,22 @@ export function RingLottery() {
                 Number of draws
               </span>
               <div className="flex items-center">
-                <span className="text-white text-[18px] font-semibold">1</span>
-                <Arrow
-                  width={24}
-                  height={24}
-                  color="#717171"
-                  className=" rotate-180 ml-1"
-                />
+                <Select>
+                  <SelectTrigger className="bg-transparent text-white text-[18px] font-semibold">
+                    <SelectValue placeholder="1" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                        (number) => (
+                          <SelectItem value={number.toString()}>
+                            {number}
+                          </SelectItem>
+                        )
+                      )}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>

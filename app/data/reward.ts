@@ -13,7 +13,7 @@ export const getMilestoneDailyInfo = async ({ token }: any) => {
   return response.json();
 };
 
-export const claimMilestoneRewards = async ({ token }: any) => {
+export const claimMilestoneRewards = async ({ token, stage }: any) => {
   const response = await fetch(
     `${API_BASE_URL.staging}/user/transactions/rewards/claim`,
     {
@@ -21,6 +21,9 @@ export const claimMilestoneRewards = async ({ token }: any) => {
         Authorization: token,
       },
       method: "POST",
+      body: JSON.stringify({
+        stage,
+      }),
     }
   );
   return response.json();
