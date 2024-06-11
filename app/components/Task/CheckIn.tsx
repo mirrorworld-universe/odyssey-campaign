@@ -20,10 +20,17 @@ import {
 import { Card, CardSize } from "../Card";
 import base58 from "bs58";
 import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function CheckIn() {
   const totalDays = 14;
   const wordings = ["1 - 7", "8 - 14", "over 14"];
+  const linearGradients = [
+    "from-[#00F] to-[#25A3ED]",
+    "from-[#00F] via-[#25A3ED] to-[#90D2F9]",
+    "from-[#FBB042] to-[#FF5C00]",
+  ];
+
   const { address, token } = useAccountInfo();
   const { connection } = useConnection();
   const { publicKey, wallet, signTransaction } = useWallet();
@@ -33,6 +40,15 @@ export function CheckIn() {
   const [transactionString, setTransactionString] = useState("");
   const [transactionHash, setTransactionHash] = useState("");
   const [checkInDays, setCheckInDays] = useState(0);
+
+  const getPartition = () => {
+    const partitionLength = totalDays / 3;
+    return checkInDays <= partitionLength
+      ? 0
+      : checkInDays <= 2 * partitionLength
+      ? 1
+      : 2;
+  };
 
   const triggerTransaction = async () => {
     if (!publicKey || !signTransaction) {
@@ -161,9 +177,21 @@ export function CheckIn() {
           </p>
           {/* progress */}
           <div className="w-full">
-            <div className="w-full h-[12px] bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)]">
+            <div className="w-full h-[12px] bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
               <div
-                className="rounded h-[12px] bg-red-300"
+                className={cn(
+                  "rounded h-[12px] bg-gradient-to-r absolute",
+                  linearGradients[getPartition()]
+                )}
+                style={{
+                  width: `${(checkInDays / totalDays) * 100}%`,
+                }}
+              ></div>
+              <div
+                className={cn(
+                  "rounded h-[12px] bg-gradient-to-r absolute blur-[6px]",
+                  linearGradients[getPartition()]
+                )}
                 style={{
                   width: `${(checkInDays / totalDays) * 100}%`,
                 }}
