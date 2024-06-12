@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Loader2 } from "lucide-react";
 import {
   Popover,
@@ -18,9 +19,12 @@ import {
   getMysteryboxTx,
   openMysterybox,
 } from "../data/reward";
+import { Transaction } from "@solana/web3.js";
 
 export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
   const { address, token } = useAccountInfo();
+  const { publicKey, wallet, signTransaction } = useWallet();
+  const { connection } = useConnection();
 
   const [txHash, setTxHash] = useState("");
   const [isOpeningMysterybox, setIsOpeningMysterybox] = useState(false);
@@ -29,6 +33,22 @@ export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
   const [canOpenMysteryBox, setCanOpenMysteryBox] = useState(true);
   const [historyList, setHistoryList] = useState([]);
   const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const triggerTransaction = async (transactionString: string) => {
+    if (!publicKey || !signTransaction) {
+      console.error("Wallet not connected");
+      return;
+    }
+
+    const tx = Transaction.from(Buffer.from(transactionString, "base64"));
+    const signedTransaction = await signTransaction(tx);
+    const transactionHash = await connection.sendRawTransaction(
+      signedTransaction.serialize()
+    );
+
+    setTxHash(transactionHash);
+    mutationOpenMysteryBox.mutate();
+  };
 
   const { data: dataMysteryBoxHistory, isLoading: loadingMysteryBoxHistory } =
     useQuery({
@@ -49,9 +69,9 @@ export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
   const mutationBuildTx = useMutation({
     mutationKey: ["buildMysteryboxTx", address],
     mutationFn: () => getMysteryboxTx({ token }),
-    onSuccess: ({ data }) => {
-      setTxHash(data.hash);
-      mutationOpenMysteryBox.mutate();
+    onSuccess: async ({ data }) => {
+      const transactionString = data.hash;
+      triggerTransaction(transactionString);
     },
   });
 
@@ -61,9 +81,6 @@ export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
     }
     setIsOpeningMysterybox(true);
     mutationBuildTx.mutate();
-    setTimeout(() => {
-      setIsOpeningMysterybox(false);
-    }, 3000);
   };
 
   useEffect(() => {

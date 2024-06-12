@@ -7,6 +7,7 @@ import {
   SystemProgram,
   Transaction,
   sendAndConfirmTransaction,
+  Commitment,
 } from "@solana/web3.js";
 import { Gift } from "@/app/icons/Gift";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ import { Card, CardSize } from "../Card";
 import base58 from "bs58";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { sendSignedTransaction } from "@/lib/transactions";
 
 export function CheckIn() {
   const totalDays = 14;
@@ -50,6 +52,10 @@ export function CheckIn() {
       : 2;
   };
 
+  const sleep = async (ms: number) => {
+    return new Promise((r) => setTimeout(r, ms));
+  };
+
   const triggerTransaction = async () => {
     if (!publicKey || !signTransaction) {
       console.error("Wallet not connected");
@@ -62,14 +68,51 @@ export function CheckIn() {
 
     try {
       const tx = Transaction.from(Buffer.from(transactionString, "base64"));
-      const signedTx = await signTransaction(tx);
-      const hash = await sendAndConfirmTransaction(connection, signedTx, []);
+      const signedTransaction = await signTransaction(tx);
+      const txHash = await connection.sendRawTransaction(
+        signedTransaction.serialize()
+      );
+
+      // let blockheight = await connection.getBlockHeight();
+      // const blockhashResponse = await connection.getLatestBlockhashAndContext();
+      // const lastValidBlockHeight = blockhashResponse.context.slot + 150;
+      // const rawTransaction = signedTransaction.serialize();
+      // while (blockheight < lastValidBlockHeight) {
+      //   connection.sendRawTransaction(rawTransaction, {
+      //     skipPreflight: true,
+      //   });
+      //   await sleep(500);
+      //   blockheight = await connection.getBlockHeight();
+      // }
+
+      console.log("txHash", txHash);
+
+      // const { txid, slot } = await sendSignedTransaction({
+      //   connection,
+      //   signedTransaction,
+      //   Commitment
+      // });
+
+      // const hash = await sendAndConfirmTransaction(connection, signedTx, []);
+
+      // const signedTransaction = await wallet.signTransaction!(transaction);
+      // const { txid, slot } = await sendLegacyTransaction(
+      //   connection,
+      //   // @ts-ignore
+      //   wallet!,
+      //   tx,
+      //   "confirmed"
+      // );
+      // if (!txid) {
+      //   throw new Error("Could not retrieve transaction hash");
+      // }
+      // const signature = txid;
 
       // const wallet = Keypair.fromSecretKey(base58.decode("user private key"));
       // const tx = Transaction.from(Buffer.from(transactionString, "base64"));
       // const hash = await sendAndConfirmTransaction(connection, tx, [wallet]);
 
-      setTransactionHash(hash);
+      setTransactionHash(txHash);
       mutationCheckIn.mutate();
     } catch (error) {
       console.error("Transaction failed:", error);
