@@ -62,6 +62,7 @@ export const inviteUser = async ({ token, code }: any) => {
   const response = await fetch(`${API_BASE_URL.staging}/user/referral`, {
     headers: {
       Authorization: token,
+      "content-type": "application/json",
     },
     method: "POST",
     body: JSON.stringify({

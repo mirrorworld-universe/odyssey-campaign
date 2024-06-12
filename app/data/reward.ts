@@ -19,6 +19,7 @@ export const claimMilestoneRewards = async ({ token, stage }: any) => {
     {
       headers: {
         Authorization: token,
+        "content-type": "application/json",
       },
       method: "POST",
       body: JSON.stringify({
@@ -48,6 +49,7 @@ export const openMysterybox = async ({ token, hash }: any) => {
     {
       headers: {
         Authorization: token,
+        "content-type": "application/json",
       },
       method: "POST",
       body: JSON.stringify({
@@ -58,12 +60,17 @@ export const openMysterybox = async ({ token, hash }: any) => {
   return response.json();
 };
 
-export const getMysteryboxHistory = async ({ token, page, size }: any) => {
+export const getMysteryboxHistory = async ({
+  token,
+  page = 1,
+  size = 20,
+}: any) => {
   const response = await fetch(
     `${API_BASE_URL.staging}/user/transactions/rewards/mystery-box/history`,
     {
       headers: {
         Authorization: token,
+        "content-type": "application/json",
       },
       method: "POST",
       body: JSON.stringify({

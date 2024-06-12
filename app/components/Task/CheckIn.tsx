@@ -224,7 +224,7 @@ export function CheckIn() {
                 hasChecked
                   ? "bg-[#888888] hover:bg-[#888888]"
                   : isChekingIn
-                  ? "bg-[#0000FF]/80"
+                  ? "bg-[#0000FF]/80 hover:bg-[#0000FF]/80"
                   : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
               }`}
               disabled={hasChecked || isChekingIn}

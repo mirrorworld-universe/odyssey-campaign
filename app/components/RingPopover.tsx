@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
 import {
   Popover,
   PopoverTrigger,
@@ -10,12 +12,66 @@ import { Arrow } from "../icons/Arrow";
 import { Gift } from "../icons/Gift";
 import { Card, CardSize } from "./Card";
 import { cn, prettyNumber } from "@/lib/utils";
+import { useAccountInfo } from "../store/account";
+import {
+  getMysteryboxHistory,
+  getMysteryboxTx,
+  openMysterybox,
+} from "../data/reward";
 
 export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
+  const { address, token } = useAccountInfo();
+
+  const [txHash, setTxHash] = useState("");
+  const [isOpeningMysterybox, setIsOpeningMysterybox] = useState(false);
   const [ringAmount, setRingAmount] = useState(ring);
   const [ringMonitorAmount, setRingMonitorAmount] = useState(ringMonitor);
   const [canOpenMysteryBox, setCanOpenMysteryBox] = useState(true);
+  const [historyList, setHistoryList] = useState([]);
   const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const { data: dataMysteryBoxHistory, isLoading: loadingMysteryBoxHistory } =
+    useQuery({
+      queryKey: ["queryMysteryBoxHistory", address],
+      queryFn: () => getMysteryboxHistory({ token }),
+      enabled: !!token,
+    });
+
+  const mutationOpenMysteryBox = useMutation({
+    mutationKey: ["openMysteryBox", address],
+    mutationFn: () =>
+      openMysterybox({
+        token,
+        hash: txHash,
+      }),
+  });
+
+  const mutationBuildTx = useMutation({
+    mutationKey: ["buildMysteryboxTx", address],
+    mutationFn: () => getMysteryboxTx({ token }),
+    onSuccess: ({ data }) => {
+      setTxHash(data.hash);
+      mutationOpenMysteryBox.mutate();
+    },
+  });
+
+  const handleOpenMysterybox = () => {
+    if (isOpeningMysterybox) {
+      return;
+    }
+    setIsOpeningMysterybox(true);
+    mutationBuildTx.mutate();
+    setTimeout(() => {
+      setIsOpeningMysterybox(false);
+    }, 3000);
+  };
+
+  useEffect(() => {
+    const data = dataMysteryBoxHistory?.data;
+    if (data) {
+      setHistoryList(data);
+    }
+  }, [dataMysteryBoxHistory]);
 
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -59,44 +115,58 @@ export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
               </div>
             </div>
           </Card>
+
+          {/* open mystery box button */}
           <Button
+            disabled={!canOpenMysteryBox || isOpeningMysterybox}
             className={cn(
-              "transition-colors duration-300",
+              "transition-all duration-300",
               !canOpenMysteryBox
                 ? "bg-[#888888] hover:bg-[#888888]"
+                : isOpeningMysterybox
+                ? "bg-[#0000FF] hover:bg-[#0000FF]/80 opacity-60"
                 : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
             )}
+            onClick={handleOpenMysterybox}
           >
+            {isOpeningMysterybox && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
             <span className="text-white text-[14px] font-orbitron">
               Open Mystery Box
             </span>
             <Gift width={16} height={16} color="white" className="mx-[2px]" />
           </Button>
         </div>
+
         {/* claim history */}
-        <div className="flex flex-col px-[16px] py-[8px] font-orbitron border-t border-solid border-white/10">
-          <div className="text-white text-[14px] py-[8px]">Claim History</div>
-          <div className="flex flex-row justify-between text-white/50 text-[12px] py-[8px]">
-            <div className="flex items-center">
-              Claimed x 3{" "}
-              <Gift
-                width={12}
-                height={12}
-                color="rgba(255,255,255,.5)"
-                className="mx-[2px]"
-              />
-            </div>
-            <div className="flex items-center">
-              + 12{" "}
-              <Ring
-                width={12}
-                height={12}
-                color="rgba(255,255,255,.5)"
-                className="mx-[2px]"
-              />
-            </div>
+        {historyList.length ? (
+          <div className="flex flex-col px-[16px] py-[8px] font-orbitron border-t border-solid border-white/10">
+            <div className="text-white text-[14px] py-[8px]">Claim History</div>
+            {historyList.map((history: any) => (
+              <div className="flex flex-row justify-between text-white/50 text-[12px] py-[8px]">
+                <div className="flex items-center">
+                  Claimed x 1{" "}
+                  <Gift
+                    width={12}
+                    height={12}
+                    color="rgba(255,255,255,.5)"
+                    className="mx-[2px]"
+                  />
+                </div>
+                <div className="flex items-center">
+                  + {history.quantity}{" "}
+                  <Ring
+                    width={12}
+                    height={12}
+                    color="rgba(255,255,255,.5)"
+                    className="mx-[2px]"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
+        ) : null}
       </PopoverContent>
     </Popover>
   );
