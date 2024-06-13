@@ -8,7 +8,7 @@ import { Card, CardSize } from "@/app/components/Card";
 import { Gift } from "@/app/icons/Gift";
 import { Twitter } from "@/app/icons/Twitter";
 import { Discord } from "@/app/icons/Discord";
-import { useAccountInfo } from "@/app/store/account";
+import { useAccountInfo, useWalletModal } from "@/app/store/account";
 import { openDialoguePopup } from "@/lib/utils";
 
 import {
@@ -18,8 +18,10 @@ import {
 } from "../../data/task";
 
 export function MeetSonic() {
-  const [isLoadingStatus, setIsLoadingStatus] = useState(true);
+  const { isOpen, onOpen, onClose } = useWalletModal();
+  const { address, token } = useAccountInfo();
 
+  const [isLoadingStatus, setIsLoadingStatus] = useState(true);
   const [hasFollowedTwitter, setHasFollowedTwitter] = useState(false);
   const [authTwitterState, setAuthTwitterState] = useState("");
   const [authTwitterCode, setAuthTwitterCode] = useState("");
@@ -27,8 +29,6 @@ export function MeetSonic() {
   const [hasFollowedDiscord, setHasFollowedDiscord] = useState(false);
   const [authDiscordState, setAuthDiscordState] = useState("");
   const [authDiscordCode, setAuthDiscordCode] = useState("");
-
-  const { address, token } = useAccountInfo();
 
   const { data: dataFollowingStatus, isLoading: loadingFollowingStatus } =
     useQuery({
@@ -190,19 +190,27 @@ export function MeetSonic() {
                     ? "bg-[#888888] hover:bg-[#888888]"
                     : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
                 }`}
-                onClick={socialMedia.handler}
+                onClick={() => {
+                  if (!address || !token) {
+                    onOpen();
+                    return;
+                  }
+                  socialMedia.handler();
+                }}
               >
                 {socialMedia.buttonIcon}
                 <span className="text-white font-orbitron text-[16px] font-semibold">
-                  {isLoadingStatus
-                    ? "Loading"
-                    : socialMedia.id === "twitter"
-                    ? hasFollowedTwitter
+                  {address && token
+                    ? isLoadingStatus
+                      ? "Loading"
+                      : socialMedia.id === "twitter"
+                      ? hasFollowedTwitter
+                        ? "Followed"
+                        : socialMedia.buttonText
+                      : hasFollowedDiscord
                       ? "Followed"
                       : socialMedia.buttonText
-                    : hasFollowedDiscord
-                    ? "Followed"
-                    : socialMedia.buttonText}
+                    : "Connect Wallet"}
                 </span>
               </Button>
             </li>
