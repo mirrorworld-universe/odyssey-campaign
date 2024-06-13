@@ -20,13 +20,15 @@ import {
   openMysterybox,
 } from "../data/reward";
 import { Transaction } from "@solana/web3.js";
+import { sendLegacyTransaction } from "@/lib/transactions";
+
+let txHash = "";
 
 export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
   const { address, token } = useAccountInfo();
   const { publicKey, wallet, signTransaction } = useWallet();
   const { connection } = useConnection();
 
-  const [txHash, setTxHash] = useState("");
   const [isOpeningMysterybox, setIsOpeningMysterybox] = useState(false);
   const [ringAmount, setRingAmount] = useState(ring);
   const [ringMonitorAmount, setRingMonitorAmount] = useState(ringMonitor);
@@ -41,12 +43,17 @@ export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
     }
 
     const tx = Transaction.from(Buffer.from(transactionString, "base64"));
-    const signedTransaction = await signTransaction(tx);
-    const transactionHash = await connection.sendRawTransaction(
-      signedTransaction.serialize()
+    const { txid, slot } = await sendLegacyTransaction(
+      connection,
+      // @ts-ignore
+      wallet?.adapter,
+      tx,
+      "confirmed"
     );
-
-    setTxHash(transactionHash);
+    if (!txid) {
+      throw new Error("Could not retrieve transaction hash");
+    }
+    txHash = txid;
     mutationOpenMysteryBox.mutate();
   };
 

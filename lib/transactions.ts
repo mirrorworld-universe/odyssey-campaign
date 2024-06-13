@@ -316,43 +316,43 @@ export async function sendSignedTransaction({
     console.log("Started awaiting confirmation for", txid);
   }
 
-  let done = false;
-  (async () => {
-    while (!done && getUnixTs() - startTime < timeout) {
-      connection.sendRawTransaction(rawTransaction, {
-        skipPreflight: true,
-      });
-      // eslint-disable-next-line no-await-in-loop
-      await wait(500);
-    }
-  })();
+  // let done = false;
+  // (async () => {
+  //   while (!done && getUnixTs() - startTime < timeout) {
+  //     connection.sendRawTransaction(rawTransaction, {
+  //       skipPreflight: true,
+  //     });
+  //     // eslint-disable-next-line no-await-in-loop
+  //     await wait(500);
+  //   }
+  // })();
 
-  try {
-    const confirmation = await awaitTransactionSignatureConfirmation(
-      txid,
-      timeout,
-      connection
-    );
-    if (!confirmation)
-      throw new Error("Timed out awaiting confirmation on transaction");
+  // try {
+  //   const confirmation = await awaitTransactionSignatureConfirmation(
+  //     txid,
+  //     timeout,
+  //     connection
+  //   );
+  //   if (!confirmation)
+  //     throw new Error("Timed out awaiting confirmation on transaction");
 
-    if (confirmation.err) {
-      throw confirmation.err;
-    }
+  //   if (confirmation.err) {
+  //     throw confirmation.err;
+  //   }
 
-    slot = confirmation?.slot || 0;
-  } catch (err: any) {
-    if (isDevMode) {
-      console.error(err);
-    }
-    throw new Error("Transaction failed");
-  } finally {
-    done = true;
-  }
+  //   slot = confirmation?.slot || 0;
+  // } catch (err: any) {
+  //   if (isDevMode) {
+  //     console.error(err);
+  //   }
+  //   throw new Error("Transaction failed");
+  // } finally {
+  //   done = true;
+  // }
 
-  if (isDevMode) {
-    console.log("Latency", txid, getUnixTs() - startTime);
-  }
+  // if (isDevMode) {
+  //   console.log("Latency", txid, getUnixTs() - startTime);
+  // }
   return { txid, slot };
 }
 

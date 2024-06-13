@@ -28,6 +28,8 @@ import {
   sendSignedTransaction,
 } from "@/lib/transactions";
 
+let transactionHash = "";
+
 export function CheckIn() {
   const totalDays = 14;
   const wordings = ["1 - 7", "8 - 14", "over 14"];
@@ -44,7 +46,6 @@ export function CheckIn() {
   const [isChekingIn, setIsChekingIn] = useState(false);
   const [hasChecked, setHasChecked] = useState(true);
   const [transactionString, setTransactionString] = useState("");
-  const [transactionHash, setTransactionHash] = useState("");
   const [checkInDays, setCheckInDays] = useState(0);
 
   const getPartition = () => {
@@ -78,19 +79,7 @@ export function CheckIn() {
       //   signedTransaction.serialize()
       // );
 
-      // let blockheight = await connection.getBlockHeight();
-      // const blockhashResponse = await connection.getLatestBlockhashAndContext();
-      // const lastValidBlockHeight = blockhashResponse.context.slot + 150;
-      // const rawTransaction = signedTransaction.serialize();
-      // while (blockheight < lastValidBlockHeight) {
-      //   connection.sendRawTransaction(rawTransaction, {
-      //     skipPreflight: true,
-      //   });
-      //   await sleep(500);
-      //   blockheight = await connection.getBlockHeight();
-      // }
-
-      const connection = new Connection(clusterUrl);
+      // const connection = new Connection("https://devnet.sonic.game");
 
       const { txid, slot } = await sendLegacyTransaction(
         connection,
@@ -99,21 +88,11 @@ export function CheckIn() {
         tx,
         "confirmed"
       );
-      console.log("txid", txid);
-
       if (!txid) {
         throw new Error("Could not retrieve transaction hash");
       }
-      const txHash = txid;
-
-      console.log("txHash", txHash);
-
-      // const wallet = Keypair.fromSecretKey(base58.decode("user private key"));
-      // const tx = Transaction.from(Buffer.from(transactionString, "base64"));
-      // const hash = await sendAndConfirmTransaction(connection, tx, [wallet]);
-
-      // setTransactionHash(txHash);
-      // mutationCheckIn.mutate();
+      transactionHash = txid;
+      mutationCheckIn.mutate();
     } catch (error) {
       console.error("Transaction failed:", error);
     }
@@ -170,7 +149,7 @@ export function CheckIn() {
             </a>
           </li>
           <li className="">
-            Click “check-in” button to complete the task and automatically
+            Click <i>Check-in</i> button to complete the task and automatically
             receive the corresponding reward.
           </li>
           <li className="">

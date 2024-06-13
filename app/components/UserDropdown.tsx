@@ -1,13 +1,14 @@
 "use client";
+import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import {
   formatAddress,
   toFixed,
@@ -15,13 +16,14 @@ import {
   useWalletModal,
 } from "../store/account";
 import { fetchLogout } from "../data/account";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
 export function UserDropdown() {
   const { connection } = useConnection();
   const { isOpen, onOpen } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
   const { address, token, reset } = useAccountInfo();
+
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   const mutationLogout = useMutation({
     mutationFn: () => fetchLogout({ token }),
@@ -45,20 +47,34 @@ export function UserDropdown() {
     // });
   };
 
-  const handleDisconnect = async () => {
-    disconnect();
-    mutationLogout.mutate();
+  const hanldeCopyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(address);
+      toast({
+        title: "Copy Successful",
+        description: "The user address has been copied successfully.",
+      });
+    } catch (err) {
+      console.error("Failed to copy user address: ", err);
+    }
   };
 
-  const getBalance = async () => {
-    return publicKey
-      ? `${(await connection.getBalance(publicKey)) / LAMPORTS_PER_SOL} SOL`
-      : "0 SOL";
+  const handleDisconnect = () => {
+    disconnect();
+    mutationLogout.mutate();
+    setPopoverOpen(false);
+  };
+
+  const getBalance = () => {
+    // return publicKey
+    //   ? `${(await connection.getBalance(publicKey)) / LAMPORTS_PER_SOL} SOL`
+    //   : "0 SOL";
+    return "0 SOL";
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+      <PopoverTrigger>
         <div
           className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-5 py-[10px] rounded-[4px] cursor-pointer transition-all duration-300"
           onClick={handleClickOpenWallet}
@@ -69,35 +85,42 @@ export function UserDropdown() {
             {formatAddress(publicKey?.toBase58())}
           </span>
         </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[300px] bg-[#1b1b1b] border-none rounded px-0 py-1">
-        <DropdownMenuItem className="flex gap-3 justify-start px-4 py-5 hover:bg-[#1b1b1b]">
+      </PopoverTrigger>
+      <PopoverContent className="w-[300px] bg-[#1b1b1b] border-none rounded px-0 py-1">
+        <div className="flex gap-3 justify-start px-4 py-5 hover:bg-[#1b1b1b]">
           <img className="w-[40px] h-[40px]" src="/images/" alt="" />
           <div className="flex flex-col justify-center">
             <span className="text-white text-[18px] font-semibold font-orbitron">
               {getBalance()}
             </span>
-            <div className="flex flex-row items-center mt-1">
+            <div
+              className="flex flex-row items-center mt-1"
+              onClick={hanldeCopyAddress}
+            >
               <span className="text-white/50 text-[12px] font-semibold">
                 {formatAddress(publicKey?.toBase58())}
               </span>
-              <img src="/images/copy.svg" alt="" className="w-4 h-4 ml-1" />
+              <img
+                src="/images/copy.svg"
+                alt=""
+                className="w-4 h-4 ml-1 cursor-pointer"
+              />
             </div>
           </div>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5">
+        </div>
+        <div className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5">
           <img src="/images/description.svg" alt="" className="w-5 h-5 mr-3" />
           <span className="text-white text-[14px] font-semibold font-orbitron">
             Tx History
           </span>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5">
+        </div>
+        <div className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5">
           <img src="/images/settings.svg" alt="" className="w-5 h-5 mr-3" />
           <span className="text-white text-[14px] font-semibold font-orbitron">
             Set up Network
           </span>
-        </DropdownMenuItem>
-        <DropdownMenuItem
+        </div>
+        <div
           className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5"
           onClick={handleDisconnect}
         >
@@ -105,8 +128,8 @@ export function UserDropdown() {
           <span className="text-white text-[14px] font-semibold font-orbitron">
             Disconnect
           </span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
