@@ -1,10 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export default function Notification({ data }: any) {
   const [showPanel, setShowPanel] = useState(false);
   const [list, setList] = useState([]);
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   useEffect(() => {
     setList(data);
@@ -40,15 +46,19 @@ export default function Notification({ data }: any) {
   };
 
   const NotificationPanel = () => (
-    <div className="bg-[#1A1A1A] w-[360px] max-h-[348px] py-2 rounded-md absolute top-10 left-[-160px]">
+    <div className="bg-[#1A1A1A] w-[360px] max-h-[348px] py-2 rounded-md">
       {list.length ? <NotificationList /> : <NotificationEmptyStatus />}
     </div>
   );
 
   return (
-    <div className="relative">
-      <NotificationIcon />
-      {showPanel ? <NotificationPanel /> : null}
-    </div>
+    <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+      <PopoverTrigger>
+        <NotificationIcon />
+      </PopoverTrigger>
+      <PopoverContent className="w-[320px] bg-[#1B1B1B] border-none rounded-[8px] px-0 py-0">
+        <NotificationPanel />
+      </PopoverContent>
+    </Popover>
   );
 }
