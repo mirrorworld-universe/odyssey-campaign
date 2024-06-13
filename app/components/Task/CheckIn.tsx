@@ -24,6 +24,7 @@ import base58 from "bs58";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
+  confirmTransaction,
   sendLegacyTransaction,
   sendSignedTransaction,
 } from "@/lib/transactions";
@@ -84,10 +85,23 @@ export function CheckIn() {
         tx,
         "confirmed"
       );
+
       if (!txid) {
         throw new Error("Could not retrieve transaction hash");
       }
+
       transactionHash = txid;
+
+      const result = await confirmTransaction(
+        connection,
+        transactionHash,
+        "finalized"
+      );
+
+      if (result.value.err) {
+        throw new Error(result.value.err.toString());
+      }
+
       mutationCheckIn.mutate();
     } catch (error) {
       console.error("Transaction failed:", error);
