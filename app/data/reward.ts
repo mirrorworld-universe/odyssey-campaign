@@ -45,7 +45,7 @@ export const getMysteryboxTx = async ({ token }: any) => {
 
 export const openMysterybox = async ({ token, hash }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/transactions/rewards/mystery-box/open`,
+    `${API_BASE_URL.staging}/user/rewards/mystery-box/open`,
     {
       headers: {
         Authorization: token,
@@ -66,7 +66,7 @@ export const getMysteryboxHistory = async ({
   size = 20,
 }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/transactions/rewards/mystery-box/history`,
+    `${API_BASE_URL.staging}/user/rewards/mystery-box/history`,
     {
       headers: {
         Authorization: token,

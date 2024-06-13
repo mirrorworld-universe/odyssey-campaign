@@ -11,6 +11,7 @@ import { Recommand } from "../icons/Recommand";
 import { Diversity } from "../icons/Diversity";
 import { Controller } from "../icons/Controller";
 import { Card, CardSize } from "../components/Card";
+import { HowToPlay } from "../components/Dialog/HowToPlay";
 
 const icons: any = {
   twitter: <Twitter width={250} height={250} color="#313131" />,
@@ -29,7 +30,7 @@ const TaskCenter: NextPage = () => {
         alt=""
         className="w-[1610px] h-[1638px] absolute -top-80 -right-80"
       />
-      <div className="max-w-[1464px] 2xl:w-full">
+      <div className="max-w-[1464px] 2xl:w-full relative">
         <h2 className="text-white font-orbitron text-[48px] font-semibold">
           Odyssey Task Center
         </h2>
@@ -41,9 +42,7 @@ const TaskCenter: NextPage = () => {
           <Button className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] transition-all duration-300 bg-[#0000FF] hover:bg-[#0000FF]/60  active:bg-[#0000FF]/80">
             Start My Task
           </Button>
-          <Button className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] bg-transparent border boder-solid border-white transition-all duration-300">
-            How to Play?
-          </Button>
+          <HowToPlay />
         </div>
       </div>
     </div>

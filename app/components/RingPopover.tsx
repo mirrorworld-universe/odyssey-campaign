@@ -54,7 +54,7 @@ export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
     useQuery({
       queryKey: ["queryMysteryBoxHistory", address],
       queryFn: () => getMysteryboxHistory({ token }),
-      enabled: !!token,
+      enabled: !!address && !!token,
     });
 
   const mutationOpenMysteryBox = useMutation({

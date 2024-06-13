@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMutation } from "@tanstack/react-query";
@@ -11,6 +12,7 @@ import { useAccountInfo, useWalletModal } from "./store/account";
 import { inviteUser } from "./data/account";
 
 export default function Home() {
+  const router = useRouter();
   const { publicKey } = useWallet();
   const { address, token } = useAccountInfo();
   const { isOpen, onOpen, onClose } = useWalletModal();
@@ -41,6 +43,8 @@ export default function Home() {
   const handleClickOpenWallet = () => {
     if (!publicKey) {
       onOpen();
+    } else {
+      router.push("/task");
     }
     // window.ttq?.track('ClickButton', {
     //   contents: [
