@@ -8,6 +8,7 @@ import Script from "next/script";
 import { Header } from "./components/Header";
 import { WalletModal } from "./components/WalletModal";
 import { Footer } from "./components/Footer";
+import { Toaster } from "@/components/ui/toaster";
 
 const manrope = Manrope({
   weight: ["400", "500"],
@@ -72,6 +73,8 @@ export default function RootLayout({
             <Footer />
           </AppWalletProvider>
         </Providers>
+
+        <Toaster />
 
         <TikTokPixelScript />
       </body>

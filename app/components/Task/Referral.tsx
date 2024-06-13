@@ -4,11 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import { Gift } from "@/app/icons/Gift";
 import { useAccountInfo } from "@/app/store/account";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import { getReferralInfo } from "@/app/data/account";
 import { Card, CardSize } from "../Card";
 
 export function Referral() {
   const { address, token } = useAccountInfo();
+  const { toast } = useToast();
 
   const [inviteCode, setInviteCode] = useState("");
   const [inviteUrl, setInviteUrl] = useState("");
@@ -37,6 +39,10 @@ export function Referral() {
   const handleInviteNow = async () => {
     try {
       await navigator.clipboard.writeText(inviteUrl);
+      toast({
+        title: "Copy Successful",
+        description: "The invitation link has been copied successfully.",
+      });
     } catch (err) {
       console.error("Failed to copy invitation url: ", err);
     }
