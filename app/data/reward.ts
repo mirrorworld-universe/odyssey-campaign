@@ -63,7 +63,7 @@ export const openMysterybox = async ({ token, hash }: any) => {
 export const getMysteryboxHistory = async ({
   token,
   page = 1,
-  size = 20,
+  size = 50,
 }: any) => {
   const response = await fetch(
     `${API_BASE_URL.staging}/user/rewards/mystery-box/history`,
