@@ -20,7 +20,7 @@ import {
   openMysterybox,
 } from "../data/reward";
 import { Transaction } from "@solana/web3.js";
-import { sendLegacyTransaction } from "@/lib/transactions";
+import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 
 let txHash = "";
 
@@ -50,10 +50,19 @@ export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
       tx,
       "confirmed"
     );
+
     if (!txid) {
       throw new Error("Could not retrieve transaction hash");
     }
+
     txHash = txid;
+
+    const result = await confirmTransaction(connection, txHash, "finalized");
+
+    if (result.value.err) {
+      throw new Error(result.value.err.toString());
+    }
+
     mutationOpenMysteryBox.mutate();
   };
 
