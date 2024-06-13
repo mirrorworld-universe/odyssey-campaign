@@ -28,6 +28,7 @@ import {
   sendLegacyTransaction,
   sendSignedTransaction,
 } from "@/lib/transactions";
+import { toast } from "@/components/ui/use-toast";
 
 let transactionHash = "";
 
@@ -110,7 +111,11 @@ export function CheckIn() {
     setIsChekingIn(false);
   };
 
-  const { data: dataCheckInInfo, isLoading: loadingCheckInInfo } = useQuery({
+  const {
+    data: dataCheckInInfo,
+    isLoading: loadingCheckInInfo,
+    refetch: refetchCheckInInfo,
+  } = useQuery({
     queryKey: ["queryCheckInInfo", address],
     queryFn: () => fetchCheckinStatus({ token }),
     enabled: !!token,
@@ -128,7 +133,14 @@ export function CheckIn() {
   const mutationCheckIn = useMutation({
     mutationKey: ["mutationCheckIn", address],
     mutationFn: () => fetchFinishCheckin({ token, hash: transactionHash }),
-    onSuccess(data) {},
+    onSuccess({ success }) {
+      if (success) {
+        refetchCheckInInfo();
+        toast({
+          description: "Checked in successfully.",
+        });
+      }
+    },
   });
 
   useEffect(() => {

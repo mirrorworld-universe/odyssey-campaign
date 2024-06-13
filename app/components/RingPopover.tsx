@@ -21,10 +21,15 @@ import {
 } from "../data/reward";
 import { Transaction } from "@solana/web3.js";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
+import { toast } from "@/components/ui/use-toast";
 
 let txHash = "";
 
-export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
+export default function RingPopover({
+  ring = 0,
+  ringMonitor = 0,
+  onOpenMysteryBox,
+}: any) {
   const { address, token } = useAccountInfo();
   const { publicKey, wallet, signTransaction } = useWallet();
   const { connection } = useConnection();
@@ -42,28 +47,34 @@ export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
       return;
     }
 
-    const tx = Transaction.from(Buffer.from(transactionString, "base64"));
-    const { txid, slot } = await sendLegacyTransaction(
-      connection,
-      // @ts-ignore
-      wallet?.adapter,
-      tx,
-      "confirmed"
-    );
+    try {
+      const tx = Transaction.from(Buffer.from(transactionString, "base64"));
+      const { txid, slot } = await sendLegacyTransaction(
+        connection,
+        // @ts-ignore
+        wallet?.adapter,
+        tx,
+        "confirmed"
+      );
 
-    if (!txid) {
-      throw new Error("Could not retrieve transaction hash");
+      if (!txid) {
+        throw new Error("Could not retrieve transaction hash");
+      }
+
+      txHash = txid;
+
+      const result = await confirmTransaction(connection, txHash, "finalized");
+
+      if (result.value.err) {
+        throw new Error(result.value.err.toString());
+      }
+
+      mutationOpenMysteryBox.mutate();
+    } catch (error) {
+      console.error("Transaction failed:", error);
     }
 
-    txHash = txid;
-
-    const result = await confirmTransaction(connection, txHash, "finalized");
-
-    if (result.value.err) {
-      throw new Error(result.value.err.toString());
-    }
-
-    mutationOpenMysteryBox.mutate();
+    setIsOpeningMysterybox(false);
   };
 
   const { data: dataMysteryBoxHistory, isLoading: loadingMysteryBoxHistory } =
@@ -80,6 +91,14 @@ export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
         token,
         hash: txHash,
       }),
+    onSuccess({ success }) {
+      if (success) {
+        onOpenMysteryBox && onOpenMysteryBox();
+        toast({
+          description: "The Mystery Box has been opened successfully.",
+        });
+      }
+    },
   });
 
   const mutationBuildTx = useMutation({

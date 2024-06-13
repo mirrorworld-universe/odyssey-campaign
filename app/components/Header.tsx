@@ -65,7 +65,11 @@ export function Header() {
   const [notificationRecords, setNotificationRecords] = useState([]);
   const [walletBalance, setWalletBalance] = useState(0);
 
-  const { data: dataRewardsInfo, isLoading: loadingRewardsInfo } = useQuery({
+  const {
+    data: dataRewardsInfo,
+    isLoading: loadingRewardsInfo,
+    refetch: refetchRewardsInfo,
+  } = useQuery({
     queryKey: ["queryUserRewardsInfo", address],
     queryFn: () => getUserRewardInfo({ token }),
     enabled: !!token,
@@ -169,7 +173,11 @@ export function Header() {
           </SelectContent>
         </Select> */}
 
-        <RingPopover ring={ringAmount} ringMonitor={ringMonitorAmount} />
+        <RingPopover
+          ring={ringAmount}
+          ringMonitor={ringMonitorAmount}
+          onOpenMysteryBox={() => refetchRewardsInfo()}
+        />
 
         <Notification data={notificationRecords} />
 
