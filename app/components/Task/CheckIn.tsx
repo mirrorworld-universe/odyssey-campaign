@@ -67,10 +67,6 @@ export function CheckIn() {
       return;
     }
 
-    const clusterUrl = process.env.NUXT_APP_PRODUCTION
-      ? "https://palpable-cool-night.solana-mainnet.quiknode.pro/86f10ce27e10692292d51f3a317e5c67703ef2d4/"
-      : "https://magical-damp-mound.solana-devnet.quiknode.pro/3d4c906044908ebfd0680d421871bc18df5e396d/";
-
     try {
       const tx = Transaction.from(Buffer.from(transactionString, "base64"));
 
