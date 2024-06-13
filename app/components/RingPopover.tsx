@@ -84,6 +84,14 @@ export default function RingPopover({ ring = 0, ringMonitor = 0 }: any) {
   };
 
   useEffect(() => {
+    setRingAmount(ring);
+  }, [ring]);
+
+  useEffect(() => {
+    setRingMonitorAmount(ringMonitor);
+  }, [ringMonitor]);
+
+  useEffect(() => {
     const data = dataMysteryBoxHistory?.data;
     if (data) {
       setHistoryList(data);

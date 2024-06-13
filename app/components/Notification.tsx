@@ -1,10 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Notification({ data }: any) {
   const [showPanel, setShowPanel] = useState(false);
-  const [list, setList] = useState(data || []);
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    setList(data);
+  }, [data]);
 
   const handleToggleShowPanel = () => {
     setShowPanel(!showPanel);
@@ -25,20 +29,12 @@ export default function Notification({ data }: any) {
   const NotificationList = () => {
     return (
       <>
-        <div className="flex flex-col gap-1 px-4 py-3 text-[12px] bg-[#1A1A1A] hover:bg-white/5 transition-opacity">
-          <p className="text-white">
-            Lorem ipsum dolor sit amet consectetur. Vulputate vestibulum mattis
-            augue lectus sit est viverrarisus.
-          </p>
-          <span className="text-white/50">05/11/2024, 11:34:32</span>
-        </div>
-        <div className="flex flex-col gap-1 px-4 py-3 text-[12px] bg-[#1A1A1A] hover:bg-white/5 transition-opacity">
-          <p className="text-white">
-            Lorem ipsum dolor sit amet consectetur. Vulputate vestibulum mattis
-            augue lectus sit est viverrarisus.
-          </p>
-          <span className="text-white/50">05/11/2024, 11:34:32</span>
-        </div>
+        {list.map((item: any, index: number) => (
+          <div className="flex flex-col gap-1 px-4 py-3 text-[12px] bg-[#1A1A1A] hover:bg-white/5 transition-opacity">
+            <p className="text-white">{item.reward_type}</p>
+            <span className="text-white/50">{item.date}</span>
+          </div>
+        ))}
       </>
     );
   };
