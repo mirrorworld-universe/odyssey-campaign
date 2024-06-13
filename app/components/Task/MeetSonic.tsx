@@ -152,7 +152,7 @@ export function MeetSonic() {
           <li className="">
             Automatically receive{" "}
             <span className="inline-flex items-center text-[#FBB042]">
-              2 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Monitor
+              3 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Monitor
             </span>{" "}
             after completing both the X account and Discord tasks.
           </li>
