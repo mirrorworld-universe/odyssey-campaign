@@ -28,6 +28,29 @@ import {
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
 
+export const menu: any[] = [
+  {
+    name: "Task Center",
+    link: "/task",
+    target: "_self",
+  },
+  {
+    name: "Network",
+    link: "https://faucet.sonic.game/",
+    target: "_blank",
+  },
+  {
+    name: "Odyssey Guide",
+    link: "#",
+    target: "_blank",
+  },
+  {
+    name: "About Sonic",
+    link: "https://sonic.game/",
+    target: "_blank",
+  },
+];
+
 export function Header() {
   const { isOpen, onOpen } = useWalletModal();
   const { connection } = useConnection();
@@ -100,29 +123,6 @@ export function Header() {
     // });
   };
 
-  const menu = [
-    {
-      name: "Task Center",
-      link: "/task",
-      target: "_self",
-    },
-    {
-      name: "Network",
-      link: "https://faucet.sonic.game/",
-      target: "_blank",
-    },
-    {
-      name: "Odyssey Guide",
-      link: "#",
-      target: "_blank",
-    },
-    {
-      name: "About Sonic",
-      link: "https://sonic.game/",
-      target: "_blank",
-    },
-  ];
-
   return (
     <nav className="h-20 flex items-center justify-between px-10 py-4 bg-[#111111] w-full sticky sticky:backdrop-blur-[35px] top-0 z-30 transition-all duration-300">
       {/* left */}
@@ -131,8 +131,7 @@ export function Header() {
         <Link href="/">
           <img
             alt="Sonic Logo"
-            className="w-[135px]"
-            height="40"
+            className="w-[135px] h-auto"
             src="/sonic.png"
             style={{
               aspectRatio: "100/40",

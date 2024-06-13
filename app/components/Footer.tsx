@@ -1,18 +1,47 @@
+"use client";
 import Link from "next/link";
+import { menu } from "./Header";
+import { Twitter } from "../icons/Twitter";
+import { Discord } from "../icons/Discord";
 
 export function Footer() {
   const year = new Date().getFullYear();
 
   const copyright = `©Copyright ${year} Sonic`;
 
+  const socialMedias = [
+    {
+      name: "twitter",
+      link: "https://x.com/SonicSVM",
+      icon: <Twitter width={24} height={24} color="white" />,
+    },
+    {
+      name: "discord",
+      link: "https://discord.com/invite/joinmirrorworld",
+      icon: <Discord width={24} height={24} color="white" />,
+    },
+  ];
+
   return (
     <footer className="flex flex-col items-center justify-center gap-4 sm:gap-8 bg-sonic-nav w-full sm:!py-14 !py-20 px-4 sm:p-0">
       <div className="w-full flex flex-col sm:gap-5 max-w-[1464px] mx-auto">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-14 w-full">
           <div className="flex space-x-3 justify-start items-center">
-            {/* <MoleculesLogo /> */}
-            <div className="w-[1px] h-5 bg-sonic-disabled"></div>
-            <p className="sm">www.sonic.org</p>
+            <Link href="/">
+              <img
+                alt="Sonic Logo"
+                className="w-[168px] h-auto"
+                src="/sonic.png"
+                style={{
+                  aspectRatio: "100/40",
+                  objectFit: "contain",
+                }}
+                width="100"
+              />
+            </Link>
+            <p className="text-white text-[14px] font-semibold font-orbitron border-l border-solid border-[#8F8F8F] h-[21px] ml-4 pl-4">
+              www.sonic.org
+            </p>
           </div>
 
           {/* Links */}
@@ -21,20 +50,16 @@ export function Footer() {
               Links
             </div>
             <div className="flex flex-col sm:flex-row sm:space-x-6 sm:space-y-0 space-y-6 font-sans">
-              <Link
-                href="/"
-                className="outline-none focus:outline-none text-white hover:text-white/50 flex justify-between sm:justify-start uppercase font-semibold text-sm"
-              >
-                {/* Buy Sonic Nodes */}
-                {/* <IconsArrowRight className="block text-sonic-disabled sm:hidden w-6 h-6" /> */}
-              </Link>
-              <Link
-                href="/"
-                className="outline-none focus:outline-none text-white hover:text-white/50 flex justify-between sm:justify-start uppercase font-semibold text-sm"
-              >
-                {/* About Sonic Nodes */}
-                {/* <IconsArrowRight className="block text-sonic-disabled sm:hidden w-6 h-6" /> */}
-              </Link>
+              {menu.map((menuItem, menuIndex) => (
+                <Link
+                  className="text-[16px] gap-12 text-white/60 hover:text-white font-semibold font-orbitron transition-colors"
+                  href={menuItem.link}
+                  key={menuIndex}
+                  target={menuItem.target}
+                >
+                  {menuItem.name}
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -44,27 +69,15 @@ export function Footer() {
               Community
             </div>
             <div className="flex gap-4 items-center justify-start">
-              {/* X */}
-              <a
-                href="https://x.com/SonicSVM"
-                className="flex justify-center items-center outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2"
-              >
-                {/* <IconsX className="w-6 h-6" /> */}
-              </a>
-              {/* Discord */}
-              <a
-                href="https://discord.com/invite/joinmirrorworld"
-                className="flex justify-center items-center outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2"
-              >
-                {/* <IconsDiscord className="w-6 h-6" /> */}
-              </a>
-              {/* Medium */}
-              <a
-                href="https://mirrorworld.medium.com/"
-                className="flex justify-center items-center outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2"
-              >
-                {/* <IconsMedium className="w-6 h-6" /> */}
-              </a>
+              {socialMedias.map((media) => (
+                <a
+                  href={media.link}
+                  target="_blank"
+                  className="flex justify-center items-center opacity-100 hover:opacity-80 outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2 transition-opacity"
+                >
+                  {media.icon}
+                </a>
+              ))}
             </div>
           </div>
 
@@ -104,27 +117,15 @@ export function Footer() {
 
             {/* Desktop Socials */}
             <div className="flex gap-4 items-center justify-start">
-              {/* X */}
-              <a
-                href="https://x.com/SonicSVM"
-                className="flex justify-center items-center outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2"
-              >
-                {/* <IconsX className="w-6 h-6" /> */}
-              </a>
-              {/* Discord */}
-              <a
-                href="https://discord.com/invite/joinmirrorworld"
-                className="flex justify-center items-center outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2"
-              >
-                {/* <IconsDiscord className="w-6 h-6" /> */}
-              </a>
-              {/* Medium */}
-              <a
-                href="https://mirrorworld.medium.com/"
-                className="flex justify-center items-center outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2"
-              >
-                {/* <IconsMedium className="w-6 h-6" /> */}
-              </a>
+              {socialMedias.map((media) => (
+                <a
+                  href={media.link}
+                  target="_blank"
+                  className="flex justify-center items-center opacity-100 hover:opacity-80 outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2 transition-opacity"
+                >
+                  {media.icon}
+                </a>
+              ))}
             </div>
           </div>
         </div>
