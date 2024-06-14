@@ -9,6 +9,8 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import { WalletDialog } from "./components/Dialog/Wallet";
+import { MysteryBoxConfirmDialog } from "./components/Dialog/MysteryBoxConfirm";
+import { MysteryBoxRecordDialog } from "./components/Dialog/MysteryBoxRecord";
 
 const manrope = Manrope({
   weight: ["400", "500"],
@@ -59,18 +61,27 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${manrope.variable} ${orbitron.variable} bg-[#01030C] w-full`}
+        className={`${manrope.variable} ${orbitron.variable} bg-[#01030C] font-manrope w-full`}
       >
         <Providers>
           <AppWalletProvider>
             {/* header */}
             <Header />
+
             {/* chidren */}
             {children}
-            {/* wallet dialog */}
-            <WalletDialog />
+
             {/* footer */}
             <Footer />
+
+            {/* wallet dialog */}
+            <WalletDialog />
+
+            {/* mysterybox confirm dialog */}
+            <MysteryBoxConfirmDialog />
+
+            {/* mysterybox record dialog */}
+            <MysteryBoxRecordDialog />
           </AppWalletProvider>
         </Providers>
 

@@ -22,8 +22,10 @@ import {
 import { Transaction } from "@solana/web3.js";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { toast } from "@/components/ui/use-toast";
-
-let txHash = "";
+import {
+  useMysteryBoxConfirmModal,
+  useMysteryBoxRecordModal,
+} from "../store/task";
 
 export default function RingPopover({
   ring = 0,
@@ -31,51 +33,23 @@ export default function RingPopover({
   onOpenMysteryBox,
 }: any) {
   const { address, token } = useAccountInfo();
-  const { publicKey, wallet, signTransaction } = useWallet();
-  const { connection } = useConnection();
+  const {
+    isOpen: isOpenConfirmModal,
+    onOpen: onOpenConfirmModal,
+    onClose: onCloseConfirmModal,
+  } = useMysteryBoxConfirmModal();
+  const {
+    isOpen: isOpenRecordModal,
+    onOpen: onOpenRecordModal,
+    onClose: onCloseRecordModal,
+  } = useMysteryBoxRecordModal();
 
   const [isOpeningMysterybox, setIsOpeningMysterybox] = useState(false);
   const [ringAmount, setRingAmount] = useState(ring);
   const [ringMonitorAmount, setRingMonitorAmount] = useState(ringMonitor);
-  const [canOpenMysteryBox, setCanOpenMysteryBox] = useState(true);
+  const [canOpenMysteryBox, setCanOpenMysteryBox] = useState(false);
   const [historyList, setHistoryList] = useState([]);
   const [popoverOpen, setPopoverOpen] = useState(false);
-
-  const triggerTransaction = async (transactionString: string) => {
-    if (!publicKey || !signTransaction) {
-      console.error("Wallet not connected");
-      return;
-    }
-
-    try {
-      const tx = Transaction.from(Buffer.from(transactionString, "base64"));
-      const { txid, slot } = await sendLegacyTransaction(
-        connection,
-        // @ts-ignore
-        wallet?.adapter,
-        tx,
-        "confirmed"
-      );
-
-      if (!txid) {
-        throw new Error("Could not retrieve transaction hash");
-      }
-
-      txHash = txid;
-
-      const result = await confirmTransaction(connection, txHash, "finalized");
-
-      if (result.value.err) {
-        throw new Error(result.value.err.toString());
-      }
-
-      mutationOpenMysteryBox.mutate();
-    } catch (error) {
-      console.error("Transaction failed:", error);
-    }
-
-    setIsOpeningMysterybox(false);
-  };
 
   const { data: dataMysteryBoxHistory, isLoading: loadingMysteryBoxHistory } =
     useQuery({
@@ -84,38 +58,12 @@ export default function RingPopover({
       enabled: !!address && !!token,
     });
 
-  const mutationOpenMysteryBox = useMutation({
-    mutationKey: ["openMysteryBox", address],
-    mutationFn: () =>
-      openMysterybox({
-        token,
-        hash: txHash,
-      }),
-    onSuccess({ success }) {
-      if (success) {
-        onOpenMysteryBox && onOpenMysteryBox();
-        toast({
-          description: "The Mystery Box has been opened successfully.",
-        });
-      }
-    },
-  });
-
-  const mutationBuildTx = useMutation({
-    mutationKey: ["buildMysteryboxTx", address],
-    mutationFn: () => getMysteryboxTx({ token }),
-    onSuccess: async ({ data }) => {
-      const transactionString = data.hash;
-      triggerTransaction(transactionString);
-    },
-  });
-
   const handleOpenMysterybox = () => {
-    if (isOpeningMysterybox) {
+    if (isOpeningMysterybox || !canOpenMysteryBox) {
       return;
     }
     setIsOpeningMysterybox(true);
-    mutationBuildTx.mutate();
+    onOpenConfirmModal();
   };
 
   useEffect(() => {
@@ -124,7 +72,21 @@ export default function RingPopover({
 
   useEffect(() => {
     setRingMonitorAmount(ringMonitor);
+    setCanOpenMysteryBox(ringMonitorAmount && ringMonitorAmount > 0);
   }, [ringMonitor]);
+
+  useEffect(() => {
+    if (!isOpenConfirmModal && !isOpenRecordModal) {
+      setIsOpeningMysterybox(false);
+    }
+  }, [isOpenConfirmModal, isOpenRecordModal]);
+
+  useEffect(() => {
+    if (!isOpenRecordModal) {
+      setIsOpeningMysterybox(false);
+      onOpenMysteryBox && onOpenMysteryBox();
+    }
+  }, [isOpenRecordModal]);
 
   useEffect(() => {
     const data = dataMysteryBoxHistory?.data;
@@ -180,9 +142,9 @@ export default function RingPopover({
           <Button
             disabled={!canOpenMysteryBox || isOpeningMysterybox}
             className={cn(
-              "transition-all duration-300",
+              "transition-all duration-300  cursor-pointer",
               !canOpenMysteryBox
-                ? "bg-[#888888] hover:bg-[#888888]"
+                ? "bg-[#888888] hover:bg-[#888888] cursor-not-allowed"
                 : isOpeningMysterybox
                 ? "bg-[#0000FF] hover:bg-[#0000FF]/80 opacity-60"
                 : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"

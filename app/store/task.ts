@@ -48,6 +48,32 @@ export const useTaskInfo = create(
   )
 );
 
+export const useMysteryBoxInfo = create(
+  persist<{
+    mysteryBoxAmount: number;
+    setMysteryBoxAmount: (mysteryBoxAmount: number) => void;
+    reset: () => void;
+  }>(
+    (set, get) => ({
+      mysteryBoxAmount: get()?.mysteryBoxAmount,
+      setMysteryBoxAmount: (mysteryBoxAmount: number) => {
+        set({
+          mysteryBoxAmount,
+        });
+      },
+
+      reset: () => {
+        set({
+          mysteryBoxAmount: 0,
+        });
+      },
+    }),
+    {
+      name: "sonic-mysterybox-info",
+    }
+  )
+);
+
 export const useMysteryBoxConfirmModal = create<{
   isOpen: boolean;
   onOpen: () => void;

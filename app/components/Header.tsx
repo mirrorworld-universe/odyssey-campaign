@@ -27,6 +27,7 @@ import {
 } from "../data/account";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
+import { useMysteryBoxInfo } from "../store/task";
 
 export const menu: any[] = [
   {
@@ -55,6 +56,8 @@ export function Header() {
   const { isOpen, onOpen } = useWalletModal();
   const { connection } = useConnection();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
+  const { mysteryBoxAmount, setMysteryBoxAmount } = useMysteryBoxInfo();
+
   const [userWalletAddress, setUserWalletAddress] = useState<string>("");
   const isOpenRef = useLatest(isOpen);
 
@@ -92,6 +95,7 @@ export function Header() {
       setWalletBalance(wallet_balance);
       setRingAmount(ring);
       setRingMonitorAmount(ring_monitor);
+      setMysteryBoxAmount(ring_monitor);
     }
   }, [dataRewardsInfo]);
 

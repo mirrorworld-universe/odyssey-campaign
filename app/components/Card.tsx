@@ -4,6 +4,7 @@ export enum CardSize {
   Default = "default",
   Medium = "medium",
   Small = "small",
+  List = "list",
 }
 
 export function Card({
@@ -16,6 +17,7 @@ export function Card({
   const cardClass: any = {
     [CardSize.Medium]: "px-10 py-10 rounded-xl",
     [CardSize.Small]: "px-4 py-4 rounded",
+    [CardSize.List]: "px-0 py-6 rounded-xl",
   };
 
   const nameClass: any = {
