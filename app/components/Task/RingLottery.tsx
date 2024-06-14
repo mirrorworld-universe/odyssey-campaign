@@ -81,7 +81,7 @@ export function RingLottery() {
                     <SelectGroup>
                       {Array.from({ length: 10 }, (_, i) => i + 1).map(
                         (number) => (
-                          <SelectItem value={number.toString()}>
+                          <SelectItem value={number.toString()} key={number}>
                             {number}
                           </SelectItem>
                         )

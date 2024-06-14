@@ -203,8 +203,11 @@ export default function RingPopover({
         {historyList.length ? (
           <div className="flex flex-col px-[16px] py-[8px] font-orbitron border-t border-solid border-white/10">
             <div className="text-white text-[14px] py-[8px]">Claim History</div>
-            {historyList.map((history: any) => (
-              <div className="flex flex-row justify-between text-white/50 text-[12px] py-[8px]">
+            {historyList.map((history: any, historyIndex: number) => (
+              <div
+                key={historyIndex}
+                className="flex flex-row justify-between text-white/50 text-[12px] py-[8px]"
+              >
                 <div className="flex items-center">
                   Claimed x 1{" "}
                   <Gift

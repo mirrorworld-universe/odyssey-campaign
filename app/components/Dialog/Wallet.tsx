@@ -23,9 +23,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Gift } from "@/app/icons/Gift";
-import { Ring } from "@/app/icons/Ring";
 import { cn } from "@/lib/utils";
 
 export function WalletDialog({ text = "Connect", className }: any) {
@@ -121,23 +118,13 @@ export function WalletDialog({ text = "Connect", className }: any) {
   }, [messageToSign, token]);
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          className={cn(
-            "text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] bg-transparent border boder-solid border-white transition-all duration-300",
-            className
-          )}
-        >
-          {text}
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="w-[813px] h-[643px] bg-[#1A1A1A] border-none px-8 py-8">
-        <DialogHeader className="space-y-0">
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="w-[467px] h-auto bg-[#1A1A1A] border-none px-8 py-8">
+        <DialogHeader className="">
           <DialogTitle className="text-white text-[32px] font-orbitron">
             Connect Your Wallet
           </DialogTitle>
-          <DialogDescription className="text-white/60 text-[16px]">
+          <DialogDescription className="w-[355px] text-white/60 text-[16px]">
             Choose one of the wallets and install the corresponding browser
             extension.
           </DialogDescription>
@@ -167,16 +154,18 @@ export function WalletDialog({ text = "Connect", className }: any) {
               </div>
 
               <div
-                className={`min-w-[115px] text-center font-orbitron font-bold text-[16px] rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border transition-all ${
+                className={`inline-flex items-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border transition-all ${
                   wallet.readyState === WalletReadyState.Installed
-                    ? "text-white border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
-                    : "text-white border-white/80 hover:border-white"
+                    ? "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
+                    : "border-white/80 hover:border-white"
                 }`}
                 onClick={() => handleWalletSelect(wallet.adapter)}
               >
-                {wallet.readyState === WalletReadyState.Installed
-                  ? "Connect"
-                  : "Install"}
+                <span className="text-white text-base font-orbitron font-bold">
+                  {wallet.readyState === WalletReadyState.Installed
+                    ? "Connect"
+                    : "Install"}
+                </span>
               </div>
             </li>
           ))}

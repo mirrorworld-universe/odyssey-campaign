@@ -69,8 +69,9 @@ export function Footer() {
               Community
             </div>
             <div className="flex gap-4 items-center justify-start">
-              {socialMedias.map((media) => (
+              {socialMedias.map((media: any, mediaIndex: number) => (
                 <a
+                  key={mediaIndex}
                   href={media.link}
                   target="_blank"
                   className="flex justify-center items-center opacity-100 hover:opacity-80 outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2 transition-opacity"
@@ -117,8 +118,9 @@ export function Footer() {
 
             {/* Desktop Socials */}
             <div className="flex gap-4 items-center justify-start">
-              {socialMedias.map((media) => (
+              {socialMedias.map((media: any, mediaIndex: number) => (
                 <a
+                  key={mediaIndex}
                   href={media.link}
                   target="_blank"
                   className="flex justify-center items-center opacity-100 hover:opacity-80 outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2 transition-opacity"

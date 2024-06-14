@@ -51,15 +51,20 @@ const TaskCenter: NextPage = () => {
   const MainContent = () => (
     <div className="w-full max-w-[1464px] bg-[#111111] mt-20 mb-20">
       <div className="w-full flex flex-col gap-24">
-        {taskGroupList.map((taskGroup) => (
+        {taskGroupList.map((taskGroup: any, taskGroupIndex: number) => (
           <Card
+            key={taskGroupIndex}
             size={CardSize.Default}
             name={taskGroup.name}
             className="w-full relative"
           >
             <div className="flex flex-wrap flex-row gap-10">
-              {taskGroup.list.map((task) => (
-                <Link href={`/task/${task.id}`} className="group/task">
+              {taskGroup.list.map((task: any, taskIndex: number) => (
+                <Link
+                  href={`/task/${task.id}`}
+                  className="group/task"
+                  key={taskIndex}
+                >
                   <div className="bg-[#1E1E1E] group-hover/task:bg-[#181818] w-[663px] h-[263px] px-8 py-8 rounded-md cursor-pointer transition-colors duration-300 overflow-hidden relative">
                     <h5 className="text-white/70 text-[48px] font-semibold font-orbitron">
                       {task.name}
