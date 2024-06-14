@@ -8,6 +8,7 @@ import { Referral } from "@/app/components/Task/Referral";
 import { GameVenture } from "@/app/components/Task/GameVenture";
 
 import { taskGroupList } from "../../data/task";
+import { cn } from "@/lib/utils";
 
 const tasks = taskGroupList.map((item) => item.list).flat();
 
@@ -51,11 +52,15 @@ export default function Page({ params }: { params: { slug: string } }) {
       </Link>
       {tasks.map((task, taskIndex) => (
         <Link
-          href={`/task/${task.id}`}
-          className={`group/nav flex w-[400px] h-[200px] border-l-[6px] border-solid  hover:border-[#F79342] transition-all duration-300 ${
-            task.id === taskId ? "border-[#F79342]" : "border-transparent"
-          } relative overflow-hidden`}
           key={taskIndex}
+          href={task.available ? `/task/${task.id}` : "#"}
+          className={cn(
+            "group/nav flex w-[400px] h-[200px] border-l-[6px] border-solid transition-all duration-300 relative overflow-hidden",
+            task.id === taskId ? "border-[#F79342]" : "border-transparent",
+            task.available
+              ? "opacity-100 cursor-pointer"
+              : "opacity-30 cursor-not-allowed border-none"
+          )}
         >
           <img
             className="w-full h-full absolute top-0 left-0  "
@@ -63,14 +68,18 @@ export default function Page({ params }: { params: { slug: string } }) {
             alt=""
           />
           <div
-            className={`w-full h-full absolute top-0 left-0 background-highlight opacity-0 group-hover/nav:opacity-100 ${
-              task.id === taskId ? "opacity-100" : ""
-            } transition-opacity duration-300`}
+            className={cn(
+              `w-full h-full absolute top-0 left-0 background-highlight opacity-0 transition-opacity duration-300`,
+              task.id === taskId ? "opacity-100" : "",
+              task.available ? "" : ""
+            )}
           ></div>
           <span
-            className={`group-hover/nav:text-[#FBB042] font-orbitron text-[24px] font-normal absolute left-[32px] bottom-[24px] ${
-              task.id === taskId ? "text-[#FBB042]" : "text-white/50"
-            } transition-colors duration-300`}
+            className={cn(
+              `font-orbitron text-[24px] font-normal absolute left-[32px] bottom-[24px] transition-colors duration-300`,
+              task.id === taskId ? "text-[#FBB042]" : "text-white/50",
+              task.available ? "group-hover/nav:text-[#FBB042]" : ""
+            )}
           >
             {task.name}
           </span>

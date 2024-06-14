@@ -11,6 +11,7 @@ import nacl from "tweetnacl";
 import { useQuery } from "@tanstack/react-query";
 import { decodeUTF8, encodeBase64 } from "tweetnacl-util";
 import { useWalletModal, useAccountInfo } from "@/app/store/account";
+import { useTaskInfo } from "@/app/store/task";
 import { fetchAuthorize, fetchBasicInfo } from "@/app/data/account";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +30,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
   const { select, wallets, publicKey, disconnect, connecting, signMessage } =
     useWallet();
   const { address, setAddress, token, setToken } = useAccountInfo();
+  const { setAddress: setTaskAddress } = useTaskInfo();
   const { isOpen, onOpen, onClose } = useWalletModal();
 
   const [signature, setSignature] = useState("");
@@ -105,8 +107,11 @@ export function WalletDialog({ text = "Connect", className }: any) {
   useEffect(() => {
     if (publicKey) {
       setAddress(publicKey.toString());
-      // sign();
-      // onClose();
+      setTaskAddress(publicKey.toString());
+      if (messageToSign && !token) {
+        sign();
+      }
+      onClose();
     }
   }, [publicKey]);
 

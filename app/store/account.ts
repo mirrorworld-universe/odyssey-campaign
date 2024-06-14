@@ -34,12 +34,14 @@ export const useAccountInfo = create(
           address,
         });
       },
+
       token: get()?.token,
       setToken: (token: string) => {
         set({
           token,
         });
       },
+
       reset: () => {
         set({
           address: undefined,

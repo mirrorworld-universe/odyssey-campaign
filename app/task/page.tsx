@@ -1,7 +1,9 @@
+"use client";
 import React from "react";
 import { NextPage } from "next";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { taskGroupList } from "../data/task";
 import { Twitter } from "../icons/Twitter";
@@ -12,6 +14,8 @@ import { Diversity } from "../icons/Diversity";
 import { Controller } from "../icons/Controller";
 import { Card, CardSize } from "../components/Card";
 import { HowToPlay } from "../components/Dialog/HowToPlay";
+import { cn } from "@/lib/utils";
+import { useTaskInfo } from "../store/task";
 
 const icons: any = {
   twitter: <Twitter width={250} height={250} color="#313131" />,
@@ -23,6 +27,17 @@ const icons: any = {
 };
 
 const TaskCenter: NextPage = () => {
+  const router = useRouter();
+  const { address, status, setStatus } = useTaskInfo();
+
+  const handleStartTask = () => {
+    router.push(
+      status && status[address]["meet-sonic"]
+        ? "/task/check-in"
+        : "/task/meet-sonic"
+    );
+  };
+
   const Header = () => (
     <div className="bg-[#000] w-full h-[411px] flex justify-center py-24 overflow-hidden relative">
       <img
@@ -39,7 +54,10 @@ const TaskCenter: NextPage = () => {
           extension.
         </p>
         <div className="flex flex-row gap-6 mt-16">
-          <Button className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] transition-all duration-300 bg-[#0000FF] hover:bg-[#0000FF]/60  active:bg-[#0000FF]/80">
+          <Button
+            className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] transition-all duration-300 bg-[#0000FF] hover:bg-[#0000FF]/60  active:bg-[#0000FF]/80"
+            onClick={handleStartTask}
+          >
             Start My Task
           </Button>
           <HowToPlay />
@@ -61,11 +79,21 @@ const TaskCenter: NextPage = () => {
             <div className="flex flex-wrap flex-row gap-10">
               {taskGroup.list.map((task: any, taskIndex: number) => (
                 <Link
-                  href={`/task/${task.id}`}
-                  className="group/task"
+                  href={task.available ? `/task/${task.id}` : "#"}
+                  className={cn(
+                    "group/task",
+                    task.available
+                      ? "opacity-100 cursor-pointer"
+                      : "opacity-30 cursor-not-allowed"
+                  )}
                   key={taskIndex}
                 >
-                  <div className="bg-[#1E1E1E] group-hover/task:bg-[#181818] w-[663px] h-[263px] px-8 py-8 rounded-md cursor-pointer transition-colors duration-300 overflow-hidden relative">
+                  <div
+                    className={cn(
+                      "bg-[#1E1E1E] w-[663px] h-[263px] px-8 py-8 rounded-md transition-colors duration-300 overflow-hidden relative",
+                      task.available ? "group-hover/task:bg-[#181818]" : ""
+                    )}
+                  >
                     <h5 className="text-white/70 text-[48px] font-semibold font-orbitron">
                       {task.name}
                     </h5>
@@ -82,7 +110,12 @@ const TaskCenter: NextPage = () => {
                         </div>
                       ) : null}
                     </div>
-                    <div className="origin-center rotate-12 opacity-50 absolute -bottom-4 -right-10 transition-all duration-300 group-hover/task:-right-14">
+                    <div
+                      className={cn(
+                        "origin-center rotate-12 opacity-50 absolute -bottom-4 -right-10 transition-all duration-300",
+                        task.available ? "group-hover/task:-right-14" : ""
+                      )}
+                    >
                       {icons[task.iconName]}
                     </div>
                   </div>
