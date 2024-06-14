@@ -36,7 +36,7 @@ export const menu: any[] = [
   },
   {
     name: "Network",
-    link: "https://faucet.sonic.game/",
+    link: "https://faucet.sonic.game/#/",
     target: "_blank",
   },
   {
@@ -173,11 +173,13 @@ export function Header() {
           </SelectContent>
         </Select> */}
 
-        <RingPopover
-          ring={ringAmount}
-          ringMonitor={ringMonitorAmount}
-          onOpenMysteryBox={() => refetchRewardsInfo()}
-        />
+        {address && token && (
+          <RingPopover
+            ring={ringAmount}
+            ringMonitor={ringMonitorAmount}
+            onOpenMysteryBox={() => refetchRewardsInfo()}
+          />
+        )}
 
         <Notification data={notificationRecords} />
 

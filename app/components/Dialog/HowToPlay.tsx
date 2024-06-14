@@ -30,7 +30,8 @@ export function HowToPlay() {
           </DialogTitle>
           <DialogDescription className="text-white/60 text-[16px]">
             Ensure you successfully switch the network in your wallet to Sonic.
-            Check <span className="text-[#25A3ED]">guides</span>.
+            Check <span className="text-[#25A3ED] hover:underline">guides</span>
+            .
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-3 mt-12">
@@ -48,8 +49,14 @@ export function HowToPlay() {
             <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px]">
               On Sonic, you need SOL for gas. Ensure your wallet has enough SOL
               to transact. Click{" "}
-              <span className="text-[#25A3ED]">faucet link</span> or use the
-              faucet in the navigation bar to claim.
+              <a
+                className="text-[#25A3ED] hover:underline"
+                href="https://faucet.sonic.game/#/"
+                target="_blank"
+              >
+                faucet link
+              </a>{" "}
+              or use the faucet in the navigation bar to claim.
             </p>
           </div>
           {/* step 2 */}
@@ -67,8 +74,15 @@ export function HowToPlay() {
           </div>
           <div className="w-full flex flex-row h-[96px] pl-[70px]">
             <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px]">
-              In the <span className="text-[#25A3ED]">task center</span>,
-              complete tasks to receive corresponding mystery boxes.
+              In the{" "}
+              <a
+                className="text-[#25A3ED] hover:underline"
+                href="/task"
+                target="_blank"
+              >
+                task center
+              </a>
+              , complete tasks to receive corresponding mystery boxes.
             </p>
           </div>
           {/* step 3 */}

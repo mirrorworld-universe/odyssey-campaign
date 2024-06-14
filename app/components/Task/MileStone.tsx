@@ -10,6 +10,7 @@ import {
   getMilestoneDailyInfo,
 } from "@/app/data/reward";
 import { Check } from "@/app/icons/Check";
+import { toast } from "@/components/ui/use-toast";
 
 export function MileStone() {
   const totalAmount = 100;
@@ -29,8 +30,13 @@ export function MileStone() {
 
   const mutationClaimRewards = useMutation({
     mutationFn: () => claimMilestoneRewards({ token, stage: claimStage }),
-    onSuccess: () => {
-      // reset();
+    onSuccess: ({ data }) => {
+      if (data.success) {
+        toast({
+          title: "Congratulations",
+          description: "Claimed successfully.",
+        });
+      }
     },
   });
 

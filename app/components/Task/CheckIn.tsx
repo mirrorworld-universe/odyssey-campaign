@@ -133,8 +133,8 @@ export function CheckIn() {
   const mutationCheckIn = useMutation({
     mutationKey: ["mutationCheckIn", address],
     mutationFn: () => fetchFinishCheckin({ token, hash: transactionHash }),
-    onSuccess({ success }) {
-      if (success) {
+    onSuccess({ data }) {
+      if (data.success) {
         refetchCheckInInfo();
         toast({
           description: "Checked in successfully.",
@@ -166,7 +166,11 @@ export function CheckIn() {
         <ul className="list-disc text-[20px] font-normal leading-relaxed pl-6">
           <li className="">
             Request test SOL first.{" "}
-            <a href="" className="text-[#25A3ED] hover:underline">
+            <a
+              className="text-[#25A3ED] hover:underline"
+              href="https://faucet.sonic.game/#/"
+              target="_blank"
+            >
               Request here.
             </a>
           </li>

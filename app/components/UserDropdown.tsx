@@ -25,6 +25,12 @@ export function UserDropdown() {
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
+  const setUpUrls = {
+    nightly: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
+    backpack:
+      "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
+  };
+
   const mutationLogout = useMutation({
     mutationFn: () => fetchLogout({ token }),
     onSuccess: () => {
