@@ -126,7 +126,7 @@ export function MysteryBoxConfirmDialog() {
 
       txHash = txid;
 
-      const result = await confirmTransaction(connection, txHash, "finalized");
+      const result = await confirmTransaction(connection, txHash, "confirmed");
 
       if (result.value.err) {
         throw new Error(result.value.err.toString());
