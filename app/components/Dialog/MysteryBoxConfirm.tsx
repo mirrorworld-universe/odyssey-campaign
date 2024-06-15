@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Transaction } from "@solana/web3.js";
@@ -71,6 +71,13 @@ export function MysteryBoxConfirmDialog() {
     },
   ];
   const [openGroup, setOpenGroup] = useState<any[]>(openGroupData);
+
+  useEffect(() => {
+    if (mysteryBoxAmount) {
+      openGroupData[1].amount = mysteryBoxAmount;
+      setOpenGroup(openGroupData);
+    }
+  }, [mysteryBoxAmount]);
 
   const handleOptionChanged = (group: any) => {
     openGroupData.forEach((item) => {
