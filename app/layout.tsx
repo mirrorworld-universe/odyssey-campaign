@@ -13,6 +13,7 @@ import { MysteryBoxConfirmDialog } from "./components/Dialog/MysteryBoxConfirm";
 import { MysteryBoxRecordDialog } from "./components/Dialog/MysteryBoxRecord";
 import { MysteryBoxResultDialog } from "./components/Dialog/MysteryBoxResult";
 import { WelcomeDialog } from "./components/Dialog/Welcome";
+import { MoreWalletDialog } from "./components/Dialog/MoreWallet";
 
 const manrope = Manrope({
   weight: ["400", "500"],
@@ -78,6 +79,7 @@ export default function RootLayout({
 
             {/* wallet dialog */}
             <WalletDialog />
+            <MoreWalletDialog />
 
             {/* welcome dialog */}
             <WelcomeDialog />

@@ -25,6 +25,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { useMoreWalletModal } from "@/app/store/tutorials";
 
 export function WalletDialog({ text = "Connect", className }: any) {
   const { select, wallets, publicKey, disconnect, connecting, signMessage } =
@@ -32,6 +33,11 @@ export function WalletDialog({ text = "Connect", className }: any) {
   const { address, setAddress, token, setToken } = useAccountInfo();
   const { setAddress: setTaskAddress } = useTaskInfo();
   const { isOpen, onOpen, onClose } = useWalletModal();
+  const {
+    isOpen: isOpenMoreWalletDialog,
+    onOpen: onOpenMoreWalletDialog,
+    onClose: onCloseMoreWalletDialog,
+  } = useMoreWalletModal();
 
   const [signature, setSignature] = useState("");
   const [messageToSign, setMessageToSign] = useState("");
@@ -92,6 +98,11 @@ export function WalletDialog({ text = "Connect", className }: any) {
         console.log("wallet connection err : ", error);
       }
     }
+  };
+
+  const handleMoreWallet = () => {
+    onOpenMoreWalletDialog();
+    onClose();
   };
 
   useEffect(() => {
@@ -172,7 +183,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
               </div>
 
               <div
-                className={`inline-flex items-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border transition-all ${
+                className={`inline-flex items-center justify-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border transition-all ${
                   wallet.readyState === WalletReadyState.Installed
                     ? "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
                     : "border-white/80 hover:border-white"
@@ -187,6 +198,12 @@ export function WalletDialog({ text = "Connect", className }: any) {
               </div>
             </li>
           ))}
+          <li
+            className="flex w-full justify-center cursor-pointer hover:opacity-80"
+            onClick={handleMoreWallet}
+          >
+            <img src="/images/icons/more.svg" alt="" className="w-6 h-6" />
+          </li>
           {/* <WalletMultiButton style={{}} /> */}
         </ul>
       </DialogContent>
