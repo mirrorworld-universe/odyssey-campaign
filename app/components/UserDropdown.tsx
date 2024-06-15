@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
@@ -20,10 +20,12 @@ import { fetchLogout } from "../data/account";
 export function UserDropdown() {
   const { connection } = useConnection();
   const { isOpen, onOpen } = useWalletModal();
-  const { select, wallets, publicKey, disconnect, connecting } = useWallet();
+  const { select, wallet, wallets, publicKey, disconnect, connecting } =
+    useWallet();
   const { address, token, reset } = useAccountInfo();
 
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [balance, setBalance] = useState<number | null>(null);
 
   const setUpUrls = {
     nightly: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
@@ -71,12 +73,25 @@ export function UserDropdown() {
     setPopoverOpen(false);
   };
 
-  const getBalance = () => {
-    // return publicKey
-    //   ? `${(await connection.getBalance(publicKey)) / LAMPORTS_PER_SOL} SOL`
-    //   : "0 SOL";
-    return "0 SOL";
-  };
+  useEffect(() => {
+    if (!connection || !publicKey) {
+      return;
+    }
+
+    connection.onAccountChange(
+      publicKey,
+      (updatedAccountInfo) => {
+        setBalance(updatedAccountInfo.lamports / LAMPORTS_PER_SOL);
+      },
+      "confirmed"
+    );
+
+    connection.getAccountInfo(publicKey).then((info) => {
+      if (info) {
+        setBalance(info?.lamports / LAMPORTS_PER_SOL);
+      }
+    });
+  }, [publicKey, connection]);
 
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -93,11 +108,15 @@ export function UserDropdown() {
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-[300px] bg-[#1b1b1b] border-none rounded px-0 py-1">
-        <div className="flex gap-3 justify-start px-4 py-5 hover:bg-[#1b1b1b]">
-          <img className="w-[40px] h-[40px]" src="/images/" alt="" />
+        <div className="flex gap-3 justify-start items-center px-4 py-5 hover:bg-[#1b1b1b]">
+          <img
+            className="w-[40px] h-[40px]"
+            src={wallet?.adapter.icon}
+            alt=""
+          />
           <div className="flex flex-col justify-center">
             <span className="text-white text-[18px] font-semibold font-orbitron">
-              {getBalance()}
+              {balance} SOL
             </span>
             <div
               className="flex flex-row items-center mt-1"
