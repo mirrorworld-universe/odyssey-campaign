@@ -80,7 +80,7 @@ export function MysteryBoxConfirmDialog() {
   };
 
   const handleConfirm = () => {
-    const currentAmount = openGroupData.find((group) => group.active)?.amount;
+    const currentAmount = openGroup.find((group) => group.active)?.amount;
     if (currentAmount > 1) {
       onOpenRecordModal();
       onClose();

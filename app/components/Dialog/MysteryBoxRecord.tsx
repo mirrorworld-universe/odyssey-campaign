@@ -232,14 +232,14 @@ export function MysteryBoxRecordDialog() {
               </div>
             </div>
           </Card>
-          {
+          {mysteryBoxRecords.every((record) => record.loaded === true) ? (
             <Button
               className="w-full height-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300"
               onClick={handleConfirm}
             >
               Confirm
             </Button>
-          }
+          ) : null}
         </div>
       </AlertDialogContent>
     </AlertDialog>
