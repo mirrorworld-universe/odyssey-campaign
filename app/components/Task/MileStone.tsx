@@ -32,6 +32,15 @@ export function MileStone() {
     mutationFn: () => claimMilestoneRewards({ token, stage: claimStage }),
     onSuccess: ({ data, status }) => {
       if (data.claimed) {
+        setStageList({
+          ...stageList,
+          ...{
+            [Object.keys(stageList)[claimStage - 1]]: {
+              ...stageList[claimStage - 1],
+              ...{ claimed: true },
+            },
+          },
+        });
         toast({
           title: "Congratulations",
           description: "Claimed successfully.",
