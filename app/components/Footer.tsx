@@ -23,7 +23,13 @@ export function Footer() {
   ];
 
   return (
-    <footer className="flex flex-col items-center justify-center gap-4 sm:gap-8 bg-sonic-nav w-full sm:!py-14 !py-20 px-4 sm:p-0">
+    <footer className="flex flex-col items-center justify-center gap-4 sm:gap-8 bg-sonic-nav w-full sm:!py-14 !py-20 px-4 sm:p-0 relative overflow-hidden">
+      <img
+        src="/images/fingerprint.png"
+        alt=""
+        className="w-[1610px] h-[1638px] absolute -bottom-80 -right-80"
+      />
+
       <div className="w-full flex flex-col sm:gap-5 max-w-[1464px] mx-auto">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-14 w-full">
           <div className="flex space-x-3 justify-start items-center">

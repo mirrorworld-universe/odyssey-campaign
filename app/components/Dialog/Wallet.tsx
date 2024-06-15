@@ -35,6 +35,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
 
   const [signature, setSignature] = useState("");
   const [messageToSign, setMessageToSign] = useState("");
+  const recommendWalletcList = ["backpack", "nightly", "okx wallet", "phantom"];
+  const supportSonicWalletList = ["backpack", "nightly"];
 
   const { data: dataBasicInfo, isLoading: loadingBasicInfo } = useQuery({
     queryKey: ["queryBasicInfo", address],
@@ -122,6 +124,12 @@ export function WalletDialog({ text = "Connect", className }: any) {
     }
   }, [messageToSign, token]);
 
+  const SupportSonicTag = () => (
+    <div className="text-[#fbb042] text-[10px] bg-[#fbb0421a] rounded px-1 py-[2px]">
+      Support Sonic
+    </div>
+  );
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="w-[467px] h-auto bg-[#1A1A1A] border-none px-8 py-8">
@@ -153,9 +161,14 @@ export function WalletDialog({ text = "Connect", className }: any) {
                   width={30}
                   className="mr-5 "
                 />
-                <span className="text-[20px] text-white">
+                <span className="text-[20px] text-white mr-2">
                   {wallet.adapter.name}
                 </span>
+                {supportSonicWalletList.indexOf(
+                  wallet.adapter.name.toLowerCase()
+                ) > -1 ? (
+                  <SupportSonicTag />
+                ) : null}
               </div>
 
               <div
