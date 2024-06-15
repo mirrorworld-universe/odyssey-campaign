@@ -25,13 +25,13 @@ export const taskGroupList = [
         description:
           "Check in on Sonic every day. The longer your streak, the greater your rewards.",
         period: "24-hour period",
-        reward: "1 token / each",
+        reward: "Requires SOL",
         iconName: "calendar",
         available: true,
       },
       {
         id: "milestone",
-        name: "Milestone",
+        name: "TX Milestone",
         description:
           "Interact with Sonic through any form of transaction to earn increasing rewards based on your level of engagement!",
         period: "24-hour period",
@@ -43,7 +43,7 @@ export const taskGroupList = [
         id: "referral",
         name: "Referral",
         description:
-          "Invite friends to Sonic Odyssey! When they complete Task - Meet Sonic, you'll get rewards!",
+          "Invite friends to Sonic Odyssey! Share the adventure and explore together in this thrilling journey.",
         period: "24-hour period",
         reward: "",
         iconName: "diversity",
@@ -55,7 +55,7 @@ export const taskGroupList = [
         description:
           "Participate in the lottery for a chance to win a ring; there's only one lucky winner in every block.",
         // period: "8:00 - 21:00",
-        // reward: "1 token / each",
+        // reward: "Requires SOL",
         iconName: "chip",
         period: "Coming Soon",
         reward: "",
@@ -64,13 +64,13 @@ export const taskGroupList = [
     ],
   },
   {
-    name: "Third Party",
+    name: "Sonic Ecosystem",
     list: [
       {
         id: "game-venture",
-        name: "Game Venture",
+        name: "Game Adventure",
         description:
-          "Follow the Sonic X account and join the Discord group to receive x 1 Ring monitor.",
+          "Play different games to enjoy a variety of fun experiences and earn exciting rewards along the way!",
         period: "24-hour period",
         reward: "",
         iconName: "game",

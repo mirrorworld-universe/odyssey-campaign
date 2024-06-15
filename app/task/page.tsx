@@ -50,8 +50,9 @@ const TaskCenter: NextPage = () => {
           Odyssey Task Center
         </h2>
         <p className="text-white text-[20px] font-normal mt-5">
-          Choose one of the wallets and install the corresponding browser
-          extension.
+          Embark on your Odyssey by completing various tasks! Earn more rings
+          along the way!{" "}
+          <span className="text-[#25A3ED] hover:underline">FAQs</span>
         </p>
         <div className="flex flex-row gap-6 mt-16">
           <Button

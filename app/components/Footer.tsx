@@ -30,7 +30,7 @@ export function Footer() {
         className="w-[1610px] h-[1638px] absolute -bottom-80 -right-80"
       />
 
-      <div className="w-full flex flex-col sm:gap-5 max-w-[1464px] mx-auto">
+      <div className="w-full flex flex-col sm:gap-5 max-w-[1464px] mx-auto relative">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-14 w-full">
           <div className="flex space-x-3 justify-start items-center">
             <Link href="/">
@@ -45,9 +45,13 @@ export function Footer() {
                 width="100"
               />
             </Link>
-            <p className="text-white text-[14px] font-semibold font-orbitron border-l border-solid border-[#8F8F8F] h-[21px] ml-4 pl-4">
-              www.sonic.org
-            </p>
+            <a
+              className="text-white text-[14px] font-semibold font-orbitron border-l border-solid border-[#8F8F8F] h-[21px] ml-4 pl-4 hover:underline"
+              href="https://www.sonic.game/"
+              target="_blank"
+            >
+              www.sonic.game
+            </a>
           </div>
 
           {/* Links */}

@@ -146,19 +146,18 @@ export function MeetSonic() {
       <Card name="Rules" size={CardSize.Medium} className="">
         <ul className="list-disc text-[20px] font-normal leading-relaxed pl-6">
           <li className="">
-            Click the corresponding social buttons. Complete the tasks by
-            successfully linking your account.
+            Click the social buttons to link your account and complete the
+            tasks.
           </li>
           <li className="">
-            Automatically receive{" "}
+            Earn{" "}
             <span className="inline-flex items-center text-[#FBB042]">
-              3 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Monitor
+              2 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
+              Boxes
             </span>{" "}
-            after completing both the X account and Discord tasks.
+            after linking both your X and Discord accounts.
           </li>
-          <li className="">
-            This is a one-time task and will not reset after completion.
-          </li>
+          <li className="">This is a one-time task and will not reset.</li>
         </ul>
       </Card>
 

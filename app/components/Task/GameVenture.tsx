@@ -37,7 +37,7 @@ export function GameVenture() {
       {/* rules */}
       <Card name="Rules" size={CardSize.Medium} className="">
         <ul className="list-decimal text-[20px] font-normal leading-relaxed pl-6">
-          <li className="">lick any game below to download or try it out.</li>
+          <li className="">Click any game below to download or try it out.</li>
           <li className="">
             Learn the game rules and reward distribution guidelines.
           </li>

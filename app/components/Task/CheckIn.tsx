@@ -180,7 +180,7 @@ export function CheckIn() {
             </a>
           </li>
           <li className="">
-            Click <i>Check-in</i> button to complete the task and automatically
+            Click "Check-in" button to complete the task and automatically
             receive the corresponding reward.
           </li>
           <li className="">
@@ -192,23 +192,24 @@ export function CheckIn() {
               <li>
                 a. Check in for 1-7 days to earn{" "}
                 <span className="inline-flex items-center text-[#FBB042]">
-                  1 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Monitor
+                  1 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
+                  Box
                 </span>
                 .
               </li>
               <li>
                 b. Check in for 8-14 days to earn{" "}
                 <span className="inline-flex items-center text-[#FBB042]">
-                  2 x <Gift color="#FBB042" className="mx-[2px]" /> Ring
-                  Monitors
+                  2 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
+                  Boxes
                 </span>
                 .
               </li>
               <li>
                 c. Check in for over 14 days to earn{" "}
                 <span className="inline-flex items-center text-[#FBB042]">
-                  3 x <Gift color="#FBB042" className="mx-[2px]" /> Ring
-                  Monitors
+                  3 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
+                  Boxes
                 </span>
                 .
               </li>

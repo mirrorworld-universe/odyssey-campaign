@@ -226,7 +226,7 @@ export function MysteryBoxConfirmDialog() {
           <p className="flex flex-row gap-2 mt-4">
             <img className="w-5 h-5 mt-[2px]" src="/images/icons/report.svg" />
             <span className="text-[#FBB042] text-[16px]">
-              You need to sign in your wallet {mysteryBoxAmount} times to unlock
+              You need to sign {mysteryBoxAmount} times in your wallet to unlock
               all mystery box rewards.
             </span>
           </p>

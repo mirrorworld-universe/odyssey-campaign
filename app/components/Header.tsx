@@ -36,7 +36,7 @@ export const menu: any[] = [
     target: "_self",
   },
   {
-    name: "Network",
+    name: "Faucet",
     link: "https://faucet.sonic.game/#/",
     target: "_blank",
   },

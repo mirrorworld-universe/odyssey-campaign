@@ -77,7 +77,7 @@ export function MileStone() {
               Claim rewards manually
             </span>{" "}
             by clicking the button below. Unclaimed rewards will be forfeited at
-            the end of the day.
+            the end of the day(UTC Time).
           </li>
         </ul>
       </Card>
