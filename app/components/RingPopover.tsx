@@ -51,12 +51,15 @@ export default function RingPopover({
   const [historyList, setHistoryList] = useState([]);
   const [popoverOpen, setPopoverOpen] = useState(false);
 
-  const { data: dataMysteryBoxHistory, isLoading: loadingMysteryBoxHistory } =
-    useQuery({
-      queryKey: ["queryMysteryBoxHistory", address],
-      queryFn: () => getMysteryboxHistory({ token }),
-      enabled: !!address && !!token,
-    });
+  const {
+    data: dataMysteryBoxHistory,
+    isLoading: loadingMysteryBoxHistory,
+    refetch: refetchRewardsHistory,
+  } = useQuery({
+    queryKey: ["queryMysteryBoxHistory", address],
+    queryFn: () => getMysteryboxHistory({ token }),
+    enabled: !!address && !!token,
+  });
 
   const handleOpenMysterybox = () => {
     if (isOpeningMysterybox || !canOpenMysteryBox) {
@@ -78,15 +81,10 @@ export default function RingPopover({
   useEffect(() => {
     if (!isOpenConfirmModal && !isOpenRecordModal) {
       setIsOpeningMysterybox(false);
-    }
-  }, [isOpenConfirmModal, isOpenRecordModal]);
-
-  useEffect(() => {
-    if (!isOpenRecordModal) {
-      setIsOpeningMysterybox(false);
+      refetchRewardsHistory();
       onOpenMysteryBox && onOpenMysteryBox();
     }
-  }, [isOpenRecordModal]);
+  }, [isOpenConfirmModal, isOpenRecordModal]);
 
   useEffect(() => {
     const data = dataMysteryBoxHistory?.data;
@@ -165,31 +163,33 @@ export default function RingPopover({
         {historyList.length ? (
           <div className="flex flex-col px-[16px] py-[8px] font-orbitron border-t border-solid border-white/10">
             <div className="text-white text-[14px] py-[8px]">Claim History</div>
-            {historyList.map((history: any, historyIndex: number) => (
-              <div
-                key={historyIndex}
-                className="flex flex-row justify-between text-white/50 text-[12px] py-[8px]"
-              >
-                <div className="flex items-center">
-                  Claimed x 1{" "}
-                  <Gift
-                    width={12}
-                    height={12}
-                    color="rgba(255,255,255,.5)"
-                    className="mx-[2px]"
-                  />
+            <div className="flex flex-col w-full max-h-[180px] overflow-y-auto">
+              {historyList.map((history: any, historyIndex: number) => (
+                <div
+                  key={historyIndex}
+                  className="flex flex-row justify-between text-white/50 text-[12px] py-[8px]"
+                >
+                  <div className="flex items-center">
+                    Claimed x 1{" "}
+                    <Gift
+                      width={12}
+                      height={12}
+                      color="rgba(255,255,255,.5)"
+                      className="mx-[2px]"
+                    />
+                  </div>
+                  <div className="flex items-center">
+                    + {history.quantity}{" "}
+                    <Ring
+                      width={12}
+                      height={12}
+                      color="rgba(255,255,255,.5)"
+                      className="mx-[2px]"
+                    />
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  + {history.quantity}{" "}
-                  <Ring
-                    width={12}
-                    height={12}
-                    color="rgba(255,255,255,.5)"
-                    className="mx-[2px]"
-                  />
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         ) : null}
       </PopoverContent>

@@ -11,6 +11,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { WalletDialog } from "./components/Dialog/Wallet";
 import { MysteryBoxConfirmDialog } from "./components/Dialog/MysteryBoxConfirm";
 import { MysteryBoxRecordDialog } from "./components/Dialog/MysteryBoxRecord";
+import { MysteryBoxResultDialog } from "./components/Dialog/MysteryBoxResult";
 
 const manrope = Manrope({
   weight: ["400", "500"],
@@ -82,6 +83,9 @@ export default function RootLayout({
 
             {/* mysterybox record dialog */}
             <MysteryBoxRecordDialog />
+
+            {/* mysterybox result dialog */}
+            <MysteryBoxResultDialog />
           </AppWalletProvider>
         </Providers>
 

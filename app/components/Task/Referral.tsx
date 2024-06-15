@@ -54,7 +54,7 @@ export function Referral() {
       <Card name="Rules" size={CardSize.Medium} className="">
         <ul className="list-disc text-[20px] font-normal leading-relaxed pl-6">
           <li className="">
-            Copy Copy the invite code and send it to a friend. If the friend
+            Copy the invite code and send it to a friend. If the friend
             successfully completes the "Meet Sonic" task, they will be
             considered successfully activated, and you will receive the
             corresponding reward.

@@ -69,16 +69,6 @@ export function Header() {
   const [walletBalance, setWalletBalance] = useState(0);
 
   const {
-    data: dataRewardsInfo,
-    isLoading: loadingRewardsInfo,
-    refetch: refetchRewardsInfo,
-  } = useQuery({
-    queryKey: ["queryUserRewardsInfo", address],
-    queryFn: () => getUserRewardInfo({ token }),
-    enabled: !!token,
-  });
-
-  const {
     data: dataNotificationRecords,
     isLoading: loadingNotificationRecords,
   } = useQuery({
@@ -86,6 +76,16 @@ export function Header() {
     queryFn: () => getNotificationRecords({ token }),
     enabled: !!token,
     refetchInterval: 10 * 1000,
+  });
+
+  const {
+    data: dataRewardsInfo,
+    isLoading: loadingRewardsInfo,
+    refetch: refetchRewardsInfo,
+  } = useQuery({
+    queryKey: ["queryUserRewardsInfo", address],
+    queryFn: () => getUserRewardInfo({ token }),
+    enabled: !!token,
   });
 
   useEffect(() => {

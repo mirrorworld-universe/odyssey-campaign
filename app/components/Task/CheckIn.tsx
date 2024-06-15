@@ -138,7 +138,7 @@ export function CheckIn() {
     mutationKey: ["mutationCheckIn", address],
     mutationFn: () => fetchFinishCheckin({ token, hash: transactionHash }),
     onSuccess({ data, status }) {
-      if (data.checked && status.success) {
+      if (data.checked) {
         setHasChecked(true);
         refetchCheckInInfo();
         toast({

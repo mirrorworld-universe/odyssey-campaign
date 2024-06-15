@@ -52,6 +52,8 @@ export const useMysteryBoxInfo = create(
   persist<{
     mysteryBoxAmount: number;
     setMysteryBoxAmount: (mysteryBoxAmount: number) => void;
+    mysteryBoxRewardsAmount: number;
+    setMysteryBoxRewardsAmount: (mysteryBoxRewardsAmount: number) => void;
     reset: () => void;
   }>(
     (set, get) => ({
@@ -59,6 +61,13 @@ export const useMysteryBoxInfo = create(
       setMysteryBoxAmount: (mysteryBoxAmount: number) => {
         set({
           mysteryBoxAmount,
+        });
+      },
+
+      mysteryBoxRewardsAmount: get()?.mysteryBoxRewardsAmount,
+      setMysteryBoxRewardsAmount: (mysteryBoxRewardsAmount: number) => {
+        set({
+          mysteryBoxRewardsAmount,
         });
       },
 
@@ -93,6 +102,24 @@ export const useMysteryBoxConfirmModal = create<{
 }));
 
 export const useMysteryBoxRecordModal = create<{
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}>((set) => ({
+  isOpen: false,
+  onOpen: () => {
+    set({
+      isOpen: true,
+    });
+  },
+  onClose: () => {
+    set({
+      isOpen: false,
+    });
+  },
+}));
+
+export const useMysteryBoxResultModal = create<{
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
