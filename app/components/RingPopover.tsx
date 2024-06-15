@@ -72,7 +72,7 @@ export default function RingPopover({
 
   useEffect(() => {
     setRingMonitorAmount(ringMonitor);
-    setCanOpenMysteryBox(ringMonitorAmount && ringMonitorAmount > 0);
+    setCanOpenMysteryBox(ringMonitor && ringMonitor > 0);
   }, [ringMonitor]);
 
   useEffect(() => {

@@ -125,16 +125,21 @@ export function CheckIn() {
     mutationKey: ["mutationCheckInTransactionInfo", address],
     mutationFn: () => fetchCheckinTransaction({ token }),
     onSuccess({ data }) {
-      setTransactionString(data.hash);
-      triggerTransaction();
+      if (data?.hash) {
+        setTransactionString(data.hash);
+        triggerTransaction();
+      } else {
+        setIsChekingIn(false);
+      }
     },
   });
 
   const mutationCheckIn = useMutation({
     mutationKey: ["mutationCheckIn", address],
     mutationFn: () => fetchFinishCheckin({ token, hash: transactionHash }),
-    onSuccess({ data }) {
-      if (data.success) {
+    onSuccess({ data, status }) {
+      if (data.checked && status.success) {
+        setHasChecked(true);
         refetchCheckInInfo();
         toast({
           description: "Checked in successfully.",

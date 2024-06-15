@@ -30,8 +30,8 @@ export function MileStone() {
 
   const mutationClaimRewards = useMutation({
     mutationFn: () => claimMilestoneRewards({ token, stage: claimStage }),
-    onSuccess: ({ data }) => {
-      if (data.success) {
+    onSuccess: ({ data, status }) => {
+      if (status.success) {
         toast({
           title: "Congratulations",
           description: "Claimed successfully.",

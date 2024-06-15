@@ -107,8 +107,8 @@ export function MysteryBoxRecordDialog() {
         token,
         hash: txHash,
       }),
-    onSuccess({ data }) {
-      if (data.success) {
+    onSuccess({ data, status }) {
+      if (status.success) {
         toast({
           description: "The Mystery Box has been opened successfully.",
         });
