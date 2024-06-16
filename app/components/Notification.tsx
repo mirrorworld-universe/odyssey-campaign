@@ -6,15 +6,37 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useQuery } from "@tanstack/react-query";
+import { getNotificationRecords } from "../data/account";
+import { useAccountInfo } from "../store/account";
 
 export default function Notification({ data }: any) {
+  const { address, token, reset } = useAccountInfo();
+
   const [showPanel, setShowPanel] = useState(false);
   const [list, setList] = useState([]);
   const [popoverOpen, setPopoverOpen] = useState(false);
 
+  const {
+    data: dataNotificationRecords,
+    isLoading: loadingNotificationRecords,
+  } = useQuery({
+    queryKey: ["queryUserNotificationRecords", address],
+    queryFn: () => getNotificationRecords({ token }),
+    enabled: !!token,
+    refetchInterval: 10 * 1000,
+  });
+
+  // useEffect(() => {
+  //   setList(data);
+  // }, [data]);
+
   useEffect(() => {
-    setList(data);
-  }, [data]);
+    const data = dataNotificationRecords?.data;
+    if (data?.length) {
+      setList(data);
+    }
+  }, [dataNotificationRecords]);
 
   const handleToggleShowPanel = () => {
     setShowPanel(!showPanel);
@@ -37,7 +59,7 @@ export default function Notification({ data }: any) {
       <>
         {list.map((item: any, index: number) => (
           <div className="flex flex-col gap-1 px-4 py-3 text-[12px] bg-[#1A1A1A] hover:bg-white/5 transition-opacity">
-            <p className="text-white">{item.reward_type}</p>
+            <p className="text-white">{item.text}</p>
             <span className="text-white/50">{item.date}</span>
           </div>
         ))}

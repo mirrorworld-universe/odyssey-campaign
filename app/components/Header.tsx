@@ -7,12 +7,6 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 import Notification from "./Notification";
 import {
@@ -20,11 +14,7 @@ import {
   useAccountInfo,
   useWalletModal,
 } from "../store/account";
-import {
-  fetchLogout,
-  getUserRewardInfo,
-  getNotificationRecords,
-} from "../data/account";
+import { getUserRewardInfo } from "../data/account";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
 import { useMysteryBoxInfo } from "../store/task";
@@ -54,29 +44,13 @@ export const menu: any[] = [
 
 export function Header() {
   const { isOpen, onOpen } = useWalletModal();
-  const { connection } = useConnection();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
   const { mysteryBoxAmount, setMysteryBoxAmount } = useMysteryBoxInfo();
-
-  const [userWalletAddress, setUserWalletAddress] = useState<string>("");
-  const isOpenRef = useLatest(isOpen);
 
   const { address, token, reset } = useAccountInfo();
   const [ringAmount, setRingAmount] = useState(0);
   const [ringMonitorAmount, setRingMonitorAmount] = useState(0);
-  const [rewardsHistory, setRewardsHistory] = useState([]);
-  const [notificationRecords, setNotificationRecords] = useState([]);
   const [walletBalance, setWalletBalance] = useState(0);
-
-  const {
-    data: dataNotificationRecords,
-    isLoading: loadingNotificationRecords,
-  } = useQuery({
-    queryKey: ["queryUserNotificationRecords", address],
-    queryFn: () => getNotificationRecords({ token }),
-    enabled: !!token,
-    refetchInterval: 10 * 1000,
-  });
 
   const {
     data: dataRewardsInfo,
@@ -98,13 +72,6 @@ export function Header() {
       setMysteryBoxAmount(ring_monitor);
     }
   }, [dataRewardsInfo]);
-
-  useEffect(() => {
-    const data = dataNotificationRecords?.data;
-    if (data?.length) {
-      setNotificationRecords(data);
-    }
-  }, [dataNotificationRecords]);
 
   // useEffect(() => {
   //   if (publicKey) {
@@ -185,7 +152,7 @@ export function Header() {
           />
         )}
 
-        <Notification data={notificationRecords} />
+        <Notification />
 
         {!publicKey ? (
           <Button
