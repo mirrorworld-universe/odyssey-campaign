@@ -50,6 +50,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
 
   const [signature, setSignature] = useState("");
   const [messageToSign, setMessageToSign] = useState("");
+  const [walletList, setWalletList] = useState(WalletList);
 
   const { data: dataBasicInfo, isLoading: loadingBasicInfo } = useQuery({
     queryKey: ["queryBasicInfo", address],
@@ -117,6 +118,13 @@ export function WalletDialog({ text = "Connect", className }: any) {
     onClose();
   };
 
+  const handleShowMoreWallet = () => {
+    const list = WalletList.map((wallet: any) => {
+      return { ...wallet, hide: false };
+    });
+    setWalletList(list);
+  };
+
   useEffect(() => {
     if (dataBasicInfo) {
       setMessageToSign(dataBasicInfo.data);
@@ -167,63 +175,68 @@ export function WalletDialog({ text = "Connect", className }: any) {
         </DialogHeader>
 
         <ul className="flex gap-8 flex-col w-full mt-12">
-          {WalletList.map((wallet: any) => (
-            <li
-              key={wallet.adapter?.name}
-              //onClick={() => select(wallet.adapter?.name)}
-              className="h-[40px] flex items-center w-full justify-between"
-            >
-              <div
-                className="flex items-center cursor-pointer hover:opacity-80 transition-all"
-                onClick={() => handleWalletSelect(wallet.adapter)}
-              >
-                <img
-                  src={wallet.adapter?.icon}
-                  alt={wallet.adapter?.name}
-                  height={30}
-                  width={30}
-                  className="mr-5 "
-                />
-                <span className="text-[20px] text-white mr-2">
-                  {wallet.adapter?.name}
-                </span>
-                {wallet.isSupportSonic ? <SupportSonicTag /> : null}
-              </div>
+          {walletList.map(
+            (wallet: any) =>
+              !wallet.hide && (
+                <li
+                  key={wallet.adapter?.name}
+                  //onClick={() => select(wallet.adapter?.name)}
+                  className="h-[40px] flex items-center w-full justify-between"
+                >
+                  <div
+                    className="flex items-center cursor-pointer hover:opacity-80 transition-all"
+                    onClick={() => handleWalletSelect(wallet.adapter)}
+                  >
+                    <img
+                      src={wallet.adapter?.icon}
+                      alt={wallet.adapter?.name}
+                      height={30}
+                      width={30}
+                      className="mr-5 "
+                    />
+                    <span className="text-[20px] text-white mr-2">
+                      {wallet.adapter?.name}
+                    </span>
+                    {wallet.isSupportSonic ? <SupportSonicTag /> : null}
+                  </div>
 
-              {wallet.adapter.readyState === WalletReadyState.Installed ? (
-                <div
-                  className={cn(
-                    "inline-flex items-center justify-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
-                    "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
+                  {wallet.adapter.readyState === WalletReadyState.Installed ? (
+                    <div
+                      className={cn(
+                        "inline-flex items-center justify-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
+                        "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
+                      )}
+                      onClick={() => handleWalletSelect(wallet)}
+                    >
+                      <span className="text-white text-base font-orbitron font-bold">
+                        Connect
+                      </span>
+                    </div>
+                  ) : (
+                    <a
+                      className={cn(
+                        "inline-flex items-center justify-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
+                        "border-white/80 hover:border-white"
+                      )}
+                      href={wallet.adapter.url}
+                      target="_blank"
+                    >
+                      <span className="text-white text-base font-orbitron font-bold">
+                        Install
+                      </span>
+                    </a>
                   )}
-                  onClick={() => handleWalletSelect(wallet)}
-                >
-                  <span className="text-white text-base font-orbitron font-bold">
-                    Connect
-                  </span>
-                </div>
-              ) : (
-                <a
-                  className={cn(
-                    "inline-flex items-center justify-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
-                    "border-white/80 hover:border-white"
-                  )}
-                  href={wallet.adapter.url}
-                  target="_blank"
-                >
-                  <span className="text-white text-base font-orbitron font-bold">
-                    Install
-                  </span>
-                </a>
-              )}
+                </li>
+              )
+          )}
+          {walletList.some((wallet: any) => wallet.hide) && (
+            <li
+              className="flex w-full justify-center cursor-pointer hover:opacity-80"
+              onClick={handleShowMoreWallet}
+            >
+              <img src="/images/icons/more.svg" alt="" className="w-6 h-6" />
             </li>
-          ))}
-          {/* <li
-            className="flex w-full justify-center cursor-pointer hover:opacity-80"
-            onClick={handleMoreWallet}
-          >
-            <img src="/images/icons/more.svg" alt="" className="w-6 h-6" />
-          </li> */}
+          )}
           {/* <WalletMultiButton style={{}} /> */}
         </ul>
       </DialogContent>
