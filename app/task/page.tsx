@@ -16,6 +16,8 @@ import { Card, CardSize } from "../components/Card";
 import { HowToPlay } from "../components/Dialog/HowToPlay";
 import { cn } from "@/lib/utils";
 import { useTaskInfo } from "../store/task";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { isSupportSonic } from "../wallet/wallet-list";
 
 const icons: any = {
   twitter: <Twitter width={250} height={250} color="#313131" />,
@@ -29,6 +31,7 @@ const icons: any = {
 const TaskCenter: NextPage = () => {
   const router = useRouter();
   const { address, status, setStatus } = useTaskInfo();
+  const { wallet } = useWallet();
 
   const handleStartTask = () => {
     router.push(
@@ -80,10 +83,14 @@ const TaskCenter: NextPage = () => {
             <div className="flex flex-wrap flex-row gap-10">
               {taskGroup.list.map((task: any, taskIndex: number) => (
                 <Link
-                  href={task.available ? `/task/${task.id}` : "#"}
+                  href={
+                    task.available && isSupportSonic(wallet?.adapter.name)
+                      ? `/task/${task.id}`
+                      : "#"
+                  }
                   className={cn(
                     "group/task",
-                    task.available
+                    task.available && isSupportSonic(wallet?.adapter.name)
                       ? "opacity-100 cursor-pointer"
                       : "opacity-30 cursor-not-allowed"
                   )}
@@ -92,7 +99,9 @@ const TaskCenter: NextPage = () => {
                   <div
                     className={cn(
                       "bg-[#1E1E1E] w-[663px] h-[263px] px-8 py-8 rounded-md transition-colors duration-300 overflow-hidden relative",
-                      task.available ? "group-hover/task:bg-[#181818]" : ""
+                      task.available && isSupportSonic(wallet?.adapter.name)
+                        ? "group-hover/task:bg-[#181818]"
+                        : ""
                     )}
                   >
                     <h5 className="text-white/70 text-[48px] font-semibold font-orbitron">
@@ -114,7 +123,9 @@ const TaskCenter: NextPage = () => {
                     <div
                       className={cn(
                         "origin-center rotate-12 opacity-50 absolute -bottom-4 -right-10 transition-all duration-300",
-                        task.available ? "group-hover/task:-right-14" : ""
+                        task.available && isSupportSonic(wallet?.adapter.name)
+                          ? "group-hover/task:-right-14"
+                          : ""
                       )}
                     >
                       {icons[task.iconName]}

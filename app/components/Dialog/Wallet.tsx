@@ -50,8 +50,6 @@ export function WalletDialog({ text = "Connect", className }: any) {
 
   const [signature, setSignature] = useState("");
   const [messageToSign, setMessageToSign] = useState("");
-  const recommendWalletcList = ["backpack", "nightly", "okx wallet", "phantom"];
-  const supportSonicWalletList = ["backpack", "nightly"];
 
   const { data: dataBasicInfo, isLoading: loadingBasicInfo } = useQuery({
     queryKey: ["queryBasicInfo", address],

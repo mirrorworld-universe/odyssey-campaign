@@ -27,3 +27,12 @@ export const WalletList: any = [
     adapter: new PhantomWalletAdapter(),
   },
 ];
+
+export const isSupportSonic = (walletName: string | undefined) => {
+  if (!walletName) {
+    return false;
+  }
+  return WalletList.find(
+    (wallet: any) => wallet.name.toLowerCase() === walletName.toLowerCase()
+  ).isSupportSonic;
+};
