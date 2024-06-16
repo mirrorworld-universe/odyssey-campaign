@@ -15,8 +15,10 @@ import { Button } from "@/components/ui/button";
 import { Gift } from "@/app/icons/Gift";
 import { useMoreWalletModal } from "@/app/store/tutorials";
 import { useWalletModal } from "@/app/store/account";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export function MoreWalletDialog() {
+  const { publicKey, wallet, signTransaction } = useWallet();
   const { isOpen, onOpen, onClose } = useMoreWalletModal();
   const {
     isOpen: isOpenWalletDialog,
@@ -42,8 +44,10 @@ export function MoreWalletDialog() {
             </span>
           </AlertDialogTitle>
           <AlertDialogDescription className="text-[#717171] text-[16px] text-center mt-4">
-            As Sonic is the first Solana Gaming Layer 2, more wallet support is
-            coming. We recommend using{" "}
+            {wallet?.adapter.name} doesn't support Sonic yet, so you can't
+            complete tasks or claim rewards through this wallet. As Sonic is the
+            first Solana Gaming Layer 2, more wallet support is coming. We
+            recommend using{" "}
             <a
               className="text-[#25A3ED] hover:underline"
               href="https://www.backpack.app/"

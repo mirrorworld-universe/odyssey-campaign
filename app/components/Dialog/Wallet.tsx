@@ -104,6 +104,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
         select(walletName);
         if (wallet.isSupportSonic) {
           onOpenSetUpNetworkWalletDialog();
+        } else {
+          handleMoreWallet();
         }
         onClose();
       } catch (error) {
@@ -218,12 +220,12 @@ export function WalletDialog({ text = "Connect", className }: any) {
               )}
             </li>
           ))}
-          <li
+          {/* <li
             className="flex w-full justify-center cursor-pointer hover:opacity-80"
             onClick={handleMoreWallet}
           >
             <img src="/images/icons/more.svg" alt="" className="w-6 h-6" />
-          </li>
+          </li> */}
           {/* <WalletMultiButton style={{}} /> */}
         </ul>
       </DialogContent>
