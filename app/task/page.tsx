@@ -1,23 +1,28 @@
 "use client";
 import React from "react";
 import { NextPage } from "next";
-import { Button } from "@/components/ui/button";
+import { useWallet } from "@solana/wallet-adapter-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { taskGroupList } from "../data/task";
+import { Chip } from "../icons/Chip";
 import { Twitter } from "../icons/Twitter";
 import { Calendar } from "../icons/Calendar";
-import { Chip } from "../icons/Chip";
 import { Recommand } from "../icons/Recommand";
 import { Diversity } from "../icons/Diversity";
 import { Controller } from "../icons/Controller";
+
+import { Button } from "@/components/ui/button";
 import { Card, CardSize } from "../components/Card";
-import { HowToPlay } from "../components/Dialog/HowToPlay";
-import { cn } from "@/lib/utils";
+import { FAQDialog } from "../components/Dialog/FAQ";
+import { HowToPlayDialog } from "../components/Dialog/HowToPlay";
+
+import { taskGroupList } from "../data/task";
 import { useTaskInfo } from "../store/task";
-import { useWallet } from "@solana/wallet-adapter-react";
 import { isSupportSonic } from "../wallet/wallet-list";
+import { useFAQModal, useHowToPlayModal } from "../store/tutorials";
+
+import { cn } from "@/lib/utils";
 
 const icons: any = {
   twitter: <Twitter width={250} height={250} color="#313131" />,
@@ -32,6 +37,16 @@ const TaskCenter: NextPage = () => {
   const router = useRouter();
   const { address, status, setStatus } = useTaskInfo();
   const { wallet } = useWallet();
+  const {
+    isOpen: isOpenHowToPlayDialog,
+    onOpen: onOpenHowToPlayDialog,
+    onClose: onCloseHowToPlayDialog,
+  } = useHowToPlayModal();
+  const {
+    isOpen: isOpenFAQDialog,
+    onOpen: onOpenFAQDialog,
+    onClose: onCloseFAQDialog,
+  } = useFAQModal();
 
   const handleStartTask = () => {
     router.push(
@@ -39,6 +54,14 @@ const TaskCenter: NextPage = () => {
         ? "/task/check-in"
         : "/task/meet-sonic"
     );
+  };
+
+  const handleOpenHowToPlayDialog = () => {
+    onOpenHowToPlayDialog();
+  };
+
+  const handleOpenFAQDialog = () => {
+    onOpenFAQDialog();
   };
 
   const Header = () => (
@@ -55,7 +78,12 @@ const TaskCenter: NextPage = () => {
         <p className="text-white text-[20px] font-normal mt-5">
           Embark on your Odyssey by completing various tasks! Earn more rings
           along the way!{" "}
-          <span className="text-[#25A3ED] hover:underline">FAQs</span>
+          <span
+            className="text-[#25A3ED] hover:underline cursor-pointer"
+            onClick={handleOpenFAQDialog}
+          >
+            FAQs
+          </span>
         </p>
         <div className="flex flex-row gap-6 mt-16">
           <Button
@@ -64,7 +92,12 @@ const TaskCenter: NextPage = () => {
           >
             Start My Task
           </Button>
-          <HowToPlay />
+          <Button
+            className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] bg-transparent border boder-solid border-white transition-all duration-300"
+            onClick={handleOpenHowToPlayDialog}
+          >
+            How to Play?
+          </Button>
         </div>
       </div>
     </div>
@@ -144,6 +177,10 @@ const TaskCenter: NextPage = () => {
     <main className="bg-[#111111] flex min-h-screen flex-col items-center justify-between">
       <Header />
       <MainContent />
+
+      {/* dialogs */}
+      <HowToPlayDialog />
+      <FAQDialog />
     </main>
   );
 };

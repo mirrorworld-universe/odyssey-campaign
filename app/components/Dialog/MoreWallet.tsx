@@ -44,26 +44,30 @@ export function MoreWalletDialog() {
             </span>
           </AlertDialogTitle>
           <AlertDialogDescription className="text-[#717171] text-[16px] text-center mt-4">
-            {wallet?.adapter.name} doesn't support Sonic yet, so you can't
-            complete tasks or claim rewards through this wallet. As Sonic is the
-            first Solana Gaming Layer 2, more wallet support is coming. We
-            recommend using{" "}
-            <a
-              className="text-[#25A3ED] hover:underline"
-              href="https://www.backpack.app/"
-              target="_blank"
-            >
-              Backpack
-            </a>{" "}
-            or{" "}
-            <a
-              className="text-[#25A3ED] hover:underline"
-              href="https://nightly.app/"
-              target="_blank"
-            >
-              Nightly
-            </a>{" "}
-            wallets for now. Your support will enrich the Solana ecosystem!
+            <p>
+              {wallet?.adapter.name} doesn't support Sonic yet, so you can't
+              complete tasks or claim rewards through this wallet.{" "}
+            </p>
+            <p>
+              As Sonic is the first Solana Gaming Layer 2, more wallet support
+              is coming. We recommend using{" "}
+              <a
+                className="text-[#25A3ED] hover:underline"
+                href="https://www.backpack.app/"
+                target="_blank"
+              >
+                Backpack
+              </a>{" "}
+              or{" "}
+              <a
+                className="text-[#25A3ED] hover:underline"
+                href="https://nightly.app/"
+                target="_blank"
+              >
+                Nightly
+              </a>{" "}
+              wallets for now. Your support will enrich the Solana ecosystem!
+            </p>
           </AlertDialogDescription>
         </AlertDialogHeader>
 

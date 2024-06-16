@@ -14,15 +14,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Gift } from "@/app/icons/Gift";
 import { Ring } from "@/app/icons/Ring";
+import { useHowToPlayModal } from "@/app/store/tutorials";
 
-export function HowToPlay() {
+export function HowToPlayDialog() {
+  const { isOpen, onOpen, onClose } = useHowToPlayModal();
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] bg-transparent border boder-solid border-white transition-all duration-300">
-          How to Play?
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="w-[813px] h-[643px] bg-[#1A1A1A] border-none px-8 py-8">
         <DialogHeader className="space-y-0">
           <DialogTitle className="text-white text-[32px] font-orbitron">

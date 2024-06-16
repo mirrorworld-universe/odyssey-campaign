@@ -29,6 +29,12 @@ export function SetUpSonicNetworkDialog() {
     onClose: onCloseSetUpFinishWalletDialog,
   } = useSetUpFinishModal();
 
+  const setUpUrls: any = {
+    nightly: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
+    backpack:
+      "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
+  };
+
   const handleConfirm = () => {
     onOpenSetUpFinishWalletDialog();
     onClose();
@@ -62,7 +68,9 @@ export function SetUpSonicNetworkDialog() {
             <li className="s">
               Open this{" "}
               <a
-                href=""
+                href={
+                  setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]
+                }
                 target="_blank"
                 className="text-[#25A3ED] hover:underline"
               >

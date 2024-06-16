@@ -137,7 +137,7 @@ export function UserDropdown() {
 
         <a
           className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5"
-          href={`https://explorer.sonic.game/${address}`}
+          href={`https://explorer.sonic.game/address/${address}`}
           target="_blank"
         >
           <img src="/images/description.svg" alt="" className="w-5 h-5 mr-3" />
