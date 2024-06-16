@@ -5,7 +5,7 @@ import {
 import { BackpackWalletAdapter } from "./backpack-adapter";
 import { OKXWalletAdapter } from "./okx-adapter";
 
-export const WalletList = [
+export const WalletList: any = [
   {
     name: "Backpack",
     isSupportSonic: true,

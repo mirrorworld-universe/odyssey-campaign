@@ -16,6 +16,7 @@ import {
   useWalletModal,
 } from "../store/account";
 import { fetchLogout } from "../data/account";
+import { WalletList } from "../wallet/wallet-list";
 
 export function UserDropdown() {
   const { connection } = useConnection();
@@ -27,7 +28,7 @@ export function UserDropdown() {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [balance, setBalance] = useState<number | null>(null);
 
-  const setUpUrls = {
+  const setUpUrls: any = {
     nightly: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
     backpack:
       "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
@@ -133,6 +134,7 @@ export function UserDropdown() {
             </div>
           </div>
         </div>
+
         <a
           className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5"
           href={`https://explorer.sonic.game/${address}`}
@@ -143,12 +145,23 @@ export function UserDropdown() {
             Tx History
           </span>
         </a>
-        <div className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5">
-          <img src="/images/settings.svg" alt="" className="w-5 h-5 mr-3" />
-          <span className="text-white text-[14px] font-semibold font-orbitron">
-            Set up Network
-          </span>
-        </div>
+
+        {WalletList.find(
+          (item: any) =>
+            item.name.toLowerCase() === wallet?.adapter.name.toLowerCase()
+        ).isSupportSonic && (
+          <a
+            className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5"
+            href={setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]}
+            target="_blank"
+          >
+            <img src="/images/settings.svg" alt="" className="w-5 h-5 mr-3" />
+            <span className="text-white text-[14px] font-semibold font-orbitron">
+              Set up Network
+            </span>
+          </a>
+        )}
+
         <div
           className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5"
           onClick={handleDisconnect}
