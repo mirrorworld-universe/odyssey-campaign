@@ -251,7 +251,7 @@ export function MysteryBoxConfirmDialog() {
           </Button>
 
           <Button
-            className="w-full height-[48px] bg-transparent hover:bg-transparent text-white/50 font-orbitron"
+            className="w-full h-[48px] bg-transparent hover:bg-transparent text-white/50 font-orbitron"
             onClick={onClose}
           >
             Cancel

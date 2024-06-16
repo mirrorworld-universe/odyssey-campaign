@@ -65,13 +65,13 @@ export function MoreWalletDialog() {
 
         <div className="flex flex-col gap-4 mt-12">
           <Button
-            className="w-full height-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300"
+            className="w-full h-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300"
             onClick={handleSwitchWallet}
           >
             Switch Wallet
           </Button>
           <Button
-            className="w-full height-[48px] bg-transparent hover:bg-transparent text-white/50 font-orbitron"
+            className="w-full h-[48px] bg-transparent hover:bg-transparent text-white/50 font-orbitron"
             onClick={onClose}
           >
             Cancel

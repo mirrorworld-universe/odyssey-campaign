@@ -43,7 +43,7 @@ export function MysteryBoxResultDialog() {
 
         <div className="flex flex-col gap-12 mt-12">
           <Button
-            className="w-full height-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300"
+            className="w-full h-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300"
             onClick={handleConfirm}
           >
             Confirm

@@ -14,35 +14,30 @@ import {
   NightlyWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 
-// Default styles that can be overridden by your app
-require("@solana/wallet-adapter-react-ui/styles.css");
-
 export default function AppWalletProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // const [network, setNetwork] = useState("https://devnet.sonic.game");
-  const network = WalletAdapterNetwork.Devnet;
-
   const customRpcUrl = "https://devnet.sonic.game";
+  const [network, setNetwork] = useState(customRpcUrl);
+  // const network = WalletAdapterNetwork.Devnet;
 
-  const connection = new Connection(customRpcUrl, { commitment: "confirmed" });
-
-  // const endpoint = useMemo(() => clusterApiUrl('https://devnet.sonic.game'), [network]);
-
+  // const connection = new Connection(customRpcUrl, { commitment: "confirmed" });
   // const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  const endpoint = useMemo(() => customRpcUrl, [network]);
+
   const wallets = useMemo(
     () => [
       // manually add any legacy wallet adapters here
+      new NightlyWalletAdapter(),
       // new PhantomWalletAdapter(),
-      // new NightlyWalletAdapter(),
     ],
     [network]
   );
 
   return (
-    <ConnectionProvider endpoint={customRpcUrl}>
+    <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>

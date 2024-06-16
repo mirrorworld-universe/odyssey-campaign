@@ -14,6 +14,8 @@ import { MysteryBoxRecordDialog } from "./components/Dialog/MysteryBoxRecord";
 import { MysteryBoxResultDialog } from "./components/Dialog/MysteryBoxResult";
 import { WelcomeDialog } from "./components/Dialog/Welcome";
 import { MoreWalletDialog } from "./components/Dialog/MoreWallet";
+import { SetUpSonicNetworkDialog } from "./components/Dialog/SetUpSonicNetwork";
+import { SetUpFinishDialog } from "./components/Dialog/SetUpFinish";
 
 const manrope = Manrope({
   weight: ["400", "500"],
@@ -80,6 +82,8 @@ export default function RootLayout({
             {/* wallet dialog */}
             <WalletDialog />
             <MoreWalletDialog />
+            <SetUpSonicNetworkDialog />
+            <SetUpFinishDialog />
 
             {/* welcome dialog */}
             <WelcomeDialog />

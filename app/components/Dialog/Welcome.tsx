@@ -51,7 +51,7 @@ export function WelcomeDialog() {
         </div>
         <div className="flex flex-col gap-12 mt-12">
           <Button
-            className="w-full height-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-[16px] font-bold font-orbitron transition-colors duration-300"
+            className="w-full h-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-[16px] font-bold font-orbitron transition-colors duration-300"
             onClick={handleConfirm}
           >
             Get Started

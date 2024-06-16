@@ -25,7 +25,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { useMoreWalletModal } from "@/app/store/tutorials";
+import {
+  useMoreWalletModal,
+  useSetUpNetworkModal,
+} from "@/app/store/tutorials";
+import { WalletList } from "@/app/wallet/wallet-list";
 
 export function WalletDialog({ text = "Connect", className }: any) {
   const { select, wallets, publicKey, disconnect, connecting, signMessage } =
@@ -38,6 +42,11 @@ export function WalletDialog({ text = "Connect", className }: any) {
     onOpen: onOpenMoreWalletDialog,
     onClose: onCloseMoreWalletDialog,
   } = useMoreWalletModal();
+  const {
+    isOpen: isOpenSetUpNetworkWalletDialog,
+    onOpen: onOpenSetUpNetworkWalletDialog,
+    onClose: onCloseSetUpNetworkWalletDialog,
+  } = useSetUpNetworkModal();
 
   const [signature, setSignature] = useState("");
   const [messageToSign, setMessageToSign] = useState("");
@@ -88,12 +97,15 @@ export function WalletDialog({ text = "Connect", className }: any) {
   //   }
   // };
 
-  const handleWalletSelect = async (walletAdapter: any) => {
-    const walletName = walletAdapter.name;
+  const handleWalletSelect = async (wallet: any) => {
+    const walletName = wallet.adapter.name;
     if (walletName) {
       try {
         select(walletName);
-        // onClose();
+        if (wallet.isSupportSonic) {
+          onOpenSetUpNetworkWalletDialog();
+        }
+        onClose();
       } catch (error) {
         console.log("wallet connection err : ", error);
       }
@@ -155,10 +167,10 @@ export function WalletDialog({ text = "Connect", className }: any) {
         </DialogHeader>
 
         <ul className="flex gap-8 flex-col w-full mt-12">
-          {wallets.map((wallet) => (
+          {WalletList.map((wallet) => (
             <li
-              key={wallet.adapter.name}
-              //onClick={() => select(wallet.adapter.name)}
+              key={wallet.adapter?.name}
+              //onClick={() => select(wallet.adapter?.name)}
               className="h-[40px] flex items-center w-full justify-between"
             >
               <div
@@ -166,36 +178,44 @@ export function WalletDialog({ text = "Connect", className }: any) {
                 onClick={() => handleWalletSelect(wallet.adapter)}
               >
                 <img
-                  src={wallet.adapter.icon}
-                  alt={wallet.adapter.name}
+                  src={wallet.adapter?.icon}
+                  alt={wallet.adapter?.name}
                   height={30}
                   width={30}
                   className="mr-5 "
                 />
                 <span className="text-[20px] text-white mr-2">
-                  {wallet.adapter.name}
+                  {wallet.adapter?.name}
                 </span>
-                {supportSonicWalletList.indexOf(
-                  wallet.adapter.name.toLowerCase()
-                ) > -1 ? (
-                  <SupportSonicTag />
-                ) : null}
+                {wallet.isSupportSonic ? <SupportSonicTag /> : null}
               </div>
 
-              <div
-                className={`inline-flex items-center justify-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border transition-all ${
-                  wallet.readyState === WalletReadyState.Installed
-                    ? "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
-                    : "border-white/80 hover:border-white"
-                }`}
-                onClick={() => handleWalletSelect(wallet.adapter)}
-              >
-                <span className="text-white text-base font-orbitron font-bold">
-                  {wallet.readyState === WalletReadyState.Installed
-                    ? "Connect"
-                    : "Install"}
-                </span>
-              </div>
+              {wallet.adapter.readyState === WalletReadyState.Installed ? (
+                <div
+                  className={cn(
+                    "inline-flex items-center justify-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
+                    "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
+                  )}
+                  onClick={() => handleWalletSelect(wallet)}
+                >
+                  <span className="text-white text-base font-orbitron font-bold">
+                    Connect
+                  </span>
+                </div>
+              ) : (
+                <a
+                  className={cn(
+                    "inline-flex items-center justify-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
+                    "border-white/80 hover:border-white"
+                  )}
+                  href={wallet.adapter.url}
+                  target="_blank"
+                >
+                  <span className="text-white text-base font-orbitron font-bold">
+                    Install
+                  </span>
+                </a>
+              )}
             </li>
           ))}
           <li
