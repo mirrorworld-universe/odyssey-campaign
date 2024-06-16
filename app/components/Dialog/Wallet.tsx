@@ -167,7 +167,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
         </DialogHeader>
 
         <ul className="flex gap-8 flex-col w-full mt-12">
-          {WalletList.map((wallet) => (
+          {WalletList.map((wallet: any) => (
             <li
               key={wallet.adapter?.name}
               //onClick={() => select(wallet.adapter?.name)}
