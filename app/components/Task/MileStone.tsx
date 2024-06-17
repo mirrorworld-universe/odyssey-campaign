@@ -17,7 +17,6 @@ export function MileStone() {
   const [transactionAmount, setTransactionAmount] = useState(0);
   const [claimStage, setClaimStage] = useState(1);
   const [stageList, setStageList] = useState<any>({});
-  const [hasChecked, setHasChecked] = useState(true);
 
   const { address, token } = useAccountInfo();
 
@@ -36,7 +35,7 @@ export function MileStone() {
           ...stageList,
           ...{
             [Object.keys(stageList)[claimStage - 1]]: {
-              ...stageList[claimStage - 1],
+              ...stageList[Object.keys(stageList)[claimStage - 1]],
               ...{ claimed: true },
             },
           },
@@ -150,8 +149,8 @@ export function MileStone() {
                   <Button
                     className={`w-[177px] h-[48px] text-white text-[16px] font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300 ${
                       transactionAmount < stageList[stageKey].quantity
-                        ? "hover:bg-[#0000FF] opacity-30"
-                        : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+                        ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
+                        : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
                     }`}
                     onClick={() => handleClaimGifts(stageKey, stageIndex)}
                   >
