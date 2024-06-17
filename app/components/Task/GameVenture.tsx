@@ -7,25 +7,25 @@ import { Card, CardSize } from "../Card";
 export function GameVenture() {
   const games = [
     {
-      name: "",
+      name: "Lumittera",
       cover: "/images/games/a.jpg",
       guide: "",
       play: "",
     },
     {
-      name: "",
+      name: "SuperMan",
       cover: "/images/games/b.jpg",
       guide: "",
       play: "",
     },
     {
-      name: "",
+      name: "Biu",
       cover: "/images/games/c.jpg",
       guide: "",
       play: "",
     },
     {
-      name: "",
+      name: "Crazy",
       cover: "/images/games/d.jpg",
       guide: "",
       play: "",
@@ -48,60 +48,76 @@ export function GameVenture() {
       {/* main */}
       <div className="w-full flex flex-row flex-wrap justify-between gap-10 mt-20">
         {games.map((game) => (
-          <div className="w-[492px] h-[263px] flex relative">
+          <div className="group/game w-[492px] h-[263px] flex rounded-[8px] overflow-hidden relative">
             <img
-              className="w-full h-full rounded-[8px] overflow-hidden"
+              className="w-full h-full group-hover/game:scale-110 transition-transform duration-300"
               src={game.cover}
               alt=""
             />
-            <p className="w-full flex flex-row justify-center gap-6 absolute top-[140px] left-0 right-0 bottom-0">
-              <a
-                className="group h-8 inline-flex flex-row items-center gap-1"
-                href={game.guide}
-                target="_blank"
-              >
-                <span className="inline-flex w-8 h-8 relative">
-                  <IconLink
-                    width={32}
-                    height={32}
-                    color="#25A3ED"
-                    className="absolute"
-                  />
-                  <IconLink
-                    width={32}
-                    height={32}
-                    color="white"
-                    className="absolute group-hover:opacity-0 transition-opacity"
-                  />
-                </span>
-                <span className="text-white group-hover:text-[#25A3ED] text-[20px] font-semibold font-orbitron transition-colors">
-                  Guide
-                </span>
-              </a>
-              <a
-                className="group h-8 inline-flex flex-row items-center gap-1"
-                href={game.play}
-                target="_blank"
-              >
-                <span className="inline-flex w-8 h-8 relative">
-                  <IconPlay
-                    width={32}
-                    height={32}
-                    color="#25A3ED"
-                    className="absolute"
-                  />
-                  <IconPlay
-                    width={32}
-                    height={32}
-                    color="white"
-                    className="absolute group-hover:opacity-0 transition-opacity"
-                  />
-                </span>
-                <span className="text-white group-hover:text-[#25A3ED] text-[20px] font-semibold font-orbitron transition-colors">
-                  Play
-                </span>
-              </a>
-            </p>
+
+            <div className="w-full bg-[#0000FF]/80 absolute top-0 left-0 right-0 bottom-0 opacity-0 group-hover/game:opacity-100 transition-opacity duration-300">
+              <img
+                className="absolute top-0 bottom-0 -left-2 m-auto group-hover/game:left-4 transition-all duration-300"
+                src="/images/icons/arrow-polygon.svg"
+                alt=""
+              />
+              <img
+                className="absolute top-0 bottom-0 -right-2 m-auto group-hover/game:right-4 transition-all duration-300 rotate-180"
+                src="/images/icons/arrow-polygon.svg"
+                alt=""
+              />
+              <h6 className="text-white text-[48px] font-bold font-orbitron text-center mt-20 translate-y-2 group-hover/game:translate-y-0 transition-transform duration-300">
+                {game.name}
+              </h6>
+              <p className="flex flex-row justify-center gap-6 mt-5 translate-y-2 group-hover/game:translate-y-0 transition-transform duration-300">
+                <a
+                  className="group/link h-8 inline-flex flex-row items-center gap-1"
+                  href={game.guide}
+                  target="_blank"
+                >
+                  <span className="inline-flex w-8 h-8 relative">
+                    <IconLink
+                      width={32}
+                      height={32}
+                      color="#25A3ED"
+                      className="absolute"
+                    />
+                    <IconLink
+                      width={32}
+                      height={32}
+                      color="white"
+                      className="absolute group-hover/link:opacity-0 transition-opacity"
+                    />
+                  </span>
+                  <span className="text-white group-hover/link:text-[#25A3ED] text-[20px] font-semibold font-orbitron transition-colors">
+                    Guide
+                  </span>
+                </a>
+                <a
+                  className="group/link h-8 inline-flex flex-row items-center gap-1"
+                  href={game.play}
+                  target="_blank"
+                >
+                  <span className="inline-flex w-8 h-8 relative">
+                    <IconPlay
+                      width={32}
+                      height={32}
+                      color="#25A3ED"
+                      className="absolute"
+                    />
+                    <IconPlay
+                      width={32}
+                      height={32}
+                      color="white"
+                      className="absolute group-hover/link:opacity-0 transition-opacity"
+                    />
+                  </span>
+                  <span className="text-white group-hover/link:text-[#25A3ED] text-[20px] font-semibold font-orbitron transition-colors">
+                    Play
+                  </span>
+                </a>
+              </p>
+            </div>
           </div>
         ))}
       </div>
