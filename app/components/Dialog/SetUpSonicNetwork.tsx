@@ -77,8 +77,7 @@ export function SetUpSonicNetworkDialog() {
                 network settings doc
               </a>
             </li>
-            <li>Setup Sonic network</li>
-            <li>Waiting for confirmation</li>
+            <li>Manually set up Sonic network</li>
           </ul>
         </div>
         <div className="flex flex-col gap-12 mt-12">
