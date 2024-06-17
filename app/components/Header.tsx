@@ -22,7 +22,7 @@ export const menu: any[] = [
   },
   {
     name: "Odyssey Guide",
-    link: "#",
+    link: "https://blog.sonic.game/sonic-testnet-odyssey-guide",
     target: "_blank",
   },
   {

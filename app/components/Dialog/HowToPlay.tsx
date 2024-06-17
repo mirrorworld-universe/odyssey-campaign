@@ -28,7 +28,14 @@ export function HowToPlayDialog() {
           </DialogTitle>
           <DialogDescription className="text-white/60 text-[16px]">
             Ensure you successfully switch the network in your wallet to Sonic.
-            Check <span className="text-[#25A3ED] hover:underline">guides</span>
+            Check{" "}
+            <a
+              className="text-[#25A3ED] hover:underline"
+              href="https://blog.sonic.game/sonic-testnet-odyssey-guide"
+              target="_blank"
+            >
+              guides
+            </a>
             .
           </DialogDescription>
         </DialogHeader>
@@ -73,13 +80,12 @@ export function HowToPlayDialog() {
           <div className="w-full flex flex-row h-[96px] pl-[70px]">
             <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px]">
               In the{" "}
-              <a
+              <span
                 className="text-[#25A3ED] hover:underline"
-                href="/task"
-                target="_blank"
+                onClick={onClose}
               >
                 task center
-              </a>
+              </span>
               , complete tasks to receive corresponding mystery boxes.
             </p>
           </div>

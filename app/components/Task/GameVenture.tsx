@@ -13,19 +13,19 @@ export function GameVenture() {
       play: "",
     },
     {
-      name: "SuperMan",
+      name: "FoMoney",
       cover: "/images/games/b.jpg",
       guide: "",
       play: "",
     },
+    // {
+    //   name: "Biu",
+    //   cover: "/images/games/c.jpg",
+    //   guide: "",
+    //   play: "",
+    // },
     {
-      name: "Biu",
-      cover: "/images/games/c.jpg",
-      guide: "",
-      play: "",
-    },
-    {
-      name: "Crazy",
+      name: "JOGO JOGO",
       cover: "/images/games/d.jpg",
       guide: "",
       play: "",
