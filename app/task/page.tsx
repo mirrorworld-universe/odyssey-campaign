@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { NextPage } from "next";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Link from "next/link";
@@ -63,6 +63,16 @@ const TaskCenter: NextPage = () => {
   const handleOpenFAQDialog = () => {
     onOpenFAQDialog();
   };
+
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (hash && hash === "how-to-play") {
+      onOpenHowToPlayDialog();
+    }
+    if (hash && hash === "faq") {
+      onOpenFAQDialog();
+    }
+  }, []);
 
   const Header = () => (
     <div className="bg-[#000] w-full h-[411px] flex justify-center py-24 overflow-hidden relative">

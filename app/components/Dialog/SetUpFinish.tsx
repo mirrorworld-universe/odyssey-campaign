@@ -44,7 +44,7 @@ export function SetUpFinishDialog() {
             have any questions, feel free to check out our{" "}
             <a
               className="text-[#25A3ED] hover:underline"
-              href="/task#howtoplay"
+              href="/task#how-to-play"
               target="_blank"
             >
               beginner's guide

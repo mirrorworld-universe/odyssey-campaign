@@ -65,7 +65,7 @@ export function FAQDialog() {
               value={`item-${faqIndex + 1}`}
               className="border-white/10 px-8 py-4 data-[state=open]:py-8"
             >
-              <AccordionTrigger className="text-white text-[18px] font-semibold font-orbitron data-[state=open]:text-[#FBB042]">
+              <AccordionTrigger className="text-white text-[18px] font-semibold font-orbitron data-[state=open]:text-[#FBB042] outline-none">
                 {faq.title}
               </AccordionTrigger>
               <AccordionContent className="text-white/60 text-[16px]">
