@@ -26,6 +26,7 @@ import {
   useMysteryBoxConfirmModal,
   useMysteryBoxRecordModal,
 } from "../store/task";
+import { isSupportSonic } from "../wallet/wallet-list";
 
 export default function RingPopover({
   ring = 0,
@@ -33,6 +34,7 @@ export default function RingPopover({
   onOpenMysteryBox,
 }: any) {
   const { address, token } = useAccountInfo();
+  const { wallet } = useWallet();
   const {
     isOpen: isOpenConfirmModal,
     onOpen: onOpenConfirmModal,
@@ -138,14 +140,18 @@ export default function RingPopover({
 
           {/* open mystery box button */}
           <Button
-            disabled={!canOpenMysteryBox || isOpeningMysterybox}
+            disabled={
+              !canOpenMysteryBox ||
+              isOpeningMysterybox ||
+              !isSupportSonic(wallet?.adapter.name)
+            }
             className={cn(
-              "transition-all duration-300  cursor-pointer",
-              !canOpenMysteryBox
+              "transition-all duration-300",
+              !canOpenMysteryBox || !isSupportSonic(wallet?.adapter.name)
                 ? "bg-[#888888] hover:bg-[#888888] cursor-not-allowed"
                 : isOpeningMysterybox
-                ? "bg-[#0000FF] hover:bg-[#0000FF]/80 opacity-60"
-                : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+                ? "bg-[#0000FF] hover:bg-[#0000FF]/80 opacity-60 cursor-not-allowed"
+                : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
             )}
             onClick={handleOpenMysterybox}
           >
