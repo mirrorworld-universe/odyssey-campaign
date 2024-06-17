@@ -96,7 +96,7 @@ export function CheckIn() {
       const result = await confirmTransaction(
         connection,
         transactionHash,
-        "finalized"
+        "confirmed"
       );
 
       if (result.value.err) {
