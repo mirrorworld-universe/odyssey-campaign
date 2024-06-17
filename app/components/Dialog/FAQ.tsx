@@ -53,14 +53,19 @@ export function FAQDialog() {
           </DialogTitle>
         </DialogHeader>
 
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full"
+          defaultValue="item-1"
+        >
           {faqList.map((faq: any, faqIndex: number) => (
             <AccordionItem
               key={faqIndex}
               value={`item-${faqIndex + 1}`}
-              className="border-white/10 px-8 py-4"
+              className="border-white/10 px-8 py-4 data-[state=open]:py-8"
             >
-              <AccordionTrigger className="text-white text-[18px] font-semibold font-orbitron">
+              <AccordionTrigger className="text-white text-[18px] font-semibold font-orbitron data-[state=open]:text-[#FBB042]">
                 {faq.title}
               </AccordionTrigger>
               <AccordionContent className="text-white/60 text-[16px]">
