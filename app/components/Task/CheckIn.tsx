@@ -141,8 +141,20 @@ export function CheckIn() {
       if (data.checked) {
         setHasChecked(true);
         refetchCheckInInfo();
+        const rewards =
+          Math.ceil((data.accumulative_days || 1) / (totalDays / 2)) || 1;
         toast({
-          description: "Checked in successfully.",
+          title: '"Check-in" task completed.',
+          description: (
+            <p className="block">
+              You've received{" "}
+              <span className="inline-flex items-center text-[#FBB042]">
+                {rewards} x mystery {rewards === 1 ? "box" : "boxes"}
+                <Gift color="#FBB042" className="mx-[4px]" />
+              </span>
+              . Open it in the navbar to exchange for rings.
+            </p>
+          ),
         });
       }
     },

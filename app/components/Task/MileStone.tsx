@@ -31,18 +31,29 @@ export function MileStone() {
     mutationFn: () => claimMilestoneRewards({ token, stage: claimStage }),
     onSuccess: ({ data, status }) => {
       if (data.claimed) {
+        const currentStageKey = Object.keys(stageList)[claimStage - 1];
         setStageList({
           ...stageList,
           ...{
-            [Object.keys(stageList)[claimStage - 1]]: {
-              ...stageList[Object.keys(stageList)[claimStage - 1]],
+            [currentStageKey]: {
+              ...stageList[currentStageKey],
               ...{ claimed: true },
             },
           },
         });
         toast({
-          title: "Congratulations",
-          description: "Claimed successfully.",
+          title: '"TX Milestone" task completed.',
+          description: (
+            <p className="block">
+              You completed {stageList[currentStageKey].quantity} transactions
+              milestone today and received{" "}
+              <span className="inline-flex items-center text-[#FBB042]">
+                {stageList[currentStageKey].rewards} x mystery boxes
+                <Gift color="#FBB042" className="mx-[4px]" />
+              </span>
+              . Open it in the navbar to exchange for rings.
+            </p>
+          ),
         });
       }
     },

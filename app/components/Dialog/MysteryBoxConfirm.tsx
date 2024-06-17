@@ -151,7 +151,17 @@ export function MysteryBoxConfirmDialog() {
       if (data.success) {
         setMysteryBoxRewardsAmount(data.amount);
         toast({
-          description: "The Mystery Box has been opened successfully.",
+          title: "Open Mystery Box",
+          description: (
+            <p className="block">
+              You've received{" "}
+              <span className="inline-flex items-center text-[#FBB042]">
+                {data.amount} x ring {data.amount === 1 ? "" : "s"}
+                <Ring color="#FBB042" className="mx-[4px]" />
+              </span>
+              . Collect more rings in the Sonic Odyssey!
+            </p>
+          ),
         });
         onOpenResultModal();
         onClose();
