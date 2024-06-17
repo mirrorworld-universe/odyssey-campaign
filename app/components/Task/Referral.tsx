@@ -62,8 +62,7 @@ export function Referral() {
           <li className="">
             For each successfully invited friend, you will receive{" "}
             <span className="inline-flex items-center text-[#FBB042]">
-              4 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
-              Boxes
+              1 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery Box
             </span>{" "}
             automatically.
           </li>
