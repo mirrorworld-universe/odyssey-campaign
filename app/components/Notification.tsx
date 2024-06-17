@@ -10,8 +10,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getNotificationRecords } from "../data/account";
 import { useAccountInfo } from "../store/account";
 
+const maxAmount = 5;
+
 export default function Notification({ data }: any) {
-  const { address, token, reset } = useAccountInfo();
+  const {
+    address,
+    token,
+    reset,
+    hasNews,
+    setNews: hasNotification,
+  } = useAccountInfo();
 
   const [showPanel, setShowPanel] = useState(false);
   const [list, setList] = useState([]);
@@ -24,27 +32,41 @@ export default function Notification({ data }: any) {
     queryKey: ["queryUserNotificationRecords", address],
     queryFn: () => getNotificationRecords({ token }),
     enabled: !!token,
-    refetchInterval: 10 * 1000,
+    refetchInterval: 3 * 1000,
   });
 
-  // useEffect(() => {
-  //   setList(data);
-  // }, [data]);
+  useEffect(() => {
+    if (popoverOpen) {
+      hasNotification(false);
+    }
+  }, [popoverOpen]);
 
   useEffect(() => {
     const data = dataNotificationRecords?.data;
-    if (data?.length) {
-      setList(data);
+    if (list.length) {
+      hasNotification(true);
     }
-  }, [dataNotificationRecords]);
+    if (data?.length) {
+      setList(data.slice(0, maxAmount));
+    }
+  }, [JSON.stringify(dataNotificationRecords?.data)]);
 
   const handleToggleShowPanel = () => {
     setShowPanel(!showPanel);
   };
 
   const NotificationIcon = () => (
-    <div className="cursor-pointer" onClick={handleToggleShowPanel}>
+    <div
+      className="w-6 h-6 cursor-pointer relative"
+      onClick={handleToggleShowPanel}
+    >
       <img className="w-6 h-6" src="/images/notifications.png" alt="" />
+      {hasNews && (
+        <span className="flex h-[12px] w-[12px] absolute top-0 right-0">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FBB042]/80 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-[12px] w-[12px] bg-[#FBB042] border-[2px] border-solid border-[#111111]"></span>
+        </span>
+      )}
     </div>
   );
 
@@ -58,7 +80,10 @@ export default function Notification({ data }: any) {
     return (
       <>
         {list.map((item: any, index: number) => (
-          <div className="flex flex-col gap-1 px-4 py-3 text-[12px] bg-[#1A1A1A] hover:bg-white/5 transition-opacity">
+          <div
+            key={index}
+            className="flex flex-col gap-1 px-4 py-3 text-[12px] bg-[#1A1A1A] hover:bg-white/5 transition-opacity"
+          >
             <p className="text-white">{item.text}</p>
             <span className="text-white/50">{item.date}</span>
           </div>
