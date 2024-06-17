@@ -119,7 +119,10 @@ export function MileStone() {
             <ul className="w-full flex flex-row justify-between text-white/50 text-[24px] font-semibold font-orbitron absolute -top-6">
               {Object.keys(stageList).map(
                 (stageKey: string, stageIndex: number) => (
-                  <li className="rounded-[50%] border-[8px] border-solid border-[#222222] mx-[52px]">
+                  <li
+                    key={stageIndex}
+                    className="rounded-[50%] border-[8px] border-solid border-[#222222] mx-[52px]"
+                  >
                     {transactionAmount < stageList[stageKey].quantity ? (
                       <span className="w-[48px] h-[48px] inline-flex justify-center items-center text-white text-xl font-bold bg-[#4C4C4C] rounded-[50%]">
                         {stageList[stageKey].quantity}
@@ -138,7 +141,10 @@ export function MileStone() {
             {Object.keys(stageList).map(
               (stageKey: string, stageIndex: number) =>
                 stageList[stageKey].claimed ? (
-                  <p className="text-[20px] text-white font-orbitron font-semibold">
+                  <p
+                    key={stageIndex}
+                    className="text-[20px] text-white font-orbitron font-semibold"
+                  >
                     Received:{" "}
                     <span className="inline-flex items-center text-[#FBB042] font-orbitron">
                       x {stageList[stageKey].rewards}{" "}
@@ -147,6 +153,7 @@ export function MileStone() {
                   </p>
                 ) : (
                   <Button
+                    key={stageIndex}
                     className={`w-[177px] h-[48px] text-white text-[16px] font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300 ${
                       transactionAmount < stageList[stageKey].quantity
                         ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"

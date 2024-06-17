@@ -1,23 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useLatest, useMount } from "react-use";
 import Link from "next/link";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 
 import Notification from "./Notification";
-import {
-  formatAddress,
-  useAccountInfo,
-  useWalletModal,
-} from "../store/account";
-import { getUserRewardInfo } from "../data/account";
+import { useAccountInfo, useWalletModal } from "../store/account";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
-import { useMysteryBoxInfo } from "../store/task";
 
 export const menu: any[] = [
   {
@@ -45,33 +35,7 @@ export const menu: any[] = [
 export function Header() {
   const { isOpen, onOpen } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
-  const { mysteryBoxAmount, setMysteryBoxAmount } = useMysteryBoxInfo();
-
   const { address, token, reset } = useAccountInfo();
-  const [ringAmount, setRingAmount] = useState(0);
-  const [ringMonitorAmount, setRingMonitorAmount] = useState(0);
-  const [walletBalance, setWalletBalance] = useState(0);
-
-  const {
-    data: dataRewardsInfo,
-    isLoading: loadingRewardsInfo,
-    refetch: refetchRewardsInfo,
-  } = useQuery({
-    queryKey: ["queryUserRewardsInfo", address],
-    queryFn: () => getUserRewardInfo({ token }),
-    enabled: !!token,
-  });
-
-  useEffect(() => {
-    const data = dataRewardsInfo?.data;
-    if (data) {
-      const { wallet_balance, ring, ring_monitor } = data;
-      setWalletBalance(wallet_balance);
-      setRingAmount(ring);
-      setRingMonitorAmount(ring_monitor);
-      setMysteryBoxAmount(ring_monitor);
-    }
-  }, [dataRewardsInfo]);
 
   // useEffect(() => {
   //   if (publicKey) {
@@ -131,28 +95,9 @@ export function Header() {
 
       {/* right */}
       <div className="gap-12 flex items-center">
-        {/* <span className="text-white">- Monitor</span>
-        <span className="text-white">- Rings</span> */}
-        {/* <Select>
-          <SelectTrigger aria-label="User menu" id="user-menu">
-            <SelectValue placeholder="Get Started" />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectItem value="profile">Profile</SelectItem>
-            <SelectItem value="settings">Settings</SelectItem>
-            <SelectItem value="logout">Logout</SelectItem>
-          </SelectContent>
-        </Select> */}
+        {address && token ? <RingPopover /> : null}
 
-        {address && token && (
-          <RingPopover
-            ring={ringAmount}
-            ringMonitor={ringMonitorAmount}
-            onOpenMysteryBox={() => refetchRewardsInfo()}
-          />
-        )}
-
-        <Notification />
+        {address && token ? <Notification /> : null}
 
         {!publicKey ? (
           <Button

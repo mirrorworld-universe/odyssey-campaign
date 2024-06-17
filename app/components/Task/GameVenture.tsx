@@ -47,8 +47,11 @@ export function GameVenture() {
 
       {/* main */}
       <div className="w-full flex flex-row flex-wrap justify-between gap-10 mt-20">
-        {games.map((game) => (
-          <div className="group/game w-[492px] h-[263px] flex rounded-[8px] overflow-hidden relative">
+        {games.map((game: any, gameIndex: number) => (
+          <div
+            key={gameIndex}
+            className="group/game w-[492px] h-[263px] flex rounded-[8px] overflow-hidden relative"
+          >
             <img
               className="w-full h-full group-hover/game:scale-110 transition-transform duration-300"
               src={game.cover}

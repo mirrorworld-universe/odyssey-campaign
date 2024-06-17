@@ -14,25 +14,15 @@ import { Gift } from "../icons/Gift";
 import { Card, CardSize } from "./Card";
 import { cn, prettyNumber } from "@/lib/utils";
 import { useAccountInfo } from "../store/account";
-import {
-  getMysteryboxHistory,
-  getMysteryboxTx,
-  openMysterybox,
-} from "../data/reward";
-import { Transaction } from "@solana/web3.js";
-import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
-import { toast } from "@/components/ui/use-toast";
+import { getMysteryboxHistory } from "../data/reward";
 import {
   useMysteryBoxConfirmModal,
   useMysteryBoxRecordModal,
 } from "../store/task";
 import { isSupportSonic } from "../wallet/wallet-list";
+import { getUserRewardInfo } from "../data/account";
 
-export default function RingPopover({
-  ring = 0,
-  ringMonitor = 0,
-  onOpenMysteryBox,
-}: any) {
+export default function RingPopover() {
   const { address, token } = useAccountInfo();
   const { wallet } = useWallet();
   const {
@@ -47,11 +37,21 @@ export default function RingPopover({
   } = useMysteryBoxRecordModal();
 
   const [isOpeningMysterybox, setIsOpeningMysterybox] = useState(false);
-  const [ringAmount, setRingAmount] = useState(ring);
-  const [ringMonitorAmount, setRingMonitorAmount] = useState(ringMonitor);
+  const [ringAmount, setRingAmount] = useState(0);
+  const [ringMonitorAmount, setRingMonitorAmount] = useState(0);
   const [canOpenMysteryBox, setCanOpenMysteryBox] = useState(false);
   const [historyList, setHistoryList] = useState([]);
   const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const {
+    data: dataRewardsInfo,
+    isLoading: loadingRewardsInfo,
+    refetch: refetchRewardsInfo,
+  } = useQuery({
+    queryKey: ["queryUserRewardsInfo", address],
+    queryFn: () => getUserRewardInfo({ token }),
+    enabled: !!address && !!token,
+  });
 
   const {
     data: dataMysteryBoxHistory,
@@ -72,19 +72,20 @@ export default function RingPopover({
   };
 
   useEffect(() => {
-    setRingAmount(ring);
-  }, [ring]);
-
-  useEffect(() => {
-    setRingMonitorAmount(ringMonitor);
-    setCanOpenMysteryBox(ringMonitor && ringMonitor > 0);
-  }, [ringMonitor]);
+    const data = dataRewardsInfo?.data;
+    if (data) {
+      const { wallet_balance, ring, ring_monitor } = data;
+      setRingAmount(ring);
+      setRingMonitorAmount(ring_monitor);
+      setCanOpenMysteryBox(ring_monitor && ring_monitor > 0);
+    }
+  }, [dataRewardsInfo]);
 
   useEffect(() => {
     if (!isOpenConfirmModal && !isOpenRecordModal) {
       setIsOpeningMysterybox(false);
+      refetchRewardsInfo();
       refetchRewardsHistory();
-      onOpenMysteryBox && onOpenMysteryBox();
     }
   }, [isOpenConfirmModal, isOpenRecordModal]);
 

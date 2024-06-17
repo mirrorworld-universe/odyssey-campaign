@@ -25,6 +25,8 @@ export const useAccountInfo = create(
     setAddress: (address: string) => void;
     token: string;
     setToken: (token: string) => void;
+    hasNews: boolean;
+    setNews: (hasNews: boolean) => void;
     reset: () => void;
   }>(
     (set, get) => ({
@@ -42,10 +44,18 @@ export const useAccountInfo = create(
         });
       },
 
+      hasNews: get()?.hasNews,
+      setNews: (hasNews: boolean) => {
+        set({
+          hasNews,
+        });
+      },
+
       reset: () => {
         set({
           address: undefined,
           token: undefined,
+          hasNews: false,
         });
       },
     }),
