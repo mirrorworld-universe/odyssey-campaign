@@ -45,19 +45,14 @@ export function SetUpFinishDialog() {
             <a
               className="text-[#25A3ED] hover:underline"
               href="/task#how-to-play"
-              target="_blank"
             >
               beginner's guide
             </a>{" "}
             and{" "}
-            <a
-              className="text-[#25A3ED] hover:underline"
-              href="/task#faq"
-              target="_blank"
-            >
+            <a className="text-[#25A3ED] hover:underline" href="/task#faq">
               FAQs
             </a>
-            . wallets for now. Your support will enrich the Solana ecosystem!
+            .
           </AlertDialogDescription>
         </AlertDialogHeader>
 
