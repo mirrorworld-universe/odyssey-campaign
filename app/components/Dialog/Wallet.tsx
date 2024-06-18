@@ -29,10 +29,11 @@ import {
   useMoreWalletModal,
   useSetUpNetworkModal,
 } from "@/app/store/tutorials";
-import { WalletList } from "@/app/wallet/wallet-list";
+import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
+import { connectWalletStatics } from "@/lib/analytics";
 
 export function WalletDialog({ text = "Connect", className }: any) {
-  const { select, wallets, publicKey, disconnect, connecting, signMessage } =
+  const { select, wallet, publicKey, disconnect, connecting, signMessage } =
     useWallet();
   const { address, setAddress, token, setToken } = useAccountInfo();
   const { setAddress: setTaskAddress } = useTaskInfo();
@@ -65,19 +66,19 @@ export function WalletDialog({ text = "Connect", className }: any) {
     enabled: !!signature,
   });
 
-  const sign = async () => {
-    // try {
-    if (!signMessage) {
-      console.log("signMessage function is not available");
-      return;
+  const sign = async (messageToSign: string) => {
+    try {
+      if (!signMessage) {
+        console.log("signMessage function is not available");
+        return;
+      }
+      const message = new TextEncoder().encode(messageToSign);
+      // const message = decodeUTF8(messageToSign);
+      const uint8arraySignature = await signMessage(message);
+      setSignature(encodeBase64(uint8arraySignature));
+    } catch (e) {
+      console.log("could not sign message");
     }
-    const message = new TextEncoder().encode(messageToSign);
-    // const message = decodeUTF8(messageToSign);
-    const uint8arraySignature = await signMessage(message);
-    setSignature(encodeBase64(uint8arraySignature));
-    // } catch (e) {
-    //   console.log("could not sign message");
-    // }
   };
 
   // const verify = async () => {
@@ -101,16 +102,12 @@ export function WalletDialog({ text = "Connect", className }: any) {
     if (walletName) {
       try {
         select(walletName);
-        if (wallet.isSupportSonic) {
-          onOpenSetUpNetworkWalletDialog();
-        } else {
-          handleMoreWallet();
-        }
         onClose();
       } catch (error) {
         console.log("wallet connection err : ", error);
       }
     }
+    connectWalletStatics();
   };
 
   const handleMoreWallet = () => {
@@ -137,23 +134,51 @@ export function WalletDialog({ text = "Connect", className }: any) {
     }
   }, [signature, dataAuthorize]);
 
+  const handleAddressAndToken = async () => {
+    if (messageToSign && !token) {
+      await sign(messageToSign);
+      if (isSupportSonic(wallet?.adapter.name)) {
+        onOpenSetUpNetworkWalletDialog();
+      } else {
+        handleMoreWallet();
+      }
+    }
+    onClose();
+  };
+
   useEffect(() => {
     if (publicKey) {
       setAddress(publicKey.toString());
       setTaskAddress(publicKey.toString());
-      if (messageToSign && !token) {
-        sign();
-      }
-      onClose();
+      handleAddressAndToken();
     }
   }, [publicKey]);
 
   useEffect(() => {
     if (messageToSign && !token) {
-      sign();
+      sign(messageToSign);
       onClose();
     }
   }, [messageToSign, token]);
+
+  useEffect(() => {
+    if (publicKey) {
+      console.log("new publicKey:", publicKey.toString());
+    }
+    if (wallet) {
+      console.log("new wallet:", wallet);
+    }
+  }, [publicKey, wallet]);
+
+  // useEffect(() => {
+  //   if (token && connectingWallet) {
+  //     if (isSupportSonic(wallet?.adapter.name)) {
+  //       onOpenSetUpNetworkWalletDialog();
+  //     } else {
+  //       handleMoreWallet();
+  //     }
+  //   }
+  // }, [token]);
 
   const SupportSonicTag = () => (
     <div className="text-[#fbb042] text-[10px] bg-[#fbb0421a] rounded px-1 py-[2px]">
