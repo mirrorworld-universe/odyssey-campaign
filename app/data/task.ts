@@ -71,10 +71,10 @@ export const taskGroupList = [
         name: "Game Adventure",
         description:
           "Play different games to enjoy a variety of fun experiences and earn exciting rewards along the way!",
-        period: "Coming Soon",
+        period: "24-hour period",
         reward: "",
         iconName: "game",
-        available: false,
+        available: true,
       },
     ],
   },

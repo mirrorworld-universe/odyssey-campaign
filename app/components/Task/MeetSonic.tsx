@@ -51,7 +51,12 @@ export function MeetSonic() {
             You've received{" "}
             <span className="inline-flex items-center text-[#FBB042]">
               1 x mystery box
-              <Gift color="#FBB042" className="mx-[4px]" />
+              <Gift
+                width={12}
+                height={12}
+                color="#FBB042"
+                className="mx-[4px]"
+              />
             </span>
             . Open it in the navbar to exchange for rings.
           </p>

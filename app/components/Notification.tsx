@@ -31,8 +31,8 @@ export default function Notification({ data }: any) {
   } = useQuery({
     queryKey: ["queryUserNotificationRecords", address],
     queryFn: () => getNotificationRecords({ token }),
-    enabled: !!token,
-    refetchInterval: 3 * 1000,
+    enabled: !!address && !!token,
+    refetchInterval: 10 * 1000,
   });
 
   useEffect(() => {

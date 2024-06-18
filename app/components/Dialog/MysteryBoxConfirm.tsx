@@ -156,8 +156,13 @@ export function MysteryBoxConfirmDialog() {
             <p className="block">
               You've received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
-                {data.amount} x ring {data.amount === 1 ? "" : "s"}
-                <Ring color="#FBB042" className="mx-[4px]" />
+                {data.amount} x ring{data.amount === 1 ? "" : "s"}
+                <Ring
+                  width={12}
+                  height={12}
+                  color="#FBB042"
+                  className="mx-[4px]"
+                />
               </span>
               . Collect more rings in the Sonic Odyssey!
             </p>

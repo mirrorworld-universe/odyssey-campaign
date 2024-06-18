@@ -6,18 +6,18 @@ import { Card, CardSize } from "../Card";
 
 export function GameVenture() {
   const games = [
-    {
-      name: "Lumittera",
-      cover: "/images/games/a.jpg",
-      guide: "",
-      play: "",
-    },
-    {
-      name: "FoMoney",
-      cover: "/images/games/b.jpg",
-      guide: "",
-      play: "",
-    },
+    // {
+    //   name: "Lumittera",
+    //   cover: "/images/games/a.jpg",
+    //   guide: "",
+    //   play: "",
+    // },
+    // {
+    //   name: "FoMoney",
+    //   cover: "/images/games/b.jpg",
+    //   guide: "",
+    //   play: "",
+    // },
     // {
     //   name: "Biu",
     //   cover: "/images/games/c.jpg",
@@ -27,8 +27,9 @@ export function GameVenture() {
     {
       name: "JOGO JOGO",
       cover: "/images/games/d.jpg",
-      guide: "",
-      play: "",
+      guide:
+        "https://www.notion.so/mirrorworldfun/JOGOJOGO-Odyssey-Game-and-Task-Guide-f8b1e4d54bee4d318926964c9f87a4be",
+      play: "https://app.jogojogo.game",
     },
   ];
 

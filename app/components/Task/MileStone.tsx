@@ -49,7 +49,12 @@ export function MileStone() {
               milestone today and received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
                 {stageList[currentStageKey].rewards} x mystery boxes
-                <Gift color="#FBB042" className="mx-[4px]" />
+                <Gift
+                  width={12}
+                  height={12}
+                  color="#FBB042"
+                  className="mx-[4px]"
+                />
               </span>
               . Open it in the navbar to exchange for rings.
             </p>

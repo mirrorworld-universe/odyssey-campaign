@@ -16,6 +16,7 @@ import { cn, prettyNumber } from "@/lib/utils";
 import { useAccountInfo } from "../store/account";
 import { getMysteryboxHistory } from "../data/reward";
 import {
+  useMysteryBoxInfo,
   useMysteryBoxConfirmModal,
   useMysteryBoxRecordModal,
 } from "../store/task";
@@ -25,6 +26,8 @@ import { getUserRewardInfo } from "../data/account";
 export default function RingPopover() {
   const { address, token } = useAccountInfo();
   const { wallet } = useWallet();
+  const { setMysteryBoxAmount, setMysteryBoxRewardsAmount } =
+    useMysteryBoxInfo();
   const {
     isOpen: isOpenConfirmModal,
     onOpen: onOpenConfirmModal,
@@ -76,7 +79,11 @@ export default function RingPopover() {
     if (data) {
       const { wallet_balance, ring, ring_monitor } = data;
       setRingAmount(ring);
+      setMysteryBoxRewardsAmount(ring);
+
       setRingMonitorAmount(ring_monitor);
+      setMysteryBoxAmount(ring_monitor);
+
       setCanOpenMysteryBox(ring_monitor && ring_monitor > 0);
     }
   }, [dataRewardsInfo]);

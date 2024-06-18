@@ -150,7 +150,12 @@ export function CheckIn() {
               You've received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
                 {rewards} x mystery {rewards === 1 ? "box" : "boxes"}
-                <Gift color="#FBB042" className="mx-[4px]" />
+                <Gift
+                  width={12}
+                  height={12}
+                  color="#FBB042"
+                  className="mx-[4px]"
+                />
               </span>
               . Open it in the navbar to exchange for rings.
             </p>
