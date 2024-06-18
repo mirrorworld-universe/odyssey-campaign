@@ -290,7 +290,7 @@ export function MysteryBoxRecordDialog() {
                   src="/images/icons/report.svg"
                 />
                 <span className="text-[#FBB042] text-[16px]">
-                  Your wallet signature was refused. Would you like to stop or
+                  Detected a wallet signature issue. Would you like to stop or
                   continue opening mystery boxes?
                 </span>
               </p>
