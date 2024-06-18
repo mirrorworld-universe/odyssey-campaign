@@ -108,6 +108,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
       afterWalletConnected();
     } catch (e) {
       console.log("could not sign message");
+      disconnect();
     }
   };
 
