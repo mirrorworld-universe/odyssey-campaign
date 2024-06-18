@@ -159,6 +159,8 @@ export function MysteryBoxRecordDialog() {
     boxAmount--;
     boxRecords.push(currentRecord);
     setMysteryBoxRecords([...boxRecords]);
+    const $recordBox = document.getElementById("recordBox") as any;
+    $recordBox.scrollTop = $recordBox.scrollHeight;
     mutationBuildTx.mutate();
   };
 
@@ -247,7 +249,10 @@ export function MysteryBoxRecordDialog() {
                   <span className="">Result</span>
                 </div>
                 {/* item */}
-                <div className="w-full flex flex-col max-h-[280px] gap-5 overflow-y-auto pt-2 pl-3 pr-6">
+                <div
+                  id="recordBox"
+                  className="w-full flex flex-col max-h-[280px] gap-5 overflow-y-auto pt-2 pl-3 pr-6"
+                >
                   {mysteryBoxRecords.map((box: any, boxIndex: number) => (
                     <div
                       key={boxIndex}

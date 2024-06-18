@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { Loader2 } from "lucide-react";
+import { Loader2, ChevronLeft } from "lucide-react";
 import {
   Popover,
   PopoverTrigger,
@@ -22,6 +22,7 @@ import {
 } from "../store/task";
 import { isSupportSonic } from "../wallet/wallet-list";
 import { getUserRewardInfo } from "../data/account";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function RingPopover() {
   const { address, token } = useAccountInfo();
@@ -45,6 +46,7 @@ export default function RingPopover() {
   const [canOpenMysteryBox, setCanOpenMysteryBox] = useState(false);
   const [historyList, setHistoryList] = useState([]);
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [showClaimHistory, setShowClaimHistory] = useState(false);
 
   const {
     data: dataRewardsInfo,
@@ -72,6 +74,14 @@ export default function RingPopover() {
     }
     setIsOpeningMysterybox(true);
     onOpenConfirmModal();
+  };
+
+  const handleLoadMoreClaimHistory = () => {
+    setShowClaimHistory(true);
+  };
+
+  const handleBackClaimHistory = () => {
+    setShowClaimHistory(false);
   };
 
   useEffect(() => {
@@ -129,90 +139,190 @@ export default function RingPopover() {
           />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-[320px] bg-[#1B1B1B] border-none rounded-[8px] px-0 py-0">
-        {/* balance */}
-        <div className="flex flex-col gap-5 px-[16px] py-[24px]">
-          <Card
-            name="Current Balance"
-            nameClassName="bg-[#1B1B1B]"
-            size={CardSize.Small}
-          >
-            <div className="flex flex-row justify-between">
-              <div className="flex items-center">
-                <Gift width={16} height={16} color="#FBB042" className="mr-1" />{" "}
-                <span className="text-white text-[16px] font-orbitron font-semibold">
-                  {ringMonitorAmount}
-                </span>
-              </div>
-              <div className="flex items-center">
-                <Ring width={16} height={16} color="#FBB042" className="mr-1" />{" "}
-                <span className="text-white text-[16px] font-orbitron font-semibold">
-                  {ringAmount}
-                </span>
-              </div>
-            </div>
-          </Card>
-
-          {/* open mystery box button */}
-          <Button
-            disabled={
-              !canOpenMysteryBox ||
-              isOpeningMysterybox ||
-              !isSupportSonic(wallet?.adapter.name)
-            }
+      <PopoverContent
+        className={`w-[320px] bg-[#1B1B1B] border-none rounded-[8px] px-0 py-0`}
+      >
+        <div className="block w-full h-[286px] overflow-hidden relative">
+          <div
             className={cn(
-              "transition-all duration-300",
-              !canOpenMysteryBox || !isSupportSonic(wallet?.adapter.name)
-                ? "bg-[#888888] hover:bg-[#888888] cursor-not-allowed"
-                : isOpeningMysterybox
-                ? "bg-[#0000FF] hover:bg-[#0000FF]/80 opacity-60 cursor-not-allowed"
-                : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
+              "w-full h-full absolute transition-transform duration-300",
+              !showClaimHistory ? "translate-x-0" : `-translate-x-[320px]`
             )}
-            onClick={handleOpenMysterybox}
           >
-            {isOpeningMysterybox && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            <span className="text-white text-[14px] font-orbitron">
-              Open Mystery Box
-            </span>
-            <Gift width={16} height={16} color="white" className="mx-[2px]" />
-          </Button>
-        </div>
-
-        {/* claim history */}
-        {historyList.length ? (
-          <div className="flex flex-col px-[16px] py-[8px] font-orbitron border-t border-solid border-white/10">
-            <div className="text-white text-[14px] py-[8px]">Claim History</div>
-            <div className="flex flex-col w-full max-h-[180px] overflow-y-auto">
-              {historyList.map((history: any, historyIndex: number) => (
-                <div
-                  key={historyIndex}
-                  className="flex flex-row justify-between text-white/50 text-[12px] py-[8px]"
-                >
+            {/* balance */}
+            <div className="flex flex-col gap-5 px-[16px] py-[24px]">
+              <Card
+                name="Current Balance"
+                nameClassName="bg-[#1B1B1B]"
+                size={CardSize.Small}
+              >
+                <div className="flex flex-row justify-between">
                   <div className="flex items-center">
-                    Claimed x 1{" "}
                     <Gift
-                      width={12}
-                      height={12}
-                      color="rgba(255,255,255,.5)"
-                      className="mx-[2px]"
-                    />
+                      width={16}
+                      height={16}
+                      color="#FBB042"
+                      className="mr-1"
+                    />{" "}
+                    <span className="text-white text-[16px] font-orbitron font-semibold">
+                      {ringMonitorAmount}
+                    </span>
                   </div>
                   <div className="flex items-center">
-                    + {history.quantity}{" "}
                     <Ring
-                      width={12}
-                      height={12}
-                      color="rgba(255,255,255,.5)"
-                      className="mx-[2px]"
-                    />
+                      width={16}
+                      height={16}
+                      color="#FBB042"
+                      className="mr-1"
+                    />{" "}
+                    <span className="text-white text-[16px] font-orbitron font-semibold">
+                      {ringAmount}
+                    </span>
                   </div>
                 </div>
-              ))}
+              </Card>
+
+              {/* open mystery box button */}
+              <Button
+                disabled={
+                  !canOpenMysteryBox ||
+                  isOpeningMysterybox ||
+                  !isSupportSonic(wallet?.adapter.name)
+                }
+                className={cn(
+                  "transition-all duration-300",
+                  !canOpenMysteryBox || !isSupportSonic(wallet?.adapter.name)
+                    ? "bg-[#888888] hover:bg-[#888888] cursor-not-allowed"
+                    : isOpeningMysterybox
+                    ? "bg-[#0000FF] hover:bg-[#0000FF]/80 opacity-60 cursor-not-allowed"
+                    : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
+                )}
+                onClick={handleOpenMysterybox}
+              >
+                {isOpeningMysterybox && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                <span className="text-white text-[14px] font-orbitron">
+                  Open Mystery Box
+                </span>
+                <Gift
+                  width={16}
+                  height={16}
+                  color="white"
+                  className="mx-[2px]"
+                />
+              </Button>
             </div>
+
+            {/* claim history */}
+            {historyList.length ? (
+              <div
+                className={cn(
+                  "flex flex-col px-[16px] py-[8px] font-orbitron border-t border-solid border-white/10"
+                )}
+              >
+                <div className="flex flex-row items-center justify-between">
+                  <div className="text-white text-[14px] py-[8px]">
+                    Claim History
+                  </div>
+                  <div
+                    className="text-[#25A3ED] text-[10px] hover:underline cursor-pointer"
+                    onClick={handleLoadMoreClaimHistory}
+                  >
+                    Load More
+                  </div>
+                </div>
+                <div className="flex flex-col w-full max-h-[180px]">
+                  {historyList.map((history: any, historyIndex: number) => (
+                    <div
+                      key={historyIndex}
+                      className="flex flex-row justify-between text-white/50 text-[12px] py-[8px]"
+                    >
+                      <div className="flex items-center">
+                        Claimed x 1{" "}
+                        <Gift
+                          width={12}
+                          height={12}
+                          color="rgba(255,255,255,.5)"
+                          className="mx-[2px]"
+                        />
+                      </div>
+                      <div className="flex items-center">
+                        + {history.quantity}{" "}
+                        <Ring
+                          width={12}
+                          height={12}
+                          color="rgba(255,255,255,.5)"
+                          className="mx-[2px]"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
-        ) : null}
+
+          {/* claim history window */}
+          {historyList.length ? (
+            <div
+              className={cn(
+                "w-full h-full flex flex-col py-[8px] border-t border-solid border-white/10 transition-transform duration-300 absolute",
+                showClaimHistory ? "translate-x-0" : `translate-x-[320px]`
+              )}
+            >
+              <div className="flex justify-center px-[16px] relative">
+                <ChevronLeft
+                  size={24}
+                  color="rgba(255, 255, 255, .3)"
+                  className="cursor-pointer absolute top-0 bottom-0 left-0 m-auto"
+                  onClick={handleBackClaimHistory}
+                />
+                <div className="text-white text-[14px] font-orbitron py-[8px]">
+                  Claim History
+                </div>
+              </div>
+              <ScrollArea className="flex flex-col w-full h-full overflow-y-auto">
+                {historyList.map((history: any, historyIndex: number) => (
+                  <div
+                    key={historyIndex}
+                    className={cn(
+                      "border-solid border-white/5 px-[16px] py-[8px]",
+                      historyIndex > 0 ? "border-t" : ""
+                    )}
+                  >
+                    <div
+                      key={historyIndex}
+                      className="flex flex-row justify-between text-white text-[12px] font-orbitron"
+                    >
+                      <div className="flex items-center">
+                        Claimed x 1{" "}
+                        <Gift
+                          width={12}
+                          height={12}
+                          color="white"
+                          className="mx-[2px]"
+                        />
+                      </div>
+                      <div className="flex items-center">
+                        + {history.quantity}{" "}
+                        <Ring
+                          width={12}
+                          height={12}
+                          color="#FBB042"
+                          className="mx-[2px]"
+                        />
+                      </div>
+                    </div>
+                    <div className="text-white/50 text-[10px] mt-1">
+                      {history.date}
+                    </div>
+                  </div>
+                ))}
+              </ScrollArea>
+            </div>
+          ) : null}
+        </div>
       </PopoverContent>
     </Popover>
   );
