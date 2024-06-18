@@ -163,20 +163,22 @@ export function MysteryBoxRecordDialog() {
   };
 
   const handleConfirm = () => {
+    boxRecords = [];
+    setMysteryBoxRecords(boxRecords);
     onClose();
   };
 
   const handleContinue = () => {
     boxRecords = boxRecords.slice(0, boxRecords.length - 1);
-    setMysteryBoxRecords(
-      mysteryBoxRecords.slice(0, mysteryBoxRecords.length - 1)
-    );
+    setMysteryBoxRecords(boxRecords);
     setHasRefused(false);
     openMysteryBoxes();
   };
 
   const handleStop = () => {
-    onClose();
+    boxRecords = boxRecords.filter((record: any) => record.loaded === true);
+    setMysteryBoxRecords(boxRecords);
+    setHasRefused(false);
   };
 
   useEffect(() => {
@@ -200,7 +202,12 @@ export function MysteryBoxRecordDialog() {
                 )}
               </p>
               <span className="text-white text-[24px] font-semibold font-orbitron mt-8">
-                Congratulation
+                {mysteryBoxRecords.reduce(
+                  (sum, item) => sum + item.quantity,
+                  0
+                ) > 0
+                  ? "Congratulation"
+                  : "Done"}
               </span>
             </AlertDialogTitle>
           ) : (
@@ -229,59 +236,63 @@ export function MysteryBoxRecordDialog() {
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <div className="flex flex-col mt-12">
-          <Card size={CardSize.List}>
-            <div className="flex flex-col text-[14px]">
-              {/* title */}
-              <div className="flex flex-row justify-between text-white/60 pb-3 px-6">
-                <span className="">#Draw</span>
-                <span className="">Transaction Link</span>
-                <span className="">Result</span>
-              </div>
-              {/* item */}
-              <div className="w-full flex flex-col max-h-[280px] gap-5 overflow-y-auto pt-2 pl-3 pr-6">
-                {mysteryBoxRecords.map((box: any, boxIndex: number) => (
-                  <div
-                    key={boxIndex}
-                    className="flex flex-row justify-between text-white"
-                  >
-                    <div className="inline-flex flex-row justify-start items-center gap-1 w-[42px]">
-                      <Loader2
-                        size={16}
-                        color="rgba(255, 255, 255, 0.30)"
-                        className={cn(
-                          "animate-spin",
-                          box?.loaded ? "opacity-0" : "opacity-100"
-                        )}
-                      />
-                      <span className="text-white text-[14px]">
-                        {boxIndex + 1 < 10 ? `0${boxIndex + 1}` : boxIndex + 1}
-                      </span>
+        <div className="flex flex-col">
+          {mysteryBoxRecords.length ? (
+            <Card size={CardSize.List} className="mt-12">
+              <div className="flex flex-col text-[14px]">
+                {/* title */}
+                <div className="flex flex-row justify-between text-white/60 pb-3 px-6">
+                  <span className="">#Draw</span>
+                  <span className="">Transaction Link</span>
+                  <span className="">Result</span>
+                </div>
+                {/* item */}
+                <div className="w-full flex flex-col max-h-[280px] gap-5 overflow-y-auto pt-2 pl-3 pr-6">
+                  {mysteryBoxRecords.map((box: any, boxIndex: number) => (
+                    <div
+                      key={boxIndex}
+                      className="flex flex-row justify-between text-white"
+                    >
+                      <div className="inline-flex flex-row justify-start items-center gap-1 w-[42px]">
+                        <Loader2
+                          size={16}
+                          color="rgba(255, 255, 255, 0.30)"
+                          className={cn(
+                            "animate-spin",
+                            box?.loaded ? "opacity-0" : "opacity-100"
+                          )}
+                        />
+                        <span className="text-white text-[14px]">
+                          {boxIndex + 1 < 10
+                            ? `0${boxIndex + 1}`
+                            : boxIndex + 1}
+                        </span>
+                      </div>
+                      {box?.loaded && (
+                        <div className="">
+                          <a
+                            className="text-[#25A3ED] hover:underline"
+                            href={box.link}
+                            target="_blank"
+                          >
+                            {shortUrl(box.link)}
+                          </a>
+                        </div>
+                      )}
+                      {box?.loaded && (
+                        <div className="inline-flex items-center justify-center gap-1">
+                          <Ring width={16} height={16} color="#FBB042" /> x{" "}
+                          {box.quantity}
+                        </div>
+                      )}
                     </div>
-                    {box?.loaded && (
-                      <div className="">
-                        <a
-                          className="text-[#25A3ED] hover:underline"
-                          href={box.link}
-                          target="_blank"
-                        >
-                          {shortUrl(box.link)}
-                        </a>
-                      </div>
-                    )}
-                    {box?.loaded && (
-                      <div className="inline-flex items-center justify-center gap-1">
-                        <Ring width={16} height={16} color="#FBB042" /> x{" "}
-                        {box.quantity}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          ) : null}
 
-          {hasRefused ? (
+          {hasRefused && mysteryBoxRecords.some((record) => !record.loaded) ? (
             <>
               {/* tip */}
               <p className="flex flex-row gap-2 mt-4">
