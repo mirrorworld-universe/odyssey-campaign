@@ -25,7 +25,7 @@ export const taskGroupList = [
         description:
           "Check in on Sonic every day. The longer your streak, the greater your rewards.",
         period: "24-hour period",
-        reward: "Requires SOL",
+        reward: "Test SOL Needed",
         iconName: "calendar",
         available: true,
       },
