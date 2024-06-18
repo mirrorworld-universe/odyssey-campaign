@@ -67,7 +67,7 @@ export function MysteryBoxRecordDialog() {
         // @ts-ignore
         wallet?.adapter,
         tx,
-        "confirmed"
+        "processed"
       );
 
       if (!txid) {
@@ -76,7 +76,7 @@ export function MysteryBoxRecordDialog() {
 
       txHash = txid;
 
-      const result = await confirmTransaction(connection, txHash, "confirmed");
+      const result = await confirmTransaction(connection, txHash, "processed");
 
       if (result.value.err) {
         throw new Error(result.value.err.toString());
