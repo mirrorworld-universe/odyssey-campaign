@@ -19,6 +19,7 @@ import { fetchLogout } from "../data/account";
 import { WalletList } from "../wallet/wallet-list";
 
 export function UserDropdown() {
+  const { setToken } = useAccountInfo();
   const { connection } = useConnection();
   const { isOpen, onOpen } = useWalletModal();
   const { select, wallet, wallets, publicKey, disconnect, connecting } =
@@ -70,6 +71,7 @@ export function UserDropdown() {
 
   const handleDisconnect = () => {
     disconnect();
+    setToken("");
     mutationLogout.mutate();
     setPopoverOpen(false);
   };

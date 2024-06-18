@@ -32,6 +32,8 @@ import {
 import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import { connectWalletStatics } from "@/lib/analytics";
 
+let currentSignature = "";
+
 export function WalletDialog({ text = "Connect", className }: any) {
   const { select, wallet, publicKey, disconnect, connecting, signMessage } =
     useWallet();
@@ -59,12 +61,35 @@ export function WalletDialog({ text = "Connect", className }: any) {
     enabled: !!address,
   });
 
-  const { data: dataAuthorize, isLoading: loadingAuthorize } = useQuery({
+  const {
+    data: dataAuthorize,
+    isLoading: loadingAuthorize,
+    refetch: refetchAuthorize,
+  } = useQuery({
     queryKey: ["queryAuthorize", address],
     queryFn: () =>
-      fetchAuthorize(address, encodeBase64(publicKey!.toBytes()), signature),
-    enabled: !!signature,
+      fetchAuthorize(
+        address,
+        encodeBase64(publicKey!.toBytes()),
+        currentSignature
+      ),
+    enabled: !!address && !!signature,
   });
+
+  const handleWalletSelect = async (wallet: any) => {
+    const walletName = wallet.adapter.name;
+    if (walletName) {
+      try {
+        currentSignature = "";
+        setSignature("");
+        select(walletName);
+        onClose();
+      } catch (error) {
+        console.log("wallet connection err : ", error);
+      }
+    }
+    connectWalletStatics();
+  };
 
   const sign = async (messageToSign: string) => {
     try {
@@ -75,7 +100,12 @@ export function WalletDialog({ text = "Connect", className }: any) {
       const message = new TextEncoder().encode(messageToSign);
       // const message = decodeUTF8(messageToSign);
       const uint8arraySignature = await signMessage(message);
-      setSignature(encodeBase64(uint8arraySignature));
+      const signature = encodeBase64(uint8arraySignature);
+      // console.log("signature", signature);
+      currentSignature = signature;
+      setSignature(signature);
+      // open tip dilogs
+      afterWalletConnected();
     } catch (e) {
       console.log("could not sign message");
     }
@@ -97,20 +127,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
   //   }
   // };
 
-  const handleWalletSelect = async (wallet: any) => {
-    const walletName = wallet.adapter.name;
-    if (walletName) {
-      try {
-        select(walletName);
-        onClose();
-      } catch (error) {
-        console.log("wallet connection err : ", error);
-      }
-    }
-    connectWalletStatics();
-  };
-
-  const handleMoreWallet = () => {
+  const switchMoreWallets = () => {
     onOpenMoreWalletDialog();
     onClose();
   };
@@ -122,63 +139,38 @@ export function WalletDialog({ text = "Connect", className }: any) {
     setWalletList(list);
   };
 
-  useEffect(() => {
-    if (dataBasicInfo) {
-      setMessageToSign(dataBasicInfo.data);
-    }
-  }, [dataBasicInfo]);
+  const signWalletMessage = async (message: string) => {
+    await sign(message);
+  };
 
-  useEffect(() => {
-    if (dataAuthorize) {
-      setToken(dataAuthorize.data?.token);
-    }
-  }, [signature, dataAuthorize]);
-
-  const handleAddressAndToken = async () => {
-    if (messageToSign && !token) {
-      await sign(messageToSign);
-      if (isSupportSonic(wallet?.adapter.name)) {
-        onOpenSetUpNetworkWalletDialog();
-      } else {
-        handleMoreWallet();
-      }
+  const afterWalletConnected = () => {
+    if (isSupportSonic(wallet?.adapter.name)) {
+      onOpenSetUpNetworkWalletDialog();
+    } else {
+      switchMoreWallets();
     }
     onClose();
   };
 
   useEffect(() => {
+    if (dataBasicInfo) {
+      setMessageToSign(dataBasicInfo.data);
+      signWalletMessage(dataBasicInfo.data);
+    }
+  }, [dataBasicInfo]);
+
+  useEffect(() => {
+    if (dataAuthorize) {
+      setToken(dataAuthorize?.data?.token);
+    }
+  }, [dataAuthorize]);
+
+  useEffect(() => {
     if (publicKey) {
       setAddress(publicKey.toString());
       setTaskAddress(publicKey.toString());
-      handleAddressAndToken();
     }
   }, [publicKey]);
-
-  useEffect(() => {
-    if (messageToSign && !token) {
-      sign(messageToSign);
-      onClose();
-    }
-  }, [messageToSign, token]);
-
-  useEffect(() => {
-    if (publicKey) {
-      console.log("new publicKey:", publicKey.toString());
-    }
-    if (wallet) {
-      console.log("new wallet:", wallet);
-    }
-  }, [publicKey, wallet]);
-
-  // useEffect(() => {
-  //   if (token && connectingWallet) {
-  //     if (isSupportSonic(wallet?.adapter.name)) {
-  //       onOpenSetUpNetworkWalletDialog();
-  //     } else {
-  //       handleMoreWallet();
-  //     }
-  //   }
-  // }, [token]);
 
   const SupportSonicTag = () => (
     <div className="text-[#fbb042] text-[10px] bg-[#fbb0421a] rounded px-1 py-[2px]">
