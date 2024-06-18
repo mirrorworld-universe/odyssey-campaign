@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 
 import { useAccountInfo, useWalletModal } from "./store/account";
 import { inviteUser } from "./data/account";
+import { loadHomePageStatics, openWalletStatics } from "@/lib/analytics";
 
 export default function Home() {
   const router = useRouter();
@@ -30,6 +31,10 @@ export default function Home() {
   });
 
   useEffect(() => {
+    loadHomePageStatics();
+  }, []);
+
+  useEffect(() => {
     if (window.location.search && token) {
       const queryParams = new URLSearchParams(window.location.search);
       const params = Object.fromEntries(queryParams.entries());
@@ -43,20 +48,10 @@ export default function Home() {
   const handleClickOpenWallet = () => {
     if (!publicKey) {
       onOpen();
+      openWalletStatics();
     } else {
       router.push("/task");
     }
-    // window.ttq?.track('ClickButton', {
-    //   contents: [
-    //     {
-    //       content_id: '0001',
-    //       content_type: 'Sonic',
-    //       content_name: 'ClickButton'
-    //     }
-    //   ],
-    //   value: '1',
-    //   currency: 'USD'
-    // });
   };
 
   const scrollToTop = () => {

@@ -8,6 +8,7 @@ import Notification from "./Notification";
 import { useAccountInfo, useWalletModal } from "../store/account";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
+import { openWalletStatics } from "@/lib/analytics";
 
 export const menu: any[] = [
   {
@@ -49,17 +50,9 @@ export function Header() {
 
   const handleClickOpenWallet = () => {
     !publicKey && onOpen();
-    // window.ttq?.track('ClickButton', {
-    //   contents: [
-    //     {
-    //       content_id: '0001',
-    //       content_type: 'Sonic',
-    //       content_name: 'ClickButton'
-    //     }
-    //   ],
-    //   value: '1',
-    //   currency: 'USD'
-    // });
+
+    // ttq code part
+    openWalletStatics();
   };
 
   return (
