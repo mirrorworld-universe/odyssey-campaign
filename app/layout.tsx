@@ -36,7 +36,23 @@ const orbitron = Orbitron({
 export const metadata: Metadata = {
   title: "Sonic Odyssey",
   description:
-    "Description: Sonic testnet is live now! Join the Sonic Odyssey to earn potential airdrops!",
+    "Join the Sonic Odyssey Testnet Campaign. Earn Your Ring Rewards!",
+
+  openGraph: {
+    title: "Sonic Odyssey",
+    description:
+      "Join the Sonic Odyssey Testnet Campaign. Earn Your Ring Rewards!",
+    images: ["https://odyssey.sonic.game/seo-banner.png"],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Sonic Odyssey",
+    description:
+      "Join the Sonic Odyssey Testnet Campaign. Earn Your Ring Rewards!",
+    creator: "@SonicSVM",
+    images: ["https://odyssey.sonic.game/seo-banner.png"],
+  },
 };
 
 export default function RootLayout({
