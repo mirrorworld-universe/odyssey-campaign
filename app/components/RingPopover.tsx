@@ -103,6 +103,13 @@ export default function RingPopover() {
     }
   }, [dataMysteryBoxHistory]);
 
+  useEffect(() => {
+    if (popoverOpen) {
+      refetchRewardsInfo();
+      refetchRewardsHistory();
+    }
+  }, [popoverOpen]);
+
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger>

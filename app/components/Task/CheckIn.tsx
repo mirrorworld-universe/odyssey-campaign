@@ -47,7 +47,6 @@ export function CheckIn() {
 
   const [isChekingIn, setIsChekingIn] = useState(false);
   const [hasChecked, setHasChecked] = useState(true);
-  const [transactionString, setTransactionString] = useState("");
   const [checkInDays, setCheckInDays] = useState(0);
 
   const getPartition = () => {
@@ -63,7 +62,7 @@ export function CheckIn() {
     return new Promise((r) => setTimeout(r, ms));
   };
 
-  const triggerTransaction = async () => {
+  const triggerTransaction = async (transactionString: string) => {
     if (!publicKey || !signTransaction) {
       console.error("Wallet not connected");
       return;
@@ -122,12 +121,11 @@ export function CheckIn() {
   });
 
   const getTransactionHash = useMutation({
-    mutationKey: ["mutationCheckInTransactionInfo", address],
+    mutationKey: ["buildCheckinTx", address],
     mutationFn: () => fetchCheckinTransaction({ token }),
     onSuccess({ data }) {
       if (data?.hash) {
-        setTransactionString(data.hash);
-        triggerTransaction();
+        triggerTransaction(data.hash);
       } else {
         setIsChekingIn(false);
       }
