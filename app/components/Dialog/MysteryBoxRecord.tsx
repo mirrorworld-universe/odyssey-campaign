@@ -31,6 +31,7 @@ import {
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { Card, CardSize } from "../Card";
 import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 let txHash = "";
 let currentRecord: any = {
@@ -159,8 +160,6 @@ export function MysteryBoxRecordDialog() {
     boxAmount--;
     boxRecords.push(currentRecord);
     setMysteryBoxRecords([...boxRecords]);
-    // const $recordBox = document.getElementById("recordBox") as any;
-    // $recordBox.scrollTop = $recordBox.scrollHeight;
     mutationBuildTx.mutate();
   };
 
@@ -189,6 +188,16 @@ export function MysteryBoxRecordDialog() {
       openMysteryBoxes();
     }
   }, [mysteryBoxAmount, isOpen]);
+
+  useEffect(() => {
+    if (mysteryBoxRecords.length) {
+      // scroll to bottom
+      const $recordBox = document.getElementById("recordBox");
+      if ($recordBox) {
+        $recordBox.scrollTop = $recordBox.scrollHeight;
+      }
+    }
+  }, [mysteryBoxRecords]);
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
@@ -249,50 +258,52 @@ export function MysteryBoxRecordDialog() {
                   <span className="">Result</span>
                 </div>
                 {/* item */}
-                <div
-                  id="recordBox"
-                  className="w-full flex flex-col max-h-[280px] gap-5 overflow-y-auto pt-2 pl-3 pr-6"
-                >
-                  {mysteryBoxRecords.map((box: any, boxIndex: number) => (
-                    <div
-                      key={boxIndex}
-                      className="flex flex-row justify-between text-white"
-                    >
-                      <div className="inline-flex flex-row justify-start items-center gap-1 w-[42px]">
-                        <Loader2
-                          size={16}
-                          color="rgba(255, 255, 255, 0.30)"
-                          className={cn(
-                            "animate-spin",
-                            box?.loaded ? "opacity-0" : "opacity-100"
-                          )}
-                        />
-                        <span className="text-white text-[14px]">
-                          {boxIndex + 1 < 10
-                            ? `0${boxIndex + 1}`
-                            : boxIndex + 1}
-                        </span>
+                <ScrollArea>
+                  <div
+                    id="recordBox"
+                    className="w-full flex flex-col max-h-[280px] gap-5 overflow-y-auto pt-2 pl-3 pr-6"
+                  >
+                    {mysteryBoxRecords.map((box: any, boxIndex: number) => (
+                      <div
+                        key={boxIndex}
+                        className="flex flex-row justify-between text-white"
+                      >
+                        <div className="inline-flex flex-row justify-start items-center gap-1 w-[42px]">
+                          <Loader2
+                            size={16}
+                            color="rgba(255, 255, 255, 0.30)"
+                            className={cn(
+                              "animate-spin",
+                              box?.loaded ? "opacity-0" : "opacity-100"
+                            )}
+                          />
+                          <span className="text-white text-[14px]">
+                            {boxIndex + 1 < 10
+                              ? `0${boxIndex + 1}`
+                              : boxIndex + 1}
+                          </span>
+                        </div>
+                        {box?.loaded && (
+                          <div className="">
+                            <a
+                              className="text-[#25A3ED] hover:underline"
+                              href={box.link}
+                              target="_blank"
+                            >
+                              {shortUrl(box.link)}
+                            </a>
+                          </div>
+                        )}
+                        {box?.loaded && (
+                          <div className="inline-flex items-center justify-center gap-1">
+                            <Ring width={16} height={16} color="#FBB042" /> x{" "}
+                            {box.quantity}
+                          </div>
+                        )}
                       </div>
-                      {box?.loaded && (
-                        <div className="">
-                          <a
-                            className="text-[#25A3ED] hover:underline"
-                            href={box.link}
-                            target="_blank"
-                          >
-                            {shortUrl(box.link)}
-                          </a>
-                        </div>
-                      )}
-                      {box?.loaded && (
-                        <div className="inline-flex items-center justify-center gap-1">
-                          <Ring width={16} height={16} color="#FBB042" /> x{" "}
-                          {box.quantity}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               </div>
             </Card>
           ) : null}
