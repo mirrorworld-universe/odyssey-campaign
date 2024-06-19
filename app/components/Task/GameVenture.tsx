@@ -30,7 +30,7 @@ export function GameVenture() {
       cover: "/images/games/d.jpg",
       guide:
         "https://www.notion.so/mirrorworldfun/JOGOJOGO-Odyssey-Game-and-Task-Guide-f8b1e4d54bee4d318926964c9f87a4be",
-      play: "https://app.jogojogo.game",
+      play: "https://app.jogojogo.game/register?code=SOSONIC",
     },
   ];
 
