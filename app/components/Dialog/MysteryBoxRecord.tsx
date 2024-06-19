@@ -159,8 +159,8 @@ export function MysteryBoxRecordDialog() {
     boxAmount--;
     boxRecords.push(currentRecord);
     setMysteryBoxRecords([...boxRecords]);
-    const $recordBox = document.getElementById("recordBox") as any;
-    $recordBox.scrollTop = $recordBox.scrollHeight;
+    // const $recordBox = document.getElementById("recordBox") as any;
+    // $recordBox.scrollTop = $recordBox.scrollHeight;
     mutationBuildTx.mutate();
   };
 
