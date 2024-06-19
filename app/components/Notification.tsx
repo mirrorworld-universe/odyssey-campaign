@@ -9,6 +9,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { getNotificationRecords } from "../data/account";
 import { useAccountInfo } from "../store/account";
+import { trackClick } from "@/lib/track";
 
 const maxAmount = 5;
 
@@ -38,6 +39,8 @@ export default function Notification({ data }: any) {
   useEffect(() => {
     if (popoverOpen) {
       hasNotification(false);
+      // ga4
+      trackClick({ text: "Notification" });
     }
   }, [popoverOpen]);
 

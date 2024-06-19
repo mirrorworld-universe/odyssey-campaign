@@ -13,12 +13,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useWelcomeModal } from "@/app/store/tutorials";
+import { trackClick } from "@/lib/track";
 
 export function WelcomeDialog() {
   const { isOpen, onOpen, onClose } = useWelcomeModal();
 
   const handleConfirm = () => {
     onClose();
+    // ga4
+    trackClick({ text: "Get Started Dialog" });
   };
 
   useEffect(() => {

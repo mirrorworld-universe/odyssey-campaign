@@ -16,6 +16,7 @@ import { WelcomeDialog } from "./components/Dialog/Welcome";
 import { MoreWalletDialog } from "./components/Dialog/MoreWallet";
 import { SetUpSonicNetworkDialog } from "./components/Dialog/SetUpSonicNetwork";
 import { SetUpFinishDialog } from "./components/Dialog/SetUpFinish";
+import "../lib/track";
 
 const manrope = Manrope({
   weight: ["400", "500"],

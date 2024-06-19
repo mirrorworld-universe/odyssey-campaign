@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { useAccountInfo, useWalletModal } from "./store/account";
 import { inviteUser } from "./data/account";
 import { loadHomePageStatics, openWalletStatics } from "@/lib/analytics";
+import { trackClick } from "@/lib/track";
 
 export default function Home() {
   const router = useRouter();
@@ -45,13 +46,16 @@ export default function Home() {
     }
   }, [token]);
 
-  const handleClickOpenWallet = () => {
+  const handleGetStarted = () => {
     if (!publicKey) {
       onOpen();
-      openWalletStatics();
     } else {
       router.push("/task");
     }
+    // ttq
+    openWalletStatics();
+    // ga4
+    trackClick({ text: "Get Started" });
   };
 
   const scrollToTop = () => {
@@ -93,7 +97,7 @@ export default function Home() {
 
           <Button
             className="w-[370px] h-20 bg-transparent hover:bg-transparent rounded-md p-0 relative mt-[132px]"
-            onClick={handleClickOpenWallet}
+            onClick={handleGetStarted}
           >
             <img className="w-full" src="/images/get-started.png" alt="" />
           </Button>

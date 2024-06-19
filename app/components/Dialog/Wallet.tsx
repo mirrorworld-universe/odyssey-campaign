@@ -33,6 +33,7 @@ import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import { connectWalletStatics } from "@/lib/analytics";
 
 let currentSignature = "";
+let currentToken = "";
 
 export function WalletDialog({ text = "Connect", className }: any) {
   const { select, wallet, publicKey, disconnect, connecting, signMessage } =
@@ -81,6 +82,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     if (walletName) {
       try {
         currentSignature = "";
+        currentToken = "";
         setSignature("");
         select(walletName);
         onClose();
@@ -107,8 +109,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
       // open tip dilogs
       afterWalletConnected();
     } catch (e) {
-      console.log("could not sign message");
-      disconnect();
+      console.log("could not sign message", e);
+      // disconnect();
     }
   };
 
@@ -156,13 +158,16 @@ export function WalletDialog({ text = "Connect", className }: any) {
   useEffect(() => {
     if (dataBasicInfo) {
       setMessageToSign(dataBasicInfo.data);
-      signWalletMessage(dataBasicInfo.data);
+      if (!currentSignature && !currentToken) {
+        signWalletMessage(dataBasicInfo.data);
+      }
     }
   }, [dataBasicInfo]);
 
   useEffect(() => {
     if (dataAuthorize) {
-      setToken(dataAuthorize?.data?.token);
+      currentToken = dataAuthorize?.data?.token;
+      setToken(currentToken);
     }
   }, [dataAuthorize]);
 

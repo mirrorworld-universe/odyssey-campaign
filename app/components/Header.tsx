@@ -9,6 +9,7 @@ import { useAccountInfo, useWalletModal } from "../store/account";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
 import { openWalletStatics } from "@/lib/analytics";
+import { trackClick, ttq } from "@/lib/track";
 
 export const menu: any[] = [
   {
@@ -48,8 +49,11 @@ export function Header() {
   //   }
   // }, [publicKey, connection, balance]);
 
-  const handleClickOpenWallet = () => {
+  const handleClickOpenWallet = (event: any) => {
     !publicKey && onOpen();
+
+    // ga4
+    trackClick({ text: "Connect Wallet" });
 
     // ttq code part
     openWalletStatics();
