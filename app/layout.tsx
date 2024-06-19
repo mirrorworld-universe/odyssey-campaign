@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Manrope, Orbitron } from "next/font/google";
 
 import "./globals.css";
 import Providers from "./providers";
 import AppWalletProvider from "./components/AppWalletProvider";
-import Script from "next/script";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { Toaster } from "@/components/ui/toaster";

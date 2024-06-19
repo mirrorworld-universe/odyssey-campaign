@@ -9,7 +9,7 @@ import { useAccountInfo, useWalletModal } from "../store/account";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
 import { openWalletStatics } from "@/lib/analytics";
-import { trackClick, ttq } from "@/lib/track";
+import { trackClick } from "@/lib/track";
 
 export const menu: any[] = [
   {
