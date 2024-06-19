@@ -45,19 +45,19 @@ export function MeetSonic() {
     onSuccess: ({ data }) => {
       const result = data?.following_result;
       setHasFollowedTwitter(result?.toLowerCase() === "success");
-      toast({
-        title: '"Meet Sonic" task completed.',
-        description: (
-          <p className="block">
-            You've received{" "}
-            <span className="inline-flex items-center text-[#FBB042]">
-              1 x mystery box
-              <Gift width={12} height={12} color="#FBB042" className="mx-1" />
-            </span>
-            . Open it in the navbar to exchange for rings.
-          </p>
-        ),
-      });
+      // toast({
+      //   title: '"Meet Sonic" task completed.',
+      //   description: (
+      //     <p className="block">
+      //       You've received{" "}
+      //       <span className="inline-flex items-center text-[#FBB042]">
+      //         1 x mystery box
+      //         <Gift width={12} height={12} color="#FBB042" className="mx-1" />
+      //       </span>
+      //       . Open it in the navbar to exchange for rings.
+      //     </p>
+      //   ),
+      // });
     },
   });
 
@@ -167,7 +167,7 @@ export function MeetSonic() {
           <li className="">
             Earn{" "}
             <span className="inline-flex items-center text-[#FBB042]">
-              2 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
+              3 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
               Boxes
             </span>{" "}
             after linking both your X and Discord accounts.
