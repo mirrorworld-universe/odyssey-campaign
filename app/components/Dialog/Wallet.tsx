@@ -8,7 +8,7 @@ import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { Keypair } from "@solana/web3.js";
 import base58 from "bs58";
 import nacl from "tweetnacl";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { decodeUTF8, encodeBase64 } from "tweetnacl-util";
 import { useWalletModal, useAccountInfo } from "@/app/store/account";
 import { useTaskInfo } from "@/app/store/task";
@@ -34,9 +34,10 @@ import { connectWalletStatics } from "@/lib/analytics";
 
 let currentSignature = "";
 let currentToken = "";
+let messageToSign = "";
 
 export function WalletDialog({ text = "Connect", className }: any) {
-  const { select, wallet, publicKey, disconnect, connecting, signMessage } =
+  const { select, wallet, publicKey, disconnect, connected, signMessage } =
     useWallet();
   const { address, setAddress, token, setToken } = useAccountInfo();
   const { setAddress: setTaskAddress } = useTaskInfo();
@@ -52,14 +53,16 @@ export function WalletDialog({ text = "Connect", className }: any) {
     onClose: onCloseSetUpNetworkWalletDialog,
   } = useSetUpNetworkModal();
 
-  const [signature, setSignature] = useState("");
-  const [messageToSign, setMessageToSign] = useState("");
   const [walletList, setWalletList] = useState(WalletList);
 
-  const { data: dataBasicInfo, isLoading: loadingBasicInfo } = useQuery({
-    queryKey: ["queryBasicInfo", address],
-    queryFn: () => fetchBasicInfo(address),
-    enabled: !!address,
+  const {
+    data: dataBasicInfo,
+    isLoading: loadingBasicInfo,
+    refetch: refetchBasicInfo,
+  } = useQuery({
+    queryKey: ["queryBasicInfo", publicKey?.toString()],
+    queryFn: () => fetchBasicInfo(publicKey?.toString()),
+    enabled: false,
   });
 
   const {
@@ -67,23 +70,22 @@ export function WalletDialog({ text = "Connect", className }: any) {
     isLoading: loadingAuthorize,
     refetch: refetchAuthorize,
   } = useQuery({
-    queryKey: ["queryAuthorize", address],
+    queryKey: ["queryAuthorize", publicKey?.toString()],
     queryFn: () =>
       fetchAuthorize(
-        address,
+        publicKey?.toString(),
         encodeBase64(publicKey!.toBytes()),
         currentSignature
       ),
-    enabled: !!address && !!signature,
+    enabled: false,
   });
 
   const handleWalletSelect = async (wallet: any) => {
     const walletName = wallet.adapter.name;
     if (walletName) {
       try {
-        currentSignature = "";
         currentToken = "";
-        setSignature("");
+        setToken("");
         select(walletName);
         onClose();
       } catch (error) {
@@ -100,17 +102,17 @@ export function WalletDialog({ text = "Connect", className }: any) {
         return;
       }
       const message = new TextEncoder().encode(messageToSign);
-      // const message = decodeUTF8(messageToSign);
       const uint8arraySignature = await signMessage(message);
       const signature = encodeBase64(uint8arraySignature);
-      // console.log("signature", signature);
       currentSignature = signature;
-      setSignature(signature);
+      refetchAuthorize();
       // open tip dilogs
       afterWalletConnected();
     } catch (e) {
       console.log("could not sign message", e);
-      // disconnect();
+      currentToken = "";
+      setToken("");
+      disconnect();
     }
   };
 
@@ -156,23 +158,24 @@ export function WalletDialog({ text = "Connect", className }: any) {
   };
 
   useEffect(() => {
-    if (dataBasicInfo) {
-      setMessageToSign(dataBasicInfo.data);
-      if (!currentSignature && !currentToken) {
-        signWalletMessage(dataBasicInfo.data);
+    if (dataBasicInfo?.data) {
+      messageToSign = dataBasicInfo.data;
+      if (messageToSign && !token && !currentToken) {
+        signWalletMessage(messageToSign);
       }
     }
   }, [dataBasicInfo]);
 
   useEffect(() => {
-    if (dataAuthorize) {
-      currentToken = dataAuthorize?.data?.token;
+    if (dataAuthorize?.data?.token) {
+      currentToken = dataAuthorize.data.token;
       setToken(currentToken);
     }
   }, [dataAuthorize]);
 
   useEffect(() => {
     if (publicKey) {
+      refetchBasicInfo();
       setAddress(publicKey.toString());
       setTaskAddress(publicKey.toString());
     }
