@@ -1,117 +1,90 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useLatest, useMount } from "react-use";
 import Link from "next/link";
-import {
-  formatAddress,
-  useAccountModal,
-  useWalletInfo,
-} from "../store/account";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { toFixed } from "../store/wallet";
+
+import Notification from "./Notification";
+import { useAccountInfo, useWalletModal } from "../store/account";
+import RingPopover from "./RingPopover";
+import { UserDropdown } from "./UserDropdown";
+import { openWalletStatics } from "@/lib/analytics";
+import { trackClick, trackLinkClick } from "@/lib/track";
+
+export const menu: any[] = [
+  {
+    name: "Task Center",
+    link: "/task",
+    target: "_self",
+  },
+  {
+    name: "Faucet",
+    link: "https://faucet.sonic.game/#/",
+    target: "_blank",
+  },
+  {
+    name: "Odyssey Guide",
+    link: "https://blog.sonic.game/sonic-testnet-odyssey-guide",
+    target: "_blank",
+  },
+  {
+    name: "About Sonic",
+    link: "https://sonic.game/",
+    target: "_blank",
+  },
+];
 
 export function Header() {
-  const { isOpen, onOpen } = useAccountModal();
-  const { connection } = useConnection();
+  const { isOpen, onOpen } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
-  const [userWalletAddress, setUserWalletAddress] = useState<string>("");
-  const isOpenRef = useLatest(isOpen);
+  const { address, token, reset } = useAccountInfo();
 
-  const [balance, setBalance] = useState<number>(0);
+  // useEffect(() => {
+  //   if (publicKey) {
+  //     (async function getBalanceEvery10Seconds() {
+  //       const newBalance = await connection.getBalance(publicKey);
+  //       setBalance(newBalance / LAMPORTS_PER_SOL);
+  //       setTimeout(getBalanceEvery10Seconds, 10000);
+  //     })();
+  //   }
+  // }, [publicKey, connection, balance]);
 
-  useEffect(() => {
-    if (publicKey) {
-      (async function getBalanceEvery10Seconds() {
-        const newBalance = await connection.getBalance(publicKey);
-        setBalance(newBalance / LAMPORTS_PER_SOL);
-        setTimeout(getBalanceEvery10Seconds, 10000);
-      })();
-    }
-  }, [publicKey, connection, balance]);
-
-  const handleClickOpenWallet = () => {
+  const handleClickOpenWallet = (event: any) => {
     !publicKey && onOpen();
-    // tack code
-    const ttq = (window as any).ttq;
-    ttq.track("ClickButton", {
-      contents: [
-        {
-          content_id: "0001",
-          content_type: "Sonic",
-          content_name: "ClickButton",
-        },
-      ],
-      value: "1",
-      currency: "USD",
-    });
-    ttq.track("CompleteRegistration", {
-      contents: [
-        {
-          content_id: "0002",
-          content_type: "Sonic001",
-          content_name: "CompleteRegistration_001",
-        },
-      ],
-      value: "1",
-      currency: "USD",
-    });
-  };
 
-  const handleDisconnect = async () => {
-    disconnect();
-  };
+    // ga4
+    trackClick({ text: "Connect Wallet" });
 
-  const menu = [
-    {
-      name: "Task Center",
-      link: "#",
-    },
-    {
-      name: "Network",
-      link: "#",
-    },
-    {
-      name: "Odyssey Guide",
-      link: "#",
-    },
-    {
-      name: "About Sonic",
-      link: "#",
-    },
-  ];
+    // ttq code part
+    openWalletStatics();
+  };
 
   return (
-    <nav className="h-20 flex items-center justify-between px-10 py-4 bg-[#111111] w-full sticky sticky:backdrop-blur-[35px] top-0 transition-all">
+    <nav className="h-20 flex items-center justify-between px-10 py-4 bg-[#111111] w-full sticky sticky:backdrop-blur-[35px] top-0 z-30 transition-all duration-300">
       {/* left */}
       <div className="flex items-center gap-12 space-x-4">
         {/* logo */}
-        <img
-          alt="Sonic Logo"
-          className="w-[135px]"
-          height="40"
-          src="/sonic.png"
-          style={{
-            aspectRatio: "100/40",
-            objectFit: "contain",
-          }}
-          width="100"
-        />
+        <Link href="/">
+          <img
+            alt="Sonic Logo"
+            className="w-[135px] h-auto"
+            src="/sonic.png"
+            style={{
+              aspectRatio: "100/40",
+              objectFit: "contain",
+            }}
+            width="100"
+          />
+        </Link>
 
         {/* nav */}
         {menu.map((menuItem, menuIndex) => (
           <Link
-            className="gap-12 text-white hover:text-white/50 font-orbitron transition-colors"
+            className="gap-12 text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors"
             href={menuItem.link}
             key={menuIndex}
+            target={menuItem.target}
+            onClick={trackLinkClick}
           >
             {menuItem.name}
           </Link>
@@ -119,64 +92,20 @@ export function Header() {
       </div>
 
       {/* right */}
-      <div className="gap-12 flex items-center space-x-4">
-        {/* <span className="text-white">- Monitor</span>
-        <span className="text-white">- Rings</span> */}
-        {/* <Select>
-          <SelectTrigger aria-label="User menu" id="user-menu">
-            <SelectValue placeholder="Get Started" />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectItem value="profile">Profile</SelectItem>
-            <SelectItem value="settings">Settings</SelectItem>
-            <SelectItem value="logout">Logout</SelectItem>
-          </SelectContent>
-        </Select> */}
+      <div className="gap-12 flex items-center">
+        {address && token ? <RingPopover /> : null}
+
+        {address && token ? <Notification /> : null}
 
         {!publicKey ? (
           <Button
-            className="px-8 py-[10px] bg-[#0000FF] hover:bg-[#0000FF]/80 font-orbitron text-white text-[16px] transition-all"
+            className="px-8 py-[10px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 font-orbitron font-semibold text-white text-base transition-all duration-300"
             onClick={handleClickOpenWallet}
           >
             {connecting ? "Connecting..." : "Connect"}
           </Button>
         ) : (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div
-                className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-5 py-[10px] rounded-[4px] cursor-pointer transition-all"
-                onClick={handleClickOpenWallet}
-              >
-                <img src="/images/wallet.svg" alt="" />
-                <span className="text-white font-orbitron">
-                  {formatAddress(publicKey.toBase58())}
-                </span>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[300px]">
-              {/* <DropdownMenuItem asChild>
-                {balance ? (
-                  <div>{toFixed(balance, 2)} SOL</div>
-                ) : (
-                  <div>0 SOL</div>
-                )}
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <span>TX history</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <span>Set up Sonic Network</span>
-              </DropdownMenuItem> */}
-              <DropdownMenuItem className="flex justify-center">
-                <Button
-                  className="z-50 text-[16px]  text-white font-orbitron"
-                  onClick={handleDisconnect}
-                >
-                  Disconnect
-                </Button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <UserDropdown />
         )}
       </div>
     </nav>

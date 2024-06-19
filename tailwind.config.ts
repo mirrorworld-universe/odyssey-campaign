@@ -73,7 +73,8 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        orbitron: ["Orbitron"],
+        manrope: ["var(--font-manrope)"],
+        orbitron: ["var(--font-orbitron)"],
       },
     },
   },
@@ -85,6 +86,10 @@ const config = {
           textShadow:
             "8px -8px 0 #25A3ED, 8px -8px 0 #25A3ED, -8px 8px 0 #25A3ED, 8px 8px 0 #25A3ED",
           // textShadow: "8px -8px 0 #25A3ED, 8px -8px 0 #25A3ED, -8px 8px 0 #25A3ED, 8px 8px 0 #25A3ED",
+        },
+        ".background-highlight": {
+          background:
+            "linear-gradient(80deg, #000 -8.56%, rgba(0, 0, 0, 0.00) 100%), linear-gradient(76deg, rgba(251, 176, 66, 0.00) 0%, rgba(251, 176, 66, 0.70) 165.97%), transparent 0px -38.301px / 112.36% 125.941% no-repeat",
         },
       };
 
