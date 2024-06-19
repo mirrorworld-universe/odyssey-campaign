@@ -1,0 +1,133 @@
+"use client";
+import Link from "next/link";
+import { Link as IconLink } from "@/app/icons/Link";
+import { Play as IconPlay } from "@/app/icons/Play";
+import { Card, CardSize } from "../Card";
+import { trackLinkClick } from "@/lib/track";
+
+export function GameVenture() {
+  const games = [
+    // {
+    //   name: "Lumittera",
+    //   cover: "/images/games/a.jpg",
+    //   guide: "",
+    //   play: "",
+    // },
+    // {
+    //   name: "FoMoney",
+    //   cover: "/images/games/b.jpg",
+    //   guide: "",
+    //   play: "",
+    // },
+    // {
+    //   name: "Biu",
+    //   cover: "/images/games/c.jpg",
+    //   guide: "",
+    //   play: "",
+    // },
+    {
+      name: "JOGO JOGO",
+      cover: "/images/games/d.jpg",
+      guide:
+        "https://www.notion.so/mirrorworldfun/JOGOJOGO-Odyssey-Game-and-Task-Guide-f8b1e4d54bee4d318926964c9f87a4be",
+      play: "https://app.jogojogo.game",
+    },
+  ];
+
+  return (
+    <>
+      {/* rules */}
+      <Card name="Rules" size={CardSize.Medium} className="">
+        <ul className="list-decimal text-xl font-normal leading-relaxed pl-6">
+          <li className="">Click any game below to download or try it out.</li>
+          <li className="">
+            Learn the game rules and reward distribution guidelines.
+          </li>
+          <li className="">Play these games to earn rewards.</li>
+        </ul>
+      </Card>
+
+      {/* main */}
+      <div className="w-full flex flex-row flex-wrap justify-between gap-10 mt-20">
+        {games.map((game: any, gameIndex: number) => (
+          <div
+            key={gameIndex}
+            className="group/game w-[492px] h-[263px] flex rounded-2 overflow-hidden relative"
+          >
+            <img
+              className="w-full h-full group-hover/game:scale-110 transition-transform duration-300"
+              src={game.cover}
+              alt=""
+            />
+
+            <div className="w-full bg-[#0000FF]/80 absolute top-0 left-0 right-0 bottom-0 opacity-0 group-hover/game:opacity-100 transition-opacity duration-300">
+              <img
+                className="absolute top-0 bottom-0 -left-2 m-auto group-hover/game:left-4 transition-all duration-300"
+                src="/images/icons/arrow-polygon.svg"
+                alt=""
+              />
+              <img
+                className="absolute top-0 bottom-0 -right-2 m-auto group-hover/game:right-4 transition-all duration-300 rotate-180"
+                src="/images/icons/arrow-polygon.svg"
+                alt=""
+              />
+              <h6 className="text-white text-5xl font-bold font-orbitron text-center mt-20 translate-y-2 group-hover/game:translate-y-0 transition-transform duration-300">
+                {game.name}
+              </h6>
+              <p className="flex flex-row justify-center gap-6 mt-5 translate-y-2 group-hover/game:translate-y-0 transition-transform duration-300">
+                <a
+                  className="group/link h-8 inline-flex flex-row items-center gap-1"
+                  href={game.guide}
+                  target="_blank"
+                  onClick={trackLinkClick}
+                >
+                  <span className="inline-flex w-8 h-8 relative">
+                    <IconLink
+                      width={32}
+                      height={32}
+                      color="#25A3ED"
+                      className="absolute"
+                    />
+                    <IconLink
+                      width={32}
+                      height={32}
+                      color="white"
+                      className="absolute group-hover/link:opacity-0 transition-opacity"
+                    />
+                  </span>
+                  <span className="text-white group-hover/link:text-[#25A3ED] text-xl font-semibold font-orbitron transition-colors">
+                    Guide
+                  </span>
+                </a>
+                <a
+                  className="group/link h-8 inline-flex flex-row items-center gap-1"
+                  href={game.play}
+                  target="_blank"
+                  onClick={trackLinkClick}
+                >
+                  <span className="inline-flex w-8 h-8 relative">
+                    <IconPlay
+                      width={32}
+                      height={32}
+                      color="#25A3ED"
+                      className="absolute"
+                    />
+                    <IconPlay
+                      width={32}
+                      height={32}
+                      color="white"
+                      className="absolute group-hover/link:opacity-0 transition-opacity"
+                    />
+                  </span>
+                  <span className="text-white group-hover/link:text-[#25A3ED] text-xl font-semibold font-orbitron transition-colors">
+                    Play
+                  </span>
+                </a>
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
