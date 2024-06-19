@@ -1,8 +1,6 @@
-import { API_BASE_URL } from "./config";
-
 export const getLotteryTx = async ({ token }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/lottery/build-tx`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/build-tx`,
     {
       headers: {
         Authorization: token,
@@ -14,22 +12,27 @@ export const getLotteryTx = async ({ token }: any) => {
 };
 
 export const drawLottery = async ({ token, hash }: any) => {
-  const response = await fetch(`${API_BASE_URL.staging}/user/lottery/draw`, {
-    headers: {
-      Authorization: token,
-      "content-type": "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify({
-      hash,
-    }),
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/draw`,
+    {
+      headers: {
+        Authorization: token,
+        "content-type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        hash,
+      }),
+    }
+  );
   return response.json();
 };
 
 export const getBlockNumberWinner = async ({ token, blockNumber }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/lottery/draw/winner?${new URLSearchParams({
+    `${
+      process.env.NEXT_PUBLIC_API_DOMAIN
+    }/user/lottery/draw/winner?${new URLSearchParams({
       block_number: blockNumber,
     })}`,
     {
@@ -44,7 +47,7 @@ export const getBlockNumberWinner = async ({ token, blockNumber }: any) => {
 
 export const getLotteryDrawPrice = async ({ token, blockNumber }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/lottery/draw/price`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/draw/price`,
     {
       headers: {
         Authorization: token,
@@ -60,23 +63,26 @@ export const getLotteryWinnerBoard = async ({
   page = 1,
   size = 20,
 }: any) => {
-  const response = await fetch(`${API_BASE_URL.staging}/user/lottery/board`, {
-    headers: {
-      Authorization: token,
-      "content-type": "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify({
-      page,
-      size,
-    }),
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/board`,
+    {
+      headers: {
+        Authorization: token,
+        "content-type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        page,
+        size,
+      }),
+    }
+  );
   return response.json();
 };
 
 export const getLotteryMintedAmount = async ({ token }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/lottery/minted/amount`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/minted/amount`,
     {
       headers: {
         Authorization: token,
@@ -89,7 +95,7 @@ export const getLotteryMintedAmount = async ({ token }: any) => {
 
 export const getLotteryBanner = async ({ token }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/lottery/message/banner`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/message/banner`,
     {
       headers: {
         Authorization: token,

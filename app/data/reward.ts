@@ -1,8 +1,6 @@
-import { API_BASE_URL } from "./config";
-
 export const getMilestoneDailyInfo = async ({ token }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/transactions/state/daily`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/transactions/state/daily`,
     {
       headers: {
         Authorization: token,
@@ -15,7 +13,7 @@ export const getMilestoneDailyInfo = async ({ token }: any) => {
 
 export const claimMilestoneRewards = async ({ token, stage }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/transactions/rewards/claim`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/transactions/rewards/claim`,
     {
       headers: {
         Authorization: token,
@@ -32,7 +30,7 @@ export const claimMilestoneRewards = async ({ token, stage }: any) => {
 
 export const getMysteryboxTx = async ({ token }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/rewards/mystery-box/build-tx`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/rewards/mystery-box/build-tx`,
     {
       headers: {
         Authorization: token,
@@ -45,7 +43,7 @@ export const getMysteryboxTx = async ({ token }: any) => {
 
 export const openMysterybox = async ({ token, hash }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/rewards/mystery-box/open`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/rewards/mystery-box/open`,
     {
       headers: {
         Authorization: token,
@@ -66,7 +64,7 @@ export const getMysteryboxHistory = async ({
   size = 50,
 }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/rewards/mystery-box/history`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/rewards/mystery-box/history`,
     {
       headers: {
         Authorization: token,

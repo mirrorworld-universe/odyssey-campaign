@@ -13,17 +13,3 @@ function getENV() {
 }
 
 const ENV = getENV();
-
-// export const API_BASE_URL = {
-//   product: "https://odyssey-api.sonic.game",
-//   staging: "https://odyssey-api-staging.sonic.game",
-//   local: "https://odyssey-api-staging.sonic.game",
-//   // local: 'http://localhost:3000'
-// }[ENV];
-
-export const API_BASE_URL = {
-  product: "https://odyssey-api.sonic.game",
-  staging: "https://odyssey-api-staging.sonic.game",
-  local: "https://odyssey-api-staging.sonic.game",
-  // local: 'http://localhost:3000'
-};

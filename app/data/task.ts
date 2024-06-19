@@ -1,5 +1,3 @@
-import { API_BASE_URL } from "./config";
-
 export const taskGroupList = [
   {
     name: "One - time",
@@ -81,18 +79,21 @@ export const taskGroupList = [
 ];
 
 export const fetchFollowingStatus = async ({ token }: any) => {
-  const response = await fetch(`${API_BASE_URL.staging}/user/social/status`, {
-    headers: {
-      Authorization: token,
-    },
-    method: "GET",
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/social/status`,
+    {
+      headers: {
+        Authorization: token,
+      },
+      method: "GET",
+    }
+  );
   return response.json();
 };
 
 export const fetchFollowTwitter = async (state: string, code: string) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/social/follow/twitter`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/social/follow/twitter`,
     {
       headers: {
         "content-type": "application/json",
@@ -109,7 +110,7 @@ export const fetchFollowTwitter = async (state: string, code: string) => {
 
 export const fetchFollowDiscord = async (state: string, code: string) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/social/follow/discord`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/social/follow/discord`,
     {
       headers: {
         "content-type": "application/json",
@@ -125,18 +126,21 @@ export const fetchFollowDiscord = async (state: string, code: string) => {
 };
 
 export const fetchCheckinStatus = async ({ token }: any) => {
-  const response = await fetch(`${API_BASE_URL.staging}/user/check-in/status`, {
-    headers: {
-      Authorization: token,
-    },
-    method: "GET",
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/check-in/status`,
+    {
+      headers: {
+        Authorization: token,
+      },
+      method: "GET",
+    }
+  );
   return response.json();
 };
 
 export const fetchCheckinTransaction = async ({ token }: any) => {
   const response = await fetch(
-    `${API_BASE_URL.staging}/user/check-in/transaction`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/check-in/transaction`,
     {
       headers: {
         Authorization: token,
@@ -148,15 +152,18 @@ export const fetchCheckinTransaction = async ({ token }: any) => {
 };
 
 export const fetchFinishCheckin = async ({ token, hash }: any) => {
-  const response = await fetch(`${API_BASE_URL.staging}/user/check-in`, {
-    headers: {
-      Authorization: token,
-      "content-type": "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify({
-      hash,
-    }),
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/check-in`,
+    {
+      headers: {
+        Authorization: token,
+        "content-type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        hash,
+      }),
+    }
+  );
   return response.json();
 };
