@@ -7,8 +7,6 @@ import { Discord } from "../icons/Discord";
 export function Footer() {
   const year = new Date().getFullYear();
 
-  const copyright = `©Copyright ${year} Sonic`;
-
   const socialMedias = [
     {
       name: "twitter",
@@ -105,7 +103,32 @@ export function Footer() {
               </div>
             </div>
 
-            <p className="font-sub text-sonic-disabled text-xs">{copyright}</p>
+            <p className="font-sub text-sonic-disabled text-xs">
+              <span className="text-white/60">
+                <a
+                  className="hover:underline"
+                  href="https://docs.google.com/document/u/3/d/e/2PACX-1vS4amMKICyxZJt9QkmU_57a_TA50wL9NxTD1mOWsmyqFMrfb0-UV6ehfOAnqVDgrA/pub"
+                  target="_blank"
+                >
+                  © Copyright
+                </a>{" "}
+                {year} Sonic
+              </span>
+              <a
+                className="text-white/60 font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
+                href="https://docs.google.com/document/u/3/d/e/2PACX-1vREdZyNuwasC-TUxY2pH_4UBKSPujpADn40Ih0p0Xw9koauigoLS6eyYqTpLzKsnw/pub"
+                target="_blank"
+              >
+                Terms of Use
+              </a>
+              <a
+                className="text-white/60 font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
+                href="https://docs.google.com/document/u/1/d/e/2PACX-1vRbCG8os3oojtNwDbVVwnif_DILgjTnYY_807b8JcWUxG606n6yMuxZsPfmlABqUQf6taJBgDb3p25N/pub"
+                target="_blank"
+              >
+                Privacy Policy
+              </a>
+            </p>
           </div>
         </div>
 
@@ -124,7 +147,32 @@ export function Footer() {
           </div>
 
           <div className="font-sub text-sonic-disabled text-xs flex justify-between items-center w-full">
-            <p className="text-[#8F8F8F] opacity-60">{copyright}</p>
+            <p className="text-[#8F8F8F] opacity-60">
+              <span className="text-white/60 text-[14px]">
+                <a
+                  className="hover:underline"
+                  href="https://docs.google.com/document/u/3/d/e/2PACX-1vS4amMKICyxZJt9QkmU_57a_TA50wL9NxTD1mOWsmyqFMrfb0-UV6ehfOAnqVDgrA/pub"
+                  target="_blank"
+                >
+                  © Copyright
+                </a>{" "}
+                {year} Sonic
+              </span>
+              <a
+                className="text-white/60 text-[14px] font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
+                href="https://docs.google.com/document/u/3/d/e/2PACX-1vREdZyNuwasC-TUxY2pH_4UBKSPujpADn40Ih0p0Xw9koauigoLS6eyYqTpLzKsnw/pub"
+                target="_blank"
+              >
+                Terms of Use
+              </a>
+              <a
+                className="text-white/60 text-[14px] font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
+                href="https://docs.google.com/document/u/1/d/e/2PACX-1vRbCG8os3oojtNwDbVVwnif_DILgjTnYY_807b8JcWUxG606n6yMuxZsPfmlABqUQf6taJBgDb3p25N/pub"
+                target="_blank"
+              >
+                Privacy Policy
+              </a>
+            </p>
 
             {/* Desktop Socials */}
             <div className="flex gap-4 items-center justify-start">
