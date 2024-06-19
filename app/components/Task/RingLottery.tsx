@@ -23,7 +23,7 @@ export function RingLottery() {
     <>
       {/* rules */}
       <Card name="Rules" size={CardSize.Medium} className="">
-        <ul className="list-disc text-[20px] font-normal leading-relaxed pl-6">
+        <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           <li className="">
             Request test SOL first.{" "}
             <a
@@ -57,7 +57,7 @@ export function RingLottery() {
       <Card name="Minted Rings" size={CardSize.Medium} className="mt-20">
         <div className="flex flex-row justify-between items-center">
           <Ring width={56} height={56} color="#FBB042" />
-          <span className="text-white text-[48px] font-semibold font-orbitron">
+          <span className="text-white text-5xl font-semibold font-orbitron">
             {`${prettyNumber(currentRing)}/${prettyNumber(totalRing)}`}
           </span>
         </div>
@@ -73,12 +73,12 @@ export function RingLottery() {
         <Card size={CardSize.Medium} className="w-[470px]">
           <div className="w-full flex flex-col">
             <div className="w-full flex flex-row justify-between">
-              <span className="text-white text-[20px] font-orbitron">
+              <span className="text-white text-xl font-orbitron">
                 Number of draws
               </span>
               <div className="flex items-center">
                 <Select>
-                  <SelectTrigger className="bg-transparent text-white text-[18px] font-semibold">
+                  <SelectTrigger className="bg-transparent text-white text-lg font-semibold">
                     <SelectValue placeholder="1" />
                   </SelectTrigger>
                   <SelectContent>

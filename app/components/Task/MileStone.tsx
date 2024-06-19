@@ -49,12 +49,7 @@ export function MileStone() {
               milestone today and received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
                 {stageList[currentStageKey].rewards} x mystery boxes
-                <Gift
-                  width={12}
-                  height={12}
-                  color="#FBB042"
-                  className="mx-[4px]"
-                />
+                <Gift width={12} height={12} color="#FBB042" className="mx-1" />
               </span>
               . Open it in the navbar to exchange for rings.
             </p>
@@ -88,7 +83,7 @@ export function MileStone() {
     <>
       {/* rules */}
       <Card name="Rules" size={CardSize.Medium} className="">
-        <ul className="list-disc text-[20px] font-normal leading-relaxed pl-6">
+        <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           <li className="">
             Any task and on-chain interaction will generate a corresponding
             transaction record, abbreviated as tx.
@@ -112,35 +107,35 @@ export function MileStone() {
           {/* wordings */}
           <p className="text-white text-[29px] font-orbitron font-semibold">
             You have made
-            <span className="text-[#FBB042] text-[56px] px-[16px]">
+            <span className="text-[#FBB042] text-[56px] px-4">
               {transactionAmount}
             </span>
             {transactionAmount === 1 ? "transaction" : "transactions"} today.
           </p>
 
           {/* progress */}
-          <div className="w-full h-[12px] bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
+          <div className="w-full h-3 bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
             <div
-              className="rounded h-[12px] bg-gradient-to-r from-[#00F] via-[#25A3ED] to-[#90D2F9] absolute"
+              className="rounded h-3 bg-gradient-to-r from-[#00F] via-[#25A3ED] to-[#90D2F9] absolute"
               style={{
                 width: `${(transactionAmount / totalAmount) * 100}%`,
               }}
             ></div>
             <div
-              className="rounded h-[12px] bg-gradient-to-r from-[#00F] via-[#25A3ED] to-[#90D2F9] blur-[6px] absolute"
+              className="rounded h-3 bg-gradient-to-r from-[#00F] via-[#25A3ED] to-[#90D2F9] blur-[6px] absolute"
               style={{
                 width: `${(transactionAmount / totalAmount) * 100}%`,
               }}
             ></div>
-            <ul className="w-full flex flex-row justify-between text-white/50 text-[24px] font-semibold font-orbitron absolute -top-6">
+            <ul className="w-full flex flex-row justify-between text-white/50 text-2xl font-semibold font-orbitron absolute -top-6">
               {Object.keys(stageList).map(
                 (stageKey: string, stageIndex: number) => (
                   <li
                     key={stageIndex}
-                    className="rounded-[50%] border-[8px] border-solid border-[#222222] mx-[52px]"
+                    className="rounded-[50%] border-2 border-solid border-[#222222] mx-[52px]"
                   >
                     {transactionAmount < stageList[stageKey].quantity ? (
-                      <span className="w-[48px] h-[48px] inline-flex justify-center items-center text-white text-xl font-bold bg-[#4C4C4C] rounded-[50%]">
+                      <span className="w-12 h-12 inline-flex justify-center items-center text-white text-xl font-bold bg-[#4C4C4C] rounded-[50%]">
                         {stageList[stageKey].quantity}
                       </span>
                     ) : (
@@ -159,18 +154,18 @@ export function MileStone() {
                 stageList[stageKey].claimed ? (
                   <p
                     key={stageIndex}
-                    className="text-[20px] text-white font-orbitron font-semibold"
+                    className="text-xl text-white font-orbitron font-semibold"
                   >
                     Received:{" "}
                     <span className="inline-flex items-center text-[#FBB042] font-orbitron">
                       x {stageList[stageKey].rewards}{" "}
-                      <Gift color="#FBB042" className="mx-[4px]" />
+                      <Gift color="#FBB042" className="mx-1" />
                     </span>
                   </p>
                 ) : (
                   <Button
                     key={stageIndex}
-                    className={`w-[177px] h-[48px] text-white text-[16px] font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300 ${
+                    className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300 ${
                       transactionAmount < stageList[stageKey].quantity
                         ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                         : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
@@ -178,7 +173,7 @@ export function MileStone() {
                     onClick={() => handleClaimGifts(stageKey, stageIndex)}
                   >
                     Claim x {stageList[stageKey].rewards}{" "}
-                    <Gift color="#FFFFFF" className="mx-[4px]" />
+                    <Gift color="#FFFFFF" className="mx-1" />
                   </Button>
                 )
             )}

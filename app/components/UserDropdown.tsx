@@ -100,7 +100,7 @@ export function UserDropdown() {
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger>
         <div
-          className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-5 py-[10px] rounded-[4px] cursor-pointer transition-all duration-300"
+          className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-5 py-[10px] rounded cursor-pointer transition-all duration-300"
           onClick={handleClickOpenWallet}
           title={publicKey?.toBase58()}
         >
@@ -112,20 +112,16 @@ export function UserDropdown() {
       </PopoverTrigger>
       <PopoverContent className="w-[300px] bg-[#1b1b1b] border-none rounded px-0 py-1">
         <div className="flex gap-3 justify-start items-center px-4 py-5 hover:bg-[#1b1b1b]">
-          <img
-            className="w-[40px] h-[40px]"
-            src={wallet?.adapter.icon}
-            alt=""
-          />
+          <img className="w-10 h-10" src={wallet?.adapter.icon} alt="" />
           <div className="flex flex-col justify-center">
-            <span className="text-white text-[18px] font-semibold font-orbitron">
+            <span className="text-white text-lg font-semibold font-orbitron">
               {balance} SOL
             </span>
             <div
               className="flex flex-row items-center mt-1"
               onClick={hanldeCopyAddress}
             >
-              <span className="text-white/50 text-[12px] font-semibold">
+              <span className="text-white/50 text-xs font-semibold">
                 {formatAddress(publicKey?.toBase58())}
               </span>
               <img
@@ -143,7 +139,7 @@ export function UserDropdown() {
           target="_blank"
         >
           <img src="/images/description.svg" alt="" className="w-5 h-5 mr-3" />
-          <span className="text-white text-[14px] font-semibold font-orbitron">
+          <span className="text-white text-sm font-semibold font-orbitron">
             Tx History
           </span>
         </a>
@@ -158,7 +154,7 @@ export function UserDropdown() {
             target="_blank"
           >
             <img src="/images/settings.svg" alt="" className="w-5 h-5 mr-3" />
-            <span className="text-white text-[14px] font-semibold font-orbitron">
+            <span className="text-white text-sm font-semibold font-orbitron">
               Set up Network
             </span>
           </a>
@@ -169,7 +165,7 @@ export function UserDropdown() {
           onClick={handleDisconnect}
         >
           <img src="/images/logout.svg" alt="" className="w-5 h-5 mr-3" />
-          <span className="text-white text-[14px] font-semibold font-orbitron">
+          <span className="text-white text-sm font-semibold font-orbitron">
             Disconnect
           </span>
         </div>

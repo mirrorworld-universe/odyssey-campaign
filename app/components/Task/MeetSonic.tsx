@@ -51,12 +51,7 @@ export function MeetSonic() {
             You've received{" "}
             <span className="inline-flex items-center text-[#FBB042]">
               1 x mystery box
-              <Gift
-                width={12}
-                height={12}
-                color="#FBB042"
-                className="mx-[4px]"
-              />
+              <Gift width={12} height={12} color="#FBB042" className="mx-1" />
             </span>
             . Open it in the navbar to exchange for rings.
           </p>
@@ -163,7 +158,7 @@ export function MeetSonic() {
     <>
       {/* rules */}
       <Card name="Rules" size={CardSize.Medium} className="">
-        <ul className="list-disc text-[20px] font-normal leading-relaxed pl-6">
+        <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           <li className="">
             Click the social buttons to link your account and complete the
             tasks.
@@ -182,7 +177,7 @@ export function MeetSonic() {
 
       {/* main */}
       <Card size={CardSize.Medium} className="mt-20">
-        <ul className="list-disc text-[20px] font-normal leading-relaxed pl-6">
+        <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           {socialMediaList.map((socialMedia, socialMediaIndex) => (
             <li
               className={`flex flex-row items-center w-full ${
@@ -194,12 +189,12 @@ export function MeetSonic() {
             >
               <div className="flex flex-col pr-20 border-r border-solid border-white/10">
                 <h5 className="text-white font-orbitron">{socialMedia.name}</h5>
-                <p className="w-[600px] text-[16px] text-white/50 font-normal mt-4">
+                <p className="w-[600px] text-base text-white/50 font-normal mt-4">
                   {socialMedia.description}
                 </p>
               </div>
               <Button
-                className={`inline-flex justify-center items-center w-[177px] h-[48px] rounded gap-2 px-[16px] py-[10px] transition-colors duration-300 ml-20 ${
+                className={`inline-flex justify-center items-center w-[177px] h-12 rounded gap-2 px-4 py-[10px] transition-colors duration-300 ml-20 ${
                   socialMedia.id === "twitter"
                     ? hasFollowedTwitter
                       ? "bg-[#888888] hover:bg-[#888888]"
@@ -217,7 +212,7 @@ export function MeetSonic() {
                 }}
               >
                 {socialMedia.buttonIcon}
-                <span className="text-white font-orbitron text-[16px] font-semibold">
+                <span className="text-white font-orbitron text-base font-semibold">
                   {address && token
                     ? isLoadingStatus
                       ? "Loading"

@@ -44,7 +44,7 @@ export function Footer() {
               />
             </Link>
             <a
-              className="text-white text-[14px] font-semibold font-orbitron border-l border-solid border-[#8F8F8F] h-[21px] ml-4 pl-4 hover:underline"
+              className="text-white text-sm font-semibold font-orbitron border-l border-solid border-[#8F8F8F] h-[21px] ml-4 pl-4 hover:underline"
               href="https://www.sonic.game/"
               target="_blank"
             >
@@ -60,7 +60,7 @@ export function Footer() {
             <div className="flex flex-col sm:flex-row sm:space-x-6 sm:space-y-0 space-y-6 font-sans">
               {menu.map((menuItem, menuIndex) => (
                 <Link
-                  className="text-[16px] gap-12 text-white/60 hover:text-white font-semibold font-orbitron transition-colors"
+                  className="text-base gap-12 text-white/60 hover:text-white font-semibold font-orbitron transition-colors"
                   href={menuItem.link}
                   key={menuIndex}
                   target={menuItem.target}
@@ -82,7 +82,7 @@ export function Footer() {
                   key={mediaIndex}
                   href={media.link}
                   target="_blank"
-                  className="flex justify-center items-center opacity-100 hover:opacity-80 outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2 transition-opacity"
+                  className="flex justify-center items-center opacity-100 hover:opacity-80 outline-none focus:outline-none text-white bg-white/20 rounded-md p-2 transition-opacity"
                 >
                   {media.icon}
                 </a>
@@ -148,7 +148,7 @@ export function Footer() {
 
           <div className="font-sub text-sonic-disabled text-xs flex justify-between items-center w-full">
             <p className="text-[#8F8F8F] opacity-60">
-              <span className="text-white/60 text-[14px]">
+              <span className="text-white/60 text-sm">
                 <a
                   className="hover:underline"
                   href="https://docs.google.com/document/u/3/d/e/2PACX-1vS4amMKICyxZJt9QkmU_57a_TA50wL9NxTD1mOWsmyqFMrfb0-UV6ehfOAnqVDgrA/pub"
@@ -159,14 +159,14 @@ export function Footer() {
                 {year} Sonic
               </span>
               <a
-                className="text-white/60 text-[14px] font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
+                className="text-white/60 text-sm font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
                 href="https://docs.google.com/document/u/3/d/e/2PACX-1vREdZyNuwasC-TUxY2pH_4UBKSPujpADn40Ih0p0Xw9koauigoLS6eyYqTpLzKsnw/pub"
                 target="_blank"
               >
                 Terms of Use
               </a>
               <a
-                className="text-white/60 text-[14px] font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
+                className="text-white/60 text-sm font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
                 href="https://docs.google.com/document/u/1/d/e/2PACX-1vRbCG8os3oojtNwDbVVwnif_DILgjTnYY_807b8JcWUxG606n6yMuxZsPfmlABqUQf6taJBgDb3p25N/pub"
                 target="_blank"
               >
@@ -181,7 +181,7 @@ export function Footer() {
                   key={mediaIndex}
                   href={media.link}
                   target="_blank"
-                  className="flex justify-center items-center opacity-100 hover:opacity-80 outline-none focus:outline-none text-white bg-white/20 rounded-[6px] p-2 transition-opacity"
+                  className="flex justify-center items-center opacity-100 hover:opacity-80 outline-none focus:outline-none text-white bg-white/20 rounded-md p-2 transition-opacity"
                 >
                   {media.icon}
                 </a>

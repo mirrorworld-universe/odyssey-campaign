@@ -49,7 +49,7 @@ export function SetUpSonicNetworkDialog() {
               Set Up Sonic Network
             </span>
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-[#717171] text-[16px] text-left mt-4">
+          <AlertDialogDescription className="text-[#717171] text-base text-left mt-4">
             Set up Sonic network for your {wallet?.adapter.name} wallet
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -64,7 +64,7 @@ export function SetUpSonicNetworkDialog() {
           <img src={wallet?.adapter.icon} alt="" className="w-12 h-12" />
         </div>
         <div className="flex flex-col gap-12 mt-12">
-          <ul className="flex flex-col gap-6 list-decimal text-white text-[18px] font-semibold pl-[18px]">
+          <ul className="flex flex-col gap-6 list-decimal text-white text-lg font-semibold pl-[18px]">
             <li className="s">
               Open this{" "}
               <a
@@ -82,7 +82,7 @@ export function SetUpSonicNetworkDialog() {
         </div>
         <div className="flex flex-col gap-12 mt-12">
           <Button
-            className="w-full h-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-[16px] font-bold font-orbitron transition-colors duration-300"
+            className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
             onClick={handleConfirm}
           >
             I already finished the setup

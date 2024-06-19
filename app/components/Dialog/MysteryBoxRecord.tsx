@@ -122,12 +122,7 @@ export function MysteryBoxRecordDialog() {
               You've received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
                 {data.amount} x ring{data.amount === 1 ? "" : "s"}
-                <Ring
-                  width={12}
-                  height={12}
-                  color="#FBB042"
-                  className="mx-[4px]"
-                />
+                <Ring width={12} height={12} color="#FBB042" className="mx-1" />
               </span>
               . Collect more rings in the Sonic Odyssey!
             </p>
@@ -205,14 +200,14 @@ export function MysteryBoxRecordDialog() {
         <AlertDialogHeader className="">
           {mysteryBoxRecords.every((record) => record.loaded === true) ? (
             <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
-              <p className="flex flex-row justify-center items-center gap-3 text-white text-[48px] font-semibold font-orbitron">
+              <p className="flex flex-row justify-center items-center gap-3 text-white text-5xl font-semibold font-orbitron">
                 <Ring width={64} height={64} color="#FBB042" />x{" "}
                 {mysteryBoxRecords.reduce(
                   (sum, item) => sum + item.quantity,
                   0
                 )}
               </p>
-              <span className="text-white text-[24px] font-semibold font-orbitron mt-8">
+              <span className="text-white text-2xl font-semibold font-orbitron mt-8">
                 {mysteryBoxRecords.reduce(
                   (sum, item) => sum + item.quantity,
                   0
@@ -231,7 +226,7 @@ export function MysteryBoxRecordDialog() {
           )}
           <AlertDialogDescription
             className={cn(
-              "text-[#717171] text-[16px] mt-4",
+              "text-[#717171] text-base mt-4",
               mysteryBoxRecords.every((record) => record.loaded === true)
                 ? "text-center"
                 : "text-center"
@@ -250,7 +245,7 @@ export function MysteryBoxRecordDialog() {
         <div className="flex flex-col">
           {mysteryBoxRecords.length ? (
             <Card size={CardSize.List} className="mt-12">
-              <div className="flex flex-col text-[14px]">
+              <div className="flex flex-col text-sm">
                 {/* title */}
                 <div className="flex flex-row justify-between text-white/60 pb-3 px-6">
                   <span className="">#Draw</span>
@@ -277,7 +272,7 @@ export function MysteryBoxRecordDialog() {
                               box?.loaded ? "opacity-0" : "opacity-100"
                             )}
                           />
-                          <span className="text-white text-[14px]">
+                          <span className="text-white text-sm">
                             {boxIndex + 1 < 10
                               ? `0${boxIndex + 1}`
                               : boxIndex + 1}
@@ -316,21 +311,21 @@ export function MysteryBoxRecordDialog() {
                   className="w-5 h-5 mt-[2px]"
                   src="/images/icons/report.svg"
                 />
-                <span className="text-[#FBB042] text-[16px]">
+                <span className="text-[#FBB042] text-base">
                   Detected a wallet signature issue. Would you like to stop or
                   continue opening mystery boxes?
                 </span>
               </p>
               {/* continue */}
               <Button
-                className="w-full h-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300 mt-12"
+                className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300 mt-12"
                 onClick={handleContinue}
               >
                 Continue
               </Button>
               {/* stop */}
               <Button
-                className="w-full h-[48px] bg-[#F74242]/10 hover:bg-[#F74242]/20 active:bg-[#F74242]/5 text-[#F74242] font-orbitron border border-solid border-[#F74242]/40 hover:border-[#F74242] active:border-[#F74242]/10 transition-colors duration-300 mt-4"
+                className="w-full h-12 bg-[#F74242]/10 hover:bg-[#F74242]/20 active:bg-[#F74242]/5 text-[#F74242] font-orbitron border border-solid border-[#F74242]/40 hover:border-[#F74242] active:border-[#F74242]/10 transition-colors duration-300 mt-4"
                 onClick={handleStop}
               >
                 Stop
@@ -340,7 +335,7 @@ export function MysteryBoxRecordDialog() {
 
           {mysteryBoxRecords.every((record) => record.loaded === true) ? (
             <Button
-              className="w-full h-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300 mt-12"
+              className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300 mt-12"
               onClick={handleConfirm}
             >
               Confirm

@@ -186,7 +186,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
           <DialogTitle className="text-white text-[32px] font-orbitron">
             Connect Your Wallet
           </DialogTitle>
-          <DialogDescription className="w-[355px] text-white/60 text-[16px]">
+          <DialogDescription className="w-[355px] text-white/60 text-base">
             Choose one of the wallets and install the corresponding browser
             extension.
           </DialogDescription>
@@ -199,7 +199,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
                 <li
                   key={wallet.adapter?.name}
                   //onClick={() => select(wallet.adapter?.name)}
-                  className="h-[40px] flex items-center w-full justify-between"
+                  className="h-10 flex items-center w-full justify-between"
                 >
                   <div
                     className="flex items-center cursor-pointer hover:opacity-80 transition-all"
@@ -212,7 +212,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
                       width={30}
                       className="mr-5 "
                     />
-                    <span className="text-[20px] text-white mr-2">
+                    <span className="text-xl text-white mr-2">
                       {wallet.adapter?.name}
                     </span>
                     {wallet.isSupportSonic ? <SupportSonicTag /> : null}
@@ -221,7 +221,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
                   {wallet.adapter.readyState === WalletReadyState.Installed ? (
                     <div
                       className={cn(
-                        "inline-flex items-center justify-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
+                        "inline-flex items-center justify-center min-w-[115px] h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
                         "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
                       )}
                       onClick={() => handleWalletSelect(wallet)}
@@ -233,7 +233,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
                   ) : (
                     <a
                       className={cn(
-                        "inline-flex items-center justify-center min-w-[115px] h-[40px] text-center rounded-[4px] cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
+                        "inline-flex items-center justify-center min-w-[115px] h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
                         "border-white/80 hover:border-white"
                       )}
                       href={wallet.adapter.url}

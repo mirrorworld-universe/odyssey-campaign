@@ -125,7 +125,7 @@ export default function RingPopover() {
       <PopoverTrigger>
         <div className="flex flex-row items-center gap-2 cursor-pointer">
           <Ring width={24} height={24} color="#FBB042" />
-          <span className="text-white text-[16px] font-orbitron font-semibold">
+          <span className="text-white text-base font-orbitron font-semibold">
             {prettyNumber(ringAmount)}
           </span>
           <Arrow
@@ -140,7 +140,7 @@ export default function RingPopover() {
         </div>
       </PopoverTrigger>
       <PopoverContent
-        className={`w-[320px] bg-[#1B1B1B] border-none rounded-[8px] px-0 py-0`}
+        className={`w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0`}
       >
         <div className="block w-full h-[286px] overflow-hidden relative">
           <div
@@ -150,7 +150,7 @@ export default function RingPopover() {
             )}
           >
             {/* balance */}
-            <div className="flex flex-col gap-5 px-[16px] py-[24px]">
+            <div className="flex flex-col gap-5 px-4 py-[24px]">
               <Card
                 name="Current Balance"
                 nameClassName="bg-[#1B1B1B]"
@@ -164,7 +164,7 @@ export default function RingPopover() {
                       color="#FBB042"
                       className="mr-1"
                     />{" "}
-                    <span className="text-white text-[16px] font-orbitron font-semibold">
+                    <span className="text-white text-base font-orbitron font-semibold">
                       {ringMonitorAmount}
                     </span>
                   </div>
@@ -175,7 +175,7 @@ export default function RingPopover() {
                       color="#FBB042"
                       className="mr-1"
                     />{" "}
-                    <span className="text-white text-[16px] font-orbitron font-semibold">
+                    <span className="text-white text-base font-orbitron font-semibold">
                       {ringAmount}
                     </span>
                   </div>
@@ -202,7 +202,7 @@ export default function RingPopover() {
                 {isOpeningMysterybox && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                <span className="text-white text-[14px] font-orbitron">
+                <span className="text-white text-sm font-orbitron">
                   Open Mystery Box
                 </span>
                 <Gift
@@ -218,13 +218,11 @@ export default function RingPopover() {
             {historyList.length ? (
               <div
                 className={cn(
-                  "flex flex-col px-[16px] py-[8px] font-orbitron border-t border-solid border-white/10"
+                  "flex flex-col px-4 py-2 font-orbitron border-t border-solid border-white/10"
                 )}
               >
                 <div className="flex flex-row items-center justify-between">
-                  <div className="text-white text-[14px] py-[8px]">
-                    Claim History
-                  </div>
+                  <div className="text-white text-sm py-2">Claim History</div>
                   <div
                     className="text-[#25A3ED] text-[10px] hover:underline cursor-pointer"
                     onClick={handleLoadMoreClaimHistory}
@@ -236,7 +234,7 @@ export default function RingPopover() {
                   {historyList.map((history: any, historyIndex: number) => (
                     <div
                       key={historyIndex}
-                      className="flex flex-row justify-between text-white/50 text-[12px] py-[8px]"
+                      className="flex flex-row justify-between text-white/50 text-xs py-2"
                     >
                       <div className="flex items-center">
                         Claimed x 1{" "}
@@ -267,18 +265,18 @@ export default function RingPopover() {
           {historyList.length ? (
             <div
               className={cn(
-                "w-full h-full flex flex-col py-[8px] border-t border-solid border-white/10 transition-transform duration-300 absolute",
+                "w-full h-full flex flex-col py-2 transition-transform duration-300 absolute",
                 showClaimHistory ? "translate-x-0" : `translate-x-[320px]`
               )}
             >
-              <div className="flex justify-center px-[16px] relative">
+              <div className="flex justify-center px-4 relative">
                 <ChevronLeft
                   size={24}
                   color="rgba(255, 255, 255, .3)"
                   className="cursor-pointer absolute top-0 bottom-0 left-0 m-auto"
                   onClick={handleBackClaimHistory}
                 />
-                <div className="text-white text-[14px] font-orbitron py-[8px]">
+                <div className="text-white text-sm font-orbitron py-2">
                   Claim History
                 </div>
               </div>
@@ -287,13 +285,13 @@ export default function RingPopover() {
                   <div
                     key={historyIndex}
                     className={cn(
-                      "border-solid border-white/5 px-[16px] py-[8px]",
+                      "border-solid border-white/5 px-4 py-2",
                       historyIndex > 0 ? "border-t" : ""
                     )}
                   >
                     <div
                       key={historyIndex}
-                      className="flex flex-row justify-between text-white text-[12px] font-orbitron"
+                      className="flex flex-row justify-between text-white text-xs font-orbitron"
                     >
                       <div className="flex items-center">
                         Claimed x 1{" "}

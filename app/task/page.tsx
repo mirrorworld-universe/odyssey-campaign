@@ -82,10 +82,10 @@ const TaskCenter: NextPage = () => {
         className="w-[1610px] h-[1638px] absolute -top-80 -right-80"
       />
       <div className="max-w-[1464px] 2xl:w-full relative">
-        <h2 className="text-white font-orbitron text-[48px] font-semibold">
+        <h2 className="text-white font-orbitron text-5xl font-semibold">
           Odyssey Task Center
         </h2>
-        <p className="text-white text-[20px] font-normal mt-5">
+        <p className="text-white text-xl font-normal mt-5">
           Embark on your Odyssey by completing various tasks! Earn more rings
           along the way!{" "}
           <span
@@ -97,13 +97,13 @@ const TaskCenter: NextPage = () => {
         </p>
         <div className="flex flex-row gap-6 mt-16">
           <Button
-            className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] transition-all duration-300 bg-[#0000FF] hover:bg-[#0000FF]/60  active:bg-[#0000FF]/80"
+            className="text-white text-base font-bold font-orbitron w-[230px] h-12 transition-all duration-300 bg-[#0000FF] hover:bg-[#0000FF]/60  active:bg-[#0000FF]/80"
             onClick={handleStartTask}
           >
             Start My Task
           </Button>
           <Button
-            className="text-white text-[16px] font-bold font-orbitron w-[230px] h-[48px] bg-transparent border boder-solid border-white transition-all duration-300"
+            className="text-white text-base font-bold font-orbitron w-[230px] h-12 bg-transparent border boder-solid border-white transition-all duration-300"
             onClick={handleOpenHowToPlayDialog}
           >
             How to Play?
@@ -147,18 +147,18 @@ const TaskCenter: NextPage = () => {
                         : ""
                     )}
                   >
-                    <h5 className="text-white/70 text-[48px] font-semibold font-orbitron">
+                    <h5 className="text-white/70 text-5xl font-semibold font-orbitron">
                       {task.name}
                     </h5>
-                    <p className="text-white/60 text-[16px] font-normal w-[420px] mt-5">
+                    <p className="text-white/60 text-base font-normal w-[420px] mt-5">
                       {task.description}
                     </p>
                     <div className="flex flex-row justify-start items-center w-full absolute left-0 bottom-0">
-                      <div className="w-[174px] h-[40px] bg-cover bg-no-repeat text-white text-[14px] font-orbitron bg-[url('/images/period-background.png')] pt-3 pl-5">
+                      <div className="w-[174px] h-10 bg-cover bg-no-repeat text-white text-sm font-orbitron bg-[url('/images/period-background.png')] pt-3 pl-5">
                         {task.period}
                       </div>
                       {task.reward ? (
-                        <div className="text-[#FBB042] text-[14px] font-orbitron ml-1">
+                        <div className="text-[#FBB042] text-sm font-orbitron ml-1">
                           {task.reward}
                         </div>
                       ) : null}

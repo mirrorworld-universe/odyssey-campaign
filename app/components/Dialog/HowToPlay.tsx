@@ -26,7 +26,7 @@ export function HowToPlayDialog() {
           <DialogTitle className="text-white text-[32px] font-orbitron">
             How to Play?
           </DialogTitle>
-          <DialogDescription className="text-white/60 text-[16px]">
+          <DialogDescription className="text-white/60 text-base">
             Ensure you successfully switch the network in your wallet to Sonic.
             Check{" "}
             <a
@@ -41,7 +41,7 @@ export function HowToPlayDialog() {
         </DialogHeader>
         <div className="flex flex-col gap-3 mt-12">
           {/* step 1 */}
-          <div className="flex flex-row gap-4 text-[18px] font-semibold font-orbitron">
+          <div className="flex flex-row gap-4 text-lg font-semibold font-orbitron">
             <h3 className="text-[#FBB042]">
               <span>Step</span>
               <span className="inline-flex justify-center w-[27px] ml-[9px]">
@@ -65,7 +65,7 @@ export function HowToPlayDialog() {
             </p>
           </div>
           {/* step 2 */}
-          <div className="flex flex-row gap-4 text-[18px] font-semibold font-orbitron">
+          <div className="flex flex-row gap-4 text-lg font-semibold font-orbitron">
             <h3 className="text-[#FBB042]">
               <span>Step</span>
               <span className="inline-flex justify-center w-[27px] ml-[9px]">
@@ -90,7 +90,7 @@ export function HowToPlayDialog() {
             </p>
           </div>
           {/* step 3 */}
-          <div className="flex flex-row gap-4 text-[18px] font-semibold font-orbitron">
+          <div className="flex flex-row gap-4 text-lg font-semibold font-orbitron">
             <h3 className="text-[#FBB042]">
               <span>Step</span>
               <span className="inline-flex justify-center w-[27px] ml-[9px]">

@@ -62,16 +62,16 @@ export default function Notification({ data }: any) {
     >
       <img className="w-6 h-6" src="/images/notifications.png" alt="" />
       {hasNews && (
-        <span className="flex h-[12px] w-[12px] absolute top-0 right-0">
+        <span className="flex h-3 w-3 absolute top-0 right-0">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FBB042]/80 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-[12px] w-[12px] bg-[#FBB042] border-[2px] border-solid border-[#111111]"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-[#FBB042] border-[2px] border-solid border-[#111111]"></span>
         </span>
       )}
     </div>
   );
 
   const NotificationEmptyStatus = () => (
-    <div className="w-full text-center text-[12px] text-white py-8">
+    <div className="w-full text-center text-xs text-white py-8">
       No messages
     </div>
   );
@@ -82,7 +82,7 @@ export default function Notification({ data }: any) {
         {list.map((item: any, index: number) => (
           <div
             key={index}
-            className="flex flex-col gap-1 px-4 py-3 text-[12px] bg-[#1A1A1A] hover:bg-white/5 transition-opacity"
+            className="flex flex-col gap-1 px-4 py-3 text-xs bg-[#1A1A1A] hover:bg-white/5 transition-opacity"
           >
             <p className="text-white">{item.text}</p>
             <span className="text-white/50">{item.date}</span>
@@ -103,7 +103,7 @@ export default function Notification({ data }: any) {
       <PopoverTrigger>
         <NotificationIcon />
       </PopoverTrigger>
-      <PopoverContent className="w-[320px] bg-[#1B1B1B] border-none rounded-[8px] px-0 py-0">
+      <PopoverContent className="w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0">
         <NotificationPanel />
       </PopoverContent>
     </Popover>

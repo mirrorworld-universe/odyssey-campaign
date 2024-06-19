@@ -21,8 +21,8 @@ export function Card({
   };
 
   const nameClass: any = {
-    [CardSize.Medium]: "text-[28px] top-[-22px] px-4",
-    [CardSize.Small]: "text-[16px] top-[-12px] px-1 left-[13px]",
+    [CardSize.Medium]: "text-[28px] -top-[22px] px-4",
+    [CardSize.Small]: "text-base -top-3 px-1 left-[13px]",
   };
 
   return (
@@ -39,9 +39,7 @@ export function Card({
         <h4
           className={cn(
             `text-white font-semibold font-orbitron px-4 bg-[#111111] absolute left-7 z-0 ${
-              size === CardSize.Default
-                ? "text-[32px] top-[-28px]"
-                : nameClass[size]
+              size === CardSize.Default ? "text-[32px] -top-7" : nameClass[size]
             }`,
             nameClassName
           )}

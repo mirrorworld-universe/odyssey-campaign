@@ -41,11 +41,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         href="/task"
         className="flex flex-row justify-center items-center gap-2 bg-[#111111] hover:opacity-80 px-8 py-10 sticky top-20 transition-opacity duration-300 z-10"
       >
-        <img
-          className="w-[32px] h-[32px]"
-          src="/images/arrow-back.svg"
-          alt=""
-        />
+        <img className="w-8 h-8" src="/images/arrow-back.svg" alt="" />
         <span className="text-white/30 text-[32px] font-semibold font-orbitron">
           Back
         </span>
@@ -76,7 +72,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           ></div>
           <span
             className={cn(
-              `font-orbitron text-[24px] font-normal absolute left-[32px] bottom-[24px] transition-colors duration-300`,
+              `font-orbitron text-2xl font-normal absolute left-[32px] bottom-[24px] transition-colors duration-300`,
               task.id === taskId ? "text-[#FBB042]" : "text-white/50",
               task.available ? "group-hover/nav:text-[#FBB042]" : ""
             )}

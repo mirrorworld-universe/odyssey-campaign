@@ -8,7 +8,7 @@ export function NotificationBar() {
   return (
     <div className="w-full flex flex-row justify-center items-center gap-1 text-center bg-[#0000FF]">
       <Trophy width={24} height={24} color="white" />
-      <span className="text-[16px] font-normal text-white">
+      <span className="text-base font-normal text-white">
         Congratulations! to user ${formatAddress(winner)} for drawing the
         10,000th ring in the Ring Lottery! Well done!
       </span>

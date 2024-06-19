@@ -157,12 +157,7 @@ export function MysteryBoxConfirmDialog() {
               You've received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
                 {data.amount} x ring{data.amount === 1 ? "" : "s"}
-                <Ring
-                  width={12}
-                  height={12}
-                  color="#FBB042"
-                  className="mx-[4px]"
-                />
+                <Ring width={12} height={12} color="#FBB042" className="mx-1" />
               </span>
               . Collect more rings in the Sonic Odyssey!
             </p>
@@ -188,16 +183,16 @@ export function MysteryBoxConfirmDialog() {
       <AlertDialogContent className="w-[467px] bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
           <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
-            <p className="flex flex-row gap-3 text-white text-[48px] font-semibold font-orbitron">
+            <p className="flex flex-row gap-3 text-white text-5xl font-semibold font-orbitron">
               <Gift width={64} height={64} color="#FBB042" />x{" "}
               {openGroup.find((group) => group.active)?.amount}
             </p>
-            <span className="text-white text-[24px] font-semibold font-orbitron mt-8">
+            <span className="text-white text-2xl font-semibold font-orbitron mt-8">
               Open Mystery Box
             </span>
           </AlertDialogTitle>
           {mysteryBoxAmount > 1 ? (
-            <AlertDialogDescription className="text-[#717171] text-[16px] text-center mt-4">
+            <AlertDialogDescription className="text-[#717171] text-base text-center mt-4">
               Please select the number of Mystery Box you would like to open.
             </AlertDialogDescription>
           ) : null}
@@ -209,7 +204,7 @@ export function MysteryBoxConfirmDialog() {
             <div
               key={groupIndex}
               className={cn(
-                "group flex flex-row justify-between text-[16px] rounded border border-solid px-5 py-4 cursor-pointer hover:border-[#FBB042] transition-colors",
+                "group flex flex-row justify-between text-base rounded border border-solid px-5 py-4 cursor-pointer hover:border-[#FBB042] transition-colors",
                 group.active
                   ? "border-[#FBB042] bg-[#FBB042]/10"
                   : "border-white/50 bg-transparent"
@@ -240,7 +235,7 @@ export function MysteryBoxConfirmDialog() {
         {openGroup.find((group) => group.active)?.amount > 1 ? (
           <p className="flex flex-row gap-2 mt-4">
             <img className="w-5 h-5 mt-[2px]" src="/images/icons/report.svg" />
-            <span className="text-[#FBB042] text-[16px]">
+            <span className="text-[#FBB042] text-base">
               You need to sign {mysteryBoxAmount} times in your wallet to unlock
               all mystery box rewards.
             </span>
@@ -262,11 +257,11 @@ export function MysteryBoxConfirmDialog() {
             {isOpeningMysterybox && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
-            <span className="text-white text-[14px] font-orbitron">Open</span>
+            <span className="text-white text-sm font-orbitron">Open</span>
           </Button>
 
           <Button
-            className="w-full h-[48px] bg-transparent hover:bg-transparent text-white/50 font-orbitron"
+            className="w-full h-12 bg-transparent hover:bg-transparent text-white/50 font-orbitron"
             onClick={onClose}
           >
             Cancel

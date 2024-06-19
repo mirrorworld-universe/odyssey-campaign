@@ -81,7 +81,7 @@ export default function Home() {
       <div className="w-screen h-screen flex-grow flex flex-col items-center justify-center px-4 py-8 relative">
         <VideoBackground />
         <div className="text-center max-w-[800px] flex flex-col items-center absolute">
-          <h1 className="flex flex-row gap-2 text-[96px] text-white font-orbitron font-bold">
+          <h1 className="flex flex-row gap-2 text-8xl text-white font-orbitron font-bold">
             <img className="" src="/images/sonic-odyssey.png" alt="" />
           </h1>
           <p className="text-[32px] font-orbitron text-[#FFFFFF]/[0.8] mt-12">
@@ -92,7 +92,7 @@ export default function Home() {
           </p>
 
           <Button
-            className="w-[370px] h-[80px] bg-transparent hover:bg-transparent rounded-md p-0 relative mt-[132px]"
+            className="w-[370px] h-20 bg-transparent hover:bg-transparent rounded-md p-0 relative mt-[132px]"
             onClick={handleClickOpenWallet}
           >
             <img className="w-full" src="/images/get-started.png" alt="" />

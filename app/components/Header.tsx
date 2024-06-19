@@ -94,7 +94,7 @@ export function Header() {
 
         {!publicKey ? (
           <Button
-            className="px-8 py-[10px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 font-orbitron font-semibold text-white text-[16px] transition-all duration-300"
+            className="px-8 py-[10px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 font-orbitron font-semibold text-white text-base transition-all duration-300"
             onClick={handleClickOpenWallet}
           >
             {connecting ? "Connecting..." : "Connect"}

@@ -52,7 +52,7 @@ export function Referral() {
     <>
       {/* rules */}
       <Card name="Rules" size={CardSize.Medium} className="">
-        <ul className="list-disc text-[20px] font-normal leading-relaxed pl-6">
+        <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           <li className="">
             Copy the invite code and send it to a friend. If the friend
             successfully completes the "Meet Sonic" task, they will be
@@ -72,11 +72,11 @@ export function Referral() {
       {/* invite code */}
       <Card name="Invite Code" size={CardSize.Medium} className="mt-20">
         <div className="w-full flex flex-row items-center justify-between">
-          <span className="text-white text-[20px] font-orbitron font-normal">
+          <span className="text-white text-xl font-orbitron font-normal">
             {inviteUrl}
           </span>
           <Button
-            className="w-[183px] h-[48px] bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-[16px] font-orbitron font-semibold transition-colors duration-300"
+            className="w-[183px] h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
             onClick={handleInviteNow}
           >
             Invite Now
@@ -88,7 +88,7 @@ export function Referral() {
       <Card name="Rewards" size={CardSize.Medium} className="mt-20">
         <ul className="w-full">
           <li className="flex flex-row items-center justify-between pb-5">
-            <span className="text-[20px] text-white  font-orbitron">
+            <span className="text-xl text-white  font-orbitron">
               Successfully activated invitees
             </span>
             <span className="text-[56px] text-[#FBB042] font-semibold font-orbitron">
@@ -96,7 +96,7 @@ export function Referral() {
             </span>
           </li>
           <li className="flex flex-row items-center justify-between pt-5 border-t border-solid border-white/10">
-            <span className="text-[20px] text-white font-orbitron">
+            <span className="text-xl text-white font-orbitron">
               Received Ring Mystery Boxes
             </span>
             <span className="text-[56px] text-[#FBB042] font-semibold font-orbitron">

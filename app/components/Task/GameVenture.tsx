@@ -37,7 +37,7 @@ export function GameVenture() {
     <>
       {/* rules */}
       <Card name="Rules" size={CardSize.Medium} className="">
-        <ul className="list-decimal text-[20px] font-normal leading-relaxed pl-6">
+        <ul className="list-decimal text-xl font-normal leading-relaxed pl-6">
           <li className="">Click any game below to download or try it out.</li>
           <li className="">
             Learn the game rules and reward distribution guidelines.
@@ -51,7 +51,7 @@ export function GameVenture() {
         {games.map((game: any, gameIndex: number) => (
           <div
             key={gameIndex}
-            className="group/game w-[492px] h-[263px] flex rounded-[8px] overflow-hidden relative"
+            className="group/game w-[492px] h-[263px] flex rounded-2 overflow-hidden relative"
           >
             <img
               className="w-full h-full group-hover/game:scale-110 transition-transform duration-300"
@@ -70,7 +70,7 @@ export function GameVenture() {
                 src="/images/icons/arrow-polygon.svg"
                 alt=""
               />
-              <h6 className="text-white text-[48px] font-bold font-orbitron text-center mt-20 translate-y-2 group-hover/game:translate-y-0 transition-transform duration-300">
+              <h6 className="text-white text-5xl font-bold font-orbitron text-center mt-20 translate-y-2 group-hover/game:translate-y-0 transition-transform duration-300">
                 {game.name}
               </h6>
               <p className="flex flex-row justify-center gap-6 mt-5 translate-y-2 group-hover/game:translate-y-0 transition-transform duration-300">
@@ -93,7 +93,7 @@ export function GameVenture() {
                       className="absolute group-hover/link:opacity-0 transition-opacity"
                     />
                   </span>
-                  <span className="text-white group-hover/link:text-[#25A3ED] text-[20px] font-semibold font-orbitron transition-colors">
+                  <span className="text-white group-hover/link:text-[#25A3ED] text-xl font-semibold font-orbitron transition-colors">
                     Guide
                   </span>
                 </a>
@@ -116,7 +116,7 @@ export function GameVenture() {
                       className="absolute group-hover/link:opacity-0 transition-opacity"
                     />
                   </span>
-                  <span className="text-white group-hover/link:text-[#25A3ED] text-[20px] font-semibold font-orbitron transition-colors">
+                  <span className="text-white group-hover/link:text-[#25A3ED] text-xl font-semibold font-orbitron transition-colors">
                     Play
                   </span>
                 </a>

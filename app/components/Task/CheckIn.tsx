@@ -148,12 +148,7 @@ export function CheckIn() {
               You've received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
                 {rewards} x mystery {rewards === 1 ? "box" : "boxes"}
-                <Gift
-                  width={12}
-                  height={12}
-                  color="#FBB042"
-                  className="mx-[4px]"
-                />
+                <Gift width={12} height={12} color="#FBB042" className="mx-1" />
               </span>
               . Open it in the navbar to exchange for rings.
             </p>
@@ -183,7 +178,7 @@ export function CheckIn() {
     <>
       {/* rules */}
       <Card name="Rules" size={CardSize.Medium} className="">
-        <ul className="list-disc text-[20px] font-normal leading-relaxed pl-6">
+        <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           <li className="">
             Request test SOL first.{" "}
             <a
@@ -239,17 +234,17 @@ export function CheckIn() {
           {/* wordings */}
           <p className="text-white text-[29px] font-orbitron font-semibold">
             You have checked in for
-            <span className="text-[#FBB042] text-[56px] px-[16px]">
+            <span className="text-[#FBB042] text-[56px] px-4">
               {checkInDays}
             </span>
             {checkInDays === 1 ? "day" : "days"}
           </p>
           {/* progress */}
           <div className="w-full">
-            <div className="w-full h-[12px] bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
+            <div className="w-full h-3 bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
               <div
                 className={cn(
-                  "rounded h-[12px] bg-gradient-to-r absolute",
+                  "rounded h-3 bg-gradient-to-r absolute",
                   linearGradients[getPartition()]
                 )}
                 style={{
@@ -258,7 +253,7 @@ export function CheckIn() {
               ></div>
               <div
                 className={cn(
-                  "rounded h-[12px] bg-gradient-to-r absolute blur-[6px]",
+                  "rounded h-3 bg-gradient-to-r absolute blur-[6px]",
                   linearGradients[getPartition()]
                 )}
                 style={{
@@ -266,7 +261,7 @@ export function CheckIn() {
                 }}
               ></div>
             </div>
-            <ul className="flex flex-row justify-between text-white/50 text-[24px] font-semibold font-orbitron mt-6">
+            <ul className="flex flex-row justify-between text-white/50 text-2xl font-semibold font-orbitron mt-6">
               <li className="c">1 day</li>
               <li className="c">{totalDays / 2} days</li>
               <li className="c">{totalDays} days</li>
@@ -274,7 +269,7 @@ export function CheckIn() {
           </div>
           {/* tools */}
           <div className="flex flex-row items-center justify-between">
-            <p className="text-[20px] text-white font-orbitron font-semibold">
+            <p className="text-xl text-white font-orbitron font-semibold">
               {
                 wordings[
                   checkInDays > 0
@@ -285,11 +280,11 @@ export function CheckIn() {
               days Rewards:{" "}
               <span className="inline-flex items-center text-[#FBB042] font-orbitron">
                 x {Math.ceil(checkInDays / (totalDays / 2)) || 1}{" "}
-                <Gift color="#FBB042" className="mx-[4px]" />
+                <Gift color="#FBB042" className="mx-1" />
               </span>
             </p>
             <Button
-              className={`w-[177px] h-[48px] text-white text-[16px] font-semibold font-orbitron transition-colors duration-300 ${
+              className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron transition-colors duration-300 ${
                 hasChecked
                   ? "bg-[#888888] hover:bg-[#888888]"
                   : isChekingIn
