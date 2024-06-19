@@ -60,8 +60,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
     isLoading: loadingBasicInfo,
     refetch: refetchBasicInfo,
   } = useQuery({
-    queryKey: ["queryBasicInfo", publicKey?.toString()],
-    queryFn: () => fetchBasicInfo(publicKey?.toString()),
+    queryKey: ["queryBasicInfo", publicKey?.toString() || address],
+    queryFn: () => fetchBasicInfo(publicKey?.toString() || address),
     enabled: false,
   });
 
@@ -70,10 +70,10 @@ export function WalletDialog({ text = "Connect", className }: any) {
     isLoading: loadingAuthorize,
     refetch: refetchAuthorize,
   } = useQuery({
-    queryKey: ["queryAuthorize", publicKey?.toString()],
+    queryKey: ["queryAuthorize", publicKey?.toString() || address],
     queryFn: () =>
       fetchAuthorize(
-        publicKey?.toString(),
+        publicKey?.toString() || address,
         encodeBase64(publicKey!.toBytes()),
         currentSignature
       ),
