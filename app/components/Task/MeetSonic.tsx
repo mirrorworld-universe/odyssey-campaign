@@ -17,6 +17,7 @@ import {
   fetchFollowingStatus,
 } from "../../data/task";
 import { toast } from "@/components/ui/use-toast";
+import { trackClick } from "@/lib/track";
 
 export function MeetSonic() {
   const { isOpen, onOpen, onClose } = useWalletModal();
@@ -209,6 +210,7 @@ export function MeetSonic() {
                     return;
                   }
                   socialMedia.handler();
+                  trackClick({ text: "Meet Sonic" });
                 }}
               >
                 {socialMedia.buttonIcon}

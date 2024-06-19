@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Link as IconLink } from "@/app/icons/Link";
 import { Play as IconPlay } from "@/app/icons/Play";
 import { Card, CardSize } from "../Card";
+import { trackLinkClick } from "@/lib/track";
 
 export function GameVenture() {
   const games = [
@@ -78,6 +79,7 @@ export function GameVenture() {
                   className="group/link h-8 inline-flex flex-row items-center gap-1"
                   href={game.guide}
                   target="_blank"
+                  onClick={trackLinkClick}
                 >
                   <span className="inline-flex w-8 h-8 relative">
                     <IconLink
@@ -101,6 +103,7 @@ export function GameVenture() {
                   className="group/link h-8 inline-flex flex-row items-center gap-1"
                   href={game.play}
                   target="_blank"
+                  onClick={trackLinkClick}
                 >
                   <span className="inline-flex w-8 h-8 relative">
                     <IconPlay

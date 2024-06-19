@@ -11,6 +11,7 @@ import {
 } from "@/app/data/reward";
 import { Check } from "@/app/icons/Check";
 import { toast } from "@/components/ui/use-toast";
+import { trackClick } from "@/lib/track";
 
 export function MileStone() {
   const totalAmount = 100;
@@ -77,6 +78,7 @@ export function MileStone() {
     }
     setClaimStage(stageIndex + 1);
     mutationClaimRewards.mutate();
+    trackClick({ text: "TX Milestone" });
   };
 
   return (

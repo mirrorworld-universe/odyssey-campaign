@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { getReferralInfo } from "@/app/data/account";
 import { Card, CardSize } from "../Card";
+import { trackClick } from "@/lib/track";
 
 export function Referral() {
   const { address, token } = useAccountInfo();
@@ -43,6 +44,7 @@ export function Referral() {
         title: "Copy Successful",
         description: "The invitation link has been copied successfully.",
       });
+      trackClick({ text: "Referral" });
     } catch (err) {
       console.error("Failed to copy invitation url: ", err);
     }

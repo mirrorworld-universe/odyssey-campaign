@@ -14,10 +14,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { trackClick } from "@/lib/track";
 
 export function RingLottery() {
   const totalRing = 100000000;
   const [currentRing, setCurrentRing] = useState(0);
+
+  const handleDrawLottery = () => {
+    trackClick({ text: "Ring Lottery" });
+  };
 
   return (
     <>

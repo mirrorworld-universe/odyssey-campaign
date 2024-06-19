@@ -3,6 +3,7 @@ import Link from "next/link";
 import { menu } from "./Header";
 import { Twitter } from "../icons/Twitter";
 import { Discord } from "../icons/Discord";
+import { trackClick } from "@/lib/track";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -12,11 +13,17 @@ export function Footer() {
       name: "twitter",
       link: "https://x.com/SonicSVM",
       icon: <Twitter width={24} height={24} color="white" />,
+      handler: () => {
+        trackClick({ text: "Follow on X" });
+      },
     },
     {
       name: "discord",
       link: "https://discord.com/invite/joinmirrorworld",
       icon: <Discord width={24} height={24} color="white" />,
+      handler: () => {
+        trackClick({ text: "Join DC" });
+      },
     },
   ];
 
@@ -178,6 +185,7 @@ export function Footer() {
             <div className="flex gap-4 items-center justify-start">
               {socialMedias.map((media: any, mediaIndex: number) => (
                 <a
+                  onClick={media.handler}
                   key={mediaIndex}
                   href={media.link}
                   target="_blank"

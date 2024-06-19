@@ -23,6 +23,7 @@ import { isSupportSonic } from "../wallet/wallet-list";
 import { useFAQModal, useHowToPlayModal } from "../store/tutorials";
 
 import { cn } from "@/lib/utils";
+import { trackClick } from "@/lib/track";
 
 const icons: any = {
   twitter: <Twitter width={250} height={250} color="#313131" />,
@@ -58,6 +59,7 @@ const TaskCenter: NextPage = () => {
 
   const handleOpenHowToPlayDialog = () => {
     onOpenHowToPlayDialog();
+    trackClick({ text: "How to play?" });
   };
 
   const handleOpenFAQDialog = () => {

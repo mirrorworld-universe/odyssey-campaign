@@ -29,6 +29,7 @@ import {
   sendSignedTransaction,
 } from "@/lib/transactions";
 import { toast } from "@/components/ui/use-toast";
+import { trackClick } from "@/lib/track";
 
 let transactionHash = "";
 
@@ -172,6 +173,7 @@ export function CheckIn() {
       setIsChekingIn(true);
       getTransactionHash.mutate();
     }
+    trackClick({ text: "Check-in" });
   };
 
   return (
