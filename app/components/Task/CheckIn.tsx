@@ -19,7 +19,7 @@ import {
   fetchFinishCheckin,
 } from "@/app/data/task";
 
-import { Card, CardSize } from "../Card";
+import { Card, CardSize } from "../Basic/Card";
 import base58 from "bs58";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";

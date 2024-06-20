@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Trophy } from "../icons/Trophy";
-import { formatAddress } from "../store/account";
+import { Trophy } from "../../icons/Trophy";
+import { formatAddress } from "../../store/account";
 
 export function NotificationBar() {
   const [winner, setWinner] = useState("");

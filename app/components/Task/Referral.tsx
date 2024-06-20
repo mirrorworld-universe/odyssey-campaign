@@ -6,7 +6,7 @@ import { useAccountInfo } from "@/app/store/account";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { getReferralInfo } from "@/app/data/account";
-import { Card, CardSize } from "../Card";
+import { Card, CardSize } from "../Basic/Card";
 import { trackClick } from "@/lib/track";
 
 export function Referral() {

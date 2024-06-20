@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Gift } from "@/app/icons/Gift";
 import { Button } from "@/components/ui/button";
-import { Card, CardSize } from "../Card";
+import { Card, CardSize } from "../Basic/Card";
 import { useAccountInfo } from "@/app/store/account";
 import {
   claimMilestoneRewards,

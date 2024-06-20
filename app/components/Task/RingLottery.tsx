@@ -1,6 +1,6 @@
 "use client";
 import { Gift } from "@/app/icons/Gift";
-import { Card, CardSize } from "../Card";
+import { Card, CardSize } from "../Basic/Card";
 import { Ring } from "@/app/icons/Ring";
 import { useState } from "react";
 import { prettyNumber } from "@/lib/utils";

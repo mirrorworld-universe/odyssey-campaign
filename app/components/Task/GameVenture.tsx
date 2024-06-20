@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Link as IconLink } from "@/app/icons/Link";
 import { Play as IconPlay } from "@/app/icons/Play";
-import { Card, CardSize } from "../Card";
+import { Card, CardSize } from "../Basic/Card";
 import { trackLinkClick } from "@/lib/track";
 
 export function GameVenture() {

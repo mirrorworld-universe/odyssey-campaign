@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
 import { menu } from "./Header";
-import { Twitter } from "../icons/Twitter";
-import { Discord } from "../icons/Discord";
+import { Twitter } from "../../icons/Twitter";
+import { Discord } from "../../icons/Discord";
 import { trackClick } from "@/lib/track";
 
 export function Footer() {

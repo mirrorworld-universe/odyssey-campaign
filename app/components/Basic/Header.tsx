@@ -5,7 +5,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "@/components/ui/button";
 
 import Notification from "./Notification";
-import { useAccountInfo, useWalletModal } from "../store/account";
+import { useAccountInfo, useWalletModal } from "../../store/account";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
 import { openWalletStatics } from "@/lib/analytics";

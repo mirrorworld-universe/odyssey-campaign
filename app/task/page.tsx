@@ -13,7 +13,7 @@ import { Diversity } from "../icons/Diversity";
 import { Controller } from "../icons/Controller";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardSize } from "../components/Card";
+import { Card, CardSize } from "../components/Basic/Card";
 import { FAQDialog } from "../components/Dialog/FAQ";
 import { HowToPlayDialog } from "../components/Dialog/HowToPlay";
 
@@ -24,6 +24,7 @@ import { useFAQModal, useHowToPlayModal } from "../store/tutorials";
 
 import { cn } from "@/lib/utils";
 import { trackClick } from "@/lib/track";
+import { Footer } from "../components/Basic/Footer";
 
 const icons: any = {
   twitter: <Twitter width={250} height={250} color="#313131" />,
@@ -188,14 +189,19 @@ const TaskCenter: NextPage = () => {
   );
 
   return (
-    <main className="bg-[#111111] flex min-h-screen flex-col items-center justify-between">
-      <Header />
-      <MainContent />
+    <>
+      <main className="bg-[#111111] flex min-h-screen flex-col items-center justify-between">
+        <Header />
+        <MainContent />
 
-      {/* dialogs */}
-      <HowToPlayDialog />
-      <FAQDialog />
-    </main>
+        {/* dialogs */}
+        <HowToPlayDialog />
+        <FAQDialog />
+      </main>
+
+      {/* footer */}
+      <Footer />
+    </>
   );
 };
 

@@ -29,7 +29,7 @@ import {
   openMysterybox,
 } from "@/app/data/reward";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
-import { Card, CardSize } from "../Card";
+import { Card, CardSize } from "../Basic/Card";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 

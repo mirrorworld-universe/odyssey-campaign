@@ -7,8 +7,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useQuery } from "@tanstack/react-query";
-import { getNotificationRecords } from "../data/account";
-import { useAccountInfo } from "../store/account";
+import { getNotificationRecords } from "../../data/account";
+import { useAccountInfo } from "../../store/account";
 import { trackClick } from "@/lib/track";
 
 const maxAmount = 5;

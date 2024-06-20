@@ -8,20 +8,20 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Ring } from "../icons/Ring";
-import { Arrow } from "../icons/Arrow";
-import { Gift } from "../icons/Gift";
+import { Ring } from "../../icons/Ring";
+import { Arrow } from "../../icons/Arrow";
+import { Gift } from "../../icons/Gift";
 import { Card, CardSize } from "./Card";
 import { cn, prettyNumber } from "@/lib/utils";
-import { useAccountInfo } from "../store/account";
-import { getMysteryboxHistory } from "../data/reward";
+import { useAccountInfo } from "../../store/account";
+import { getMysteryboxHistory } from "../../data/reward";
 import {
   useMysteryBoxInfo,
   useMysteryBoxConfirmModal,
   useMysteryBoxRecordModal,
-} from "../store/task";
-import { isSupportSonic } from "../wallet/wallet-list";
-import { getUserRewardInfo } from "../data/account";
+} from "../../store/task";
+import { isSupportSonic } from "../../wallet/wallet-list";
+import { getUserRewardInfo } from "../../data/account";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function RingPopover() {

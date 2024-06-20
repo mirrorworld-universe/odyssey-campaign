@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardSize } from "@/app/components/Card";
+import { Card, CardSize } from "@/app/components/Basic/Card";
 import { Gift } from "@/app/icons/Gift";
 import { Twitter } from "@/app/icons/Twitter";
 import { Discord } from "@/app/icons/Discord";

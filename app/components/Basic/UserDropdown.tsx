@@ -14,9 +14,9 @@ import {
   toFixed,
   useAccountInfo,
   useWalletModal,
-} from "../store/account";
-import { fetchLogout } from "../data/account";
-import { WalletList } from "../wallet/wallet-list";
+} from "../../store/account";
+import { fetchLogout } from "../../data/account";
+import { WalletList } from "../../wallet/wallet-list";
 
 export function UserDropdown() {
   const { setToken } = useAccountInfo();
