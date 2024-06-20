@@ -19,6 +19,8 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 
+let hasFollowedBoth = false;
+
 export function MeetSonic() {
   const { isOpen, onOpen, onClose } = useWalletModal();
   const { address, token } = useAccountInfo();
@@ -32,52 +34,65 @@ export function MeetSonic() {
   const [authDiscordState, setAuthDiscordState] = useState("");
   const [authDiscordCode, setAuthDiscordCode] = useState("");
 
-  const { data: dataFollowingStatus, isLoading: loadingFollowingStatus } =
-    useQuery({
-      queryKey: ["queryFollowingStatus", address],
-      queryFn: () => fetchFollowingStatus({ token }),
-      enabled: !!token,
-    });
+  const {
+    data: dataFollowingStatus,
+    isLoading: loadingFollowingStatus,
+    refetch: refetchFollowingStatus,
+  } = useQuery({
+    queryKey: ["queryFollowingStatus", address],
+    queryFn: () => fetchFollowingStatus({ token }),
+    enabled: !!token,
+  });
 
   const showRewardsToast = () => {
-    const followingStatus = dataFollowingStatus?.data;
-    if (
-      followingStatus?.twitter?.followed &&
-      followingStatus?.discord?.followed
-    ) {
-      toast({
-        title: '"Meet Sonic" task completed.',
-        description: (
-          <p className="block">
-            You've received{" "}
-            <span className="inline-flex items-center text-[#FBB042]">
-              3 x mystery boxes
-              <Gift width={12} height={12} color="#FBB042" className="mx-1" />
-            </span>
-            . Open it in the navbar to exchange for rings.
-          </p>
-        ),
-      });
-    }
+    toast({
+      title: '"Meet Sonic" task completed.',
+      description: (
+        <p className="block">
+          You've received{" "}
+          <span className="inline-flex items-center text-[#FBB042]">
+            3 x mystery boxes
+            <Gift width={12} height={12} color="#FBB042" className="mx-1" />
+          </span>
+          . Open it in the navbar to exchange for rings.
+        </p>
+      ),
+    });
   };
 
   const mutationFollowTwitter = useMutation({
     mutationKey: ["followTwitter", address],
     mutationFn: () => fetchFollowTwitter(authTwitterState, authTwitterCode),
-    onSuccess: ({ data }) => {
-      const result = data?.following_result;
-      setHasFollowedTwitter(result?.toLowerCase() === "success");
-      showRewardsToast();
+    onSuccess: ({ data, code, message }) => {
+      if (code !== 0) {
+        toast({
+          description: message,
+        });
+      } else {
+        const result = data?.following_result;
+        setHasFollowedTwitter(result?.toLowerCase() === "success");
+        if (hasFollowedBoth) {
+          showRewardsToast();
+        }
+      }
     },
   });
 
   const mutationFollowDiscord = useMutation({
     mutationKey: ["followDiscord", address],
     mutationFn: () => fetchFollowDiscord(authDiscordState, authDiscordCode),
-    onSuccess: ({ data }) => {
-      const result = data?.following_result;
-      setHasFollowedDiscord(result?.toLowerCase() === "success");
-      showRewardsToast();
+    onSuccess: ({ data, code, message }) => {
+      if (code !== 0) {
+        toast({
+          description: message,
+        });
+      } else {
+        const result = data?.following_result;
+        setHasFollowedDiscord(result?.toLowerCase() === "success");
+        if (hasFollowedBoth) {
+          showRewardsToast();
+        }
+      }
     },
   });
 
@@ -102,6 +117,10 @@ export function MeetSonic() {
       setIsLoadingStatus(false);
       setHasFollowedTwitter(followingStatus.twitter?.followed);
       setHasFollowedDiscord(followingStatus.discord?.followed);
+
+      hasFollowedBoth =
+        followingStatus.twitter?.followed && followingStatus.discord?.followed;
+
       if (window.location.search) {
         const queryParams = new URLSearchParams(window.location.search);
         const params = Object.fromEntries(queryParams.entries());
@@ -169,7 +188,7 @@ export function MeetSonic() {
   return (
     <>
       {/* rules */}
-      <Card name="Rules" size={CardSize.Medium} className="">
+      <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
         <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           <li className="">
             Click the social buttons to link your account and complete the
@@ -188,7 +207,7 @@ export function MeetSonic() {
       </Card>
 
       {/* main */}
-      <Card size={CardSize.Medium} className="mt-20">
+      <Card size={CardSize.Medium} className="mt-20" nameClassName="bg-[#000]">
         <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           {socialMediaList.map((socialMedia, socialMediaIndex) => (
             <li
@@ -206,14 +225,14 @@ export function MeetSonic() {
                 </p>
               </div>
               <Button
-                className={`inline-flex justify-center items-center w-[177px] h-12 rounded gap-2 px-4 py-[10px] transition-colors duration-300 ml-20 ${
+                className={`inline-flex justify-center items-center w-[177px] h-12 rounded gap-2 px-4 py-[10px] bg-[#0000FF] transition-all duration-300 ml-20 ${
                   socialMedia.id === "twitter"
                     ? hasFollowedTwitter
-                      ? "bg-[#888888] hover:bg-[#888888]"
-                      : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+                      ? "hover:bg-[#0000FF] opacity-30"
+                      : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
                     : hasFollowedDiscord
-                    ? "bg-[#888888] hover:bg-[#888888]"
-                    : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+                    ? "hover:bg-[#0000FF] opacity-30"
+                    : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
                 }`}
                 onClick={() => {
                   if (!address || !token) {
