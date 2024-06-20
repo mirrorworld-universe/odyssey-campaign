@@ -28,27 +28,18 @@ export function Footer() {
   ];
 
   return (
-    <footer className="flex flex-col items-center justify-center gap-4 sm:gap-8 bg-sonic-nav w-full sm:!py-14 !py-20 px-4 sm:p-0 relative overflow-hidden">
+    <footer className="flex flex-col items-center justify-center gap-4 sm:gap-8 bg-sonic-nav w-full sm:!py-14 lg:!py-24 px-4 sm:p-0 relative overflow-hidden">
       <img
         src="/images/fingerprint.png"
         alt=""
         className="w-[1610px] h-[1638px] absolute -bottom-80 -right-80"
       />
 
-      <div className="w-full flex flex-col sm:gap-5 max-w-[1464px] mx-auto relative">
+      <div className="w-full flex flex-col max-w-[1464px] mx-auto relative">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-14 w-full">
           <div className="flex space-x-3 justify-start items-center">
             <Link href="/">
-              <img
-                alt="Sonic Logo"
-                className="w-[168px] h-auto"
-                src="/sonic.png"
-                style={{
-                  aspectRatio: "100/40",
-                  objectFit: "contain",
-                }}
-                width="100"
-              />
+              <img alt="Sonic Logo" className="w-auto h-10" src="/sonic.png" />
             </Link>
             <a
               className="text-white text-sm font-semibold font-orbitron border-l border-solid border-[#8F8F8F] h-[21px] ml-4 pl-4 hover:underline"
@@ -98,7 +89,7 @@ export function Footer() {
           </div>
 
           <div
-            className="w-full flex flex-col gap-4 sm:gap-4 items-center sm:hidden"
+            className="w-full flex flex-col gap-2 sm:gap-2 items-center sm:hidden"
             data-mobile-copyright
           >
             <div className="relative w-full">
@@ -122,14 +113,14 @@ export function Footer() {
                 {year} Sonic
               </span>
               <a
-                className="text-white/60 font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
+                className="text-white/60 font-semibold h-[11px] ml-4 pl-4 hover:underline"
                 href="https://docs.google.com/document/u/3/d/e/2PACX-1vREdZyNuwasC-TUxY2pH_4UBKSPujpADn40Ih0p0Xw9koauigoLS6eyYqTpLzKsnw/pub"
                 target="_blank"
               >
                 Terms of Use
               </a>
               <a
-                className="text-white/60 font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
+                className="text-white/60 font-semibold h-[11px] ml-4 pl-4 hover:underline"
                 href="https://docs.google.com/document/u/1/d/e/2PACX-1vRbCG8os3oojtNwDbVVwnif_DILgjTnYY_807b8JcWUxG606n6yMuxZsPfmlABqUQf6taJBgDb3p25N/pub"
                 target="_blank"
               >
@@ -142,9 +133,9 @@ export function Footer() {
         {/* Desktop Copyright */}
         <div
           data-desktop-copyright
-          className="w-full flex flex-col gap-4 sm:gap-4 items-center hidden sm:flex"
+          className="w-full flex flex-col items-center hidden sm:flex"
         >
-          <div className="relative w-full pb-10">
+          <div className="relative w-full py-10">
             <div
               className="absolute inset-0 flex items-center"
               aria-hidden="true"
@@ -154,7 +145,7 @@ export function Footer() {
           </div>
 
           <div className="font-sub text-sonic-disabled text-xs flex justify-between items-center w-full">
-            <p className="text-[#8F8F8F] opacity-60">
+            <p className="flex flex-row items-center gap-4 text-[#8F8F8F] opacity-60">
               <span className="text-white/60 text-sm">
                 <a
                   className="hover:underline"
@@ -165,15 +156,17 @@ export function Footer() {
                 </a>{" "}
                 {year} Sonic
               </span>
+              <i className="inline-block w-[1px] h-[11px] bg-white/20"></i>
               <a
-                className="text-white/60 text-sm font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
+                className="text-white/60 text-sm font-semibold hover:underline"
                 href="https://docs.google.com/document/u/3/d/e/2PACX-1vREdZyNuwasC-TUxY2pH_4UBKSPujpADn40Ih0p0Xw9koauigoLS6eyYqTpLzKsnw/pub"
                 target="_blank"
               >
                 Terms of Use
               </a>
+              <i className="inline-block w-[1px] h-[11px] bg-white/20"></i>
               <a
-                className="text-white/60 text-sm font-semibold border-l border-solid border-white/20 h-[11px] ml-4 pl-4 hover:underline"
+                className="text-white/60 text-sm font-semibold hover:underline"
                 href="https://docs.google.com/document/u/1/d/e/2PACX-1vRbCG8os3oojtNwDbVVwnif_DILgjTnYY_807b8JcWUxG606n6yMuxZsPfmlABqUQf6taJBgDb3p25N/pub"
                 target="_blank"
               >

@@ -140,7 +140,7 @@ export default function RingPopover() {
         </div>
       </PopoverTrigger>
       <PopoverContent
-        className={`w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0`}
+        className={`w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0 mt-5`}
       >
         <div className="block w-full h-[286px] overflow-hidden relative">
           <div
@@ -190,12 +190,12 @@ export default function RingPopover() {
                   !isSupportSonic(wallet?.adapter.name)
                 }
                 className={cn(
-                  "transition-all duration-300",
+                  "bg-[#0000FF] transition-all duration-300",
                   !canOpenMysteryBox || !isSupportSonic(wallet?.adapter.name)
-                    ? "bg-[#888888] hover:bg-[#888888] cursor-not-allowed"
+                    ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                     : isOpeningMysterybox
-                    ? "bg-[#0000FF] hover:bg-[#0000FF]/80 opacity-60 cursor-not-allowed"
-                    : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
+                    ? "hover:bg-[#0000FF] opacity-60 cursor-not-allowed"
+                    : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
                 )}
                 onClick={handleOpenMysterybox}
               >

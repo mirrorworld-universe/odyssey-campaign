@@ -66,18 +66,18 @@ export function SetUpSonicNetworkDialog() {
         <div className="flex flex-col gap-12 mt-12">
           <ul className="flex flex-col gap-6 list-decimal text-white text-lg font-semibold pl-[18px]">
             <li className="s">
-              Open this{" "}
+              Open this network{" "}
               <a
                 href={
                   setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]
                 }
                 target="_blank"
-                className="text-[#25A3ED] hover:underline"
+                className="text-[#25A3ED] hover:underline underline-offset-2"
               >
-                network settings doc
+                settings doc
               </a>
             </li>
-            <li>Manually set up Sonic network</li>
+            <li>Setup Sonic network</li>
           </ul>
         </div>
         <div className="flex flex-col gap-12 mt-12">

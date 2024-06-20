@@ -106,7 +106,7 @@ export default function Notification({ data }: any) {
       <PopoverTrigger>
         <NotificationIcon />
       </PopoverTrigger>
-      <PopoverContent className="w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0">
+      <PopoverContent className="w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0 mt-5">
         <NotificationPanel />
       </PopoverContent>
     </Popover>

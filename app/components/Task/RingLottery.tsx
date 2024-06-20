@@ -27,7 +27,7 @@ export function RingLottery() {
   return (
     <>
       {/* rules */}
-      <Card name="Rules" size={CardSize.Medium} className="">
+      <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
         <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           <li className="">
             Request test SOL first.{" "}
@@ -59,7 +59,12 @@ export function RingLottery() {
       </Card>
 
       {/* minted rings */}
-      <Card name="Minted Rings" size={CardSize.Medium} className="mt-20">
+      <Card
+        name="Minted Rings"
+        size={CardSize.Medium}
+        className="mt-20"
+        nameClassName="bg-[#000]"
+      >
         <div className="flex flex-row justify-between items-center">
           <Ring width={56} height={56} color="#FBB042" />
           <span className="text-white text-5xl font-semibold font-orbitron">
@@ -70,12 +75,21 @@ export function RingLottery() {
 
       <div className="flex flex-row gap-20 mt-20">
         {/* winner board */}
-        <Card name="Winner Board" size={CardSize.Medium} className="w-[470px]">
+        <Card
+          name="Winner Board"
+          size={CardSize.Medium}
+          className="w-[470px]"
+          nameClassName="bg-[#000]"
+        >
           <div className="flex flex-row justify-between items-center"></div>
         </Card>
 
         {/* draw */}
-        <Card size={CardSize.Medium} className="w-[470px]">
+        <Card
+          size={CardSize.Medium}
+          className="w-[470px]"
+          nameClassName="bg-[#000]"
+        >
           <div className="w-full flex flex-col">
             <div className="w-full flex flex-row justify-between">
               <span className="text-white text-xl font-orbitron">

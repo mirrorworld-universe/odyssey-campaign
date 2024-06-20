@@ -244,7 +244,11 @@ export function MysteryBoxRecordDialog() {
 
         <div className="flex flex-col">
           {mysteryBoxRecords.length ? (
-            <Card size={CardSize.List} className="mt-12">
+            <Card
+              size={CardSize.List}
+              className="mt-12"
+              nameClassName="bg-[#1A1A1A]"
+            >
               <div className="flex flex-col text-sm">
                 {/* title */}
                 <div className="flex flex-row justify-between text-white/60 pb-3 px-6">

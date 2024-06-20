@@ -84,7 +84,7 @@ export function MileStone() {
   return (
     <>
       {/* rules */}
-      <Card name="Rules" size={CardSize.Medium} className="">
+      <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
         <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           <li className="">
             Any task and on-chain interaction will generate a corresponding
@@ -104,7 +104,7 @@ export function MileStone() {
       </Card>
 
       {/* main */}
-      <Card size={CardSize.Medium} className="mt-20">
+      <Card size={CardSize.Medium} className="mt-20" nameClassName="bg-[#000]">
         <div className="flex flex-col gap-16">
           {/* wordings */}
           <p className="text-white text-[29px] font-orbitron font-semibold">
