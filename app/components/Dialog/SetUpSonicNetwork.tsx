@@ -60,7 +60,11 @@ export function SetUpSonicNetworkDialog() {
             alt=""
             className="w-12 h-12"
           />
-          <img src="/images/icons/connect.png" alt="" className="w-12 h-12" />
+          <span className="inline-flex flex-row justify-between items-center w-11 h-11">
+            <i className="inline-block w-[8px] h-[8px] bg-[#5f5f5f] rounded-[50%] animate-loading-before"></i>
+            <i className="inline-block w-[8px] h-[8px] bg-[#5f5f5f] rounded-[50%] animate-loading"></i>
+            <i className="inline-block w-[8px] h-[8px] bg-[#5f5f5f] rounded-[50%] animate-loading-after"></i>
+          </span>
           <img src={wallet?.adapter.icon} alt="" className="w-12 h-12" />
         </div>
         <div className="flex flex-col gap-12 mt-12">
