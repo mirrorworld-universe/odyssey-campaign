@@ -8,6 +8,8 @@ import Notification from "./Notification";
 import { useAccountInfo, useWalletModal } from "../../store/account";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
+import { NotificationBar } from "./NotificationBar";
+import { useLotteryBar } from "@/app/store/lottery";
 import { openWalletStatics } from "@/lib/analytics";
 import { trackClick, trackLinkClick } from "@/lib/track";
 
@@ -38,6 +40,8 @@ export function Header() {
   const { isOpen, onOpen } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
   const { address, token, reset } = useAccountInfo();
+  const { isOpen: isOpenLotteryBar, onOpen: onOpenLotteryBar } =
+    useLotteryBar();
 
   // useEffect(() => {
   //   if (publicKey) {
@@ -60,54 +64,59 @@ export function Header() {
   };
 
   return (
-    <nav className="h-20 flex items-center justify-between px-10 py-4 bg-[#111111] w-full sticky sticky:backdrop-blur-[35px] top-0 z-30 transition-all duration-300">
-      {/* left */}
-      <div className="flex items-center gap-12 space-x-4">
-        {/* logo */}
-        <Link href="/">
-          <img
-            alt="Sonic Logo"
-            className="w-[135px] h-auto"
-            src="/sonic.png"
-            style={{
-              aspectRatio: "100/40",
-              objectFit: "contain",
-            }}
-            width="100"
-          />
-        </Link>
-
-        {/* nav */}
-        {menu.map((menuItem, menuIndex) => (
-          <Link
-            className="gap-12 text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors"
-            href={menuItem.link}
-            key={menuIndex}
-            target={menuItem.target}
-            onClick={trackLinkClick}
-          >
-            {menuItem.name}
+    <nav className="flex flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
+      <div className="h-20 flex items-center justify-between px-10 py-4 bg-[#111111] w-full transition-all duration-300">
+        {/* left */}
+        <div className="flex items-center gap-12 space-x-4">
+          {/* logo */}
+          <Link href="/">
+            <img
+              alt="Sonic Logo"
+              className="w-[135px] h-auto"
+              src="/sonic.png"
+              style={{
+                aspectRatio: "100/40",
+                objectFit: "contain",
+              }}
+              width="100"
+            />
           </Link>
-        ))}
+
+          {/* nav */}
+          {menu.map((menuItem, menuIndex) => (
+            <Link
+              className="gap-12 text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors"
+              href={menuItem.link}
+              key={menuIndex}
+              target={menuItem.target}
+              onClick={trackLinkClick}
+            >
+              {menuItem.name}
+            </Link>
+          ))}
+        </div>
+
+        {/* right */}
+        <div className="gap-12 flex items-center">
+          {address && token ? <RingPopover /> : null}
+
+          {address && token ? <Notification /> : null}
+
+          {!publicKey ? (
+            <Button
+              className="w-[200px] h-12 justify-center items-center bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 font-orbitron font-semibold text-white text-base transition-all duration-300"
+              onClick={handleClickOpenWallet}
+            >
+              {connecting ? "Connecting..." : "Connect Wallet"}
+            </Button>
+          ) : (
+            <UserDropdown />
+          )}
+        </div>
       </div>
 
-      {/* right */}
-      <div className="gap-12 flex items-center">
-        {address && token ? <RingPopover /> : null}
-
-        {address && token ? <Notification /> : null}
-
-        {!publicKey ? (
-          <Button
-            className="w-[200px] h-12 justify-center items-center bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 font-orbitron font-semibold text-white text-base transition-all duration-300"
-            onClick={handleClickOpenWallet}
-          >
-            {connecting ? "Connecting..." : "Connect Wallet"}
-          </Button>
-        ) : (
-          <UserDropdown />
-        )}
-      </div>
+      {/* notification bar */}
+      {/* {isOpenLotteryBar && <NotificationBar />} */}
     </nav>
   );
 }

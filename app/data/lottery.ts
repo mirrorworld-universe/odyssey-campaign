@@ -45,7 +45,7 @@ export const getBlockNumberWinner = async ({ token, blockNumber }: any) => {
   return response.json();
 };
 
-export const getLotteryDrawPrice = async ({ token, blockNumber }: any) => {
+export const getLotteryDrawPrice = async ({ token }: any) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/draw/price`,
     {

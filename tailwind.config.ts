@@ -118,6 +118,22 @@ const config = {
             transform: "scale3d(1, 1, 1)",
           },
         },
+        "fade-in": {
+          from: {
+            opacity: "0",
+          },
+          to: {
+            opacity: "1",
+          },
+        },
+        "fade-out": {
+          from: {
+            opacity: "1",
+          },
+          to: {
+            opacity: "0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -125,6 +141,8 @@ const config = {
         loading: "loading 1s linear infinite",
         "loading-before": "loading-before 1s linear infinite",
         "loading-after": "loading-after 1s linear infinite",
+        "fade-in": "fade-in .3s linear",
+        "fade-out": "fade-out .3s linear",
       },
       fontFamily: {
         manrope: ["var(--font-manrope)"],

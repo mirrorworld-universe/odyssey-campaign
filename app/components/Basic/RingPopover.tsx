@@ -142,7 +142,12 @@ export default function RingPopover() {
       <PopoverContent
         className={`w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0 mt-5`}
       >
-        <div className="block w-full h-[286px] overflow-hidden relative">
+        <div
+          className={cn(
+            "block w-full overflow-hidden relative",
+            historyList.length ? "h-[286px]" : "h-[166px]"
+          )}
+        >
           <div
             className={cn(
               "w-full h-full absolute transition-transform duration-300",
@@ -231,31 +236,33 @@ export default function RingPopover() {
                   </div>
                 </div>
                 <div className="flex flex-col w-full max-h-[180px]">
-                  {historyList.map((history: any, historyIndex: number) => (
-                    <div
-                      key={historyIndex}
-                      className="flex flex-row justify-between text-white/50 text-xs py-2"
-                    >
-                      <div className="flex items-center">
-                        Claimed x 1{" "}
-                        <Gift
-                          width={12}
-                          height={12}
-                          color="rgba(255,255,255,.5)"
-                          className="mx-[2px]"
-                        />
+                  {historyList
+                    .slice(0, 2)
+                    .map((history: any, historyIndex: number) => (
+                      <div
+                        key={historyIndex}
+                        className="flex flex-row justify-between text-white/50 text-xs py-2"
+                      >
+                        <div className="flex items-center">
+                          Claimed x 1{" "}
+                          <Gift
+                            width={12}
+                            height={12}
+                            color="rgba(255,255,255,.5)"
+                            className="mx-[2px]"
+                          />
+                        </div>
+                        <div className="flex items-center">
+                          + {history.quantity}{" "}
+                          <Ring
+                            width={12}
+                            height={12}
+                            color="rgba(255,255,255,.5)"
+                            className="mx-[2px]"
+                          />
+                        </div>
                       </div>
-                      <div className="flex items-center">
-                        + {history.quantity}{" "}
-                        <Ring
-                          width={12}
-                          height={12}
-                          color="rgba(255,255,255,.5)"
-                          className="mx-[2px]"
-                        />
-                      </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
             ) : null}

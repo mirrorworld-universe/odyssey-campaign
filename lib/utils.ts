@@ -72,3 +72,14 @@ export const openDialoguePopup = (
 export const prettyNumber = (number: number) => {
   return new Intl.NumberFormat("en-US").format(number);
 };
+
+export function UTC8Date(timeString: string) {
+  let time = !timeString ? new Date() : new Date(timeString);
+  if (time.toString() === "Invalid Date") {
+    time = new Date();
+  }
+  const timezoneOffset = 8;
+  const utc = time.getTime() + time.getTimezoneOffset() * 60000;
+  const UTC8Date = new Date(utc + timezoneOffset * 60 * 60 * 1000);
+  return UTC8Date;
+}
