@@ -27,6 +27,8 @@ import {
 import { DrawConfirmDialog } from "../Dialog/DrawConfirm";
 import { DrawRecordDialog } from "../Dialog/DrawRecord";
 import { DrawResultDialog } from "../Dialog/DrawResult";
+import { useDrawConfirmModal, useLotteryInfo } from "@/app/store/lottery";
+import { taskGroupList } from "@/app/data/task";
 
 export function RingLottery() {
   const [mintedRingAmount, setMintedRingAmount] = useState(0);
@@ -34,6 +36,19 @@ export function RingLottery() {
   const [winnerBoard, setWinnerBoard] = useState([]);
   const [drawPrice, setDrawPrice] = useState(0);
   const [drawAmount, setDrawAmount] = useState("1");
+
+  const { setLotteryDrawAmount } = useLotteryInfo();
+
+  const handleSetLotteryDrawAmount = (drawAmount: string) => {
+    setDrawAmount(drawAmount);
+    setLotteryDrawAmount(Number(drawAmount));
+  };
+
+  const {
+    isOpen: isOpenDrawConfirmModal,
+    onOpen: onOpenDrawConfirmModal,
+    onClose: onCloseDrawConfirmModal,
+  } = useDrawConfirmModal();
 
   const {
     address,
@@ -63,6 +78,7 @@ export function RingLottery() {
   });
 
   const handleDrawLottery = () => {
+    onOpenDrawConfirmModal();
     trackClick({ text: "Ring Lottery" });
   };
 
@@ -88,6 +104,10 @@ export function RingLottery() {
       setTotalRingAmount(dataMintedRingAmount.data.total);
     }
   }, [dataMintedRingAmount]);
+
+  useEffect(() => {
+    setLotteryDrawAmount(Number(drawAmount));
+  }, []);
 
   const WinnerBoard = () => (
     <div className="flex flex-col gap-5 text-sm">
@@ -244,7 +264,12 @@ export function RingLottery() {
                 Number of draws
               </span>
               <div className="flex items-center">
-                <Select value={drawAmount} onValueChange={setDrawAmount}>
+                <Select
+                  value={drawAmount}
+                  onValueChange={(value: string) =>
+                    handleSetLotteryDrawAmount(value)
+                  }
+                >
                   <SelectTrigger className="bg-transparent text-white text-lg font-semibold outline-none border-none">
                     <SelectValue placeholder="1" />
                   </SelectTrigger>
@@ -255,7 +280,7 @@ export function RingLottery() {
                           <SelectItem
                             value={number.toString()}
                             key={number}
-                            className="focus:bg-white/5 text-white focus:text-white h-11 w-[60px]"
+                            className="focus:bg-white/5 text-white focus:text-white h-11"
                           >
                             {number}
                           </SelectItem>
@@ -292,6 +317,13 @@ export function RingLottery() {
       <DrawConfirmDialog />
       <DrawRecordDialog />
       <DrawResultDialog />
+
+      {!taskGroupList
+        .map((item) => item.list)
+        .flat()
+        .find((task) => task.id === "ring-lottery")?.available && (
+        <div className="w-screen h-screen bg-black/90 fixed top-0 left-0 z-20"></div>
+      )}
     </>
   );
 }

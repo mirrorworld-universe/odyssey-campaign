@@ -21,11 +21,29 @@ export const useLotteryBar = create<{
 
 export const useLotteryInfo = create(
   persist<{
+    lotteryDrawPrice: number;
+    setLotteryDrawPrice: (lotteryDrawPrice: number) => void;
+    lotteryDrawAmount: number;
+    setLotteryDrawAmount: (lotteryDrawAmount: number) => void;
     lotteryRewardsAmount: number;
     setLotteryRewardsAmount: (lotteryRewardsAmount: number) => void;
     reset: () => void;
   }>(
     (set, get) => ({
+      lotteryDrawPrice: get()?.lotteryDrawPrice,
+      setLotteryDrawPrice: (lotteryDrawPrice: number) => {
+        set({
+          lotteryDrawPrice,
+        });
+      },
+
+      lotteryDrawAmount: get()?.lotteryDrawAmount,
+      setLotteryDrawAmount: (lotteryDrawAmount: number) => {
+        set({
+          lotteryDrawAmount,
+        });
+      },
+
       lotteryRewardsAmount: get()?.lotteryRewardsAmount,
       setLotteryRewardsAmount: (lotteryRewardsAmount: number) => {
         set({
