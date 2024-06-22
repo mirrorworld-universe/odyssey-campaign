@@ -12,7 +12,7 @@ import { Ring } from "../../icons/Ring";
 import { Arrow } from "../../icons/Arrow";
 import { Gift } from "../../icons/Gift";
 import { Card, CardSize } from "./Card";
-import { cn, prettyNumber } from "@/lib/utils";
+import { cn, isBetweenInTime, prettyNumber } from "@/lib/utils";
 import { useAccountInfo } from "../../store/account";
 import { getMysteryboxHistory } from "../../data/reward";
 import {
@@ -192,11 +192,14 @@ export default function RingPopover() {
                 disabled={
                   !canOpenMysteryBox ||
                   isOpeningMysterybox ||
-                  !isSupportSonic(wallet?.adapter.name)
+                  !isSupportSonic(wallet?.adapter.name) ||
+                  isBetweenInTime()
                 }
                 className={cn(
                   "bg-[#0000FF] transition-all duration-300",
-                  !canOpenMysteryBox || !isSupportSonic(wallet?.adapter.name)
+                  !canOpenMysteryBox ||
+                    !isSupportSonic(wallet?.adapter.name) ||
+                    isBetweenInTime()
                     ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                     : isOpeningMysterybox
                     ? "hover:bg-[#0000FF] opacity-60 cursor-not-allowed"

@@ -12,6 +12,7 @@ import { NotificationBar } from "./NotificationBar";
 import { useLotteryBar } from "@/app/store/lottery";
 import { openWalletStatics } from "@/lib/analytics";
 import { trackClick, trackLinkClick } from "@/lib/track";
+import { isBetweenInTime } from "@/lib/utils";
 
 export const menu: any[] = [
   {
@@ -116,7 +117,17 @@ export function Header() {
       </div>
 
       {/* notification bar */}
-      {/* {isOpenLotteryBar && <NotificationBar />} */}
+      {isOpenLotteryBar && <NotificationBar />}
+
+      {/* system notification bar */}
+      {isBetweenInTime() && (
+        <NotificationBar>
+          <span>
+            The system is undergoing an upgrade between 5:00 AM and 11:00 AM
+            (UTC). We'll be back soon.
+          </span>
+        </NotificationBar>
+      )}
     </nav>
   );
 }

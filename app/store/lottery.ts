@@ -6,7 +6,7 @@ export const useLotteryBar = create<{
   onOpen: () => void;
   onClose: () => void;
 }>((set) => ({
-  isOpen: true,
+  isOpen: false,
   onOpen: () => {
     set({
       isOpen: true,

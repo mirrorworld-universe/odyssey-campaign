@@ -12,6 +12,7 @@ import {
 import { Check } from "@/app/icons/Check";
 import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
+import { isBetweenInTime } from "@/lib/utils";
 
 export function MileStone() {
   const totalAmount = 100;
@@ -72,7 +73,8 @@ export function MileStone() {
   const handleClaimGifts = (stageKey: string, stageIndex: number) => {
     if (
       stageList[stageKey].claimed ||
-      transactionAmount < stageList[stageKey].quantity
+      transactionAmount < stageList[stageKey].quantity ||
+      isBetweenInTime()
     ) {
       return;
     }
@@ -168,7 +170,8 @@ export function MileStone() {
                   <Button
                     key={stageIndex}
                     className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300 ${
-                      transactionAmount < stageList[stageKey].quantity
+                      transactionAmount < stageList[stageKey].quantity ||
+                      isBetweenInTime()
                         ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                         : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
                     }`}

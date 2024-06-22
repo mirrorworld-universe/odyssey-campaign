@@ -22,7 +22,7 @@ import {
 import { Card, CardSize } from "../Basic/Card";
 import base58 from "bs58";
 import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, isBetweenInTime } from "@/lib/utils";
 import {
   confirmTransaction,
   sendLegacyTransaction,
@@ -169,7 +169,7 @@ export function CheckIn() {
   }, [dataCheckInInfo]);
 
   const handleCheckIn = () => {
-    if (!hasChecked && !isChekingIn) {
+    if (!hasChecked && !isChekingIn && !isBetweenInTime()) {
       setIsChekingIn(true);
       getTransactionHash.mutate();
     }
@@ -287,7 +287,7 @@ export function CheckIn() {
             </p>
             <Button
               className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron transition-colors duration-300 ${
-                hasChecked
+                hasChecked || isBetweenInTime()
                   ? "bg-[#888888] hover:bg-[#888888]"
                   : isChekingIn
                   ? "bg-[#0000FF]/80 hover:bg-[#0000FF]/80"

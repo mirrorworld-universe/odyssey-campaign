@@ -8,6 +8,10 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+import Lottie from "lottie-react";
+import getStartedButtonAnimation from "../animations/get-started.json";
+import testAnimation from "../animations/get-test.json";
+
 import { useAccountInfo, useWalletModal } from "./store/account";
 import { inviteUser } from "./data/account";
 import { loadHomePageStatics, openWalletStatics } from "@/lib/analytics";
@@ -104,6 +108,9 @@ export default function Home() {
           >
             <img className="w-full" src="/images/get-started.png" alt="" />
           </Button>
+
+          {/* <Lottie animationData={getStartedButtonAnimation} />
+          <Lottie animationData={testAnimation} className="w-[100px]" /> */}
         </div>
       </div>
     </main>
