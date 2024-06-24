@@ -5,7 +5,11 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Button } from "@/components/ui/button";
 
 import Notification from "./Notification";
-import { useAccountInfo, useWalletModal } from "../../store/account";
+import {
+  useAccountInfo,
+  useNotificationBar,
+  useWalletModal,
+} from "../../store/account";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
 import { NotificationBar } from "./NotificationBar";
@@ -14,6 +18,7 @@ import { openWalletStatics } from "@/lib/analytics";
 import { trackClick, trackLinkClick } from "@/lib/track";
 import { isBetweenInTime } from "@/lib/utils";
 import { Speaker } from "@/app/icons/Speaker";
+import { useEffect } from "react";
 
 export const menu: any[] = [
   {
@@ -44,6 +49,8 @@ export function Header() {
   const { address, token, reset } = useAccountInfo();
   const { isOpen: isOpenLotteryBar, onOpen: onOpenLotteryBar } =
     useLotteryBar();
+  const { isOpen: isOpenNotificationBar, onOpen: onOpenNotificationBar } =
+    useNotificationBar();
 
   // useEffect(() => {
   //   if (publicKey) {
@@ -64,6 +71,12 @@ export function Header() {
     // ttq code part
     openWalletStatics();
   };
+
+  useEffect(() => {
+    if (isBetweenInTime()) {
+      onOpenNotificationBar();
+    }
+  }, []);
 
   return (
     <nav className="flex flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
@@ -121,7 +134,7 @@ export function Header() {
       {isOpenLotteryBar && <NotificationBar />}
 
       {/* system notification bar */}
-      {isBetweenInTime() && (
+      {isOpenNotificationBar && (
         <NotificationBar className="bg-[#00063C] min-h-12 h-auto px-3">
           <span className="inline-flex justify-center gap-2 text-base text-[#48BBFF] font-semibold py-3">
             <Speaker
