@@ -135,9 +135,11 @@ export function MysteryBoxConfirmDialog() {
       mutationOpenMysteryBox.mutate();
     } catch (error) {
       console.error("Transaction failed:", error);
+      setIsOpeningMysterybox(false);
+      toast({
+        description: "Transaction failed",
+      });
     }
-
-    setIsOpeningMysterybox(false);
   };
 
   const mutationOpenMysteryBox = useMutation({
@@ -166,6 +168,11 @@ export function MysteryBoxConfirmDialog() {
         onOpenResultModal();
         onClose();
       }
+    },
+    onError: () => {
+      toast({
+        description: "Oops! There's a little hiccup on server!",
+      });
     },
   });
 
@@ -261,7 +268,7 @@ export function MysteryBoxConfirmDialog() {
           </Button>
 
           <Button
-            className="w-full h-12 bg-transparent hover:bg-transparent text-white/50 font-orbitron"
+            className="w-full h-12 bg-transparent hover:bg-transparent text-white/50 font-orbitron hover:opacity-80 active:opacity-50 transition-colors duration-300"
             onClick={onClose}
           >
             Cancel

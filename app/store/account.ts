@@ -1,6 +1,24 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export const useNotificationBar = create<{
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}>((set) => ({
+  isOpen: false,
+  onOpen: () => {
+    set({
+      isOpen: true,
+    });
+  },
+  onClose: () => {
+    set({
+      isOpen: false,
+    });
+  },
+}));
+
 export const useWalletModal = create<{
   isOpen: boolean;
   onOpen: () => void;

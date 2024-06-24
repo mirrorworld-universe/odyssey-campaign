@@ -4,9 +4,9 @@ import { Manrope, Orbitron } from "next/font/google";
 
 import "./globals.css";
 import Providers from "./providers";
-import AppWalletProvider from "./components/AppWalletProvider";
-import { Header } from "./components/Header";
-import { Footer } from "./components/Footer";
+import AppWalletProvider from "./components/Basic/AppWalletProvider";
+import { Header } from "./components/Basic/Header";
+import { Footer } from "./components/Basic/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import { WalletDialog } from "./components/Dialog/Wallet";
 import { MysteryBoxConfirmDialog } from "./components/Dialog/MysteryBoxConfirm";
@@ -107,7 +107,7 @@ window.criteo_q.push(
             {children}
 
             {/* footer */}
-            <Footer />
+            {/* <Footer /> */}
 
             {/* wallet dialog */}
             <WalletDialog />

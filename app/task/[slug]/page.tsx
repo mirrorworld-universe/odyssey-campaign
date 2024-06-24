@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { MeetSonic } from "@/app/components/Task/MeetSonic";
 import { CheckIn } from "@/app/components/Task/CheckIn";
 import { RingLottery } from "@/app/components/Task/RingLottery";
@@ -9,6 +7,8 @@ import { GameVenture } from "@/app/components/Task/GameVenture";
 
 import { taskGroupList } from "../../data/task";
 import { cn } from "@/lib/utils";
+import { useNotificationBar } from "@/app/store/account";
+import { TaskNavigator } from "@/app/components/Basic/TaskNavigator";
 
 const tasks = taskGroupList.map((item) => item.list).flat();
 
@@ -35,55 +35,6 @@ export default function Page({ params }: { params: { slug: string } }) {
     ["game-venture"]: <GameVenture />,
   };
 
-  const Navigator = () => (
-    <div className="flex flex-col w-[400px]">
-      <Link
-        href="/task"
-        className="flex flex-row justify-center items-center gap-2 bg-[#111111] hover:opacity-80 px-8 py-10 sticky top-20 transition-opacity duration-300 z-10"
-      >
-        <img className="w-8 h-8" src="/images/arrow-back.svg" alt="" />
-        <span className="text-white/30 text-[32px] font-semibold font-orbitron">
-          Back
-        </span>
-      </Link>
-      {tasks.map((task, taskIndex) => (
-        <Link
-          key={taskIndex}
-          href={task.available ? `/task/${task.id}` : "#"}
-          className={cn(
-            "group/nav flex w-[400px] h-[200px] border-l-[6px] border-solid transition-all duration-300 relative overflow-hidden",
-            task.id === taskId ? "border-[#F79342]" : "border-transparent",
-            task.available
-              ? "opacity-100 cursor-pointer"
-              : "opacity-30 cursor-not-allowed border-none"
-          )}
-        >
-          <img
-            className="w-full h-full absolute top-0 left-0  "
-            src={`/images/${task.id}.png`}
-            alt=""
-          />
-          <div
-            className={cn(
-              `w-full h-full absolute top-0 left-0 background-highlight opacity-0 transition-opacity duration-300`,
-              task.id === taskId ? "opacity-100" : "",
-              task.available ? "" : ""
-            )}
-          ></div>
-          <span
-            className={cn(
-              `font-orbitron text-2xl font-normal absolute left-[32px] bottom-[24px] transition-colors duration-300`,
-              task.id === taskId ? "text-[#FBB042]" : "text-white/50",
-              task.available ? "group-hover/nav:text-[#FBB042]" : ""
-            )}
-          >
-            {task.name}
-          </span>
-        </Link>
-      ))}
-    </div>
-  );
-
   const Content = () => (
     <div className="flex flex-col px-[120px] py-[120px]">
       {/* title */}
@@ -103,7 +54,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex flex-row">
-      <Navigator />
+      <TaskNavigator taskId={taskId} />
       <Content />
     </div>
   );

@@ -8,6 +8,10 @@ import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+import Lottie from "lottie-react";
+import getStartedButtonAnimation from "../animations/get-started.json";
+import testAnimation from "../animations/get-test.json";
+
 import { useAccountInfo, useWalletModal } from "./store/account";
 import { inviteUser } from "./data/account";
 import { loadHomePageStatics, openWalletStatics } from "@/lib/analytics";
@@ -82,8 +86,11 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      <div className="w-screen h-screen flex-grow flex flex-col items-center justify-center px-4 py-8 relative">
+      <div className="w-screen h-screen flex-grow flex flex-col items-center justify-center relative">
         <VideoBackground />
+
+        <div className="w-full h-full bg-gradient-to-t from-black to-black/50 relative"></div>
+
         <div className="text-center max-w-[800px] flex flex-col items-center absolute">
           <h1 className="flex flex-row gap-2 text-8xl text-white font-orbitron font-bold">
             <img className="" src="/images/sonic-odyssey.png" alt="" />
@@ -101,6 +108,9 @@ export default function Home() {
           >
             <img className="w-full" src="/images/get-started.png" alt="" />
           </Button>
+
+          {/* <Lottie animationData={getStartedButtonAnimation} />
+          <Lottie animationData={testAnimation} className="w-[100px]" /> */}
         </div>
       </div>
     </main>

@@ -8,20 +8,20 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Ring } from "../icons/Ring";
-import { Arrow } from "../icons/Arrow";
-import { Gift } from "../icons/Gift";
+import { Ring } from "../../icons/Ring";
+import { Arrow } from "../../icons/Arrow";
+import { Gift } from "../../icons/Gift";
 import { Card, CardSize } from "./Card";
-import { cn, prettyNumber } from "@/lib/utils";
-import { useAccountInfo } from "../store/account";
-import { getMysteryboxHistory } from "../data/reward";
+import { cn, isBetweenInTime, prettyNumber } from "@/lib/utils";
+import { useAccountInfo } from "../../store/account";
+import { getMysteryboxHistory } from "../../data/reward";
 import {
   useMysteryBoxInfo,
   useMysteryBoxConfirmModal,
   useMysteryBoxRecordModal,
-} from "../store/task";
-import { isSupportSonic } from "../wallet/wallet-list";
-import { getUserRewardInfo } from "../data/account";
+} from "../../store/task";
+import { isSupportSonic } from "../../wallet/wallet-list";
+import { getUserRewardInfo } from "../../data/account";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function RingPopover() {
@@ -126,7 +126,7 @@ export default function RingPopover() {
         <div className="flex flex-row items-center gap-2 cursor-pointer">
           <Ring width={24} height={24} color="#FBB042" />
           <span className="text-white text-base font-orbitron font-semibold">
-            {prettyNumber(ringAmount)}
+            {isBetweenInTime() ? "--" : prettyNumber(ringAmount)}
           </span>
           <Arrow
             width={24}
@@ -140,9 +140,14 @@ export default function RingPopover() {
         </div>
       </PopoverTrigger>
       <PopoverContent
-        className={`w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0`}
+        className={`w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0 mt-5`}
       >
-        <div className="block w-full h-[286px] overflow-hidden relative">
+        <div
+          className={cn(
+            "block w-full overflow-hidden relative",
+            historyList.length ? "h-[286px]" : "h-[166px]"
+          )}
+        >
           <div
             className={cn(
               "w-full h-full absolute transition-transform duration-300",
@@ -150,7 +155,7 @@ export default function RingPopover() {
             )}
           >
             {/* balance */}
-            <div className="flex flex-col gap-5 px-4 py-[24px]">
+            <div className="flex flex-col px-4 pb-5 py-[24px]">
               <Card
                 name="Current Balance"
                 nameClassName="bg-[#1B1B1B]"
@@ -165,7 +170,7 @@ export default function RingPopover() {
                       className="mr-1"
                     />{" "}
                     <span className="text-white text-base font-orbitron font-semibold">
-                      {ringMonitorAmount}
+                      {isBetweenInTime() ? "--" : ringMonitorAmount}
                     </span>
                   </div>
                   <div className="flex items-center">
@@ -176,7 +181,7 @@ export default function RingPopover() {
                       className="mr-1"
                     />{" "}
                     <span className="text-white text-base font-orbitron font-semibold">
-                      {ringAmount}
+                      {isBetweenInTime() ? "--" : ringAmount}
                     </span>
                   </div>
                 </div>
@@ -187,15 +192,18 @@ export default function RingPopover() {
                 disabled={
                   !canOpenMysteryBox ||
                   isOpeningMysterybox ||
-                  !isSupportSonic(wallet?.adapter.name)
+                  !isSupportSonic(wallet?.adapter.name) ||
+                  isBetweenInTime()
                 }
                 className={cn(
-                  "transition-all duration-300",
-                  !canOpenMysteryBox || !isSupportSonic(wallet?.adapter.name)
-                    ? "bg-[#888888] hover:bg-[#888888] cursor-not-allowed"
+                  "bg-[#0000FF] transition-all duration-300 mt-5",
+                  !canOpenMysteryBox ||
+                    !isSupportSonic(wallet?.adapter.name) ||
+                    isBetweenInTime()
+                    ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                     : isOpeningMysterybox
-                    ? "bg-[#0000FF] hover:bg-[#0000FF]/80 opacity-60 cursor-not-allowed"
-                    : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
+                    ? "hover:bg-[#0000FF] opacity-60 cursor-not-allowed"
+                    : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
                 )}
                 onClick={handleOpenMysterybox}
               >
@@ -212,6 +220,20 @@ export default function RingPopover() {
                   className="mx-[2px]"
                 />
               </Button>
+
+              {/* upgrade tip */}
+              {isBetweenInTime() ? (
+                <p className="flex flex-row gap-1 mt-2">
+                  <img
+                    className="w-4 h-4 mt-[1px]"
+                    src="/images/icons/report.svg"
+                  />
+                  <span className="text-[#FBB042] text-xs">
+                    Sonic Testnet is currently undergoing an upgrade and will
+                    resume in 6 hours.
+                  </span>
+                </p>
+              ) : null}
             </div>
 
             {/* claim history */}
@@ -231,31 +253,33 @@ export default function RingPopover() {
                   </div>
                 </div>
                 <div className="flex flex-col w-full max-h-[180px]">
-                  {historyList.map((history: any, historyIndex: number) => (
-                    <div
-                      key={historyIndex}
-                      className="flex flex-row justify-between text-white/50 text-xs py-2"
-                    >
-                      <div className="flex items-center">
-                        Claimed x 1{" "}
-                        <Gift
-                          width={12}
-                          height={12}
-                          color="rgba(255,255,255,.5)"
-                          className="mx-[2px]"
-                        />
+                  {historyList
+                    .slice(0, 2)
+                    .map((history: any, historyIndex: number) => (
+                      <div
+                        key={historyIndex}
+                        className="flex flex-row justify-between text-white/50 text-xs py-2"
+                      >
+                        <div className="flex items-center">
+                          Claimed x 1{" "}
+                          <Gift
+                            width={12}
+                            height={12}
+                            color="rgba(255,255,255,.5)"
+                            className="mx-[2px]"
+                          />
+                        </div>
+                        <div className="flex items-center">
+                          + {history.quantity}{" "}
+                          <Ring
+                            width={12}
+                            height={12}
+                            color="rgba(255,255,255,.5)"
+                            className="mx-[2px]"
+                          />
+                        </div>
                       </div>
-                      <div className="flex items-center">
-                        + {history.quantity}{" "}
-                        <Ring
-                          width={12}
-                          height={12}
-                          color="rgba(255,255,255,.5)"
-                          className="mx-[2px]"
-                        />
-                      </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
             ) : null}

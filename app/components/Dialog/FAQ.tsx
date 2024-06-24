@@ -46,7 +46,7 @@ export function FAQDialog() {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[813px] bg-[#1A1A1A] border-none px-8 py-8">
+      <DialogContent className="w-[812px] bg-[#1A1A1A] border-none px-8 py-8">
         <DialogHeader className="space-y-0">
           <DialogTitle className="text-white text-[32px] font-orbitron pb-12 border-b border-solid border-white/10">
             FAQs
@@ -68,7 +68,7 @@ export function FAQDialog() {
               <AccordionTrigger className="text-white text-lg font-semibold font-orbitron data-[state=open]:text-[#FBB042] outline-none">
                 {faq.title}
               </AccordionTrigger>
-              <AccordionContent className="text-white/60 text-base">
+              <AccordionContent className="text-white/60 text-base pr-[72px]">
                 {faq.content}
               </AccordionContent>
             </AccordionItem>

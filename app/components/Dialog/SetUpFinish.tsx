@@ -29,9 +29,9 @@ export function SetUpFinishDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[470px] bg-[#1A1A1A] border-none px-8 py-8">
+      <AlertDialogContent className="w-[468px] bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
-          <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
+          <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron pt-4">
             <p className="flex flex-row gap-3 text-white text-5xl font-semibold font-orbitron">
               <img src="/images/icons/done.svg" className="w-16 h-16" />
             </p>
