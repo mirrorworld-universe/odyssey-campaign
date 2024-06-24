@@ -134,6 +134,14 @@ const config = {
             opacity: "0",
           },
         },
+        marquee: {
+          "0%": {
+            transform: "translateX(0%)",
+          },
+          "100%": {
+            transform: "translateX(-100%)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -143,6 +151,7 @@ const config = {
         "loading-after": "loading-after 1s linear infinite",
         "fade-in": "fade-in .3s linear",
         "fade-out": "fade-out .3s linear",
+        marquee: "marquee 24s linear infinite",
       },
       fontFamily: {
         manrope: ["var(--font-manrope)"],

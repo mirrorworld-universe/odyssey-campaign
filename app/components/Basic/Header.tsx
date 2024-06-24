@@ -130,10 +130,12 @@ export function Header() {
               color="#48BBFF"
               className="min-w-6 min-h-6"
             />
-            <span>
-              Important Update: Sonic Testnet will upgrade on June 24, 2024, at
-              5 AM UTC, for 6+ hours. Some tasks and on-chain interactions will
-              be paused. Thank you for understanding.
+            <span className="inline-flex max-w-[718px] whitespace-nowrap overflow-hidden">
+              <div className="pl-[100%] animate-marquee">
+                Important Update: Sonic Testnet will upgrade on June 24, 2024,
+                at 5 AM UTC, for 6+ hours. Some tasks and on-chain interactions
+                will be paused. Thank you for understanding.
+              </div>
             </span>
           </span>
         </NotificationBar>

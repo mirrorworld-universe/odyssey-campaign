@@ -155,7 +155,7 @@ export default function RingPopover() {
             )}
           >
             {/* balance */}
-            <div className="flex flex-col gap-5 px-4 py-[24px]">
+            <div className="flex flex-col px-4 pb-5 py-[24px]">
               <Card
                 name="Current Balance"
                 nameClassName="bg-[#1B1B1B]"
@@ -196,7 +196,7 @@ export default function RingPopover() {
                   isBetweenInTime()
                 }
                 className={cn(
-                  "bg-[#0000FF] transition-all duration-300",
+                  "bg-[#0000FF] transition-all duration-300 mt-5",
                   !canOpenMysteryBox ||
                     !isSupportSonic(wallet?.adapter.name) ||
                     isBetweenInTime()
@@ -220,6 +220,20 @@ export default function RingPopover() {
                   className="mx-[2px]"
                 />
               </Button>
+
+              {/* upgrade tip */}
+              {isBetweenInTime() ? (
+                <p className="flex flex-row gap-1 mt-2">
+                  <img
+                    className="w-4 h-4 mt-[1px]"
+                    src="/images/icons/report.svg"
+                  />
+                  <span className="text-[#FBB042] text-xs">
+                    Sonic Testnet is currently undergoing an upgrade and will
+                    resume in 6 hours.
+                  </span>
+                </p>
+              ) : null}
             </div>
 
             {/* claim history */}

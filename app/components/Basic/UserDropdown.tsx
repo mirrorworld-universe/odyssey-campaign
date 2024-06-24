@@ -17,6 +17,7 @@ import {
 } from "../../store/account";
 import { fetchLogout } from "../../data/account";
 import { WalletList } from "../../wallet/wallet-list";
+import { isBetweenInTime } from "@/lib/utils";
 
 export function UserDropdown() {
   const { setToken } = useAccountInfo();
@@ -100,26 +101,43 @@ export function UserDropdown() {
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-[300px] bg-[#1b1b1b] border-none rounded px-0 py-1">
-        <div className="flex gap-3 justify-start items-center px-4 py-5 hover:bg-[#1b1b1b]">
-          <img className="w-10 h-10" src={wallet?.adapter.icon} alt="" />
-          <div className="flex flex-col justify-center">
-            <span className="text-white text-lg font-semibold font-orbitron">
-              {balance} SOL
-            </span>
-            <div
-              className="flex flex-row items-center mt-1"
-              onClick={hanldeCopyAddress}
-            >
-              <span className="text-white/50 text-xs font-semibold">
-                {formatAddress(publicKey?.toBase58())}
+        <div className="flex flex-col px-4 py-5">
+          {/* user basic info */}
+          <div className="flex gap-3 justify-start items-center hover:bg-[#1b1b1b]">
+            <img className="w-10 h-10" src={wallet?.adapter.icon} alt="" />
+            <div className="flex flex-col justify-between items-start">
+              <span className="text-white text-lg font-semibold font-orbitron">
+                {balance} SOL
               </span>
-              <img
-                src="/images/copy.svg"
-                alt=""
-                className="w-4 h-4 ml-1 cursor-pointer"
-              />
+              <div
+                className="flex flex-row items-center"
+                onClick={hanldeCopyAddress}
+              >
+                <span className="text-white/50 text-xs font-semibold">
+                  {formatAddress(publicKey?.toBase58())}
+                </span>
+                <img
+                  src="/images/copy.svg"
+                  alt=""
+                  className="w-4 h-4 ml-1 cursor-pointer"
+                />
+              </div>
             </div>
           </div>
+
+          {/* upgrade tip */}
+          {isBetweenInTime() ? (
+            <p className="flex flex-row gap-1 mt-2">
+              <img
+                className="w-4 h-4 mt-[1px]"
+                src="/images/icons/report.svg"
+              />
+              <span className="text-[#FBB042] text-xs">
+                Sonic Testnet is currently undergoing an upgrade and will resume
+                in 6 hours.
+              </span>
+            </p>
+          ) : null}
         </div>
 
         <a
