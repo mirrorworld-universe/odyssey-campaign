@@ -2,8 +2,9 @@
 import { useEffect, useState } from "react";
 import { Trophy } from "../../icons/Trophy";
 import { formatAddress } from "../../store/account";
+import { cn } from "@/lib/utils";
 
-export function NotificationBar({ children }: any) {
+export function NotificationBar({ children, className }: any) {
   const [winner, setWinner] = useState("");
   const [order, setOrder] = useState(1000);
 
@@ -13,7 +14,10 @@ export function NotificationBar({ children }: any) {
 
   return (
     <div
-      className="w-full h-11 flex justify-center items-center bg-[#0000FF] text-base font-normal text-white fade-out"
+      className={cn(
+        "w-full h-11 flex justify-center items-center bg-[#0000FF] text-base font-normal text-white fade-out",
+        className
+      )}
       onAnimationEnd={handleAnimationEnd}
     >
       {children ? (

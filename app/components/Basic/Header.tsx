@@ -13,6 +13,7 @@ import { useLotteryBar } from "@/app/store/lottery";
 import { openWalletStatics } from "@/lib/analytics";
 import { trackClick, trackLinkClick } from "@/lib/track";
 import { isBetweenInTime } from "@/lib/utils";
+import { Speaker } from "@/app/icons/Speaker";
 
 export const menu: any[] = [
   {
@@ -121,10 +122,19 @@ export function Header() {
 
       {/* system notification bar */}
       {isBetweenInTime() && (
-        <NotificationBar>
-          <span>
-            The system is undergoing an upgrade between 5:00 AM and 11:00 AM
-            (UTC). We'll be back soon.
+        <NotificationBar className="bg-[#00063C] min-h-12 h-auto px-3">
+          <span className="inline-flex justify-center gap-2 text-base text-[#48BBFF] font-semibold py-3">
+            <Speaker
+              width={24}
+              height={24}
+              color="#48BBFF"
+              className="min-w-6 min-h-6"
+            />
+            <span>
+              Important Update: Sonic Testnet will upgrade on June 24, 2024, at
+              5 AM UTC, for 6+ hours. Some tasks and on-chain interactions will
+              be paused. Thank you for understanding.
+            </span>
           </span>
         </NotificationBar>
       )}
