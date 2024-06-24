@@ -218,11 +218,9 @@ export function WalletDialog({ text = "Connect", className }: any) {
                     <img
                       src={wallet.adapter?.icon}
                       alt={wallet.adapter?.name}
-                      height={30}
-                      width={30}
-                      className="mr-5 "
+                      className="w-8 h-8 mr-3"
                     />
-                    <span className="text-xl text-white mr-2">
+                    <span className="text-lg text-white font-semibold font-orbitron mr-2">
                       {wallet.adapter?.name}
                     </span>
                     {wallet.isSupportSonic ? <SupportSonicTag /> : null}
@@ -231,7 +229,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
                   {wallet.adapter.readyState === WalletReadyState.Installed ? (
                     <div
                       className={cn(
-                        "inline-flex items-center justify-center min-w-[115px] h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
+                        "inline-flex items-center justify-center min-w-[115px] h-10 text-center rounded border-none cursor-pointer px-4 py-2.5 transition-all",
                         "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
                       )}
                       onClick={() => handleWalletSelect(wallet)}
@@ -244,7 +242,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
                     <a
                       className={cn(
                         "inline-flex items-center justify-center min-w-[115px] h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
-                        "border-white/80 hover:border-white"
+                        "border-white/40 hover:border-white/80"
                       )}
                       href={wallet.adapter.url}
                       target="_blank"

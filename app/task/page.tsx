@@ -13,7 +13,7 @@ import { Diversity } from "../icons/Diversity";
 import { Controller } from "../icons/Controller";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardSize } from "../components/Card";
+import { Card, CardSize } from "../components/Basic/Card";
 import { FAQDialog } from "../components/Dialog/FAQ";
 import { HowToPlayDialog } from "../components/Dialog/HowToPlay";
 
@@ -24,6 +24,7 @@ import { useFAQModal, useHowToPlayModal } from "../store/tutorials";
 
 import { cn } from "@/lib/utils";
 import { trackClick } from "@/lib/track";
+import { Footer } from "../components/Basic/Footer";
 
 const icons: any = {
   twitter: <Twitter width={250} height={250} color="#313131" />,
@@ -99,13 +100,13 @@ const TaskCenter: NextPage = () => {
         </p>
         <div className="flex flex-row gap-6 mt-16">
           <Button
-            className="text-white text-base font-bold font-orbitron w-[230px] h-12 transition-all duration-300 bg-[#0000FF] hover:bg-[#0000FF]/60  active:bg-[#0000FF]/80"
+            className="text-white text-base font-bold font-orbitron w-[230px] h-12 transition-all duration-300 bg-[#0000FF] hover:bg-[#000C79] active:bg-[#000C79]/50"
             onClick={handleStartTask}
           >
             Start My Task
           </Button>
           <Button
-            className="text-white text-base font-bold font-orbitron w-[230px] h-12 bg-transparent border boder-solid border-white transition-all duration-300"
+            className="text-white text-base font-bold font-orbitron w-[230px] h-12 bg-transparent hover:bg-white/10 active:opacity-80 border boder-solid border-white transition-all duration-300"
             onClick={handleOpenHowToPlayDialog}
           >
             How to Play?
@@ -156,8 +157,10 @@ const TaskCenter: NextPage = () => {
                       {task.description}
                     </p>
                     <div className="flex flex-row justify-start items-center w-full absolute left-0 bottom-0">
-                      <div className="w-[174px] h-10 bg-cover bg-no-repeat text-white text-sm font-orbitron bg-[url('/images/period-background.png')] pt-3 pl-5">
-                        {task.period}
+                      <div className="w-[174px] h-10 bg-cover bg-no-repeat bg-[url('/images/period-background.png')]">
+                        <span className="inline-flex justify-center items-center w-[150px] h-full text-white text-sm font-bold font-orbitron">
+                          {task.period}
+                        </span>
                       </div>
                       {task.reward ? (
                         <div className="text-[#FBB042] text-sm font-orbitron ml-1">
@@ -186,14 +189,19 @@ const TaskCenter: NextPage = () => {
   );
 
   return (
-    <main className="bg-[#111111] flex min-h-screen flex-col items-center justify-between">
-      <Header />
-      <MainContent />
+    <>
+      <main className="bg-[#111111] flex min-h-screen flex-col items-center justify-between">
+        <Header />
+        <MainContent />
 
-      {/* dialogs */}
-      <HowToPlayDialog />
-      <FAQDialog />
-    </main>
+        {/* dialogs */}
+        <HowToPlayDialog />
+        <FAQDialog />
+      </main>
+
+      {/* footer */}
+      <Footer />
+    </>
   );
 };
 

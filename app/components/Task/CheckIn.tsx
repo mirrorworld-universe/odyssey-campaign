@@ -19,10 +19,10 @@ import {
   fetchFinishCheckin,
 } from "@/app/data/task";
 
-import { Card, CardSize } from "../Card";
+import { Card, CardSize } from "../Basic/Card";
 import base58 from "bs58";
 import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, isBetweenInTime } from "@/lib/utils";
 import {
   confirmTransaction,
   sendLegacyTransaction,
@@ -169,7 +169,7 @@ export function CheckIn() {
   }, [dataCheckInInfo]);
 
   const handleCheckIn = () => {
-    if (!hasChecked && !isChekingIn) {
+    if (!hasChecked && !isChekingIn && !isBetweenInTime()) {
       setIsChekingIn(true);
       getTransactionHash.mutate();
     }
@@ -179,7 +179,7 @@ export function CheckIn() {
   return (
     <>
       {/* rules */}
-      <Card name="Rules" size={CardSize.Medium} className="">
+      <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
         <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           <li className="">
             Request test SOL first.{" "}
@@ -231,7 +231,7 @@ export function CheckIn() {
       </Card>
 
       {/* main */}
-      <Card size={CardSize.Medium} className="mt-20">
+      <Card size={CardSize.Medium} className="mt-20" nameClassName="bg-[#000]">
         <div className="flex flex-col gap-16">
           {/* wordings */}
           <p className="text-white text-[29px] font-orbitron font-semibold">
@@ -287,7 +287,7 @@ export function CheckIn() {
             </p>
             <Button
               className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron transition-colors duration-300 ${
-                hasChecked
+                hasChecked || isBetweenInTime()
                   ? "bg-[#888888] hover:bg-[#888888]"
                   : isChekingIn
                   ? "bg-[#0000FF]/80 hover:bg-[#0000FF]/80"

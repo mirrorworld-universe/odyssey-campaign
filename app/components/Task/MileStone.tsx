@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Gift } from "@/app/icons/Gift";
 import { Button } from "@/components/ui/button";
-import { Card, CardSize } from "../Card";
+import { Card, CardSize } from "../Basic/Card";
 import { useAccountInfo } from "@/app/store/account";
 import {
   claimMilestoneRewards,
@@ -12,6 +12,7 @@ import {
 import { Check } from "@/app/icons/Check";
 import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
+import { isBetweenInTime } from "@/lib/utils";
 
 export function MileStone() {
   const totalAmount = 100;
@@ -72,7 +73,8 @@ export function MileStone() {
   const handleClaimGifts = (stageKey: string, stageIndex: number) => {
     if (
       stageList[stageKey].claimed ||
-      transactionAmount < stageList[stageKey].quantity
+      transactionAmount < stageList[stageKey].quantity ||
+      isBetweenInTime()
     ) {
       return;
     }
@@ -84,7 +86,7 @@ export function MileStone() {
   return (
     <>
       {/* rules */}
-      <Card name="Rules" size={CardSize.Medium} className="">
+      <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
         <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           <li className="">
             Any task and on-chain interaction will generate a corresponding
@@ -104,7 +106,7 @@ export function MileStone() {
       </Card>
 
       {/* main */}
-      <Card size={CardSize.Medium} className="mt-20">
+      <Card size={CardSize.Medium} className="mt-20" nameClassName="bg-[#000]">
         <div className="flex flex-col gap-16">
           {/* wordings */}
           <p className="text-white text-[29px] font-orbitron font-semibold">
@@ -168,7 +170,8 @@ export function MileStone() {
                   <Button
                     key={stageIndex}
                     className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300 ${
-                      transactionAmount < stageList[stageKey].quantity
+                      transactionAmount < stageList[stageKey].quantity ||
+                      isBetweenInTime()
                         ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                         : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
                     }`}

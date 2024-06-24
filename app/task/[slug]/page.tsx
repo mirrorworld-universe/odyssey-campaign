@@ -39,10 +39,14 @@ export default function Page({ params }: { params: { slug: string } }) {
     <div className="flex flex-col w-[400px]">
       <Link
         href="/task"
-        className="flex flex-row justify-center items-center gap-2 bg-[#111111] hover:opacity-80 px-8 py-10 sticky top-20 transition-opacity duration-300 z-10"
+        className="group flex flex-row items-center gap-2 h-20 bg-[#111111] pl-8 sticky top-20 z-10"
       >
-        <img className="w-8 h-8" src="/images/arrow-back.svg" alt="" />
-        <span className="text-white/30 text-[32px] font-semibold font-orbitron">
+        <img
+          className="w-6 h-6 group-hover:opacity-80 transition-opacity duration-300"
+          src="/images/arrow-back.svg"
+          alt=""
+        />
+        <span className="text-white/30 text-2xl font-semibold font-orbitron group-hover:opacity-80 transition-opacity duration-300">
           Back
         </span>
       </Link>

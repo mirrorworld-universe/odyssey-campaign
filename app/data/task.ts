@@ -53,10 +53,10 @@ export const taskGroupList = [
         description:
           "Participate in the lottery for a chance to win a ring; there's only one lucky winner in every block.",
         // period: "8:00 - 21:00",
-        // reward: "Requires SOL",
-        iconName: "chip",
+        // reward: "Test SOL Needed",
         period: "Coming Soon",
         reward: "",
+        iconName: "chip",
         available: false,
       },
     ],

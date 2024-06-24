@@ -18,42 +18,43 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Gift } from "@/app/icons/Gift";
 import { Ring } from "@/app/icons/Ring";
 import { useAccountInfo } from "@/app/store/account";
-import { useMysteryBoxInfo, useMysteryBoxRecordModal } from "@/app/store/task";
 import {
-  getMysteryboxHistory,
-  getMysteryboxTx,
-  openMysterybox,
-} from "@/app/data/reward";
+  useDrawRecordModal,
+  useDrawResultModal,
+  useLotteryInfo,
+} from "@/app/store/lottery";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { Card, CardSize } from "../Basic/Card";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Casino } from "@/app/icons/Casino";
+import { drawLottery, getLotteryTx } from "@/app/data/lottery";
 
 let txHash = "";
 let currentRecord: any = {
   link: "",
   quantity: 0,
 };
-let boxRecords: any[] = [];
+let drawRecords: any[] = [];
 
-let boxAmount = 0;
+let drawAmount = 0;
 
-export function MysteryBoxRecordDialog() {
+export function DrawRecordDialog() {
   const { publicKey, wallet, signTransaction } = useWallet();
   const { connection } = useConnection();
   const { address, token } = useAccountInfo();
-  const { isOpen, onOpen, onClose } = useMysteryBoxRecordModal();
-  const { mysteryBoxAmount } = useMysteryBoxInfo();
+  const { isOpen, onOpen, onClose } = useDrawRecordModal();
+  const {
+    isOpen: isOpenResultModal,
+    onOpen: onOpenResultModal,
+    onClose: onCloseResultModal,
+  } = useDrawResultModal();
+  const { lotteryDrawPrice, lotteryDrawAmount } = useLotteryInfo();
 
-  const [mysteryBoxRecords, setMysteryBoxRecords] = useState<any[]>([]);
+  const [lotteryDrawRecords, setLotteryDrawRecords] = useState<any[]>([]);
   const [hasRefused, setHasRefused] = useState(false);
-
-  const shortUrl = (url: string) =>
-    `${url.substring(0, 12)}...${url.substring(url.length - 4, url.length)}`;
 
   const triggerTransaction = async (transactionString: string) => {
     if (!publicKey || !signTransaction) {
@@ -83,7 +84,7 @@ export function MysteryBoxRecordDialog() {
         throw new Error(result.value.err.toString());
       }
 
-      mutationOpenMysteryBox.mutate();
+      mutationDrawLottery.mutate();
     } catch (error: any) {
       // if (
       //   error.code === 4001 ||
@@ -95,28 +96,19 @@ export function MysteryBoxRecordDialog() {
       // }
       setHasRefused(true);
     }
-
-    // setIsOpeningMysterybox(false);
   };
 
-  const { data: dataMysteryBoxHistory, isLoading: loadingMysteryBoxHistory } =
-    useQuery({
-      queryKey: ["queryMysteryBoxHistory", address],
-      queryFn: () => getMysteryboxHistory({ token }),
-      enabled: !!address && !!token,
-    });
-
-  const mutationOpenMysteryBox = useMutation({
-    mutationKey: ["openMysteryBox", address],
+  const mutationDrawLottery = useMutation({
+    mutationKey: ["drawLottery", address],
     mutationFn: () =>
-      openMysterybox({
+      drawLottery({
         token,
         hash: txHash,
       }),
     onSuccess({ data, status }) {
       if (data.success) {
         toast({
-          title: "Open Mystery Box",
+          title: "Draw Lottery",
           description: (
             <p className="block">
               You've received{" "}
@@ -128,87 +120,88 @@ export function MysteryBoxRecordDialog() {
             </p>
           ),
         });
-        boxRecords[boxRecords.length - 1] = {
+        drawRecords[drawRecords.length - 1] = {
           loaded: true,
           quantity: data.amount,
           link: `https://explorer.sonic.game/tx/${txHash}`,
         };
-        setMysteryBoxRecords([...boxRecords]);
-        openMysteryBoxes();
+        setLotteryDrawRecords([...drawRecords]);
+        drawLotteries();
       }
     },
   });
 
   const mutationBuildTx = useMutation({
-    mutationKey: ["buildMysteryboxTx", address],
-    mutationFn: () => getMysteryboxTx({ token }),
+    mutationKey: ["buildLotteryTx", address],
+    mutationFn: () => getLotteryTx({ token }),
     onSuccess: async ({ data }) => {
       const transactionString = data.hash;
       triggerTransaction(transactionString);
     },
   });
 
-  const openMysteryBoxes = () => {
-    if (boxAmount <= 0) {
+  const drawLotteries = () => {
+    if (drawAmount <= 0) {
       return;
     }
-    boxAmount--;
-    boxRecords.push(currentRecord);
-    setMysteryBoxRecords([...boxRecords]);
+    drawAmount--;
+    drawRecords.push(currentRecord);
+    setLotteryDrawRecords([...drawRecords]);
     mutationBuildTx.mutate();
   };
 
-  const handleConfirm = () => {
-    boxRecords = [];
-    setMysteryBoxRecords(boxRecords);
-    onClose();
-  };
-
   const handleContinue = () => {
-    boxRecords = boxRecords.slice(0, boxRecords.length - 1);
-    setMysteryBoxRecords(boxRecords);
+    drawRecords = drawRecords.slice(0, drawRecords.length - 1);
+    setLotteryDrawRecords(drawRecords);
     setHasRefused(false);
-    openMysteryBoxes();
+    drawLotteries();
   };
 
   const handleStop = () => {
-    boxRecords = boxRecords.filter((record: any) => record.loaded === true);
-    setMysteryBoxRecords(boxRecords);
+    drawRecords = drawRecords.filter((record: any) => record.loaded === true);
+    setLotteryDrawRecords(drawRecords);
     setHasRefused(false);
   };
 
-  useEffect(() => {
-    if (isOpen && mysteryBoxAmount) {
-      boxAmount = mysteryBoxAmount;
-      openMysteryBoxes();
-    }
-  }, [mysteryBoxAmount, isOpen]);
+  const handleConfirm = () => {
+    drawRecords = [];
+    setLotteryDrawRecords(drawRecords);
+    onOpenResultModal();
+    onClose();
+  };
 
   useEffect(() => {
-    if (mysteryBoxRecords.length) {
+    if (isOpen && lotteryDrawAmount) {
+      drawAmount = lotteryDrawAmount;
+      drawLotteries();
+    }
+  }, [lotteryDrawAmount, isOpen]);
+
+  useEffect(() => {
+    if (lotteryDrawRecords.length) {
       // scroll to bottom
       const $recordBox = document.getElementById("recordBox");
       if ($recordBox) {
         $recordBox.scrollTop = $recordBox.scrollHeight;
       }
     }
-  }, [mysteryBoxRecords]);
+  }, [lotteryDrawRecords]);
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="w-[440px] bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
-          {mysteryBoxRecords.every((record) => record.loaded === true) ? (
+          {lotteryDrawRecords.every((record) => record.loaded === true) ? (
             <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
               <p className="flex flex-row justify-center items-center gap-3 text-white text-5xl font-semibold font-orbitron">
                 <Ring width={64} height={64} color="#FBB042" />x{" "}
-                {mysteryBoxRecords.reduce(
+                {lotteryDrawRecords.reduce(
                   (sum, item) => sum + item.quantity,
                   0
                 )}
               </p>
               <span className="text-white text-2xl font-semibold font-orbitron mt-8">
-                {mysteryBoxRecords.reduce(
+                {lotteryDrawRecords.reduce(
                   (sum, item) => sum + item.quantity,
                   0
                 ) > 0
@@ -218,23 +211,23 @@ export function MysteryBoxRecordDialog() {
             </AlertDialogTitle>
           ) : (
             <AlertDialogTitle className="flex flex-row justify-center items-center text-white text-[32px] font-orbitron">
-              <Gift width={40} height={40} color="#FBB042" className="mr-2" />
+              <Casino width={40} height={40} color="#FBB042" className="mr-2" />
               <span className="text-white text-[32px] font-semibold font-orbitron">
-                Rings Record
+                Draw Record
               </span>
             </AlertDialogTitle>
           )}
           <AlertDialogDescription
             className={cn(
               "text-[#717171] text-base mt-4",
-              mysteryBoxRecords.every((record) => record.loaded === true)
+              lotteryDrawRecords.every((record) => record.loaded === true)
                 ? "text-center"
                 : "text-center"
             )}
           >
             {/* `In these XX draws, you won XX times and received a total of XX rings.` */}
-            {mysteryBoxRecords.every((record) => record.loaded === true)
-              ? `You have received a total of ${mysteryBoxRecords.reduce(
+            {lotteryDrawRecords.every((record) => record.loaded === true)
+              ? `You have received a total of ${lotteryDrawRecords.reduce(
                   (sum, item) => sum + item.quantity,
                   0
                 )} rings.`
@@ -243,7 +236,7 @@ export function MysteryBoxRecordDialog() {
         </AlertDialogHeader>
 
         <div className="flex flex-col">
-          {mysteryBoxRecords.length ? (
+          {lotteryDrawRecords.length ? (
             <Card
               size={CardSize.List}
               className="mt-12"
@@ -253,7 +246,7 @@ export function MysteryBoxRecordDialog() {
                 {/* title */}
                 <div className="flex flex-row justify-between text-white/60 pb-3 px-6">
                   <span className="">#Draw</span>
-                  <span className="">Transaction Link</span>
+                  <span className="">Block Number</span>
                   <span className="">Result</span>
                 </div>
                 {/* item */}
@@ -262,7 +255,7 @@ export function MysteryBoxRecordDialog() {
                     id="recordBox"
                     className="w-full flex flex-col max-h-[280px] gap-5 overflow-y-auto pt-2 pl-3 pr-6"
                   >
-                    {mysteryBoxRecords.map((box: any, boxIndex: number) => (
+                    {lotteryDrawRecords.map((box: any, boxIndex: number) => (
                       <div
                         key={boxIndex}
                         className="flex flex-row justify-between text-white"
@@ -286,17 +279,25 @@ export function MysteryBoxRecordDialog() {
                           <div className="">
                             <a
                               className="text-[#25A3ED] hover:underline"
-                              href={box.link}
+                              href={box.block_number}
                               target="_blank"
                             >
-                              {shortUrl(box.link)}
+                              {box.block_number}
                             </a>
                           </div>
                         )}
                         {box?.loaded && (
                           <div className="inline-flex items-center justify-center gap-1">
                             <Ring width={16} height={16} color="#FBB042" /> x{" "}
-                            {box.quantity}
+                            {box.hash === txHash ? (
+                              <span className="text-sm text-[#FBB042]">
+                                Win
+                              </span>
+                            ) : (
+                              <span className="text-sm text-white/30">
+                                Lose
+                              </span>
+                            )}
                           </div>
                         )}
                       </div>
@@ -307,7 +308,7 @@ export function MysteryBoxRecordDialog() {
             </Card>
           ) : null}
 
-          {hasRefused && mysteryBoxRecords.some((record) => !record.loaded) ? (
+          {hasRefused && lotteryDrawRecords.some((record) => !record.loaded) ? (
             <>
               {/* tip */}
               <p className="flex flex-row gap-2 mt-4">
@@ -337,7 +338,7 @@ export function MysteryBoxRecordDialog() {
             </>
           ) : null}
 
-          {mysteryBoxRecords.every((record) => record.loaded === true) ? (
+          {lotteryDrawRecords.every((record) => record.loaded === true) ? (
             <Button
               className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300 mt-12"
               onClick={handleConfirm}

@@ -33,7 +33,7 @@ export function WelcomeDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[440px] bg-[#1A1A1A] border-none px-8 py-8">
+      <AlertDialogContent className="w-[468px] bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
           <AlertDialogTitle className="flex flex-col justify-start items-center text-white text-[32px] font-orbitron">
             <span className="text-white text-[32px] font-semibold font-orbitron">

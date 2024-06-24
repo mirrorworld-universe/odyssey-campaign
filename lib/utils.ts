@@ -72,3 +72,13 @@ export const openDialoguePopup = (
 export const prettyNumber = (number: number) => {
   return new Intl.NumberFormat("en-US").format(number);
 };
+
+export const isBetweenInTime = (
+  timeStart = "2024-06-24T03:00:00+08:00",
+  timeEnd = "2024-06-24T19:00:00+08:00"
+) => {
+  const now = new Date();
+  const startTime = new Date(timeStart);
+  const endTime = new Date(timeEnd);
+  return now >= startTime && now <= endTime;
+};

@@ -6,7 +6,7 @@ import { useAccountInfo } from "@/app/store/account";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { getReferralInfo } from "@/app/data/account";
-import { Card, CardSize } from "../Card";
+import { Card, CardSize } from "../Basic/Card";
 import { trackClick } from "@/lib/track";
 
 export function Referral() {
@@ -53,7 +53,7 @@ export function Referral() {
   return (
     <>
       {/* rules */}
-      <Card name="Rules" size={CardSize.Medium} className="">
+      <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
         <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
           <li className="">
             Copy the invite code and send it to a friend. If the friend
@@ -72,7 +72,12 @@ export function Referral() {
       </Card>
 
       {/* invite code */}
-      <Card name="Invite Code" size={CardSize.Medium} className="mt-20">
+      <Card
+        name="Invite Code"
+        size={CardSize.Medium}
+        className="mt-20"
+        nameClassName="bg-[#000]"
+      >
         <div className="w-full flex flex-row items-center justify-between">
           <span className="text-white text-xl font-orbitron font-normal">
             {inviteUrl}
@@ -87,7 +92,12 @@ export function Referral() {
       </Card>
 
       {/* rewards */}
-      <Card name="Rewards" size={CardSize.Medium} className="mt-20">
+      <Card
+        name="Rewards"
+        size={CardSize.Medium}
+        className="mt-20"
+        nameClassName="bg-[#000]"
+      >
         <ul className="w-full">
           <li className="flex flex-row items-center justify-between pb-5">
             <span className="text-xl text-white  font-orbitron">

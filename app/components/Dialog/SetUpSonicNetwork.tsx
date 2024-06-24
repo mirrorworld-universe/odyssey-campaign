@@ -60,24 +60,28 @@ export function SetUpSonicNetworkDialog() {
             alt=""
             className="w-12 h-12"
           />
-          <img src="/images/icons/connect.png" alt="" className="w-12 h-12" />
+          <span className="inline-flex flex-row justify-between items-center w-11 h-11">
+            <i className="inline-block w-[8px] h-[8px] bg-[#5f5f5f] rounded-[50%] animate-loading-before"></i>
+            <i className="inline-block w-[8px] h-[8px] bg-[#5f5f5f] rounded-[50%] animate-loading"></i>
+            <i className="inline-block w-[8px] h-[8px] bg-[#5f5f5f] rounded-[50%] animate-loading-after"></i>
+          </span>
           <img src={wallet?.adapter.icon} alt="" className="w-12 h-12" />
         </div>
         <div className="flex flex-col gap-12 mt-12">
           <ul className="flex flex-col gap-6 list-decimal text-white text-lg font-semibold pl-[18px]">
             <li className="s">
-              Open this{" "}
+              Open this network{" "}
               <a
                 href={
                   setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]
                 }
                 target="_blank"
-                className="text-[#25A3ED] hover:underline"
+                className="text-[#25A3ED] hover:underline underline-offset-2"
               >
-                network settings doc
+                settings doc
               </a>
             </li>
-            <li>Manually set up Sonic network</li>
+            <li>Setup Sonic network</li>
           </ul>
         </div>
         <div className="flex flex-col gap-12 mt-12">

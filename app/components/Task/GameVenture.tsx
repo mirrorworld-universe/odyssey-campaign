@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Link as IconLink } from "@/app/icons/Link";
 import { Play as IconPlay } from "@/app/icons/Play";
-import { Card, CardSize } from "../Card";
+import { Card, CardSize } from "../Basic/Card";
 import { trackLinkClick } from "@/lib/track";
 
 export function GameVenture() {
@@ -37,7 +37,7 @@ export function GameVenture() {
   return (
     <>
       {/* rules */}
-      <Card name="Rules" size={CardSize.Medium} className="">
+      <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
         <ul className="list-decimal text-xl font-normal leading-relaxed pl-6">
           <li className="">Click any game below to download or try it out.</li>
           <li className="">
