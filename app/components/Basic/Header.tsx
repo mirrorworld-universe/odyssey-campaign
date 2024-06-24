@@ -15,7 +15,7 @@ import { UserDropdown } from "./UserDropdown";
 import { NotificationBar } from "./NotificationBar";
 import { useLotteryBar } from "@/app/store/lottery";
 import { openWalletStatics } from "@/lib/analytics";
-import { trackClick, trackLinkClick } from "@/lib/track";
+import { trackActionEvent, trackClick, trackLinkClick } from "@/lib/track";
 import { isBetweenInTime } from "@/lib/utils";
 import { Speaker } from "@/app/icons/Speaker";
 import { useEffect } from "react";
@@ -75,6 +75,19 @@ export function Header() {
   useEffect(() => {
     if (isBetweenInTime()) {
       onOpenNotificationBar();
+    }
+
+    try {
+      const page_name = document.title;
+      const entry_page = window.location.href;
+
+      trackActionEvent("pageLoad", {
+        page_name,
+        entry_time: new Date(),
+        entry_page,
+      });
+    } catch (e) {
+      console.log(e);
     }
   }, []);
 
