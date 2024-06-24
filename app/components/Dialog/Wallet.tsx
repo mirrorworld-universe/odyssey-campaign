@@ -31,7 +31,7 @@ import {
 } from "@/app/store/tutorials";
 import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import { connectWalletStatics } from "@/lib/analytics";
-import { trackClick } from "@/lib/track";
+import { trackActionEvent, trackClick } from "@/lib/track";
 
 let currentSignature = "";
 let currentToken = "";
@@ -180,6 +180,20 @@ export function WalletDialog({ text = "Connect", className }: any) {
       refetchBasicInfo();
       setAddress(publicKey.toString());
       setTaskAddress(publicKey.toString());
+
+      try {
+        const page_name = document.title;
+        const connect_page = window.location.href;
+
+        trackActionEvent("walletConnect", {
+          page_name,
+          connect_time: new Date(),
+          connect_page,
+          wallet_address: publicKey.toString(),
+        });
+      } catch (e) {
+        console.log(e);
+      }
     }
   }, [publicKey]);
 
