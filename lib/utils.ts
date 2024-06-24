@@ -75,7 +75,7 @@ export const prettyNumber = (number: number) => {
 
 export const isBetweenInTime = (
   timeStart = "2024-06-24T03:00:00+08:00",
-  timeEnd = "2024-06-24T12:00:00+08:00"
+  timeEnd = "2024-06-24T11:30:00+08:00"
 ) => {
   const now = new Date();
   const startTime = new Date(timeStart);
