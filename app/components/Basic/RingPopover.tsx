@@ -126,7 +126,7 @@ export default function RingPopover() {
         <div className="flex flex-row items-center gap-2 cursor-pointer">
           <Ring width={24} height={24} color="#FBB042" />
           <span className="text-white text-base font-orbitron font-semibold">
-            {prettyNumber(ringAmount)}
+            {isBetweenInTime() ? "--" : prettyNumber(ringAmount)}
           </span>
           <Arrow
             width={24}
@@ -170,7 +170,7 @@ export default function RingPopover() {
                       className="mr-1"
                     />{" "}
                     <span className="text-white text-base font-orbitron font-semibold">
-                      {ringMonitorAmount}
+                      {isBetweenInTime() ? "--" : ringMonitorAmount}
                     </span>
                   </div>
                   <div className="flex items-center">
@@ -181,7 +181,7 @@ export default function RingPopover() {
                       className="mr-1"
                     />{" "}
                     <span className="text-white text-base font-orbitron font-semibold">
-                      {ringAmount}
+                      {isBetweenInTime() ? "--" : ringAmount}
                     </span>
                   </div>
                 </div>
