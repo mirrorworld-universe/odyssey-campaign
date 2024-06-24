@@ -15,7 +15,12 @@ import { UserDropdown } from "./UserDropdown";
 import { NotificationBar } from "./NotificationBar";
 import { useLotteryBar } from "@/app/store/lottery";
 import { openWalletStatics } from "@/lib/analytics";
-import { trackActionEvent, trackClick, trackLinkClick } from "@/lib/track";
+import {
+  trackActionEvent,
+  trackClick,
+  trackCriteoWalletClick,
+  trackLinkClick,
+} from "@/lib/track";
 import { isBetweenInTime } from "@/lib/utils";
 import { Speaker } from "@/app/icons/Speaker";
 import { useEffect } from "react";
@@ -70,6 +75,7 @@ export function Header() {
 
     // ttq code part
     openWalletStatics();
+    trackCriteoWalletClick();
   };
 
   useEffect(() => {

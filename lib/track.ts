@@ -45,6 +45,51 @@ export function trackClick({ text }: any) {
   }
 }
 
+export function trackCriteoWalletClick() {
+  try {
+    (window as any).criteo_q = (window as any).criteo_q || [];
+    var deviceType = /iPad/.test(navigator.userAgent)
+      ? "t"
+      : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(
+          navigator.userAgent
+        )
+      ? "m"
+      : "d";
+    (window as any).criteo_q.push(
+      { event: "setAccount", account: 113598 },
+      { event: "setEmail", email: "" },
+      { event: "setSiteType", type: deviceType },
+      { event: "viewItem", item: "conncectview" }
+    );
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export function trackCriteoWalletTransactionClick() {
+  try {
+    (window as any).criteo_q = (window as any).criteo_q || [];
+    var deviceType = /iPad/.test(navigator.userAgent)
+      ? "t"
+      : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(
+          navigator.userAgent
+        )
+      ? "m"
+      : "d";
+    (window as any).criteo_q.push(
+      { event: "setAccount", account: 113598 },
+      { event: "setSiteType", type: deviceType },
+      {
+        event: "trackTransaction",
+        id: Date.now().toString(),
+        item: [{ id: "conncectview", price: "1", quantity: "1" }],
+      }
+    );
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 export function trackLinkClick(event: MouseEvent<HTMLAnchorElement>) {
   try {
     const link = event.currentTarget as HTMLAnchorElement;

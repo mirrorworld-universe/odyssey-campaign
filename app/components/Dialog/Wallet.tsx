@@ -31,7 +31,11 @@ import {
 } from "@/app/store/tutorials";
 import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import { connectWalletStatics } from "@/lib/analytics";
-import { trackActionEvent, trackClick } from "@/lib/track";
+import {
+  trackActionEvent,
+  trackClick,
+  trackCriteoWalletTransactionClick,
+} from "@/lib/track";
 
 let currentSignature = "";
 let currentToken = "";
@@ -89,7 +93,9 @@ export function WalletDialog({ text = "Connect", className }: any) {
         setToken("");
         select(walletName);
         onClose();
+        // track code
         trackClick({ text: "Connect Action" });
+        trackCriteoWalletTransactionClick();
       } catch (error) {
         console.log("wallet connection err : ", error);
       }
