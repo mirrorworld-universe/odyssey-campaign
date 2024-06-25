@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Gift } from "@/app/icons/Gift";
 import { Button } from "@/components/ui/button";
 import { Card, CardSize } from "../Basic/Card";
-import { useAccountInfo } from "@/app/store/account";
+import { useAccountInfo, useSystemInfo } from "@/app/store/account";
 import {
   claimMilestoneRewards,
   getMilestoneDailyInfo,
@@ -12,7 +12,6 @@ import {
 import { Check } from "@/app/icons/Check";
 import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
-import { isBetweenInTime } from "@/lib/utils";
 
 export function MileStone() {
   const totalAmount = 100;
@@ -20,6 +19,7 @@ export function MileStone() {
   const [claimStage, setClaimStage] = useState(1);
   const [stageList, setStageList] = useState<any>({});
 
+  const { isInMaintenance } = useSystemInfo();
   const { address, token } = useAccountInfo();
 
   const { data: dataMilestoneDailyInfo, isLoading: loadingMilestoneDailyInfo } =
@@ -74,7 +74,7 @@ export function MileStone() {
     if (
       stageList[stageKey].claimed ||
       transactionAmount < stageList[stageKey].quantity ||
-      isBetweenInTime()
+      isInMaintenance
     ) {
       return;
     }
@@ -171,7 +171,7 @@ export function MileStone() {
                     key={stageIndex}
                     className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300 ${
                       transactionAmount < stageList[stageKey].quantity ||
-                      isBetweenInTime()
+                      isInMaintenance
                         ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                         : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
                     }`}

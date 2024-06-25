@@ -6,11 +6,6 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
-import Lottie from "lottie-react";
-import getStartedButtonAnimation from "../animations/get-started.json";
-import testAnimation from "../animations/get-test.json";
 
 import { useAccountInfo, useWalletModal } from "./store/account";
 import { inviteUser } from "./data/account";
@@ -84,6 +79,27 @@ export default function Home() {
     </video>
   );
 
+  const GetStarted = () => (
+    <Button
+      className="group w-[560px] h-[88px] bg-transparent hover:bg-transparent rounded-md p-0 relative mt-[132px]"
+      onClick={handleGetStarted}
+    >
+      <video
+        preload="auto"
+        loop
+        autoPlay
+        muted
+        className="w-full h-full absolute"
+      >
+        <source src="/get-started.webm" type="video/mp4" />
+      </video>
+
+      <span className="text-white text-[32px] font-orbitron font-bold group-hover:opacity-80 group-active:opacity-50 absolute transition-opacity duration-300">
+        Get Started
+      </span>
+    </Button>
+  );
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <div className="w-screen h-screen flex-grow flex flex-col items-center justify-center relative">
@@ -102,15 +118,7 @@ export default function Home() {
             Earn Your Ring Rewards!
           </p>
 
-          <Button
-            className="w-[370px] h-20 bg-transparent hover:bg-transparent rounded-md p-0 relative mt-[132px]"
-            onClick={handleGetStarted}
-          >
-            <img className="w-full" src="/images/get-started.png" alt="" />
-          </Button>
-
-          {/* <Lottie animationData={getStartedButtonAnimation} />
-          <Lottie animationData={testAnimation} className="w-[100px]" /> */}
+          <GetStarted />
         </div>
       </div>
     </main>

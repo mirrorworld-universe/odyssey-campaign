@@ -1,6 +1,18 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+export const useSystemInfo = create<{
+  isInMaintenance: boolean;
+  setInMaintenance: () => void;
+}>((set) => ({
+  isInMaintenance: false,
+  setInMaintenance: () => {
+    set({
+      isInMaintenance: true,
+    });
+  },
+}));
+
 export const useNotificationBar = create<{
   isOpen: boolean;
   onOpen: () => void;

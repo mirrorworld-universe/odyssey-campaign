@@ -12,7 +12,7 @@ import {
 } from "@solana/web3.js";
 import { Gift } from "@/app/icons/Gift";
 import { Button } from "@/components/ui/button";
-import { useAccountInfo } from "@/app/store/account";
+import { useAccountInfo, useSystemInfo } from "@/app/store/account";
 import {
   fetchCheckinStatus,
   fetchCheckinTransaction,
@@ -22,7 +22,7 @@ import {
 import { Card, CardSize } from "../Basic/Card";
 import base58 from "bs58";
 import { Loader2 } from "lucide-react";
-import { cn, isBetweenInTime } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   confirmTransaction,
   sendLegacyTransaction,
@@ -42,6 +42,7 @@ export function CheckIn() {
     "from-[#FBB042] to-[#FF5C00]",
   ];
 
+  const { isInMaintenance } = useSystemInfo();
   const { address, token } = useAccountInfo();
   const { connection } = useConnection();
   const { publicKey, wallet, signTransaction } = useWallet();
@@ -169,7 +170,7 @@ export function CheckIn() {
   }, [dataCheckInInfo]);
 
   const handleCheckIn = () => {
-    if (!hasChecked && !isChekingIn && !isBetweenInTime()) {
+    if (!hasChecked && !isChekingIn && !isInMaintenance) {
       setIsChekingIn(true);
       getTransactionHash.mutate();
     }
@@ -287,7 +288,7 @@ export function CheckIn() {
             </p>
             <Button
               className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron transition-colors duration-300 ${
-                hasChecked || isBetweenInTime()
+                hasChecked || isInMaintenance
                   ? "bg-[#888888] hover:bg-[#888888]"
                   : isChekingIn
                   ? "bg-[#0000FF]/80 hover:bg-[#0000FF]/80"

@@ -73,7 +73,7 @@ export const prettyNumber = (number: number) => {
   return new Intl.NumberFormat("en-US").format(number);
 };
 
-export const isBetweenInTime = (
+export const isInMaintenanceTime = (
   timeStart = "2024-06-24T13:00:00+08:00",
   timeEnd = "2024-06-24T19:00:00+08:00"
 ) => {
