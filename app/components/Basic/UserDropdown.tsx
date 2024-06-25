@@ -13,13 +13,14 @@ import {
   formatAddress,
   toFixed,
   useAccountInfo,
+  useSystemInfo,
   useWalletModal,
 } from "../../store/account";
 import { fetchLogout } from "../../data/account";
 import { WalletList } from "../../wallet/wallet-list";
-import { isBetweenInTime } from "@/lib/utils";
 
 export function UserDropdown() {
+  const { isInMaintenance } = useSystemInfo();
   const { setToken } = useAccountInfo();
   const { connection } = useConnection();
   const { isOpen, onOpen } = useWalletModal();
@@ -107,7 +108,7 @@ export function UserDropdown() {
             <img className="w-10 h-10" src={wallet?.adapter.icon} alt="" />
             <div className="flex flex-col justify-between items-start">
               <span className="text-white text-lg font-semibold font-orbitron">
-                {isBetweenInTime() ? "--" : balance} SOL
+                {isInMaintenance ? "--" : balance} SOL
               </span>
               <div
                 className="flex flex-row items-center"
@@ -126,7 +127,7 @@ export function UserDropdown() {
           </div>
 
           {/* upgrade tip */}
-          {isBetweenInTime() ? (
+          {isInMaintenance ? (
             <p className="flex flex-row gap-1 mt-2">
               <img
                 className="w-4 h-4 mt-[1px]"

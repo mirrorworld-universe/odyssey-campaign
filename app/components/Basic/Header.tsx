@@ -8,6 +8,7 @@ import Notification from "./Notification";
 import {
   useAccountInfo,
   useNotificationBar,
+  useSystemInfo,
   useWalletModal,
 } from "../../store/account";
 import RingPopover from "./RingPopover";
@@ -19,9 +20,10 @@ import {
   trackActionEvent,
   trackClick,
   trackCriteoWalletClick,
+  trackCriteoWalletTransactionClick,
   trackLinkClick,
 } from "@/lib/track";
-import { isBetweenInTime } from "@/lib/utils";
+import { isInMaintenanceTime } from "@/lib/utils";
 import { Speaker } from "@/app/icons/Speaker";
 import { useEffect } from "react";
 
@@ -49,6 +51,7 @@ export const menu: any[] = [
 ];
 
 export function Header() {
+  const { isInMaintenance, setInMaintenance } = useSystemInfo();
   const { isOpen, onOpen } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
   const { address, token, reset } = useAccountInfo();
@@ -76,10 +79,12 @@ export function Header() {
     // ttq code part
     openWalletStatics();
     trackCriteoWalletClick();
+    trackCriteoWalletTransactionClick();
   };
 
   useEffect(() => {
-    if (isBetweenInTime()) {
+    if (isInMaintenanceTime()) {
+      setInMaintenance();
       onOpenNotificationBar();
     }
 
@@ -153,7 +158,7 @@ export function Header() {
       {isOpenLotteryBar && <NotificationBar />}
 
       {/* system notification bar */}
-      {isOpenNotificationBar && (
+      {isInMaintenance && isOpenNotificationBar && (
         <NotificationBar className="bg-[#00063C] min-h-12 h-auto px-3">
           <span className="inline-flex justify-center gap-2 text-base text-[#48BBFF] font-semibold py-3">
             <Speaker
