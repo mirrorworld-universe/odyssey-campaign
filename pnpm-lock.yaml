@@ -6372,6 +6372,9 @@ packages:
         tarball: https://registry.npmjs.org/date-fns/-/date-fns-3.6.0.tgz,
       }
 
+  date-fns@3.6.0:
+    resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==, tarball: https://registry.npmjs.org/date-fns/-/date-fns-3.6.0.tgz}
+
   dayjs@1.11.11:
     resolution:
       {

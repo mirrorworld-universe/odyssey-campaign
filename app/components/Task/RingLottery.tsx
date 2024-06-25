@@ -118,21 +118,23 @@ export function RingLottery() {
         <span>Block Number</span>
       </div>
       {/* rows */}
-      <ScrollArea className="flex flex-col gap-5 overflow-y-auto">
-        {winnerBoard.map((item: any, itemIndex: number) => (
-          <div
-            key={itemIndex}
-            className="flex flex-row justify-between text-white items-center"
-          >
-            <span>{formatAddress(item.wallet)}</span>
-            <span className="inline-flex justify-start items-center gap-2 w-[110px]">
-              <Ring width={20} height={20} color="#FBB042" />
-              <span>x</span>
-              <span>{item.ring_number}</span>
-            </span>
-            <span>{prettyNumber(item.block_number)}</span>
-          </div>
-        ))}
+      <ScrollArea className="">
+        <div className="flex flex-col gap-5 overflow-y-auto">
+          {winnerBoard.map((item: any, itemIndex: number) => (
+            <div
+              key={itemIndex}
+              className="flex flex-row justify-between text-white items-center"
+            >
+              <span>{formatAddress(item.wallet)}</span>
+              <span className="inline-flex justify-start items-center gap-2 w-[110px]">
+                <Ring width={20} height={20} color="#FBB042" />
+                <span>x</span>
+                <span>{item.ring_number}</span>
+              </span>
+              <span>{prettyNumber(item.block_number)}</span>
+            </div>
+          ))}
+        </div>
       </ScrollArea>
     </div>
   );
