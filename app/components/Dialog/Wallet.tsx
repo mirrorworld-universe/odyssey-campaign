@@ -34,6 +34,7 @@ import { connectWalletStatics } from "@/lib/analytics";
 import {
   trackActionEvent,
   trackClick,
+  trackCriteoWalletClick,
   trackCriteoWalletTransactionClick,
 } from "@/lib/track";
 
@@ -95,6 +96,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
         onClose();
         // track code
         trackClick({ text: "Connect Action" });
+        trackCriteoWalletClick();
         trackCriteoWalletTransactionClick();
       } catch (error) {
         console.log("wallet connection err : ", error);

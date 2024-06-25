@@ -12,8 +12,8 @@ import { Ring } from "../../icons/Ring";
 import { Arrow } from "../../icons/Arrow";
 import { Gift } from "../../icons/Gift";
 import { Card, CardSize } from "./Card";
-import { cn, isBetweenInTime, prettyNumber } from "@/lib/utils";
-import { useAccountInfo } from "../../store/account";
+import { cn, prettyNumber } from "@/lib/utils";
+import { useAccountInfo, useSystemInfo } from "../../store/account";
 import { getMysteryboxHistory } from "../../data/reward";
 import {
   useMysteryBoxInfo,
@@ -25,6 +25,7 @@ import { getUserRewardInfo } from "../../data/account";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function RingPopover() {
+  const { isInMaintenance } = useSystemInfo();
   const { address, token } = useAccountInfo();
   const { wallet } = useWallet();
   const { setMysteryBoxAmount, setMysteryBoxRewardsAmount } =
@@ -126,7 +127,7 @@ export default function RingPopover() {
         <div className="flex flex-row items-center gap-2 cursor-pointer">
           <Ring width={24} height={24} color="#FBB042" />
           <span className="text-white text-base font-orbitron font-semibold">
-            {isBetweenInTime() ? "--" : prettyNumber(ringAmount)}
+            {isInMaintenance ? "--" : prettyNumber(ringAmount)}
           </span>
           <Arrow
             width={24}
@@ -170,7 +171,7 @@ export default function RingPopover() {
                       className="mr-1"
                     />{" "}
                     <span className="text-white text-base font-orbitron font-semibold">
-                      {isBetweenInTime() ? "--" : ringMonitorAmount}
+                      {isInMaintenance ? "--" : ringMonitorAmount}
                     </span>
                   </div>
                   <div className="flex items-center">
@@ -181,7 +182,7 @@ export default function RingPopover() {
                       className="mr-1"
                     />{" "}
                     <span className="text-white text-base font-orbitron font-semibold">
-                      {isBetweenInTime() ? "--" : ringAmount}
+                      {isInMaintenance ? "--" : ringAmount}
                     </span>
                   </div>
                 </div>
@@ -193,13 +194,13 @@ export default function RingPopover() {
                   !canOpenMysteryBox ||
                   isOpeningMysterybox ||
                   !isSupportSonic(wallet?.adapter.name) ||
-                  isBetweenInTime()
+                  isInMaintenance
                 }
                 className={cn(
                   "bg-[#0000FF] transition-all duration-300 mt-5",
                   !canOpenMysteryBox ||
                     !isSupportSonic(wallet?.adapter.name) ||
-                    isBetweenInTime()
+                    isInMaintenance
                     ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                     : isOpeningMysterybox
                     ? "hover:bg-[#0000FF] opacity-60 cursor-not-allowed"
@@ -222,7 +223,7 @@ export default function RingPopover() {
               </Button>
 
               {/* upgrade tip */}
-              {isBetweenInTime() ? (
+              {isInMaintenance ? (
                 <p className="flex flex-row gap-1 mt-2">
                   <img
                     className="w-4 h-4 mt-[1px]"

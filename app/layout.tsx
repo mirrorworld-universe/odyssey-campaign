@@ -82,15 +82,22 @@ export default function RootLayout({
   );
 
   const CriteoScript = () => (
-    <Script strategy="lazyOnload">
-      {`window.criteo_q = window.criteo_q || [];
+    <>
+      <Script
+        type="text/javascript"
+        src="//dynamic.criteo.com/js/ld/ld.js?a=113598"
+        async
+      />
+      <Script strategy="lazyOnload">
+        {`window.criteo_q = window.criteo_q || [];
 var deviceType = /iPad/.test(navigator.userAgent) ? "t" : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(navigator.userAgent) ? "m" : "d";
 window.criteo_q.push(
   { event: "setAccount", account: 113598 },
   { event: "setSiteType", type: deviceType},
   { event: "viewPage" }
 );`}
-    </Script>
+      </Script>
+    </>
   );
 
   return (

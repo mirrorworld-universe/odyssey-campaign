@@ -6,11 +6,6 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { clusterApiUrl } from "@solana/web3.js";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
-import Lottie from "lottie-react";
-import getStartedButtonAnimation from "../animations/get-started.json";
-import testAnimation from "../animations/get-test.json";
 
 import { useAccountInfo, useWalletModal } from "./store/account";
 import { inviteUser } from "./data/account";
@@ -124,9 +119,6 @@ export default function Home() {
           </p>
 
           <GetStarted />
-
-          {/* <Lottie animationData={getStartedButtonAnimation} />
-          <Lottie animationData={testAnimation} className="w-[100px]" /> */}
         </div>
       </div>
     </main>
