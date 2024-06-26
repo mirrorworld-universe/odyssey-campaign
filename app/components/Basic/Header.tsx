@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { formatDistance } from "date-fns";
+import { UTCDate } from "@date-fns/utc";
 
 import { Button } from "@/components/ui/button";
 
@@ -213,15 +214,18 @@ export function Header() {
                 ? "rd"
                 : "th"}{" "}
               winner{" "}
-              {formatDistance(new Date(bannerMessage.date), new Date(), {
+              {formatDistance(new Date(bannerMessage.date), new UTCDate(), {
                 addSuffix: true,
               })}{" "}
               in the{" "}
               <a href="/task/ring-lottery" className="underline">
                 ring lottery
               </a>
-              , has earned an additional {bannerMessage?.amount}{" "}
-              {bannerMessage?.amount === 1 ? "ring" : "rings"} reward!
+              {bannerMessage?.amount > 0
+                ? `, has earned an additional ${bannerMessage?.amount} 
+              ${bannerMessage?.amount === 1 ? "ring" : "rings"} reward`
+                : ""}
+              !
             </span>
           </div>
         </NotificationBar>
