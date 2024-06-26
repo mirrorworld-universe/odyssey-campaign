@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { prettyNumber } from "@/lib/utils";
 import { Arrow } from "@/app/icons/Arrow";
@@ -30,19 +30,20 @@ import { DrawResultDialog } from "../Dialog/DrawResult";
 import { useDrawConfirmModal, useLotteryInfo } from "@/app/store/lottery";
 import { taskGroupList } from "@/app/data/task";
 
+let winnerBoardPage = 1;
+let winnerBoardList: any[] = [];
+let isScrollingWinnerBoard = false;
+
 export function RingLottery() {
+  const scrollAreaRef = useRef<any>(null);
+
   const [mintedRingAmount, setMintedRingAmount] = useState(0);
   const [totalRingAmount, setTotalRingAmount] = useState(100000000);
-  const [winnerBoard, setWinnerBoard] = useState([]);
+  const [winnerBoard, setWinnerBoard] = useState<any[]>([]);
   const [drawPrice, setDrawPrice] = useState(0);
   const [drawAmount, setDrawAmount] = useState("1");
 
   const { setLotteryDrawAmount } = useLotteryInfo();
-
-  const handleSetLotteryDrawAmount = (drawAmount: string) => {
-    setDrawAmount(drawAmount);
-    setLotteryDrawAmount(Number(drawAmount));
-  };
 
   const {
     isOpen: isOpenDrawConfirmModal,
@@ -65,9 +66,13 @@ export function RingLottery() {
       enabled: !!address && !!token,
     });
 
-  const { data: dataWinnerBoard, refetch: refetchWinnerBoard } = useQuery({
+  const {
+    data: dataWinnerBoard,
+    isLoading: isLoadingWinnerBoard,
+    refetch: refetchWinnerBoard,
+  } = useQuery({
     queryKey: ["queryWinnerBoard", address],
-    queryFn: () => getLotteryWinnerBoard({ token }),
+    queryFn: () => getLotteryWinnerBoard({ token, page: winnerBoardPage }),
     enabled: !!address && !!token,
   });
 
@@ -76,6 +81,26 @@ export function RingLottery() {
     queryFn: () => getLotteryDrawPrice({ token }),
     enabled: !!address && !!token,
   });
+
+  const handleSetLotteryDrawAmount = (drawAmount: string) => {
+    setDrawAmount(drawAmount);
+    setLotteryDrawAmount(Number(drawAmount));
+  };
+
+  const handleScrollWinnerBoard = () => {
+    const offset = 30;
+    const { scrollTop, scrollHeight, clientHeight } = scrollAreaRef.current;
+    if (
+      scrollTop + clientHeight >= scrollHeight - offset &&
+      !isScrollingWinnerBoard
+    ) {
+      isScrollingWinnerBoard = true;
+      winnerBoardPage++;
+      refetchWinnerBoard().then(() => {
+        isScrollingWinnerBoard = false;
+      });
+    }
+  };
 
   const handleDrawLottery = () => {
     onOpenDrawConfirmModal();
@@ -90,7 +115,8 @@ export function RingLottery() {
 
   useEffect(() => {
     if (dataWinnerBoard?.data) {
-      setWinnerBoard(dataWinnerBoard.data);
+      winnerBoardList = winnerBoardList.concat(dataWinnerBoard.data);
+      setWinnerBoard(winnerBoardList);
     }
   }, [dataWinnerBoard]);
 
@@ -118,8 +144,12 @@ export function RingLottery() {
         <span>Block Number</span>
       </div>
       {/* rows */}
-      <ScrollArea className="">
-        <div className="flex flex-col gap-5 overflow-y-auto">
+      <ScrollArea
+        ref={scrollAreaRef}
+        className="max-h-[280px] overflow-y-auto"
+        onScroll={handleScrollWinnerBoard}
+      >
+        <div className="flex flex-col gap-5">
           {winnerBoard.map((item: any, itemIndex: number) => (
             <div
               key={itemIndex}
@@ -131,7 +161,7 @@ export function RingLottery() {
                 <span>x</span>
                 <span>{item.ring_number}</span>
               </span>
-              <span>{prettyNumber(item.block_number)}</span>
+              <span>#{prettyNumber(item.block_number)}</span>
             </div>
           ))}
         </div>

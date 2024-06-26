@@ -18,7 +18,7 @@ import { useDrawResultModal, useLotteryInfo } from "@/app/store/lottery";
 
 export function DrawResultDialog() {
   const { isOpen, onOpen, onClose } = useDrawResultModal();
-  const { lotteryRewardsAmount } = useLotteryInfo();
+  const { lotteryRewardsAmount, lotteryExtraRewardsAmount } = useLotteryInfo();
 
   const handleConfirm = () => {
     onClose();
@@ -29,16 +29,20 @@ export function DrawResultDialog() {
       <AlertDialogContent className="w-[440px] bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
           <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
-            <p className="flex flex-row justify-center items-center gap-3 text-white text-5xl font-semibold font-orbitron">
-              <Trophy width={64} height={64} color="#FBB042" />x{" "}
-              {lotteryRewardsAmount}
+            <p className="flex flex-row justify-center items-center gap-3 text-white text-5xl font-semibold font-orbitron pt-4">
+              <Trophy width={64} height={64} color="#FBB042" />
             </p>
             <span className="text-white text-2xl font-semibold font-orbitron mt-8">
               Congratulation
             </span>
           </AlertDialogTitle>
           <AlertDialogDescription className="text-[#717171] text-base text-center mt-4">
-            You received total of {lotteryRewardsAmount} rings.
+            We will automatically add an extra{" "}
+            <span className="text-[#FBB042]">
+              {lotteryExtraRewardsAmount}{" "}
+              {lotteryExtraRewardsAmount === 1 ? "ring" : "rings"}
+            </span>{" "}
+            to your wallet.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
