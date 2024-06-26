@@ -30,16 +30,20 @@ import { Card, CardSize } from "../Basic/Card";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Casino } from "@/app/icons/Casino";
-import { drawLottery, getLotteryTx } from "@/app/data/lottery";
+import {
+  drawLottery,
+  getBlockNumberWinner,
+  getLotteryTx,
+} from "@/app/data/lottery";
 
 let txHash = "";
-let currentRecord: any = {
-  link: "",
-  quantity: 0,
-};
+let currentRecord: any = {};
 let drawRecords: any[] = [];
 
 let drawAmount = 0;
+let drawRewardAmount = 0;
+let drawExtraRewardAmount = 0;
+let currentBlockNumber = 0;
 
 export function DrawRecordDialog() {
   const { publicKey, wallet, signTransaction } = useWallet();
@@ -52,9 +56,16 @@ export function DrawRecordDialog() {
     onClose: onCloseResultModal,
   } = useDrawResultModal();
   const { lotteryDrawPrice, lotteryDrawAmount } = useLotteryInfo();
+  const {
+    lotteryRewardsAmount,
+    setLotteryRewardsAmount,
+    lotteryExtraRewardsAmount,
+    setLotteryExtraRewardsAmount,
+  } = useLotteryInfo();
 
   const [lotteryDrawRecords, setLotteryDrawRecords] = useState<any[]>([]);
   const [hasRefused, setHasRefused] = useState(false);
+  const [blockNumber, setBlockNumber] = useState(0);
 
   const triggerTransaction = async (transactionString: string) => {
     if (!publicKey || !signTransaction) {
@@ -69,7 +80,7 @@ export function DrawRecordDialog() {
         // @ts-ignore
         wallet?.adapter,
         tx,
-        "processed"
+        "finalized"
       );
 
       if (!txid) {
@@ -78,7 +89,7 @@ export function DrawRecordDialog() {
 
       txHash = txid;
 
-      const result = await confirmTransaction(connection, txHash, "processed");
+      const result = await confirmTransaction(connection, txHash, "finalized");
 
       if (result.value.err) {
         throw new Error(result.value.err.toString());
@@ -98,6 +109,39 @@ export function DrawRecordDialog() {
     }
   };
 
+  const { data: dataQueryLotteryResult, refetch: refetchLotteryResult } =
+    useQuery({
+      queryKey: ["queryUserNotificationRecords", address],
+      queryFn: () =>
+        getBlockNumberWinner({ token, blockNumber: currentBlockNumber }),
+      enabled: !!address && !!token && !!blockNumber,
+      refetchInterval: 5 * 1000,
+    });
+
+  useEffect(() => {
+    if (dataQueryLotteryResult?.data?.winner) {
+      drawRewardAmount += dataQueryLotteryResult?.data?.rewards;
+      drawExtraRewardAmount += dataQueryLotteryResult?.data?.extra_rewards;
+
+      setLotteryRewardsAmount(drawRewardAmount);
+      setLotteryExtraRewardsAmount(drawExtraRewardAmount);
+
+      drawRecords[drawRecords.length - 1] = {
+        loaded: true,
+        winner: dataQueryLotteryResult?.data?.winner,
+        blockNumber: dataQueryLotteryResult?.data?.block_number,
+        rewards: dataQueryLotteryResult?.data?.rewards,
+        extraRewards: dataQueryLotteryResult?.data?.extra_rewards,
+      };
+      setLotteryDrawRecords([...drawRecords]);
+
+      currentBlockNumber = 0;
+      setBlockNumber(currentBlockNumber);
+
+      drawLotteries();
+    }
+  }, [dataQueryLotteryResult]);
+
   const mutationDrawLottery = useMutation({
     mutationKey: ["drawLottery", address],
     mutationFn: () =>
@@ -106,27 +150,16 @@ export function DrawRecordDialog() {
         hash: txHash,
       }),
     onSuccess({ data, status }) {
-      if (data.success) {
-        toast({
-          title: "Draw Lottery",
-          description: (
-            <p className="block">
-              You've received{" "}
-              <span className="inline-flex items-center text-[#FBB042]">
-                {data.amount} x ring{data.amount === 1 ? "" : "s"}
-                <Ring width={12} height={12} color="#FBB042" className="mx-1" />
-              </span>
-              . Collect more rings in the Sonic Odyssey!
-            </p>
-          ),
-        });
+      if (data.block_number) {
+        currentBlockNumber = data.block_number;
+        setBlockNumber(currentBlockNumber);
+
+        console.log("currentBlockNumber", currentBlockNumber);
+
         drawRecords[drawRecords.length - 1] = {
-          loaded: true,
-          quantity: data.amount,
-          link: `https://explorer.sonic.game/tx/${txHash}`,
+          blockNumber: currentBlockNumber,
         };
         setLotteryDrawRecords([...drawRecords]);
-        drawLotteries();
       }
     },
   });
@@ -154,6 +187,7 @@ export function DrawRecordDialog() {
     drawRecords = drawRecords.slice(0, drawRecords.length - 1);
     setLotteryDrawRecords(drawRecords);
     setHasRefused(false);
+    drawAmount++;
     drawLotteries();
   };
 
@@ -164,10 +198,15 @@ export function DrawRecordDialog() {
   };
 
   const handleConfirm = () => {
-    drawRecords = [];
-    setLotteryDrawRecords(drawRecords);
-    onOpenResultModal();
     onClose();
+    if (drawExtraRewardAmount > 0) {
+      onOpenResultModal();
+    }
+    const timeout = 300;
+    setTimeout(() => {
+      drawRecords = [];
+      setLotteryDrawRecords(drawRecords);
+    }, timeout);
   };
 
   useEffect(() => {
@@ -196,13 +235,13 @@ export function DrawRecordDialog() {
               <p className="flex flex-row justify-center items-center gap-3 text-white text-5xl font-semibold font-orbitron">
                 <Ring width={64} height={64} color="#FBB042" />x{" "}
                 {lotteryDrawRecords.reduce(
-                  (sum, item) => sum + item.quantity,
+                  (sum, item) => sum + item.rewards,
                   0
                 )}
               </p>
               <span className="text-white text-2xl font-semibold font-orbitron mt-8">
                 {lotteryDrawRecords.reduce(
-                  (sum, item) => sum + item.quantity,
+                  (sum, item) => sum + item.rewards,
                   0
                 ) > 0
                   ? "Congratulation"
@@ -228,7 +267,7 @@ export function DrawRecordDialog() {
             {/* `In these XX draws, you won XX times and received a total of XX rings.` */}
             {lotteryDrawRecords.every((record) => record.loaded === true)
               ? `You have received a total of ${lotteryDrawRecords.reduce(
-                  (sum, item) => sum + item.quantity,
+                  (sum, item) => sum + item.rewards,
                   0
                 )} rings.`
               : "Please click the corresponding number of signature confirmations in the plugin wallet."}
@@ -260,7 +299,7 @@ export function DrawRecordDialog() {
                         key={boxIndex}
                         className="flex flex-row justify-between text-white"
                       >
-                        <div className="inline-flex flex-row justify-start items-center gap-1 w-[42px]">
+                        <div className="inline-flex flex-row justify-start items-center gap-1">
                           <Loader2
                             size={16}
                             color="rgba(255, 255, 255, 0.30)"
@@ -269,27 +308,18 @@ export function DrawRecordDialog() {
                               box?.loaded ? "opacity-0" : "opacity-100"
                             )}
                           />
-                          <span className="text-white text-sm">
+                          <span className="inline-block text-white text-sm">
                             {boxIndex + 1 < 10
                               ? `0${boxIndex + 1}`
                               : boxIndex + 1}
                           </span>
                         </div>
                         {box?.loaded && (
-                          <div className="">
-                            <a
-                              className="text-[#25A3ED] hover:underline"
-                              href={box.block_number}
-                              target="_blank"
-                            >
-                              {box.block_number}
-                            </a>
-                          </div>
+                          <span className="">#{box.blockNumber}</span>
                         )}
                         {box?.loaded && (
-                          <div className="inline-flex items-center justify-center gap-1">
-                            <Ring width={16} height={16} color="#FBB042" /> x{" "}
-                            {box.hash === txHash ? (
+                          <div className="w-10 inline-flex items-center justify-start gap-1">
+                            {box.winner === address ? (
                               <span className="text-sm text-[#FBB042]">
                                 Win
                               </span>
@@ -318,7 +348,7 @@ export function DrawRecordDialog() {
                 />
                 <span className="text-[#FBB042] text-base">
                   Detected a wallet signature issue. Would you like to stop or
-                  continue opening mystery boxes?
+                  continue drawing lotteries?
                 </span>
               </p>
               {/* continue */}

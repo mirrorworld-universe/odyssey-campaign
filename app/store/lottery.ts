@@ -27,6 +27,8 @@ export const useLotteryInfo = create(
     setLotteryDrawAmount: (lotteryDrawAmount: number) => void;
     lotteryRewardsAmount: number;
     setLotteryRewardsAmount: (lotteryRewardsAmount: number) => void;
+    lotteryExtraRewardsAmount: number;
+    setLotteryExtraRewardsAmount: (lotteryExtraRewardsAmount: number) => void;
     reset: () => void;
   }>(
     (set, get) => ({
@@ -51,9 +53,17 @@ export const useLotteryInfo = create(
         });
       },
 
+      lotteryExtraRewardsAmount: get()?.lotteryExtraRewardsAmount,
+      setLotteryExtraRewardsAmount: (lotteryExtraRewardsAmount: number) => {
+        set({
+          lotteryExtraRewardsAmount,
+        });
+      },
+
       reset: () => {
         set({
           lotteryRewardsAmount: 0,
+          lotteryExtraRewardsAmount: 0,
         });
       },
     }),
