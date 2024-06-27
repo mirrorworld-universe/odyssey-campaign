@@ -265,12 +265,24 @@ export function DrawRecordDialog() {
             )}
           >
             {/* `In these XX draws, you won XX times and received a total of XX rings.` */}
-            {lotteryDrawRecords.every((record) => record.loaded === true)
-              ? `You have received a total of ${lotteryDrawRecords.reduce(
+            {lotteryDrawRecords.every((record) => record.loaded === true) ? (
+              <p>
+                You have received a total of{" "}
+                {lotteryDrawRecords.reduce(
                   (sum, item) => sum + item.rewards,
                   0
-                )} rings.`
-              : "Please click the corresponding number of signature confirmations in the plugin wallet."}
+                )}{" "}
+                rings.
+              </p>
+            ) : (
+              <p>
+                Each block has one winner, and{" "}
+                <span className="text-[#FBB042]">
+                  each draw takes 5-10 seconds
+                </span>
+                . Thanks for your patience!
+              </p>
+            )}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
