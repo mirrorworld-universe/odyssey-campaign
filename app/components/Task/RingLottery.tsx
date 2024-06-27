@@ -35,15 +35,16 @@ let winnerBoardList: any[] = [];
 let isScrollingWinnerBoard = false;
 
 export function RingLottery() {
+  const maxDrawAmount = 5;
   const scrollAreaRef = useRef<any>(null);
 
   const [mintedRingAmount, setMintedRingAmount] = useState(0);
   const [totalRingAmount, setTotalRingAmount] = useState(100000000);
   const [winnerBoard, setWinnerBoard] = useState<any[]>([]);
-  const [drawPrice, setDrawPrice] = useState(0);
   const [drawAmount, setDrawAmount] = useState("1");
 
-  const { setLotteryDrawAmount } = useLotteryInfo();
+  const { lotteryDrawPrice, setLotteryDrawPrice, setLotteryDrawAmount } =
+    useLotteryInfo();
 
   const {
     isOpen: isOpenDrawConfirmModal,
@@ -109,7 +110,7 @@ export function RingLottery() {
 
   useEffect(() => {
     if (dataDrawPrice?.data?.price) {
-      setDrawPrice(dataDrawPrice.data.price);
+      setLotteryDrawPrice(dataDrawPrice.data.price);
     }
   }, [dataDrawPrice]);
 
@@ -307,17 +308,18 @@ export function RingLottery() {
                   </SelectTrigger>
                   <SelectContent className="bg-[#1B1B1B] border-none text-white rounded">
                     <SelectGroup>
-                      {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                        (number) => (
-                          <SelectItem
-                            value={number.toString()}
-                            key={number}
-                            className="focus:bg-white/5 text-white focus:text-white h-11"
-                          >
-                            {number}
-                          </SelectItem>
-                        )
-                      )}
+                      {Array.from(
+                        { length: maxDrawAmount },
+                        (_, i) => i + 1
+                      ).map((number) => (
+                        <SelectItem
+                          value={number.toString()}
+                          key={number}
+                          className="focus:bg-white/5 text-white focus:text-white h-11"
+                        >
+                          {number}
+                        </SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -325,14 +327,14 @@ export function RingLottery() {
             </div>
             <div className="flex justify-between text-white/60">
               <span className="">Current Price:</span>
-              <span className="">{drawPrice} SOL</span>
+              <span className="">{lotteryDrawPrice} SOL</span>
             </div>
             <div className="flex justify-between text-white/60">
               <span className="">Token Spending:</span>
               <span className="">
-                {drawAmount} x {drawPrice}{" "}
+                {drawAmount} x {lotteryDrawPrice}{" "}
                 <span className="text-xs">SOL/Draw</span> ={" "}
-                {Number(drawAmount) * drawPrice} SOL
+                {Number(drawAmount) * lotteryDrawPrice} SOL
               </span>
             </div>
             <Button
