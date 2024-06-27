@@ -80,7 +80,7 @@ export function DrawRecordDialog() {
         // @ts-ignore
         wallet?.adapter,
         tx,
-        "singleGossip"
+        "confirmed"
       );
 
       if (!txid) {
@@ -89,11 +89,7 @@ export function DrawRecordDialog() {
 
       txHash = txid;
 
-      const result = await confirmTransaction(
-        connection,
-        txHash,
-        "singleGossip"
-      );
+      const result = await confirmTransaction(connection, txHash, "confirmed");
 
       if (result.value.err) {
         throw new Error(result.value.err.toString());
