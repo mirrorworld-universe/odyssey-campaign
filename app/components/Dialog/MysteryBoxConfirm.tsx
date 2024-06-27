@@ -174,6 +174,9 @@ export function MysteryBoxConfirmDialog() {
         description: "Oops! There's a little hiccup on server!",
       });
     },
+    onSettled: () => {
+      setIsOpeningMysterybox(false);
+    },
   });
 
   const mutationBuildTx = useMutation({
