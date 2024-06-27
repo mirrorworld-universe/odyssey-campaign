@@ -37,12 +37,12 @@ export function DrawResultDialog() {
             </span>
           </AlertDialogTitle>
           <AlertDialogDescription className="text-[#717171] text-base text-center mt-4">
-            We will automatically add an extra{" "}
+            You've earned an extra reward!{" "}
             <span className="text-[#FBB042]">
               {lotteryExtraRewardsAmount}{" "}
               {lotteryExtraRewardsAmount === 1 ? "ring" : "rings"}
             </span>{" "}
-            to your wallet.
+            have been added to your wallet!
           </AlertDialogDescription>
         </AlertDialogHeader>
 

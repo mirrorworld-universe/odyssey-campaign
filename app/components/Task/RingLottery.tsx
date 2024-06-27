@@ -220,7 +220,7 @@ export function RingLottery() {
               <li>
                 b. Season's first & last winners:{" "}
                 <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
-                  100,000 x{" "}
+                  {prettyNumber(50000)} x{" "}
                   <Ring
                     width={18}
                     height={18}
@@ -234,7 +234,7 @@ export function RingLottery() {
               <li>
                 c. For every 10,000 winners:{" "}
                 <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
-                  50,000 x{" "}
+                  {prettyNumber(10000)} x{" "}
                   <Ring
                     width={18}
                     height={18}
