@@ -179,138 +179,149 @@ export function CheckIn() {
 
   return (
     <>
-      {/* rules */}
-      <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
-        <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
-          <li className="">
-            Request test SOL first.{" "}
-            <a
-              className="text-[#25A3ED] hover:underline"
-              href="https://faucet.sonic.game/#/"
-              target="_blank"
-            >
-              Request here.
-            </a>
-          </li>
-          <li className="">
-            Click "Check-in" button to complete the task and automatically
-            receive the corresponding reward.
-          </li>
-          <li className="">
-            If you miss a day, the reward count will reset and start over.
-          </li>
-          <li className="">
-            Rewards Detail:
-            <ul className="flex flex-col">
-              <li>
-                a. Check in for 1-7 days to earn{" "}
-                <span className="inline-flex items-center text-[#FBB042]">
-                  1 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
-                  Box
-                </span>
-                .
-              </li>
-              <li>
-                b. Check in for 8-14 days to earn{" "}
-                <span className="inline-flex items-center text-[#FBB042]">
-                  2 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
-                  Boxes
-                </span>
-                .
-              </li>
-              <li>
-                c. Check in for over 14 days to earn{" "}
-                <span className="inline-flex items-center text-[#FBB042]">
-                  3 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
-                  Boxes
-                </span>
-                .
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </Card>
+      {/* title */}
+      <h1 className="text-white font-orbitron font-semibold text-[64px]">
+        Check-in
+      </h1>
 
-      {/* main */}
-      <Card size={CardSize.Medium} className="mt-20" nameClassName="bg-[#000]">
-        <div className="flex flex-col gap-16">
-          {/* wordings */}
-          <p className="text-white text-[29px] font-orbitron font-semibold">
-            You have checked in for
-            <span className="text-[#FBB042] text-[56px] px-4">
-              {checkInDays}
-            </span>
-            {checkInDays === 1 ? "day" : "days"}
-          </p>
-          {/* progress */}
-          <div className="w-full">
-            <div className="w-full h-3 bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
-              <div
-                className={cn(
-                  "rounded h-3 bg-gradient-to-r absolute",
-                  linearGradients[getPartition()]
-                )}
-                style={{
-                  width: `${
-                    checkInDays > totalDays
-                      ? 100
-                      : (checkInDays / totalDays) * 100
-                  }%`,
-                }}
-              ></div>
-              <div
-                className={cn(
-                  "rounded h-3 bg-gradient-to-r absolute blur-[6px]",
-                  linearGradients[getPartition()]
-                )}
-                style={{
-                  width: `${
-                    checkInDays > totalDays
-                      ? 100
-                      : (checkInDays / totalDays) * 100
-                  }%`,
-                }}
-              ></div>
-            </div>
-            <ul className="flex flex-row justify-between text-white/50 text-2xl font-semibold font-orbitron mt-6">
-              <li className="c">1 day</li>
-              <li className="c">{totalDays / 2} days</li>
-              <li className="c">{totalDays} days</li>
-            </ul>
-          </div>
-          {/* tools */}
-          <div className="flex flex-row items-center justify-between">
-            <p className="text-xl text-white font-orbitron font-semibold">
-              {
-                wordings[
-                  checkInDays > 0
-                    ? Math.ceil(checkInDays / (totalDays / 2)) - 1
-                    : 0
-                ]
-              }{" "}
-              days Rewards:{" "}
-              <span className="inline-flex items-center text-[#FBB042] font-orbitron">
-                x {Math.ceil(checkInDays / (totalDays / 2)) || 1}{" "}
-                <Gift color="#FBB042" className="mx-1" />
+      {/* line */}
+      <div className="w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
+        <div className="w-[396px] h-[2px] bg-[#25A3ED] shadow-[0_0_6px_0_#25A3ED] absolute top-0 left-0"></div>
+      </div>
+
+      {/* content */}
+      <div className="">
+        {/* rules */}
+        <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
+          <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
+            <li className="">
+              Request test SOL first.{" "}
+              <a
+                className="text-[#25A3ED] hover:underline"
+                href="https://faucet.sonic.game/#/"
+                target="_blank"
+              >
+                Request here.
+              </a>
+            </li>
+            <li className="">
+              Click "Check-in" button to complete the task and automatically
+              receive the corresponding reward.
+            </li>
+            <li className="">
+              If you miss a day, the reward count will reset and start over.
+            </li>
+            <li className="">
+              Rewards Detail:
+              <ul className="flex flex-col">
+                <li>
+                  a. Check in for 1-7 days to earn{" "}
+                  <span className="inline-flex items-center text-[#FBB042]">
+                    1 x <Gift color="#FBB042" className="mx-[2px]" /> Ring
+                    Mystery Box
+                  </span>
+                  .
+                </li>
+                <li>
+                  b. Check in for 8-14 days to earn{" "}
+                  <span className="inline-flex items-center text-[#FBB042]">
+                    2 x <Gift color="#FBB042" className="mx-[2px]" /> Ring
+                    Mystery Boxes
+                  </span>
+                  .
+                </li>
+                <li>
+                  c. Check in for over 14 days to earn{" "}
+                  <span className="inline-flex items-center text-[#FBB042]">
+                    3 x <Gift color="#FBB042" className="mx-[2px]" /> Ring
+                    Mystery Boxes
+                  </span>
+                  .
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </Card>
+
+        {/* main */}
+        <Card
+          size={CardSize.Medium}
+          className="mt-20"
+          nameClassName="bg-[#000]"
+        >
+          <div className="flex flex-col gap-16">
+            {/* wordings */}
+            <p className="text-white text-[29px] font-orbitron font-semibold">
+              You have checked in for
+              <span className="text-[#FBB042] text-[56px] px-4">
+                {checkInDays}
               </span>
+              {checkInDays === 1 ? "day" : "days"}
             </p>
-            <Button
-              className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron transition-colors duration-300 ${
-                hasChecked || isInMaintenance
-                  ? "bg-[#888888] hover:bg-[#888888]"
-                  : isChekingIn
-                  ? "bg-[#0000FF]/80 hover:bg-[#0000FF]/80"
-                  : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
-              }`}
-              disabled={hasChecked || isChekingIn}
-              onClick={handleCheckIn}
-            >
-              {isChekingIn && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Check-in
-            </Button>
+            {/* progress */}
+            <div className="w-full">
+              <div className="w-full h-3 bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
+                <div
+                  className={cn(
+                    "rounded h-3 bg-gradient-to-r absolute",
+                    linearGradients[getPartition()]
+                  )}
+                  style={{
+                    width: `${(checkInDays / totalDays) * 100}%`,
+                  }}
+                ></div>
+                <div
+                  className={cn(
+                    "rounded h-3 bg-gradient-to-r absolute blur-[6px]",
+                    linearGradients[getPartition()]
+                  )}
+                  style={{
+                    width: `${(checkInDays / totalDays) * 100}%`,
+                  }}
+                ></div>
+              </div>
+              <ul className="flex flex-row justify-between text-white/50 text-2xl font-semibold font-orbitron mt-6">
+                <li className="c">1 day</li>
+                <li className="c">{totalDays / 2} days</li>
+                <li className="c">{totalDays} days</li>
+              </ul>
+            </div>
+            {/* tools */}
+            <div className="flex flex-row items-center justify-between">
+              <p className="text-xl text-white font-orbitron font-semibold">
+                {
+                  wordings[
+                    checkInDays > 0
+                      ? Math.ceil(checkInDays / (totalDays / 2)) - 1
+                      : 0
+                  ]
+                }{" "}
+                days Rewards:{" "}
+                <span className="inline-flex items-center text-[#FBB042] font-orbitron">
+                  x {Math.ceil(checkInDays / (totalDays / 2)) || 1}{" "}
+                  <Gift color="#FBB042" className="mx-1" />
+                </span>
+              </p>
+              <Button
+                className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron transition-colors duration-300 ${
+                  hasChecked || isInMaintenance
+                    ? "bg-[#888888] hover:bg-[#888888]"
+                    : isChekingIn
+                    ? "bg-[#0000FF]/80 hover:bg-[#0000FF]/80"
+                    : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+                }`}
+                disabled={hasChecked || isChekingIn}
+                onClick={handleCheckIn}
+              >
+                {isChekingIn && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Check-in
+              </Button>
+            </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </div>
     </>
   );
 }
