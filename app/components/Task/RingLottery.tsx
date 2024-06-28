@@ -27,8 +27,13 @@ import {
 import { DrawConfirmDialog } from "../Dialog/DrawConfirm";
 import { DrawRecordDialog } from "../Dialog/DrawRecord";
 import { DrawResultDialog } from "../Dialog/DrawResult";
-import { useDrawConfirmModal, useLotteryInfo } from "@/app/store/lottery";
+import {
+  useDrawConfirmModal,
+  useLotteryInfo,
+  useLotteryPriceTableModal,
+} from "@/app/store/lottery";
 import { taskGroupList } from "@/app/data/task";
+import { LotteryPriceTableDialog } from "../Dialog/LotteryPriceTable";
 
 let winnerBoardPage = 1;
 let winnerBoardList: any[] = [];
@@ -44,14 +49,20 @@ export function RingLottery() {
   const [drawAmount, setDrawAmount] = useState("1");
   const [season, setSeason] = useState(0);
 
-  const { lotteryDrawPrice, setLotteryDrawPrice, setLotteryDrawAmount } =
-    useLotteryInfo();
+  const {
+    lotteryDrawPrice,
+    setLotteryDrawPrice,
+    setLotteryDrawAmount,
+    setLotterySeason,
+  } = useLotteryInfo();
 
   const {
     isOpen: isOpenDrawConfirmModal,
     onOpen: onOpenDrawConfirmModal,
     onClose: onCloseDrawConfirmModal,
   } = useDrawConfirmModal();
+
+  const { onOpen: onOpenLotteryPriceTableModal } = useLotteryPriceTableModal();
 
   const {
     address,
@@ -109,6 +120,10 @@ export function RingLottery() {
     trackClick({ text: "Ring Lottery" });
   };
 
+  const handleOpenPriceTable = () => {
+    onOpenLotteryPriceTableModal();
+  };
+
   useEffect(() => {
     if (dataDrawPrice?.data?.price) {
       setLotteryDrawPrice(dataDrawPrice.data.price);
@@ -126,6 +141,7 @@ export function RingLottery() {
     // season
     if (dataMintedRingAmount?.data?.season) {
       setSeason(dataMintedRingAmount.data.season);
+      setLotterySeason(dataMintedRingAmount.data.season);
     }
     // minted amount
     if (dataMintedRingAmount?.data?.minted) {
@@ -216,9 +232,12 @@ export function RingLottery() {
             <li className="">
               The lottery price and the number of rings follow a bonding curve.
               Check the{" "}
-              <a href="#" className="text-[#25A3ED] hover:underline">
+              <span
+                className="text-[#25A3ED] hover:underline cursor-pointer"
+                onClick={handleOpenPriceTable}
+              >
                 Price Table
-              </a>{" "}
+              </span>{" "}
               .
             </li>
             <li className="">
@@ -371,6 +390,7 @@ export function RingLottery() {
         <DrawConfirmDialog />
         <DrawRecordDialog />
         <DrawResultDialog />
+        <LotteryPriceTableDialog />
 
         {!taskGroupList
           .map((item) => item.list)

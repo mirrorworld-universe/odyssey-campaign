@@ -115,7 +115,7 @@ export function DrawRecordDialog() {
       queryFn: () =>
         getBlockNumberWinner({ token, blockNumber: currentBlockNumber }),
       enabled: !!address && !!token && !!blockNumber,
-      refetchInterval: 5 * 1000,
+      refetchInterval: 3 * 1000,
     });
 
   useEffect(() => {
@@ -249,7 +249,7 @@ export function DrawRecordDialog() {
               </span>
             </AlertDialogTitle>
           ) : (
-            <AlertDialogTitle className="flex flex-row justify-center items-center text-white text-[32px] font-orbitron">
+            <AlertDialogTitle className="flex flex-row justify-start items-center text-white text-[32px] font-orbitron">
               <Casino width={40} height={40} color="#FBB042" className="mr-2" />
               <span className="text-white text-[32px] font-semibold font-orbitron">
                 Draw Record
@@ -275,7 +275,7 @@ export function DrawRecordDialog() {
                 rings.
               </p>
             ) : (
-              <p>
+              <p className="text-left">
                 Each block has one winner, and{" "}
                 <span className="text-[#FBB042]">
                   each draw takes 5-10 seconds

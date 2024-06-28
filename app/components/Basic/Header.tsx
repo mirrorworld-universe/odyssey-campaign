@@ -214,27 +214,16 @@ export function Header() {
           <div className="flex flex-row justify-center items-center gap-1 text-center">
             <Trophy width={24} height={24} color="white" />
             <span>
-              Congratulations! Address {formatAddress(bannerMessage?.wallet)},
-              as the {bannerMessage?.number}
-              {bannerMessage?.number === 1
-                ? "st"
-                : bannerMessage?.number === 2
-                ? "nd"
-                : bannerMessage?.number === 3
-                ? "rd"
-                : "th"}{" "}
-              winner{" "}
-              {formatDistance(new Date(bannerMessage.date), new UTCDate(), {
-                addSuffix: true,
-              })}{" "}
-              in the{" "}
+              Congratulations! Address {formatAddress(bannerMessage?.wallet)}{" "}
+              has won an additional {bannerMessage?.amount}{" "}
+              {bannerMessage?.amount === 1 ? "ring" : "rings"} reward in the{" "}
               <a href="/task/ring-lottery" className="underline">
                 ring lottery
-              </a>
-              {bannerMessage?.amount > 0
-                ? `, has earned an additional ${bannerMessage?.amount} 
-              ${bannerMessage?.amount === 1 ? "ring" : "rings"} reward`
-                : ""}
+              </a>{" "}
+              about{" "}
+              {formatDistance(new Date(bannerMessage.date), new UTCDate(), {
+                addSuffix: true,
+              })}
               !
             </span>
           </div>
