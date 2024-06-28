@@ -76,7 +76,7 @@ export default function Home() {
       // tabIndex="-1"
     >
       <source
-        src="https://storage.mirrorworld.fun/odyssey/frontend/video/background.mp4"
+        src="https://storage.sonic.game/odyssey/frontend/video/background.mp4"
         type="video/mp4"
       />
     </video>
