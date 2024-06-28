@@ -104,14 +104,14 @@ export default function Home() {
   );
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
+    <main className="flex max-h-screen flex-col items-center justify-between absolute top-0 bottom-0 right-0 left-0">
       <div className="w-screen h-screen flex-grow flex flex-col items-center justify-center relative">
         <VideoBackground />
 
         <div className="w-full h-full bg-gradient-to-t from-black to-black/50 relative"></div>
 
         <div className="text-center max-w-[800px] flex flex-col items-center absolute">
-          <h1 className="flex flex-row gap-2 text-8xl text-white font-orbitron font-bold">
+          <h1 className="flex flex-row gap-2 text-8xl text-white font-orbitron font-bold pt-20">
             <img className="" src="/images/sonic-odyssey.png" alt="" />
           </h1>
           <p className="text-[32px] font-orbitron text-[#FFFFFF]/[0.8] mt-12">
