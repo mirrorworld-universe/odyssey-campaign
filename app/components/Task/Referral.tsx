@@ -52,71 +52,85 @@ export function Referral() {
 
   return (
     <>
-      {/* rules */}
-      <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
-        <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
-          <li className="">
-            Copy the invite code and send it to a friend. If the friend
-            successfully completes the "Meet Sonic" task, they will be
-            considered successfully activated, and you will receive the
-            corresponding reward.
-          </li>
-          <li className="">
-            For each successfully invited friend, you will receive{" "}
-            <span className="inline-flex items-center text-[#FBB042]">
-              1 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery Box
-            </span>{" "}
-            automatically.
-          </li>
-        </ul>
-      </Card>
+      {/* title */}
+      <h1 className="text-white font-orbitron font-semibold text-[64px]">
+        Referral
+      </h1>
 
-      {/* invite code */}
-      <Card
-        name="Invite Code"
-        size={CardSize.Medium}
-        className="mt-20"
-        nameClassName="bg-[#000]"
-      >
-        <div className="w-full flex flex-row items-center justify-between">
-          <span className="text-white text-xl font-orbitron font-normal">
-            {inviteUrl}
-          </span>
-          <Button
-            className="w-[183px] h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
-            onClick={handleInviteNow}
-          >
-            Invite Now
-          </Button>
-        </div>
-      </Card>
+      {/* line */}
+      <div className="w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
+        <div className="w-[396px] h-[2px] bg-[#25A3ED] shadow-[0_0_6px_0_#25A3ED] absolute top-0 left-0"></div>
+      </div>
 
-      {/* rewards */}
-      <Card
-        name="Rewards"
-        size={CardSize.Medium}
-        className="mt-20"
-        nameClassName="bg-[#000]"
-      >
-        <ul className="w-full">
-          <li className="flex flex-row items-center justify-between pb-5">
-            <span className="text-xl text-white  font-orbitron">
-              Successfully activated invitees
+      {/* content */}
+      <div className="">
+        {/* rules */}
+        <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
+          <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
+            <li className="">
+              Copy the invite code and send it to a friend. If the friend
+              successfully completes the "Meet Sonic" task, they will be
+              considered successfully activated, and you will receive the
+              corresponding reward.
+            </li>
+            <li className="">
+              For each successfully invited friend, you will receive{" "}
+              <span className="inline-flex items-center text-[#FBB042]">
+                1 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
+                Box
+              </span>{" "}
+              automatically.
+            </li>
+          </ul>
+        </Card>
+
+        {/* invite code */}
+        <Card
+          name="Invite Code"
+          size={CardSize.Medium}
+          className="mt-20"
+          nameClassName="bg-[#000]"
+        >
+          <div className="w-full flex flex-row items-center justify-between">
+            <span className="text-white text-xl font-orbitron font-normal">
+              {inviteUrl}
             </span>
-            <span className="text-[56px] text-[#FBB042] font-semibold font-orbitron">
-              {referralAmount}
-            </span>
-          </li>
-          <li className="flex flex-row items-center justify-between pt-5 border-t border-solid border-white/10">
-            <span className="text-xl text-white font-orbitron">
-              Received Ring Mystery Boxes
-            </span>
-            <span className="text-[56px] text-[#FBB042] font-semibold font-orbitron">
-              {referralRewards}
-            </span>
-          </li>
-        </ul>
-      </Card>
+            <Button
+              className="w-[183px] h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
+              onClick={handleInviteNow}
+            >
+              Invite Now
+            </Button>
+          </div>
+        </Card>
+
+        {/* rewards */}
+        <Card
+          name="Rewards"
+          size={CardSize.Medium}
+          className="mt-20"
+          nameClassName="bg-[#000]"
+        >
+          <ul className="w-full">
+            <li className="flex flex-row items-center justify-between pb-5">
+              <span className="text-xl text-white  font-orbitron">
+                Successfully activated invitees
+              </span>
+              <span className="text-[56px] text-[#FBB042] font-semibold font-orbitron">
+                {referralAmount}
+              </span>
+            </li>
+            <li className="flex flex-row items-center justify-between pt-5 border-t border-solid border-white/10">
+              <span className="text-xl text-white font-orbitron">
+                Received Ring Mystery Boxes
+              </span>
+              <span className="text-[56px] text-[#FBB042] font-semibold font-orbitron">
+                {referralRewards}
+              </span>
+            </li>
+          </ul>
+        </Card>
+      </div>
     </>
   );
 }

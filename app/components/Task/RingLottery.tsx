@@ -42,6 +42,7 @@ export function RingLottery() {
   const [totalRingAmount, setTotalRingAmount] = useState(100000000);
   const [winnerBoard, setWinnerBoard] = useState<any[]>([]);
   const [drawAmount, setDrawAmount] = useState("1");
+  const [season, setSeason] = useState(0);
 
   const { lotteryDrawPrice, setLotteryDrawPrice, setLotteryDrawAmount } =
     useLotteryInfo();
@@ -122,6 +123,10 @@ export function RingLottery() {
   }, [dataWinnerBoard]);
 
   useEffect(() => {
+    // season
+    if (dataMintedRingAmount?.data?.season) {
+      setSeason(dataMintedRingAmount.data.season);
+    }
     // minted amount
     if (dataMintedRingAmount?.data?.minted) {
       setMintedRingAmount(dataMintedRingAmount.data.minted);
@@ -172,192 +177,208 @@ export function RingLottery() {
 
   return (
     <>
-      {/* rules */}
-      <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
-        <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
-          <li className="">
-            Request test SOL first.{" "}
-            <a
-              className="text-[#25A3ED] hover:underline"
-              href="https://faucet.sonic.game/#/"
-              target="_blank"
-            >
-              Request here.
-            </a>
-          </li>
-          <li className="">
-            Enter the number of times you want to draw to participate in the
-            lottery.
-          </li>
-          <li className="">
-            Each block will have only one winner, and each winner will win 1
-            ring!
-          </li>
-          <li className="">
-            The lottery price and the number of rings follow a bonding curve.
-            Check the{" "}
-            <a href="#" className="text-[#25A3ED] hover:underline">
-              Price Table
-            </a>{" "}
-            .
-          </li>
-          <li className="">
-            Rewards Detail:
-            <ul className="list-item pl-2">
-              <li className="">
-                a. Block winner:{" "}
-                <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
-                  1 x{" "}
-                  <Ring
-                    width={18}
-                    height={18}
-                    color="#FBB042"
-                    className="mx-1"
-                  />{" "}
-                  Ring
-                </span>
-                .
-              </li>
-              <li>
-                b. Season's first & last winners:{" "}
-                <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
-                  {prettyNumber(50000)} x{" "}
-                  <Ring
-                    width={18}
-                    height={18}
-                    color="#FBB042"
-                    className="mx-1"
-                  />{" "}
-                  Rings each
-                </span>
-                .
-              </li>
-              <li>
-                c. For every 10,000 winners:{" "}
-                <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
-                  {prettyNumber(10000)} x{" "}
-                  <Ring
-                    width={18}
-                    height={18}
-                    color="#FBB042"
-                    className="mx-1"
-                  />{" "}
-                  Rings
-                </span>
-                .
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </Card>
+      {/* title */}
+      <h1 className="text-white font-orbitron font-semibold text-[64px]">
+        Ring Lottery{" "}
+        {season > 0 ? (
+          <span className="text-white/20">Season {season}</span>
+        ) : null}
+      </h1>
 
-      {/* minted rings */}
-      <Card
-        name="Minted Rings"
-        size={CardSize.Medium}
-        className="mt-20"
-        nameClassName="bg-[#000]"
-      >
-        <div className="flex flex-row justify-between items-center">
-          <Ring width={56} height={56} color="#FBB042" />
-          <span className="text-white text-5xl font-semibold font-orbitron">
-            {`${prettyNumber(mintedRingAmount)}/${prettyNumber(
-              totalRingAmount
-            )}`}
-          </span>
-        </div>
-      </Card>
-
-      <div className="flex flex-row gap-20 mt-20">
-        {/* winner board */}
-        <Card
-          name="Winner Board"
-          size={CardSize.Medium}
-          className="w-[470px]"
-          nameClassName="bg-[#000]"
-        >
-          {winnerBoard.length ? (
-            <WinnerBoard />
-          ) : (
-            <p className="flex w-full h-full justify-center items-center text-white/30">
-              No winner yet
-            </p>
-          )}
-        </Card>
-
-        {/* draw */}
-        <Card
-          size={CardSize.Medium}
-          className="w-[470px]"
-          nameClassName="bg-[#000]"
-        >
-          <div className="w-full flex flex-col gap-5">
-            <div className="w-full flex flex-row justify-between">
-              <span className="text-white text-xl font-orbitron">
-                Number of draws
-              </span>
-              <div className="flex items-center">
-                <Select
-                  value={drawAmount}
-                  onValueChange={(value: string) =>
-                    handleSetLotteryDrawAmount(value)
-                  }
-                >
-                  <SelectTrigger className="bg-transparent text-white text-lg font-semibold outline-none border-none">
-                    <SelectValue placeholder="1" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#1B1B1B] border-none text-white rounded">
-                    <SelectGroup>
-                      {Array.from(
-                        { length: maxDrawAmount },
-                        (_, i) => i + 1
-                      ).map((number) => (
-                        <SelectItem
-                          value={number.toString()}
-                          key={number}
-                          className="focus:bg-white/5 text-white focus:text-white h-11"
-                        >
-                          {number}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="flex justify-between text-white/60">
-              <span className="">Current Price:</span>
-              <span className="">{lotteryDrawPrice} SOL</span>
-            </div>
-            <div className="flex justify-between text-white/60">
-              <span className="">Token Spending:</span>
-              <span className="">
-                {drawAmount} x {lotteryDrawPrice}{" "}
-                <span className="text-xs">SOL/Draw</span> ={" "}
-                {Number(drawAmount) * lotteryDrawPrice} SOL
-              </span>
-            </div>
-            <Button
-              onClick={handleDrawLottery}
-              className="h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
-            >
-              Draw
-            </Button>
-          </div>
-        </Card>
+      {/* line */}
+      <div className="w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
+        <div className="w-[396px] h-[2px] bg-[#25A3ED] shadow-[0_0_6px_0_#25A3ED] absolute top-0 left-0"></div>
       </div>
 
-      {/* dialog */}
-      <DrawConfirmDialog />
-      <DrawRecordDialog />
-      <DrawResultDialog />
+      {/* content */}
+      <div className="">
+        {/* rules */}
+        <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
+          <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
+            <li className="">
+              Request test SOL first.{" "}
+              <a
+                className="text-[#25A3ED] hover:underline"
+                href="https://faucet.sonic.game/#/"
+                target="_blank"
+              >
+                Request here.
+              </a>
+            </li>
+            <li className="">
+              Enter the number of times you want to draw to participate in the
+              lottery.
+            </li>
+            <li className="">
+              Each block will have only one winner, and each winner will win 1
+              ring!
+            </li>
+            <li className="">
+              The lottery price and the number of rings follow a bonding curve.
+              Check the{" "}
+              <a href="#" className="text-[#25A3ED] hover:underline">
+                Price Table
+              </a>{" "}
+              .
+            </li>
+            <li className="">
+              Rewards Detail:
+              <ul className="list-item pl-2">
+                <li className="">
+                  a. Block winner:{" "}
+                  <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
+                    1 x{" "}
+                    <Ring
+                      width={18}
+                      height={18}
+                      color="#FBB042"
+                      className="mx-1"
+                    />{" "}
+                    Ring
+                  </span>
+                  .
+                </li>
+                <li>
+                  b. Season's first & last winners:{" "}
+                  <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
+                    {prettyNumber(50000)} x{" "}
+                    <Ring
+                      width={18}
+                      height={18}
+                      color="#FBB042"
+                      className="mx-1"
+                    />{" "}
+                    Rings each
+                  </span>
+                  .
+                </li>
+                <li>
+                  c. For every 10,000 winners:{" "}
+                  <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
+                    {prettyNumber(10000)} x{" "}
+                    <Ring
+                      width={18}
+                      height={18}
+                      color="#FBB042"
+                      className="mx-1"
+                    />{" "}
+                    Rings
+                  </span>
+                  .
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </Card>
 
-      {!taskGroupList
-        .map((item) => item.list)
-        .flat()
-        .find((task) => task.id === "ring-lottery")?.available && (
-        <div className="w-screen h-screen bg-black/90 fixed top-0 left-0 z-20"></div>
-      )}
+        {/* minted rings */}
+        <Card
+          name="Minted Rings"
+          size={CardSize.Medium}
+          className="mt-20"
+          nameClassName="bg-[#000]"
+        >
+          <div className="flex flex-row justify-between items-center">
+            <Ring width={56} height={56} color="#FBB042" />
+            <span className="text-white text-5xl font-semibold font-orbitron">
+              {`${prettyNumber(mintedRingAmount)}/${prettyNumber(
+                totalRingAmount
+              )}`}
+            </span>
+          </div>
+        </Card>
+
+        <div className="flex flex-row gap-20 mt-20">
+          {/* winner board */}
+          <Card
+            name="Winner Board"
+            size={CardSize.Medium}
+            className="w-[470px]"
+            nameClassName="bg-[#000]"
+          >
+            {winnerBoard.length ? (
+              <WinnerBoard />
+            ) : (
+              <p className="flex w-full h-full justify-center items-center text-white/30">
+                No winner yet
+              </p>
+            )}
+          </Card>
+
+          {/* draw */}
+          <Card
+            size={CardSize.Medium}
+            className="w-[470px]"
+            nameClassName="bg-[#000]"
+          >
+            <div className="w-full flex flex-col gap-5">
+              <div className="w-full flex flex-row justify-between">
+                <span className="text-white text-xl font-orbitron">
+                  Number of draws
+                </span>
+                <div className="flex items-center">
+                  <Select
+                    value={drawAmount}
+                    onValueChange={(value: string) =>
+                      handleSetLotteryDrawAmount(value)
+                    }
+                  >
+                    <SelectTrigger className="bg-transparent text-white text-lg font-semibold outline-none border-none">
+                      <SelectValue placeholder="1" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-[#1B1B1B] border-none text-white rounded">
+                      <SelectGroup>
+                        {Array.from(
+                          { length: maxDrawAmount },
+                          (_, i) => i + 1
+                        ).map((number) => (
+                          <SelectItem
+                            value={number.toString()}
+                            key={number}
+                            className="focus:bg-white/5 text-white focus:text-white h-11"
+                          >
+                            {number}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="flex justify-between text-white/60">
+                <span className="">Current Price:</span>
+                <span className="">{lotteryDrawPrice} SOL</span>
+              </div>
+              <div className="flex justify-between text-white/60">
+                <span className="">Token Spending:</span>
+                <span className="">
+                  {drawAmount} x {lotteryDrawPrice}{" "}
+                  <span className="text-xs">SOL/Draw</span> ={" "}
+                  {Number(drawAmount) * lotteryDrawPrice} SOL
+                </span>
+              </div>
+              <Button
+                onClick={handleDrawLottery}
+                className="h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
+              >
+                Draw
+              </Button>
+            </div>
+          </Card>
+        </div>
+
+        {/* dialog */}
+        <DrawConfirmDialog />
+        <DrawRecordDialog />
+        <DrawResultDialog />
+
+        {!taskGroupList
+          .map((item) => item.list)
+          .flat()
+          .find((task) => task.id === "ring-lottery")?.available && (
+          <div className="w-screen h-screen bg-black/90 fixed top-0 left-0 z-20"></div>
+        )}
+      </div>
     </>
   );
 }
