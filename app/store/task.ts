@@ -54,6 +54,8 @@ export const useMysteryBoxInfo = create(
     setMysteryBoxAmount: (mysteryBoxAmount: number) => void;
     mysteryBoxRewardsAmount: number;
     setMysteryBoxRewardsAmount: (mysteryBoxRewardsAmount: number) => void;
+    mysteryBoxOpenAmount: number;
+    setMysteryBoxOpenAmount: (mysteryBoxOpenAmount: number) => void;
     reset: () => void;
   }>(
     (set, get) => ({
@@ -68,6 +70,13 @@ export const useMysteryBoxInfo = create(
       setMysteryBoxRewardsAmount: (mysteryBoxRewardsAmount: number) => {
         set({
           mysteryBoxRewardsAmount,
+        });
+      },
+
+      mysteryBoxOpenAmount: get()?.mysteryBoxOpenAmount,
+      setMysteryBoxOpenAmount: (mysteryBoxOpenAmount: number) => {
+        set({
+          mysteryBoxOpenAmount,
         });
       },
 
