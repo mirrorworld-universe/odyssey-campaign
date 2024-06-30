@@ -44,7 +44,7 @@ export function MysteryBoxConfirmDialog() {
   const { publicKey, wallet, signTransaction } = useWallet();
   const { connection } = useConnection();
   const { address, token } = useAccountInfo();
-  const { mysteryBoxAmount, setMysteryBoxRewardsAmount } = useMysteryBoxInfo();
+  const { mysteryBoxAmount, setMysteryBoxOpenAmount } = useMysteryBoxInfo();
   const {
     isOpen: isOpenRecordModal,
     onOpen: onOpenRecordModal,
@@ -151,7 +151,7 @@ export function MysteryBoxConfirmDialog() {
       }),
     onSuccess({ data, status }) {
       if (data.success) {
-        setMysteryBoxRewardsAmount(data.amount);
+        setMysteryBoxOpenAmount(data.amount);
         toast({
           title: "Open Mystery Box",
           description: (

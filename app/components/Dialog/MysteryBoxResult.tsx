@@ -17,7 +17,7 @@ import { useMysteryBoxInfo, useMysteryBoxResultModal } from "@/app/store/task";
 
 export function MysteryBoxResultDialog() {
   const { isOpen, onOpen, onClose } = useMysteryBoxResultModal();
-  const { mysteryBoxRewardsAmount } = useMysteryBoxInfo();
+  const { mysteryBoxOpenAmount } = useMysteryBoxInfo();
 
   const handleConfirm = () => {
     onClose();
@@ -30,14 +30,14 @@ export function MysteryBoxResultDialog() {
           <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
             <p className="flex flex-row justify-center items-center gap-3 text-white text-5xl font-semibold font-orbitron">
               <Ring width={64} height={64} color="#FBB042" />x{" "}
-              {mysteryBoxRewardsAmount}
+              {mysteryBoxOpenAmount}
             </p>
             <span className="text-white text-2xl font-semibold font-orbitron mt-8">
               Congratulation
             </span>
           </AlertDialogTitle>
           <AlertDialogDescription className="text-[#717171] text-base text-center mt-4">
-            You received total of {mysteryBoxRewardsAmount} rings.
+            You received total of {mysteryBoxOpenAmount} rings.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
