@@ -75,6 +75,7 @@ export default function RingPopover() {
     }
     setIsOpeningMysterybox(true);
     onOpenConfirmModal();
+    setPopoverOpen(false);
   };
 
   const handleLoadMoreClaimHistory = () => {
