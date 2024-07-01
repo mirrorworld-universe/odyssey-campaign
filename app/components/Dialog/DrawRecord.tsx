@@ -278,7 +278,7 @@ export function DrawRecordDialog() {
               <p className="text-left">
                 Each block has one winner, and{" "}
                 <span className="text-[#FBB042]">
-                  each draw takes 5-10 seconds
+                  each lottery draw takes some time
                 </span>
                 . Thanks for your patience!
               </p>
