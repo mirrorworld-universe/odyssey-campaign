@@ -150,15 +150,29 @@ export function MileStone() {
             {/* progress */}
             <div className="w-full h-3 bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
               <div
-                className="rounded h-3 bg-gradient-to-r from-[#00F] via-[#25A3ED] to-[#90D2F9] absolute"
+                className={cn(
+                  "rounded h-3 bg-gradient-to-r absolute",
+                  linearGradients[getPartition()]
+                )}
                 style={{
-                  width: `${(transactionAmount / totalAmount) * 100}%`,
+                  width: `${
+                    transactionAmount > totalAmount
+                      ? 100
+                      : (transactionAmount / totalAmount) * 100
+                  }%`,
                 }}
               ></div>
               <div
-                className="rounded h-3 bg-gradient-to-r from-[#00F] via-[#25A3ED] to-[#90D2F9] blur-[6px] absolute"
+                className={cn(
+                  "rounded h-3 bg-gradient-to-r blur-[6px] absolute",
+                  linearGradients[getPartition()]
+                )}
                 style={{
-                  width: `${(transactionAmount / totalAmount) * 100}%`,
+                  width: `${
+                    transactionAmount > totalAmount
+                      ? 100
+                      : (transactionAmount / totalAmount) * 100
+                  }%`,
                 }}
               ></div>
               <ul className="w-full flex flex-row justify-between text-white/50 text-2xl font-semibold font-orbitron absolute -top-6">

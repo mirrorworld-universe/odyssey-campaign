@@ -267,7 +267,11 @@ export function CheckIn() {
                     linearGradients[getPartition()]
                   )}
                   style={{
-                    width: `${(checkInDays / totalDays) * 100}%`,
+                    width: `${
+                      checkInDays > totalDays
+                        ? 100
+                        : (checkInDays / totalDays) * 100
+                    }%`,
                   }}
                 ></div>
                 <div
@@ -276,7 +280,11 @@ export function CheckIn() {
                     linearGradients[getPartition()]
                   )}
                   style={{
-                    width: `${(checkInDays / totalDays) * 100}%`,
+                    width: `${
+                      checkInDays > totalDays
+                        ? 100
+                        : (checkInDays / totalDays) * 100
+                    }%`,
                   }}
                 ></div>
               </div>
