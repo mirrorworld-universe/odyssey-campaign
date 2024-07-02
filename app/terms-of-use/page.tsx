@@ -1,7 +1,17 @@
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  return {
+    title: `Terms of Use - Sonic Odyssey`,
+  };
+}
+
 export default function TermsOfUse() {
   return (
     <div className="c9 doc-content max-w-6xl mx-auto my-20 px-10 text-white">
-      <p className="text-center">
+      <p className="text-center text-2xl">
         <strong>Sonic.game Terms of Use</strong>
       </p>
       <p>Last Modified: June 5, 2024</p>
@@ -28,10 +38,7 @@ export default function TermsOfUse() {
           these Terms of Use and our Privacy Policy, found at&nbsp;
         </strong>
         <span className="text-[rgb(0, 0, 255)] underline">
-          <a
-            target="_blank"
-            href="https://www.google.com/url?q=https://mirrorworld.fun/privacy-policy&amp;sa=D&amp;source=editors&amp;ust=1719475497627160&amp;usg=AOvVaw2gZxIl_gRknoEOvG4iAnQ1"
-          >
+          <a target="_blank" href="https://mirrorworld.fun/privacy-policy">
             https://mirrorworld.fun/privacy-policy
           </a>
         </span>
@@ -95,10 +102,7 @@ export default function TermsOfUse() {
         including, but not limited to, through the use of any interactive
         features on the Website, is governed by our&nbsp;
         <span className="text-[rgb(0, 0, 255)] underline">
-          <a
-            target="_blank"
-            href="https://www.google.com/url?q=https://mirrorworld.fun/privacy-policy&amp;sa=D&amp;source=editors&amp;ust=1719475497628295&amp;usg=AOvVaw3Yd5ocHu4kSEyDYqA-7iYU"
-          >
+          <a target="_blank" href="https://mirrorworld.fun/privacy-policy">
             Privacy Policy
           </a>
         </span>
@@ -378,10 +382,7 @@ export default function TermsOfUse() {
           that otherwise may be in conflict with these Terms of Use and
           our&nbsp;
           <span className="text-[rgb(0, 0, 255)] underline">
-            <a
-              target="_blank"
-              href="https://www.google.com/url?q=https://mirrorworld.fun/privacy-policy&amp;sa=D&amp;source=editors&amp;ust=1719475497632439&amp;usg=AOvVaw2YC8CRbFXEsYUF7P_-PSiI"
-            >
+            <a target="_blank" href="https://mirrorworld.fun/privacy-policy">
               Privacy Policy
             </a>
           </span>
@@ -454,10 +455,7 @@ export default function TermsOfUse() {
       <p>
         All information we collect on this Website is subject to our&nbsp;
         <span className="text-[rgb(0, 0, 255)] underline">
-          <a
-            target="_blank"
-            href="https://www.google.com/url?q=https://mirrorworld.fun/privacy-policy&amp;sa=D&amp;source=editors&amp;ust=1719475497633959&amp;usg=AOvVaw33YdkcpNhS_bgFpn6jqZeX"
-          >
+          <a target="_blank" href="https://mirrorworld.fun/privacy-policy">
             Privacy Policy
           </a>
         </span>
@@ -718,7 +716,8 @@ export default function TermsOfUse() {
         communications relating to the Website should be directed to:
         support@sonic.game.
       </p>
-      <p className="text-center">
+
+      <p className="text-center mt-20">
         Addendum 1: Sonic Odyssey Additional Terms of Use
       </p>
       <p>

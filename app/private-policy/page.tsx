@@ -1,7 +1,17 @@
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  return {
+    title: `Private Policy - Sonic Odyssey`,
+  };
+}
+
 export default function PrivatePolicy() {
   return (
     <div className="c28 doc-content max-w-6xl mx-auto my-20 px-10 text-white">
-      <p className="text-center">
+      <p className="text-center text-2xl">
         <strong>Privacy Policy</strong>
       </p>
       <p className="text-justify">
