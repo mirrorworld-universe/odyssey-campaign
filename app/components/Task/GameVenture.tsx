@@ -8,14 +8,14 @@ import { UTCDate } from "@date-fns/utc";
 
 export function GameVenture() {
   const games = [
-    {
-      name: "SnakeLite",
-      cover: "/images/games/snakelite.jpg",
-      guide:
-        "https://mirrorworldfun.notion.site/SnakeLite-Odyssey-Game-and-Task-Guide-585d67b5d76348ba868d58a5d1acfa72?pvs=4",
-      play: "https://t.me/Snakelite_official_bot",
-      time: "2024-07-02T21:00:00+08:00",
-    },
+    // {
+    //   name: "SnakeLite",
+    //   cover: "/images/games/snakelite.jpg",
+    //   guide:
+    //     "https://mirrorworldfun.notion.site/SnakeLite-Odyssey-Game-and-Task-Guide-585d67b5d76348ba868d58a5d1acfa72?pvs=4",
+    //   play: "https://t.me/Snakelite_official_bot",
+    //   time: "2024-07-02T21:00:00+08:00",
+    // },
     // {
     //   name: "Lumittera",
     //   cover: "/images/games/a.jpg",
