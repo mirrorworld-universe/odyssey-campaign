@@ -73,12 +73,13 @@ export const prettyNumber = (number: number) => {
   return new Intl.NumberFormat("en-US").format(number);
 };
 
-export const isInMaintenanceTime = (
-  timeStart = "2024-07-03T19:00:00+08:00",
-  timeEnd = "2024-07-03T22:00:00+08:00"
-) => {
+export const maintenanceStartTime = "2024-07-03T19:00:00+08:00";
+
+export const maintenanceEndTime = "2024-07-03T22:00:00+08:00";
+
+export const isInMaintenanceTime = () => {
   const now = new Date();
-  const startTime = new Date(timeStart);
-  const endTime = new Date(timeEnd);
+  const startTime = new Date(maintenanceStartTime);
+  const endTime = new Date(maintenanceEndTime);
   return now >= startTime && now <= endTime;
 };

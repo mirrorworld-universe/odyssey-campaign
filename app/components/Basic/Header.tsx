@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { format, formatDistance } from "date-fns";
+import { UTCDate } from "@date-fns/utc";
+
 import { Button } from "@/components/ui/button";
 
 import Notification from "./Notification";
@@ -23,7 +26,11 @@ import {
   trackCriteoWalletTransactionClick,
   trackLinkClick,
 } from "@/lib/track";
-import { isInMaintenanceTime } from "@/lib/utils";
+import {
+  isInMaintenanceTime,
+  maintenanceEndTime,
+  maintenanceStartTime,
+} from "@/lib/utils";
 import { Speaker } from "@/app/icons/Speaker";
 import { useEffect } from "react";
 
@@ -169,9 +176,15 @@ export function Header() {
             />
             <span className="inline-flex max-w-[718px] whitespace-nowrap overflow-hidden">
               <div className="pl-[100%] animate-marquee">
-                Important Update: Sonic Testnet will upgrade on July 3rd, 2024,
-                at 11 AM UTC, for 6+ hours. Some tasks and on-chain interactions
-                will be paused. Thank you for understanding.
+                Important Update: Sonic Testnet will upgrade on{" "}
+                {format(new UTCDate(maintenanceStartTime), "PPP")}, at{" "}
+                {format(new UTCDate(maintenanceStartTime), "h a")} UTC, for{" "}
+                {formatDistance(
+                  new UTCDate(maintenanceStartTime),
+                  new UTCDate(maintenanceEndTime)
+                )}
+                . Some tasks and on-chain interactions will be paused. Thank you
+                for understanding.
               </div>
             </span>
           </span>
