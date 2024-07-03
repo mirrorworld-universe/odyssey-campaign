@@ -114,14 +114,14 @@ export function Footer() {
               </span>
               <a
                 className="text-white/60 font-semibold h-[11px] ml-4 pl-4 hover:underline"
-                href="https://docs.google.com/document/u/3/d/e/2PACX-1vREdZyNuwasC-TUxY2pH_4UBKSPujpADn40Ih0p0Xw9koauigoLS6eyYqTpLzKsnw/pub"
+                href="/terms-of-use"
                 target="_blank"
               >
                 Terms of Use
               </a>
               <a
                 className="text-white/60 font-semibold h-[11px] ml-4 pl-4 hover:underline"
-                href="https://docs.google.com/document/u/1/d/e/2PACX-1vRbCG8os3oojtNwDbVVwnif_DILgjTnYY_807b8JcWUxG606n6yMuxZsPfmlABqUQf6taJBgDb3p25N/pub"
+                href="/private-policy"
                 target="_blank"
               >
                 Privacy Policy
@@ -159,7 +159,7 @@ export function Footer() {
               <i className="inline-block w-[1px] h-[11px] bg-white/20"></i>
               <a
                 className="text-white/60 text-sm font-semibold hover:underline"
-                href="https://docs.google.com/document/u/3/d/e/2PACX-1vREdZyNuwasC-TUxY2pH_4UBKSPujpADn40Ih0p0Xw9koauigoLS6eyYqTpLzKsnw/pub"
+                href="/terms-of-use"
                 target="_blank"
               >
                 Terms of Use
@@ -167,7 +167,7 @@ export function Footer() {
               <i className="inline-block w-[1px] h-[11px] bg-white/20"></i>
               <a
                 className="text-white/60 text-sm font-semibold hover:underline"
-                href="https://docs.google.com/document/u/1/d/e/2PACX-1vRbCG8os3oojtNwDbVVwnif_DILgjTnYY_807b8JcWUxG606n6yMuxZsPfmlABqUQf6taJBgDb3p25N/pub"
+                href="/private-policy"
                 target="_blank"
               >
                 Privacy Policy

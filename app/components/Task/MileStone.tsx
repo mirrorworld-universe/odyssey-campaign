@@ -142,7 +142,7 @@ export function MileStone() {
             <p className="text-white text-[29px] font-orbitron font-semibold">
               You have made
               <span className="text-[#FBB042] text-[56px] px-4">
-                {transactionAmount}
+                {transactionAmount <= 100 ? transactionAmount : "100+"}
               </span>
               {transactionAmount === 1 ? "transaction" : "transactions"} today.
             </p>
