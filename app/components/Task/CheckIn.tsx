@@ -312,10 +312,8 @@ export function CheckIn() {
               </p>
               <Button
                 className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron transition-colors duration-300 ${
-                  hasChecked || isInMaintenance
-                    ? "bg-[#888888] hover:bg-[#888888]"
-                    : isChekingIn
-                    ? "bg-[#0000FF]/80 hover:bg-[#0000FF]/80"
+                  hasChecked || isInMaintenance || isChekingIn
+                    ? "bg-[#0000FF]/80 hover:bg-[#0000FF] opacity-30"
                     : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
                 }`}
                 disabled={hasChecked || isChekingIn}

@@ -5,6 +5,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { Close } from "@/app/icons/Close";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -45,7 +46,7 @@ const DialogContent = React.forwardRef<
     >
       {children}
       <DialogPrimitive.Close className="absolute right-8 top-8 rounded-sm opacity-100 ring-offset-background transition-opacity hover:opacity-80 fdisabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-        <X className="h-8 w-8 text-[#5f5f5f]" />
+        <Close width={32} height={32} color="white" className="opacity-30" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
