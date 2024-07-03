@@ -1,3 +1,4 @@
+import { UTCDate } from "@date-fns/utc";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -78,8 +79,8 @@ export const maintenanceStartTime = "2024-07-03T19:00:00+08:00";
 export const maintenanceEndTime = "2024-07-03T22:00:00+08:00";
 
 export const isInMaintenanceTime = () => {
-  const now = new Date();
-  const startTime = new Date(maintenanceStartTime);
-  const endTime = new Date(maintenanceEndTime);
+  const now = new UTCDate();
+  const startTime = new UTCDate(maintenanceStartTime);
+  const endTime = new UTCDate(maintenanceEndTime);
   return now >= startTime && now <= endTime;
 };
