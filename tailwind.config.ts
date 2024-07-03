@@ -142,6 +142,17 @@ const config = {
             transform: "translateX(-100%)",
           },
         },
+        "spin-light": {
+          "0%": {
+            transform: "rotate(0deg)",
+          },
+          "25%": {
+            transform: "rotate(90deg)",
+          },
+          "100%": {
+            transform: "rotate(90deg)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -152,6 +163,7 @@ const config = {
         "fade-in": "fade-in .3s linear",
         "fade-out": "fade-out .3s linear",
         marquee: "marquee 24s linear infinite",
+        "spin-light": "spin-light 2s ease-out infinite",
       },
       fontFamily: {
         manrope: ["var(--font-manrope)"],
