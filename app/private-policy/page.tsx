@@ -13,8 +13,8 @@ export async function generateMetadata({
 export default function PrivatePolicy() {
   return (
     <>
-      <div className="c28 doc-content max-w-6xl mx-auto my-20 px-10 text-white font-serif">
-        <p className="text-center text-2xl">
+      <div className="flex flex-col gap-4 doc-content max-w-6xl mx-auto my-20 px-10 text-white font-serif">
+        <p className="text-center text-2xl py-10">
           <strong>Privacy Policy</strong>
         </p>
         <p className="text-justify">
@@ -651,7 +651,7 @@ export default function PrivatePolicy() {
             </tr>
           </tbody>
         </table>
-        <ol>
+        <ol className="list-decimal pl-4">
           <li>
             If you are a California resident, you may have certain rights with
             respect to your Personal Data, including the following:

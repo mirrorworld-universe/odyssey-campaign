@@ -105,7 +105,7 @@ export function Footer() {
               <span className="text-white/60">
                 <a
                   className="hover:underline"
-                  href="https://docs.google.com/document/u/3/d/e/2PACX-1vS4amMKICyxZJt9QkmU_57a_TA50wL9NxTD1mOWsmyqFMrfb0-UV6ehfOAnqVDgrA/pub"
+                  href="/copyright-policy"
                   target="_blank"
                 >
                   © Copyright
@@ -149,7 +149,7 @@ export function Footer() {
               <span className="text-white/60 text-sm">
                 <a
                   className="hover:underline"
-                  href="https://docs.google.com/document/u/3/d/e/2PACX-1vS4amMKICyxZJt9QkmU_57a_TA50wL9NxTD1mOWsmyqFMrfb0-UV6ehfOAnqVDgrA/pub"
+                  href="/copyright-policy"
                   target="_blank"
                 >
                   © Copyright

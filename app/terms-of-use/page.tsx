@@ -13,8 +13,8 @@ export async function generateMetadata({
 export default function TermsOfUse() {
   return (
     <>
-      <div className="c9 doc-content max-w-6xl mx-auto my-20 px-10 text-white font-serif">
-        <p className="text-center text-2xl">
+      <div className="flex flex-col gap-4 doc-content max-w-6xl mx-auto my-20 px-10 text-white font-serif">
+        <p className="text-center text-2xl py-10">
           <strong>Sonic.game Terms of Use</strong>
         </p>
         <p>Last Modified: June 5, 2024</p>
