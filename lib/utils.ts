@@ -74,8 +74,8 @@ export const prettyNumber = (number: number) => {
 };
 
 export const isInMaintenanceTime = (
-  timeStart = "2024-07-03T13:00:00+08:00",
-  timeEnd = "2024-07-03T19:00:00+08:00"
+  timeStart = "2024-07-03T19:00:00+08:00",
+  timeEnd = "2024-07-03T22:00:00+08:00"
 ) => {
   const now = new Date();
   const startTime = new Date(timeStart);

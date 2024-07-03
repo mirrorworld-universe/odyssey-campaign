@@ -170,7 +170,7 @@ export function Header() {
             <span className="inline-flex max-w-[718px] whitespace-nowrap overflow-hidden">
               <div className="pl-[100%] animate-marquee">
                 Important Update: Sonic Testnet will upgrade on July 3rd, 2024,
-                at 5 AM UTC, for 6+ hours. Some tasks and on-chain interactions
+                at 11 AM UTC, for 6+ hours. Some tasks and on-chain interactions
                 will be paused. Thank you for understanding.
               </div>
             </span>
