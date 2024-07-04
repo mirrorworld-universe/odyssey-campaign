@@ -130,7 +130,10 @@ export function DrawRecordDialog() {
         loaded: true,
         winner: dataQueryLotteryResult?.data?.winner,
         blockNumber: dataQueryLotteryResult?.data?.block_number,
-        rewards: dataQueryLotteryResult?.data?.rewards,
+        rewards:
+          dataQueryLotteryResult?.data?.winner === address
+            ? dataQueryLotteryResult?.data?.rewards
+            : 0,
         extraRewards: dataQueryLotteryResult?.data?.extra_rewards,
       };
       setLotteryDrawRecords([...drawRecords]);
