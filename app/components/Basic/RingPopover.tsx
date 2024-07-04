@@ -135,6 +135,13 @@ export default function RingPopover() {
     }
   }, [popoverOpen]);
 
+  useEffect(() => {
+    if (token) {
+      refetchRewardsInfo();
+      refetchRewardsHistory();
+    }
+  }, [token]);
+
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger>

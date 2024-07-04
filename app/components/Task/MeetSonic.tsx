@@ -138,6 +138,12 @@ export function MeetSonic() {
     }
   }, [dataFollowingStatus]);
 
+  useEffect(() => {
+    if (token) {
+      refetchFollowingStatus();
+    }
+  }, [token]);
+
   const socialMediaList = [
     {
       id: "twitter",

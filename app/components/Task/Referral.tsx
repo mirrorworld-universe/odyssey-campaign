@@ -18,7 +18,11 @@ export function Referral() {
   const [referralAmount, setReferralAmount] = useState(0);
   const [referralRewards, setReferralRewards] = useState(0);
 
-  const { data: dataReferralInfo, isLoading: loadingReferralInfo } = useQuery({
+  const {
+    data: dataReferralInfo,
+    isLoading: loadingReferralInfo,
+    refetch: refetchReferralInfo,
+  } = useQuery({
     queryKey: ["queryReferralInfo", address],
     queryFn: () => getReferralInfo({ token }),
     enabled: !!token,
@@ -36,6 +40,12 @@ export function Referral() {
       setReferralRewards(referral_rewards);
     }
   }, [dataReferralInfo]);
+
+  useEffect(() => {
+    if (token) {
+      refetchReferralInfo();
+    }
+  }, [token]);
 
   const handleInviteNow = async () => {
     try {

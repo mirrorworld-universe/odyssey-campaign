@@ -170,7 +170,9 @@ export function WalletDialog({ text = "Connect", className }: any) {
   useEffect(() => {
     if (dataBasicInfo?.data) {
       messageToSign = dataBasicInfo.data;
-      if (messageToSign && !token && !currentToken) {
+      const isNoToken = !token && !currentToken;
+      const isNewAddress = publicKey?.toString() !== address;
+      if (messageToSign && (isNoToken || isNewAddress)) {
         signWalletMessage(messageToSign);
       }
     }

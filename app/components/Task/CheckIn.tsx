@@ -169,6 +169,12 @@ export function CheckIn() {
     }
   }, [dataCheckInInfo]);
 
+  useEffect(() => {
+    if (token) {
+      refetchCheckInInfo();
+    }
+  }, [token]);
+
   const handleCheckIn = () => {
     if (!hasChecked && !isChekingIn && !isInMaintenance) {
       setIsChekingIn(true);
