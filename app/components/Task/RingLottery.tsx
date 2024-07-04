@@ -108,7 +108,6 @@ export function RingLottery() {
       !isScrollingWinnerBoard
     ) {
       isScrollingWinnerBoard = true;
-      winnerBoardPage++;
       refetchWinnerBoard().then(() => {
         isScrollingWinnerBoard = false;
       });
@@ -131,9 +130,10 @@ export function RingLottery() {
   }, [dataDrawPrice]);
 
   useEffect(() => {
-    if (dataWinnerBoard?.data) {
+    if (dataWinnerBoard?.data?.length) {
       winnerBoardList = winnerBoardList.concat(dataWinnerBoard.data);
       setWinnerBoard(winnerBoardList);
+      winnerBoardPage++;
     }
   }, [dataWinnerBoard]);
 
@@ -177,13 +177,15 @@ export function RingLottery() {
               key={itemIndex}
               className="flex flex-row justify-between text-white items-center"
             >
-              <span>{formatAddress(item.wallet)}</span>
+              <span className="w-24">{formatAddress(item.wallet)}</span>
               <span className="inline-flex justify-start items-center gap-2 w-[110px]">
                 <Ring width={20} height={20} color="#FBB042" />
                 <span>x</span>
                 <span>{item.ring_number}</span>
               </span>
-              <span>#{prettyNumber(item.block_number)}</span>
+              <span className="w-[88px] text-right">
+                #{prettyNumber(item.block_number)}
+              </span>
             </div>
           ))}
         </div>
