@@ -260,9 +260,9 @@ export function RingLottery() {
                   .
                 </li>
                 <li>
-                  b. Season's first & last winners:{" "}
+                  b. Season's first winners:{" "}
                   <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
-                    {prettyNumber(50000)} x{" "}
+                    {prettyNumber(100000)} x{" "}
                     <Ring
                       width={18}
                       height={18}
