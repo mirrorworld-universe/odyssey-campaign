@@ -64,7 +64,7 @@ export function SetUpFinishDialog() {
             Task Center
           </Button>
           <Button
-            className="w-full h-12 bg-transparent hover:bg-transparent text-white/30 font-orbitron"
+            className="w-full h-12 bg-transparent hover:bg-transparent text-white/30 font-orbitron hover:opacity-80 active:opacity-50 transition-colors duration-300"
             onClick={onClose}
           >
             Cancel

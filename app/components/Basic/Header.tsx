@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 
 import Notification from "./Notification";
 import {
+  formatAddress,
   useAccountInfo,
   useNotificationBar,
   useSystemInfo,
@@ -32,7 +33,10 @@ import {
   maintenanceStartTime,
 } from "@/lib/utils";
 import { Speaker } from "@/app/icons/Speaker";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getLotteryBanner } from "@/app/data/lottery";
+import { Trophy } from "@/app/icons/Trophy";
 
 export const menu: any[] = [
   {
@@ -67,6 +71,15 @@ export function Header() {
   const { isOpen: isOpenNotificationBar, onOpen: onOpenNotificationBar } =
     useNotificationBar();
 
+  const [bannerMessage, setBannerMessage] = useState<any>({});
+
+  const { data: dataWinnerBanner } = useQuery({
+    queryKey: ["queryLotteryBanner", address],
+    queryFn: () => getLotteryBanner({ token }),
+    enabled: !!address && !!token,
+    refetchInterval: 30 * 60 * 1000,
+  });
+
   // useEffect(() => {
   //   if (publicKey) {
   //     (async function getBalanceEvery10Seconds() {
@@ -88,6 +101,13 @@ export function Header() {
     trackCriteoWalletClick();
     trackCriteoWalletTransactionClick();
   };
+
+  useEffect(() => {
+    if (dataWinnerBanner?.data?.wallet) {
+      setBannerMessage(dataWinnerBanner.data);
+      onOpenLotteryBar();
+    }
+  }, [dataWinnerBanner]);
 
   useEffect(() => {
     if (isInMaintenanceTime()) {
@@ -161,9 +181,6 @@ export function Header() {
         </div>
       </div>
 
-      {/* notification bar */}
-      {isOpenLotteryBar && <NotificationBar />}
-
       {/* system notification bar */}
       {isInMaintenance && isOpenNotificationBar && (
         <NotificationBar className="bg-[#00063C] min-h-12 h-auto px-3">
@@ -188,6 +205,28 @@ export function Header() {
               </div>
             </span>
           </span>
+        </NotificationBar>
+      )}
+
+      {/* notification bar */}
+      {isOpenLotteryBar && (
+        <NotificationBar>
+          <div className="flex flex-row justify-center items-center gap-1 text-center">
+            <Trophy width={24} height={24} color="white" />
+            <span>
+              Congratulations! Address {formatAddress(bannerMessage?.wallet)}{" "}
+              has won an additional {bannerMessage?.amount}{" "}
+              {bannerMessage?.amount === 1 ? "ring" : "rings"} reward in the{" "}
+              <a href="/task/ring-lottery" className="underline">
+                ring lottery
+              </a>{" "}
+              about{" "}
+              {formatDistance(new Date(bannerMessage.date), new UTCDate(), {
+                addSuffix: true,
+              })}
+              !
+            </span>
+          </div>
         </NotificationBar>
       )}
     </nav>
