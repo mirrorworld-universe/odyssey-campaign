@@ -41,7 +41,7 @@ export const useLotteryInfo = create(
         });
       },
 
-      lotteryDrawPrice: get()?.lotteryDrawPrice,
+      lotteryDrawPrice: get()?.lotteryDrawPrice || 0,
       setLotteryDrawPrice: (lotteryDrawPrice: number) => {
         set({
           lotteryDrawPrice,
