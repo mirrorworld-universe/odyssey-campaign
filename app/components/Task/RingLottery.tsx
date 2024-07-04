@@ -126,7 +126,7 @@ export function RingLottery() {
 
   useEffect(() => {
     if (dataDrawPrice?.data?.price) {
-      setLotteryDrawPrice(dataDrawPrice.data.price);
+      setLotteryDrawPrice(dataDrawPrice.data.price || 0);
     }
   }, [dataDrawPrice]);
 
