@@ -54,6 +54,8 @@ export const metadata: Metadata = {
     creator: "@SonicSVM",
     images: ["https://odyssey.sonic.game/seo-banner.png"],
   },
+
+  viewport: "width=device-width, initial-scale=1.0",
 };
 
 export default function RootLayout({

@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import {
   useMoreWalletModal,
   useSetUpNetworkModal,
+  useSetupInfo,
 } from "@/app/store/tutorials";
 import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import { connectWalletStatics } from "@/lib/analytics";
@@ -38,6 +39,7 @@ import {
   trackCriteoWalletTransactionClick,
 } from "@/lib/track";
 
+let lastAddress = "";
 let currentSignature = "";
 let currentToken = "";
 let messageToSign = "";
@@ -48,6 +50,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
   const { address, setAddress, token, setToken } = useAccountInfo();
   const { setAddress: setTaskAddress } = useTaskInfo();
   const { isOpen, onOpen, onClose } = useWalletModal();
+  const { status } = useSetupInfo();
   const {
     isOpen: isOpenMoreWalletDialog,
     onOpen: onOpenMoreWalletDialog,
@@ -160,7 +163,9 @@ export function WalletDialog({ text = "Connect", className }: any) {
 
   const afterWalletConnected = () => {
     if (isSupportSonic(wallet?.adapter.name)) {
-      onOpenSetUpNetworkWalletDialog();
+      if (!status || !status[address]) {
+        onOpenSetUpNetworkWalletDialog();
+      }
     } else {
       switchMoreWallets();
     }
@@ -171,7 +176,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     if (dataBasicInfo?.data) {
       messageToSign = dataBasicInfo.data;
       const isNoToken = !token && !currentToken;
-      const isNewAddress = publicKey?.toString() !== address;
+      const isNewAddress = publicKey?.toString() !== lastAddress;
       if (messageToSign && (isNoToken || isNewAddress)) {
         signWalletMessage(messageToSign);
       }
@@ -187,6 +192,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
 
   useEffect(() => {
     if (publicKey) {
+      lastAddress = address;
       refetchBasicInfo();
       setAddress(publicKey.toString());
       setTaskAddress(publicKey.toString());

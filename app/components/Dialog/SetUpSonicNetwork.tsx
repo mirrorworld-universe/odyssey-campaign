@@ -18,11 +18,15 @@ import { useMysteryBoxInfo, useMysteryBoxResultModal } from "@/app/store/task";
 import {
   useSetUpFinishModal,
   useSetUpNetworkModal,
+  useSetupInfo,
 } from "@/app/store/tutorials";
+import { useAccountInfo } from "@/app/store/account";
 
 export function SetUpSonicNetworkDialog() {
   const { publicKey, wallet, signTransaction } = useWallet();
+  const { address } = useAccountInfo();
   const { isOpen, onOpen, onClose } = useSetUpNetworkModal();
+  const { status, setStatus } = useSetupInfo();
   const {
     isOpen: isOpenSetUpFinishWalletDialog,
     onOpen: onOpenSetUpFinishWalletDialog,
@@ -36,6 +40,10 @@ export function SetUpSonicNetworkDialog() {
   };
 
   const handleConfirm = () => {
+    setStatus({
+      ...status,
+      [address]: "done",
+    });
     onOpenSetUpFinishWalletDialog();
     onClose();
   };
