@@ -75,6 +75,7 @@ export default function RingPopover() {
     }
     setIsOpeningMysterybox(true);
     onOpenConfirmModal();
+    setPopoverOpen(false);
   };
 
   const handleLoadMoreClaimHistory = () => {
@@ -298,7 +299,7 @@ export default function RingPopover() {
                 <ChevronLeft
                   size={24}
                   color="rgba(255, 255, 255, .3)"
-                  className="cursor-pointer absolute top-0 bottom-0 left-0 m-auto"
+                  className="cursor-pointer absolute top-0 bottom-0 left-2 m-auto"
                   onClick={handleBackClaimHistory}
                 />
                 <div className="text-white text-sm font-orbitron py-2">

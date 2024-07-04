@@ -19,7 +19,8 @@ export function TaskNavigator({ taskId }: any) {
         href="/task"
         className={cn(
           "group flex flex-row items-center gap-2 h-20 bg-[#111111] pl-8 sticky top-20 z-10",
-          isOpenLotteryBar || isOpenNotificationBar ? "top-32" : "top-20"
+          isOpenNotificationBar ? "top-32" : "top-20",
+          isOpenLotteryBar ? "top-[124px]" : "top-20"
         )}
       >
         <img

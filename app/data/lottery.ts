@@ -61,7 +61,7 @@ export const getLotteryDrawPrice = async ({ token }: any) => {
 export const getLotteryWinnerBoard = async ({
   token,
   page = 1,
-  size = 20,
+  size = 50,
 }: any) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/board`,
