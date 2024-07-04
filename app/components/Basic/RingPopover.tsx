@@ -23,6 +23,7 @@ import {
 import { isSupportSonic } from "../../wallet/wallet-list";
 import { getUserRewardInfo } from "../../data/account";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useDrawRecordModal, useDrawResultModal } from "@/app/store/lottery";
 
 export default function RingPopover() {
   const { isInMaintenance } = useSystemInfo();
@@ -31,15 +32,21 @@ export default function RingPopover() {
   const { setMysteryBoxAmount, setMysteryBoxRewardsAmount } =
     useMysteryBoxInfo();
   const {
-    isOpen: isOpenConfirmModal,
-    onOpen: onOpenConfirmModal,
-    onClose: onCloseConfirmModal,
+    isOpen: isOpenMysteryboxConfirmModal,
+    onOpen: onOpenMysteryboxConfirmModal,
   } = useMysteryBoxConfirmModal();
   const {
-    isOpen: isOpenRecordModal,
-    onOpen: onOpenRecordModal,
-    onClose: onCloseRecordModal,
+    isOpen: isOpenMysteryboxRecordModal,
+    onOpen: onOpenMysteryboxRecordModal,
   } = useMysteryBoxRecordModal();
+  const {
+    isOpen: isOpenDrawLotteryRecordModal,
+    onOpen: onOpenDrawLotteryRecordModal,
+  } = useDrawRecordModal();
+  const {
+    isOpen: isOpenDrawLotteryResultModal,
+    onOpen: onOpenDrawLotteryResultModal,
+  } = useDrawResultModal();
 
   const [isOpeningMysterybox, setIsOpeningMysterybox] = useState(false);
   const [ringAmount, setRingAmount] = useState(0);
@@ -74,7 +81,7 @@ export default function RingPopover() {
       return;
     }
     setIsOpeningMysterybox(true);
-    onOpenConfirmModal();
+    onOpenMysteryboxConfirmModal();
     setPopoverOpen(false);
   };
 
@@ -101,12 +108,18 @@ export default function RingPopover() {
   }, [dataRewardsInfo]);
 
   useEffect(() => {
-    if (!isOpenConfirmModal && !isOpenRecordModal) {
+    if (!isOpenMysteryboxConfirmModal && !isOpenMysteryboxRecordModal) {
       setIsOpeningMysterybox(false);
       refetchRewardsInfo();
-      refetchRewardsHistory();
     }
-  }, [isOpenConfirmModal, isOpenRecordModal]);
+  }, [isOpenMysteryboxConfirmModal, isOpenMysteryboxRecordModal]);
+
+  useEffect(() => {
+    if (!isOpenDrawLotteryResultModal && !isOpenDrawLotteryRecordModal) {
+      setIsOpeningMysterybox(false);
+      refetchRewardsInfo();
+    }
+  }, [isOpenDrawLotteryResultModal, isOpenDrawLotteryRecordModal]);
 
   useEffect(() => {
     const data = dataMysteryBoxHistory?.data;
