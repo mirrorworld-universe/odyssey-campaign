@@ -20,6 +20,7 @@ import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 
 let hasFollowedBoth = false;
+let currentToken = "";
 
 export function MeetSonic() {
   const { isOpen, onOpen, onClose } = useWalletModal();
@@ -137,6 +138,13 @@ export function MeetSonic() {
       }
     }
   }, [dataFollowingStatus]);
+
+  useEffect(() => {
+    if (token && token !== currentToken) {
+      currentToken = token;
+      refetchFollowingStatus();
+    }
+  }, [token]);
 
   const socialMediaList = [
     {

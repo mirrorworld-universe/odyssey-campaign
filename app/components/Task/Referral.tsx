@@ -9,6 +9,8 @@ import { getReferralInfo } from "@/app/data/account";
 import { Card, CardSize } from "../Basic/Card";
 import { trackClick } from "@/lib/track";
 
+let currentToken = "";
+
 export function Referral() {
   const { address, token } = useAccountInfo();
   const { toast } = useToast();
@@ -18,7 +20,11 @@ export function Referral() {
   const [referralAmount, setReferralAmount] = useState(0);
   const [referralRewards, setReferralRewards] = useState(0);
 
-  const { data: dataReferralInfo, isLoading: loadingReferralInfo } = useQuery({
+  const {
+    data: dataReferralInfo,
+    isLoading: loadingReferralInfo,
+    refetch: refetchReferralInfo,
+  } = useQuery({
     queryKey: ["queryReferralInfo", address],
     queryFn: () => getReferralInfo({ token }),
     enabled: !!token,
@@ -36,6 +42,13 @@ export function Referral() {
       setReferralRewards(referral_rewards);
     }
   }, [dataReferralInfo]);
+
+  useEffect(() => {
+    if (token && token !== currentToken) {
+      currentToken = token;
+      refetchReferralInfo();
+    }
+  }, [token]);
 
   const handleInviteNow = async () => {
     try {

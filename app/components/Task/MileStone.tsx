@@ -14,6 +14,8 @@ import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
+let currentToken = "";
+
 export function MileStone() {
   const totalAmount = 100;
   const linearGradients = [
@@ -36,12 +38,15 @@ export function MileStone() {
       : 2;
   };
 
-  const { data: dataMilestoneDailyInfo, isLoading: loadingMilestoneDailyInfo } =
-    useQuery({
-      queryKey: ["queryMilestoneDailyInfo", address],
-      queryFn: () => getMilestoneDailyInfo({ token }),
-      enabled: !!token,
-    });
+  const {
+    data: dataMilestoneDailyInfo,
+    isLoading: loadingMilestoneDailyInfo,
+    refetch: refetchMilestoneDailyInfo,
+  } = useQuery({
+    queryKey: ["queryMilestoneDailyInfo", address],
+    queryFn: () => getMilestoneDailyInfo({ token }),
+    enabled: !!token,
+  });
 
   const mutationClaimRewards = useMutation({
     mutationFn: () => claimMilestoneRewards({ token, stage: claimStage }),
@@ -83,6 +88,13 @@ export function MileStone() {
       setStageList(stage_info);
     }
   }, [dataMilestoneDailyInfo]);
+
+  useEffect(() => {
+    if (token && token !== currentToken) {
+      currentToken = token;
+      refetchMilestoneDailyInfo();
+    }
+  }, [token]);
 
   const handleClaimGifts = (stageKey: string, stageIndex: number) => {
     if (
