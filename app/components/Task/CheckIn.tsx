@@ -32,6 +32,7 @@ import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 
 let transactionHash = "";
+let currentToken = "";
 
 export function CheckIn() {
   const totalDays = 14;
@@ -170,7 +171,8 @@ export function CheckIn() {
   }, [dataCheckInInfo]);
 
   useEffect(() => {
-    if (token) {
+    if (token && token !== currentToken) {
+      currentToken = token;
       refetchCheckInInfo();
     }
   }, [token]);

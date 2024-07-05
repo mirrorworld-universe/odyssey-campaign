@@ -13,6 +13,8 @@ import { trackClick } from "@/lib/track";
 
 const maxAmount = 5;
 
+let currentToken = "";
+
 export default function Notification({ data }: any) {
   const {
     address,
@@ -56,7 +58,8 @@ export default function Notification({ data }: any) {
   }, [JSON.stringify(dataNotificationRecords?.data)]);
 
   useEffect(() => {
-    if (token) {
+    if (token && token !== currentToken) {
+      currentToken = token;
       refetchNotificationRecords();
     }
   }, [token]);

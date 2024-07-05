@@ -14,6 +14,8 @@ import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
+let currentToken = "";
+
 export function MileStone() {
   const totalAmount = 100;
   const linearGradients = [
@@ -88,7 +90,8 @@ export function MileStone() {
   }, [dataMilestoneDailyInfo]);
 
   useEffect(() => {
-    if (token) {
+    if (token && token !== currentToken) {
+      currentToken = token;
       refetchMilestoneDailyInfo();
     }
   }, [token]);

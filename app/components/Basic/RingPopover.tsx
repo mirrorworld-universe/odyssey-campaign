@@ -25,6 +25,8 @@ import { getUserRewardInfo } from "../../data/account";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useDrawRecordModal, useDrawResultModal } from "@/app/store/lottery";
 
+let currentToken = "";
+
 export default function RingPopover() {
   const { isInMaintenance } = useSystemInfo();
   const { address, token } = useAccountInfo();
@@ -136,7 +138,8 @@ export default function RingPopover() {
   }, [popoverOpen]);
 
   useEffect(() => {
-    if (token) {
+    if (token && token !== currentToken) {
+      currentToken = token;
       refetchRewardsInfo();
       refetchRewardsHistory();
     }

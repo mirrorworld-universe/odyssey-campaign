@@ -9,6 +9,8 @@ import { getReferralInfo } from "@/app/data/account";
 import { Card, CardSize } from "../Basic/Card";
 import { trackClick } from "@/lib/track";
 
+let currentToken = "";
+
 export function Referral() {
   const { address, token } = useAccountInfo();
   const { toast } = useToast();
@@ -42,7 +44,8 @@ export function Referral() {
   }, [dataReferralInfo]);
 
   useEffect(() => {
-    if (token) {
+    if (token && token !== currentToken) {
+      currentToken = token;
       refetchReferralInfo();
     }
   }, [token]);
