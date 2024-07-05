@@ -108,3 +108,22 @@ export const useFAQModal = create<{
     });
   },
 }));
+
+export const useSetupInfo = create(
+  persist<{
+    status: any;
+    setStatus: (status: any) => void;
+  }>(
+    (set, get) => ({
+      status: get()?.status,
+      setStatus: (status: any) => {
+        set({
+          status,
+        });
+      },
+    }),
+    {
+      name: "sonic-setup-info",
+    }
+  )
+);

@@ -151,7 +151,7 @@ export function Header() {
           {/* nav */}
           {menu.map((menuItem, menuIndex) => (
             <Link
-              className="gap-12 text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors"
+              className="gap-12 text-sm xl:text-base text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors"
               href={menuItem.link}
               key={menuIndex}
               target={menuItem.target}

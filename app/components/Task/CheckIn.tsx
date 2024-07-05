@@ -32,6 +32,7 @@ import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 
 let transactionHash = "";
+let currentToken = "";
 
 export function CheckIn() {
   const totalDays = 14;
@@ -168,6 +169,13 @@ export function CheckIn() {
       setCheckInDays(accumulative_days);
     }
   }, [dataCheckInInfo]);
+
+  useEffect(() => {
+    if (token && token !== currentToken) {
+      currentToken = token;
+      refetchCheckInInfo();
+    }
+  }, [token]);
 
   const handleCheckIn = () => {
     if (!hasChecked && !isChekingIn && !isInMaintenance) {

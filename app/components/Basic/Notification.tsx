@@ -13,6 +13,8 @@ import { trackClick } from "@/lib/track";
 
 const maxAmount = 5;
 
+let currentToken = "";
+
 export default function Notification({ data }: any) {
   const {
     address,
@@ -29,6 +31,7 @@ export default function Notification({ data }: any) {
   const {
     data: dataNotificationRecords,
     isLoading: loadingNotificationRecords,
+    refetch: refetchNotificationRecords,
   } = useQuery({
     queryKey: ["queryUserNotificationRecords", address],
     queryFn: () => getNotificationRecords({ token }),
@@ -53,6 +56,13 @@ export default function Notification({ data }: any) {
       setList(data.slice(0, maxAmount));
     }
   }, [JSON.stringify(dataNotificationRecords?.data)]);
+
+  useEffect(() => {
+    if (token && token !== currentToken) {
+      currentToken = token;
+      refetchNotificationRecords();
+    }
+  }, [token]);
 
   const handleToggleShowPanel = () => {
     setShowPanel(!showPanel);
