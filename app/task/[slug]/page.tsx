@@ -35,16 +35,17 @@ export default function Page({ params }: { params: { slug: string } }) {
     ["game-venture"]: <GameVenture />,
   };
 
-  const Content = () => (
-    <div className="flex flex-col px-[120px] py-[120px]">
-      {taskComponents[taskId]}
-    </div>
+  const Content = ({ className }: any) => (
+    <div className={className}>{taskComponents[taskId]}</div>
   );
 
   return (
     <div className="flex flex-row">
-      <TaskNavigator taskId={taskId} />
-      <Content />
+      <TaskNavigator
+        taskId={taskId}
+        className="flex flex-col w-1/5 min-w-[200px] max-w-[400px]"
+      />
+      <Content className="flex flex-col w-4/5 px-[120px] py-[120px]" />
     </div>
   );
 }

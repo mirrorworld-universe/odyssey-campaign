@@ -184,14 +184,14 @@ export function Header() {
       {/* system notification bar */}
       {isInMaintenance && isOpenNotificationBar && (
         <NotificationBar className="bg-[#00063C] min-h-12 h-auto px-3">
-          <span className="inline-flex justify-center gap-2 text-base text-[#48BBFF] font-semibold py-3">
+          <div className="inline-flex justify-center gap-2 text-base text-[#48BBFF] font-semibold py-3">
             <Speaker
               width={24}
               height={24}
               color="#48BBFF"
               className="min-w-6 min-h-6"
             />
-            <span className="inline-flex max-w-[718px] whitespace-nowrap overflow-hidden">
+            <span className="inline-flex w-full max-w-[718px] whitespace-nowrap overflow-hidden">
               <div className="pl-[100%] animate-marquee">
                 Important Update: Sonic Testnet will upgrade on{" "}
                 {format(new UTCDate(maintenanceStartTime), "PPP")}, at{" "}
@@ -204,20 +204,25 @@ export function Header() {
                 for understanding.
               </div>
             </span>
-          </span>
+          </div>
         </NotificationBar>
       )}
 
       {/* notification bar */}
       {isOpenLotteryBar && (
-        <NotificationBar>
-          <div className="flex flex-row justify-center items-center gap-1 text-center">
-            <Trophy width={24} height={24} color="white" />
-            <span>
+        <NotificationBar className="bg-[#00063C] min-h-12 h-auto px-3">
+          <div className="w-full inline-flex flex-row justify-center items-center gap-1 text-center text-base text-[#48BBFF] font-semibold py-3">
+            <Trophy
+              width={24}
+              height={24}
+              color="#48BBFF"
+              className="min-w-6 min-h-6"
+            />
+            <span className="inline-flex w-full whitespace-nowrap overflow-hidden">
               Congratulations! Address {formatAddress(bannerMessage?.wallet)}{" "}
               has won an additional {bannerMessage?.amount}{" "}
               {bannerMessage?.amount === 1 ? "ring" : "rings"} reward in the{" "}
-              <a href="/task/ring-lottery" className="underline">
+              <a href="/task/ring-lottery" className="underline mx-1">
                 ring lottery
               </a>{" "}
               about{" "}

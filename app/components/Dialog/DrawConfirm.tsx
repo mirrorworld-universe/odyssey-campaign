@@ -55,7 +55,7 @@ export function DrawConfirmDialog() {
         </AlertDialogHeader>
 
         <div className="flex flex-col gap-12 mt-12">
-          <div className="flex flex-col items-center gap-5 text-lg text-white">
+          <div className="flex flex-col items-center gap-5 text-lg text-white font-normal">
             <div className="w-full flex justify-between">
               <span>Number of draws</span>
               <span className="font-semibold">{lotteryDrawAmount || 0}</span>

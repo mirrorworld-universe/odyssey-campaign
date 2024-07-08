@@ -28,7 +28,7 @@ export function Card({
   return (
     <div
       className={cn(
-        `flex flex-wrap flex-row gap-10 w-full border border-solid border-white/20 text-white/60 relative ${
+        `max-w-[1024px] flex flex-wrap flex-row gap-10 w-full border border-solid border-white/20 text-white/60 relative ${
           size === CardSize.Default ? "px-12 py-12 rounded-xl" : cardClass[size]
         }`,
         className
@@ -48,7 +48,7 @@ export function Card({
         </h4>
       )}
       {/* content */}
-      <div className="content w-full">{children}</div>
+      <div className="content w-full h-auto">{children}</div>
     </div>
   );
 }
