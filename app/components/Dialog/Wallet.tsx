@@ -24,7 +24,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
+import { cn, isInMaintenanceTime } from "@/lib/utils";
 import {
   useMoreWalletModal,
   useSetUpNetworkModal,
@@ -173,6 +173,13 @@ export function WalletDialog({ text = "Connect", className }: any) {
   };
 
   useEffect(() => {
+    if (isInMaintenanceTime()) {
+      disconnect();
+      setAddress("");
+      setToken("");
+      return;
+    }
+
     if (dataBasicInfo?.data) {
       messageToSign = dataBasicInfo.data;
       const isNoToken = !token && !currentToken;

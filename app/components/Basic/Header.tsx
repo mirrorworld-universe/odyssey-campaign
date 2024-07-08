@@ -28,6 +28,7 @@ import {
   trackLinkClick,
 } from "@/lib/track";
 import {
+  cn,
   isInMaintenanceTime,
   maintenanceEndTime,
   maintenanceStartTime,
@@ -65,7 +66,7 @@ export function Header() {
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
   const { isOpen, onOpen } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
-  const { address, token, reset } = useAccountInfo();
+  const { address, token, setToken } = useAccountInfo();
   const { isOpen: isOpenLotteryBar, onOpen: onOpenLotteryBar } =
     useLotteryBar();
   const { isOpen: isOpenNotificationBar, onOpen: onOpenNotificationBar } =
@@ -91,6 +92,10 @@ export function Header() {
   // }, [publicKey, connection, balance]);
 
   const handleClickOpenWallet = (event: any) => {
+    if (isInMaintenance) {
+      return;
+    }
+
     !publicKey && onOpen();
 
     // ga4
@@ -170,7 +175,12 @@ export function Header() {
 
           {!publicKey ? (
             <Button
-              className="w-[200px] h-12 justify-center items-center bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 font-orbitron font-semibold text-white text-base transition-all duration-300"
+              className={cn(
+                "w-[200px] h-12 justify-center items-center bg-[#0000FF] font-orbitron font-semibold text-white text-base transition-all duration-300",
+                isInMaintenance
+                  ? "hover:bg-[#0000FF] opacity-30"
+                  : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+              )}
               onClick={handleClickOpenWallet}
             >
               {connecting ? "Connecting..." : "Connect Wallet"}

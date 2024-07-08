@@ -13,6 +13,7 @@ import {
   PhantomWalletAdapter,
   NightlyWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
+import { isInMaintenanceTime } from "@/lib/utils";
 
 export default function AppWalletProvider({
   children,
@@ -38,7 +39,7 @@ export default function AppWalletProvider({
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={wallets} autoConnect={!isInMaintenanceTime()}>
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
