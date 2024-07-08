@@ -219,7 +219,7 @@ export function Header() {
       )}
 
       {/* notification bar */}
-      {isOpenLotteryBar && (
+      {!isInMaintenance && isOpenLotteryBar && (
         <NotificationBar className="bg-[#00063C] min-h-12 h-auto px-3">
           <div className="w-full inline-flex flex-row justify-center items-center gap-1 text-center text-base text-[#48BBFF] font-semibold py-3">
             <Trophy
