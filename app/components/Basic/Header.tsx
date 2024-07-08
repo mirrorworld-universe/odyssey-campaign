@@ -38,6 +38,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getLotteryBanner } from "@/app/data/lottery";
 import { Trophy } from "@/app/icons/Trophy";
+import { usePathname } from "next/navigation";
 
 export const menu: any[] = [
   {
@@ -63,6 +64,7 @@ export const menu: any[] = [
 ];
 
 export function Header() {
+  const pathname = usePathname();
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
   const { isOpen, onOpen } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
@@ -156,7 +158,12 @@ export function Header() {
           {/* nav */}
           {menu.map((menuItem, menuIndex) => (
             <Link
-              className="gap-12 text-sm xl:text-base text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors"
+              className={cn(
+                "gap-12 text-sm xl:text-base text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors",
+                pathname.startsWith("/task") && menuItem.link === "/task"
+                  ? "text-[#FBB042]"
+                  : ""
+              )}
               href={menuItem.link}
               key={menuIndex}
               target={menuItem.target}
