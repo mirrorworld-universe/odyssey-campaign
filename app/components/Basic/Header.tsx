@@ -185,8 +185,8 @@ export function Header() {
               className={cn(
                 "w-[200px] h-12 justify-center items-center bg-[#0000FF] font-orbitron font-semibold text-white text-base transition-all duration-300",
                 isInMaintenance
-                  ? "hover:bg-[#0000FF] opacity-30"
-                  : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+                  ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
+                  : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
               )}
               onClick={handleClickOpenWallet}
             >

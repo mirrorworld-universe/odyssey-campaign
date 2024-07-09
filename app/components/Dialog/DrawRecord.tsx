@@ -293,7 +293,7 @@ export function DrawRecordDialog() {
           {lotteryDrawRecords.length ? (
             <Card
               size={CardSize.List}
-              className="mt-12"
+              className="rounded-lg mt-12"
               nameClassName="bg-[#1A1A1A]"
             >
               <div className="flex flex-col text-sm">

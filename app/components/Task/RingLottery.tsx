@@ -309,7 +309,7 @@ export function RingLottery() {
           </div>
         </Card>
 
-        <div className="flex flex-row gap-20 mt-20">
+        <div className="flex flex-row items-start gap-20 mt-20">
           {/* winner board */}
           <Card
             name="Winner Board"
@@ -366,13 +366,15 @@ export function RingLottery() {
                   </Select>
                 </div>
               </div>
-              <div className="flex justify-between text-white/60">
+              <div className="flex flex-col xl:flex-row justify-between text-white/60">
                 <span className="">Current Price:</span>
-                <span className="">{lotteryDrawPrice} SOL</span>
+                <span className="font-semibold xl:font-normal">
+                  {lotteryDrawPrice} SOL
+                </span>
               </div>
-              <div className="flex justify-between text-white/60">
+              <div className="flex flex-col xl:flex-row justify-between text-white/60">
                 <span className="">Token Spending:</span>
-                <span className="">
+                <span className="font-semibold xl:font-normal">
                   {drawAmount} x {lotteryDrawPrice}{" "}
                   <span className="text-xs">SOL/Draw</span> ={" "}
                   {Number(drawAmount) * lotteryDrawPrice} SOL
