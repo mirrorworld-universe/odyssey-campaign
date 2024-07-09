@@ -13,3 +13,9 @@ function getENV() {
 }
 
 const ENV = getENV();
+
+export const networks = {
+  // mainnet: "https://mainnet.sonic.game",
+  testnet: "https://devnet.sonic.game",
+  devnet: "https://devnet.sonic.game",
+};
