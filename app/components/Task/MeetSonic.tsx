@@ -8,8 +8,12 @@ import { Card, CardSize } from "@/app/components/Basic/Card";
 import { Gift } from "@/app/icons/Gift";
 import { Twitter } from "@/app/icons/Twitter";
 import { Discord } from "@/app/icons/Discord";
-import { useAccountInfo, useWalletModal } from "@/app/store/account";
-import { openDialoguePopup } from "@/lib/utils";
+import {
+  useAccountInfo,
+  useSystemInfo,
+  useWalletModal,
+} from "@/app/store/account";
+import { cn, isInMaintenanceTime, openDialoguePopup } from "@/lib/utils";
 
 import {
   fetchFollowDiscord,
@@ -25,6 +29,7 @@ let currentToken = "";
 export function MeetSonic() {
   const { isOpen, onOpen, onClose } = useWalletModal();
   const { address, token } = useAccountInfo();
+  const { isInMaintenance, setInMaintenance } = useSystemInfo();
 
   const [isLoadingStatus, setIsLoadingStatus] = useState(true);
   const [hasFollowedTwitter, setHasFollowedTwitter] = useState(false);
@@ -251,16 +256,24 @@ export function MeetSonic() {
                   </p>
                 </div>
                 <Button
-                  className={`inline-flex justify-center items-center w-[177px] h-12 rounded gap-2 px-4 py-[10px] bg-[#0000FF] transition-all duration-300 mt-10 xl:mt-0 xl:ml-20 ${
+                  className={cn(
+                    "inline-flex justify-center items-center w-[177px] h-12 rounded gap-2 px-4 py-[10px] bg-[#0000FF] transition-all duration-300 mt-10 xl:mt-0 xl:ml-20",
                     socialMedia.id === "twitter"
                       ? hasFollowedTwitter
-                        ? "hover:bg-[#0000FF] opacity-30"
+                        ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                         : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
                       : hasFollowedDiscord
-                      ? "hover:bg-[#0000FF] opacity-30"
-                      : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
-                  }`}
+                      ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
+                      : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60",
+                    isInMaintenance
+                      ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
+                      : ""
+                  )}
                   onClick={() => {
+                    if (isInMaintenance) {
+                      return;
+                    }
+
                     if (!address || !token) {
                       onOpen();
                       return;
