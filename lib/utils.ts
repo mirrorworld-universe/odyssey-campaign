@@ -76,7 +76,7 @@ export const prettyNumber = (number: number) => {
 
 export const maintenanceStartTime = "2024-07-09T16:00:00+08:00";
 
-export const maintenanceEndTime = "2024-07-09T16:30:00+08:00";
+export const maintenanceEndTime = "2024-07-09T16:10:00+08:00";
 
 export const showInAdcance = false;
 
