@@ -74,13 +74,15 @@ export const prettyNumber = (number: number) => {
   return new Intl.NumberFormat("en-US").format(number);
 };
 
-export const maintenanceStartTime = "2024-07-03T19:00:00+08:00";
+export const maintenanceStartTime = "2024-07-09T14:00:00+08:00";
 
-export const maintenanceEndTime = "2024-07-03T22:00:00+08:00";
+export const maintenanceEndTime = "2024-07-09T16:00:00+08:00";
+
+export const showInAdcance = false;
 
 export const isInMaintenanceTime = () => {
   const now = new UTCDate();
   const startTime = new UTCDate(maintenanceStartTime);
   const endTime = new UTCDate(maintenanceEndTime);
-  return now >= startTime && now <= endTime;
+  return showInAdcance || (now >= startTime && now <= endTime);
 };

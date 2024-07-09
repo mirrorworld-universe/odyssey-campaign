@@ -110,14 +110,14 @@ export function MileStone() {
   };
 
   return (
-    <>
+    <div className="flex flex-col w-full">
       {/* title */}
       <h1 className="text-white font-orbitron font-semibold text-[64px]">
         TX Milestone
       </h1>
 
       {/* line */}
-      <div className="w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
+      <div className="w-full max-w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
         <div className="w-[396px] h-[2px] bg-[#25A3ED] shadow-[0_0_6px_0_#25A3ED] absolute top-0 left-0"></div>
       </div>
 
@@ -242,6 +242,6 @@ export function MileStone() {
           </div>
         </Card>
       </div>
-    </>
+    </div>
   );
 }

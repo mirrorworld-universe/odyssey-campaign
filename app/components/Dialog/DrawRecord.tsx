@@ -231,7 +231,7 @@ export function DrawRecordDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[440px] bg-[#1A1A1A] border-none px-8 py-8">
+      <AlertDialogContent className="w-[468px] bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
           {lotteryDrawRecords.every((record) => record.loaded === true) ? (
             <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
@@ -293,7 +293,7 @@ export function DrawRecordDialog() {
           {lotteryDrawRecords.length ? (
             <Card
               size={CardSize.List}
-              className="mt-12"
+              className="rounded-lg mt-12"
               nameClassName="bg-[#1A1A1A]"
             >
               <div className="flex flex-col text-sm">
