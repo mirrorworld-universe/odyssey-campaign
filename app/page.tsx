@@ -7,16 +7,18 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 
-import { useAccountInfo, useWalletModal } from "./store/account";
+import { useAccountInfo, useSystemInfo, useWalletModal } from "./store/account";
 import { inviteUser } from "./data/account";
 import { loadHomePageStatics, openWalletStatics } from "@/lib/analytics";
 import { trackClick } from "@/lib/track";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
   const router = useRouter();
   const { publicKey } = useWallet();
   const { address, token } = useAccountInfo();
   const { isOpen, onOpen, onClose } = useWalletModal();
+  const { isInMaintenance, setInMaintenance } = useSystemInfo();
 
   const [network, setNetwork] = useState(clusterApiUrl("devnet"));
   const [invitationCode, setInvitationCode] = useState("");
@@ -46,6 +48,10 @@ export default function Home() {
   }, [token]);
 
   const handleGetStarted = () => {
+    if (isInMaintenance) {
+      return;
+    }
+
     if (!publicKey) {
       onOpen();
     } else {
@@ -84,7 +90,10 @@ export default function Home() {
 
   const GetStarted = () => (
     <Button
-      className="group w-[560px] h-[88px] bg-transparent hover:bg-transparent rounded-md p-0 relative mt-[132px]"
+      className={cn(
+        "group w-[560px] h-[88px] bg-transparent hover:bg-transparent rounded-md p-0 relative mt-[132px]",
+        isInMaintenance ? "opacity-30 cursor-not-allowed" : ""
+      )}
       onClick={handleGetStarted}
     >
       <video

@@ -194,7 +194,7 @@ export function RingLottery() {
   );
 
   return (
-    <>
+    <div className="flex flex-col w-full">
       {/* title */}
       <h1 className="text-white font-orbitron font-semibold text-[64px]">
         Ring Lottery{" "}
@@ -204,7 +204,7 @@ export function RingLottery() {
       </h1>
 
       {/* line */}
-      <div className="w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
+      <div className="w-full max-w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
         <div className="w-[396px] h-[2px] bg-[#25A3ED] shadow-[0_0_6px_0_#25A3ED] absolute top-0 left-0"></div>
       </div>
 
@@ -309,7 +309,7 @@ export function RingLottery() {
           </div>
         </Card>
 
-        <div className="flex flex-row gap-20 mt-20">
+        <div className="flex flex-row items-start gap-20 mt-20">
           {/* winner board */}
           <Card
             name="Winner Board"
@@ -366,13 +366,15 @@ export function RingLottery() {
                   </Select>
                 </div>
               </div>
-              <div className="flex justify-between text-white/60">
+              <div className="flex flex-col xl:flex-row justify-between text-white/60">
                 <span className="">Current Price:</span>
-                <span className="">{lotteryDrawPrice} SOL</span>
+                <span className="font-semibold xl:font-normal">
+                  {lotteryDrawPrice} SOL
+                </span>
               </div>
-              <div className="flex justify-between text-white/60">
+              <div className="flex flex-col xl:flex-row justify-between text-white/60">
                 <span className="">Token Spending:</span>
-                <span className="">
+                <span className="font-semibold xl:font-normal">
                   {drawAmount} x {lotteryDrawPrice}{" "}
                   <span className="text-xs">SOL/Draw</span> ={" "}
                   {Number(drawAmount) * lotteryDrawPrice} SOL
@@ -401,6 +403,6 @@ export function RingLottery() {
           <div className="w-screen h-screen bg-black/90 fixed top-0 left-0 z-20"></div>
         )}
       </div>
-    </>
+    </div>
   );
 }
