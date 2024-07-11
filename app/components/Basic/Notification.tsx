@@ -19,6 +19,7 @@ export default function Notification({ data }: any) {
   const {
     address,
     token,
+    setToken,
     reset,
     hasNews,
     setNews: hasNotification,
@@ -48,6 +49,12 @@ export default function Notification({ data }: any) {
   }, [popoverOpen]);
 
   useEffect(() => {
+    const code = dataNotificationRecords?.code;
+    if (code === 401) {
+      setToken("");
+      return;
+    }
+
     const data = dataNotificationRecords?.data;
     if (list.length) {
       hasNotification(true);
