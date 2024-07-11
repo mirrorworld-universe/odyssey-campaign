@@ -74,9 +74,9 @@ export const prettyNumber = (number: number) => {
   return new Intl.NumberFormat("en-US").format(number);
 };
 
-export const maintenanceStartTime = "2024-07-09T14:00:00+08:00";
+export const maintenanceStartTime = "2024-07-09T16:00:00+08:00";
 
-export const maintenanceEndTime = "2024-07-09T16:00:00+08:00";
+export const maintenanceEndTime = "2024-07-09T16:10:00+08:00";
 
 export const showInAdcance = false;
 
