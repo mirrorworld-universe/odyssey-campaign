@@ -41,10 +41,11 @@ let isScrollingWinnerBoard = false;
 
 export function RingLottery() {
   const maxDrawAmount = 5;
+  const maxMintAmount = 1512000;
   const scrollAreaRef = useRef<any>(null);
 
   const [mintedRingAmount, setMintedRingAmount] = useState(0);
-  const [totalRingAmount, setTotalRingAmount] = useState(100000000);
+  const [totalRingAmount, setTotalRingAmount] = useState(maxMintAmount);
   const [winnerBoard, setWinnerBoard] = useState<any[]>([]);
   const [drawAmount, setDrawAmount] = useState("1");
   const [season, setSeason] = useState(0);
@@ -196,22 +197,28 @@ export function RingLottery() {
   return (
     <div className="flex flex-col w-full">
       {/* title */}
-      <h1 className="text-white font-orbitron font-semibold text-[64px]">
+      <h1 className="hidden md:flex text-white font-orbitron font-semibold text-[64px]">
         Ring Lottery{" "}
         {season > 0 ? (
-          <span className="text-white/20">Season {season}</span>
+          // <span className="text-white/20">Season {season}</span>
+          <span className="text-white/20">Season 1</span>
         ) : null}
       </h1>
 
       {/* line */}
-      <div className="w-full max-w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
+      <div className="hidden md:block w-full max-w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
         <div className="w-[396px] h-[2px] bg-[#25A3ED] shadow-[0_0_6px_0_#25A3ED] absolute top-0 left-0"></div>
       </div>
 
       {/* content */}
       <div className="">
         {/* rules */}
-        <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
+        <Card
+          name="Rules"
+          size={CardSize.Medium}
+          className="max-w-[1024px]"
+          nameClassName="bg-[#000]"
+        >
           <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
             <li className="">
               Request test SOL first.{" "}
@@ -296,15 +303,19 @@ export function RingLottery() {
         <Card
           name="Minted Rings"
           size={CardSize.Medium}
-          className="mt-20"
+          className="mt-20 max-w-[1024px]"
           nameClassName="bg-[#000]"
         >
           <div className="flex flex-row justify-between items-center">
             <Ring width={56} height={56} color="#FBB042" />
             <span className="text-white text-5xl font-semibold font-orbitron">
-              {`${prettyNumber(mintedRingAmount)}/${prettyNumber(
-                totalRingAmount
-              )}`}
+              {season > 1
+                ? `${prettyNumber(maxMintAmount)}/${prettyNumber(
+                    maxMintAmount
+                  )}`
+                : `${prettyNumber(mintedRingAmount)}/${prettyNumber(
+                    totalRingAmount
+                  )}`}
             </span>
           </div>
         </Card>
@@ -381,6 +392,7 @@ export function RingLottery() {
                 </span>
               </div>
               <Button
+                disabled={season === 0 || season > 1}
                 onClick={handleDrawLottery}
                 className="h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
               >
