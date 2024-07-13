@@ -11,6 +11,7 @@ import { Calendar } from "../icons/Calendar";
 import { Recommand } from "../icons/Recommand";
 import { Diversity } from "../icons/Diversity";
 import { Controller } from "../icons/Controller";
+import { Go as IconGo } from "@/app/icons/Go";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardSize } from "../components/Basic/Card";
@@ -27,12 +28,42 @@ import { trackClick } from "@/lib/track";
 import { Footer } from "../components/Basic/Footer";
 
 const icons: any = {
-  twitter: <Twitter width={250} height={250} color="#313131" />,
-  calendar: <Calendar width={250} height={250} color="#313131" />,
-  chip: <Chip width={250} height={250} color="#313131" />,
-  recommand: <Recommand width={250} height={250} color="#313131" />,
-  diversity: <Diversity width={250} height={250} color="#313131" />,
-  game: <Controller width={250} height={250} color="#313131" />,
+  twitter: (
+    <Twitter
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      color="#313131"
+    />
+  ),
+  calendar: (
+    <Calendar
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      color="#313131"
+    />
+  ),
+  chip: (
+    <Chip
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      color="#313131"
+    />
+  ),
+  recommand: (
+    <Recommand
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      color="#313131"
+    />
+  ),
+  diversity: (
+    <Diversity
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      color="#313131"
+    />
+  ),
+  game: (
+    <Controller
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      color="#313131"
+    />
+  ),
 };
 
 const TaskCenter: NextPage = () => {
@@ -78,17 +109,17 @@ const TaskCenter: NextPage = () => {
   }, []);
 
   const Header = () => (
-    <div className="bg-[#000] w-full h-[411px] flex justify-center py-24 overflow-hidden relative">
+    <div className="bg-[#000] w-full md:h-[411px] flex justify-center overflow-hidden relative px-4 py-4 md:py-24">
       <img
         src="/images/fingerprint.png"
         alt=""
         className="w-[1610px] h-[1638px] absolute -top-80 -right-80"
       />
-      <div className="max-w-[1464px] 2xl:w-full relative">
-        <h2 className="text-white font-orbitron text-5xl font-semibold">
+      <div className="w-full max-w-[1464px] relative">
+        <h2 className="text-white font-orbitron text-2xl md:text-5xl font-semibold">
           Odyssey Task Center
         </h2>
-        <p className="text-white text-xl font-normal mt-5">
+        <p className="text-white/60 md:text-white text-sm md:text-xl font-normal mt-4 md:mt-5">
           Embark on your Odyssey by completing various tasks! Earn more rings
           along the way!{" "}
           <span
@@ -98,15 +129,17 @@ const TaskCenter: NextPage = () => {
             FAQs
           </span>
         </p>
-        <div className="flex flex-row gap-6 mt-16">
+
+        {/* tools */}
+        <div className="bg-[#000] flex flex-row-reverse md:flex-row gap-3 md:gap-6 mt-16 fixed md:relative bottom-0 left-0 right-0 z-10 px-4 py-5 md:px-0 md:py-0">
           <Button
-            className="text-white text-base font-bold font-orbitron w-[230px] h-12 transition-all duration-300 bg-[#0000FF] hover:bg-[#000C79] active:bg-[#000C79]/50"
+            className="text-white text-base font-bold font-orbitron w-full md:w-[230px] h-12 transition-all duration-300 bg-[#0000FF] hover:bg-[#000C79] active:bg-[#000C79]/50"
             onClick={handleStartTask}
           >
             Start My Task
           </Button>
           <Button
-            className="text-white text-base font-bold font-orbitron w-[230px] h-12 bg-transparent hover:bg-white/10 active:opacity-80 border boder-solid border-white transition-all duration-300"
+            className="text-white text-base font-bold font-orbitron w-full md:w-[230px] h-12 bg-transparent hover:bg-white/10 active:opacity-80 border boder-solid border-white transition-all duration-300"
             onClick={handleOpenHowToPlayDialog}
           >
             How to Play?
@@ -117,16 +150,17 @@ const TaskCenter: NextPage = () => {
   );
 
   const MainContent = () => (
-    <div className="w-full max-w-[1464px] bg-[#111111] mt-20 mb-20">
-      <div className="w-full flex flex-col gap-24">
+    <div className="w-full max-w-[1464px] mt-2 mb-2 md:mt-20 md:mb-20 px-4 py-4 md:px-0 md:py-0">
+      <div className="w-full flex flex-col gap-8 md:gap-24">
         {taskGroupList.map((taskGroup: any, taskGroupIndex: number) => (
           <Card
             key={taskGroupIndex}
             size={CardSize.Default}
             name={taskGroup.name}
-            className="w-full relative"
+            className="w-full relative px-4 py-4 md:px-12 md:py-12 rounded md:rounded-xl"
+            nameClassName="text-xs md:text-[32px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-2 md:left-7 -top-2 md:-top-7"
           >
-            <div className="flex flex-wrap flex-row gap-10">
+            <div className="flex flex-wrap flex-row gap-4 md:gap-10">
               {taskGroup.list.map((task: any, taskIndex: number) => (
                 <Link
                   href={
@@ -135,7 +169,7 @@ const TaskCenter: NextPage = () => {
                       : "#"
                   }
                   className={cn(
-                    "group/task",
+                    "group/task w-full md:max-w-[663px]",
                     task.available && isSupportSonic(wallet?.adapter.name)
                       ? "opacity-100 cursor-pointer"
                       : "opacity-30 cursor-not-allowed"
@@ -144,19 +178,34 @@ const TaskCenter: NextPage = () => {
                 >
                   <div
                     className={cn(
-                      "bg-[#1E1E1E] w-[663px] h-[263px] px-8 py-8 rounded-md transition-colors duration-300 overflow-hidden relative",
+                      "bg-[#1E1E1E] w-full h-auto md:h-[263px] px-4 py-4 md:px-8 md:py-8 rounded md:rounded-md transition-colors duration-300 overflow-hidden relative",
                       task.available && isSupportSonic(wallet?.adapter.name)
                         ? "group-hover/task:bg-[#181818]"
                         : ""
                     )}
                   >
-                    <h5 className="text-white/70 text-5xl font-semibold font-orbitron">
+                    <h5 className="flex flex-row gap-2 items-center text-white/70 text-base md:text-5xl font-semibold font-orbitron">
                       {task.name}
+                      <IconGo
+                        width={20}
+                        height={20}
+                        color="rgba(255,255,255,0.7)"
+                      />
                     </h5>
-                    <p className="text-white/60 text-base font-normal w-[420px] mt-5">
+                    <p className="hidden md:flex text-white/60 text-base font-normal w-[420px] mt-5">
                       {task.description}
                     </p>
-                    <div className="flex flex-row justify-start items-center w-full absolute left-0 bottom-0">
+                    <div className="flex flex-row gap-2 md:hidden mt-4">
+                      <div className="text-[10px] text-[#25A3ED] bg-[#212b32] rounded-[2px] px-1 py-[2px]">
+                        {task.period}
+                      </div>
+                      {task.reward ? (
+                        <div className="text-[10px] text-[#FBB042] bg-[#332d23] rounded-[2px] px-1 py-[2px]">
+                          {task.reward}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="hidden md:flex flex-row justify-start items-center w-full absolute left-0 bottom-0">
                       <div className="w-[174px] h-10 bg-cover bg-no-repeat bg-[url('/images/period-background.png')]">
                         <span className="inline-flex justify-center items-center w-[150px] h-full text-white text-sm font-bold font-orbitron">
                           {task.period}
@@ -170,7 +219,7 @@ const TaskCenter: NextPage = () => {
                     </div>
                     <div
                       className={cn(
-                        "origin-center rotate-12 opacity-50 absolute -bottom-4 -right-10 transition-all duration-300",
+                        "origin-center rotate-12 opacity-50 absolute -bottom-6 md:-bottom-4 right-0 md:right-0 transition-all duration-300",
                         task.available && isSupportSonic(wallet?.adapter.name)
                           ? "group-hover/task:-right-14"
                           : ""
@@ -190,7 +239,7 @@ const TaskCenter: NextPage = () => {
 
   return (
     <>
-      <main className="bg-[#111111] flex min-h-screen flex-col items-center justify-between">
+      <main className="bg-[#000] md:bg-[#111] flex min-h-screen flex-col items-center justify-start md:justify-between">
         <Header />
         <MainContent />
 

@@ -48,19 +48,24 @@ export function GameVenture() {
   return (
     <div className="flex flex-col w-full">
       {/* title */}
-      <h1 className="text-white font-orbitron font-semibold text-[64px]">
+      <h1 className="hidden md:flex text-white font-orbitron font-semibold text-[64px]">
         Game Adventure
       </h1>
 
       {/* line */}
-      <div className="w-full max-w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
+      <div className="hidden md:block w-full max-w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
         <div className="w-[396px] h-[2px] bg-[#25A3ED] shadow-[0_0_6px_0_#25A3ED] absolute top-0 left-0"></div>
       </div>
 
       {/* content */}
       <div className="">
         {/* rules */}
-        <Card name="Rules" size={CardSize.Medium} nameClassName="bg-[#000]">
+        <Card
+          name="Rules"
+          size={CardSize.Medium}
+          className="max-w-[1024px]"
+          nameClassName="bg-[#000]"
+        >
           <ul className="list-decimal text-xl font-normal leading-relaxed pl-6">
             <li className="">
               Click any game below to download or try it out.
@@ -73,7 +78,7 @@ export function GameVenture() {
         </Card>
 
         {/* main */}
-        <div className="w-full flex flex-row flex-wrap justify-between gap-10 mt-20">
+        <div className="w-full max-w-[1024px] flex flex-row flex-wrap justify-between gap-10 mt-20">
           {games
             .filter(
               (game: any) => !game.time || new UTCDate() > new Date(game.time)
