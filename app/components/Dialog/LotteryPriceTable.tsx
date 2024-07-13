@@ -79,7 +79,8 @@ export function LotteryPriceTableDialog() {
         <AlertDialogHeader className="">
           <AlertDialogTitle className="flex flex-row justify-start items-center gap-3 text-white text-[32px] font-semibold font-orbitron">
             <span>Price Table</span>{" "}
-            <span className="text-white/20">Season {lotterySeason || 1}</span>
+            {/* <span className="text-white/20">Season {lotterySeason || 1}</span> */}
+            <span className="text-white/20">Season 1</span>
           </AlertDialogTitle>
         </AlertDialogHeader>
 

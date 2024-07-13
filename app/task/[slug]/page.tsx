@@ -40,12 +40,12 @@ export default function Page({ params }: { params: { slug: string } }) {
   );
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-col md:flex-row">
       <TaskNavigator
         taskId={taskId}
-        className="flex flex-col w-1/5 min-w-[200px] max-w-[400px]"
+        className="flex flex-col w-full h-full md:h-auto md:w-1/5 md:min-w-[200px] md:max-w-[400px] md:relative z-10"
       />
-      <Content className="flex flex-col w-4/5 px-[120px] py-[120px]" />
+      <Content className="flex flex-col w-full md:w-4/5 px-4 py-8 md:px-[120px] md:py-[120px]" />
     </div>
   );
 }

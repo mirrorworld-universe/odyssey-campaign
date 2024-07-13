@@ -86,3 +86,11 @@ export const isInMaintenanceTime = () => {
   const endTime = new UTCDate(maintenanceEndTime);
   return showInAdcance || (now >= startTime && now <= endTime);
 };
+
+export const isMobileViewport = () => {
+  var viewportWidth = Math.max(
+    document.documentElement.clientWidth,
+    window.innerWidth || 0
+  );
+  return viewportWidth <= 768;
+};

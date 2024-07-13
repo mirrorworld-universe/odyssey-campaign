@@ -159,7 +159,7 @@ export function Header() {
           {menu.map((menuItem, menuIndex) => (
             <Link
               className={cn(
-                "gap-12 text-sm xl:text-base text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors",
+                "gap-12 text-sm md:text-base text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors",
                 pathname.startsWith("/task") && menuItem.link === "/task"
                   ? "text-[#FBB042]"
                   : ""
