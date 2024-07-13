@@ -41,10 +41,11 @@ let isScrollingWinnerBoard = false;
 
 export function RingLottery() {
   const maxDrawAmount = 5;
+  const maxMintAmount = 1512000;
   const scrollAreaRef = useRef<any>(null);
 
   const [mintedRingAmount, setMintedRingAmount] = useState(0);
-  const [totalRingAmount, setTotalRingAmount] = useState(100000000);
+  const [totalRingAmount, setTotalRingAmount] = useState(maxMintAmount);
   const [winnerBoard, setWinnerBoard] = useState<any[]>([]);
   const [drawAmount, setDrawAmount] = useState("1");
   const [season, setSeason] = useState(0);
@@ -199,7 +200,8 @@ export function RingLottery() {
       <h1 className="hidden md:flex text-white font-orbitron font-semibold text-[64px]">
         Ring Lottery{" "}
         {season > 0 ? (
-          <span className="text-white/20">Season {season}</span>
+          // <span className="text-white/20">Season {season}</span>
+          <span className="text-white/20">Season 1</span>
         ) : null}
       </h1>
 
@@ -307,9 +309,13 @@ export function RingLottery() {
           <div className="flex flex-row justify-between items-center">
             <Ring width={56} height={56} color="#FBB042" />
             <span className="text-white text-5xl font-semibold font-orbitron">
-              {`${prettyNumber(mintedRingAmount)}/${prettyNumber(
-                totalRingAmount
-              )}`}
+              {season > 1
+                ? `${prettyNumber(maxMintAmount)}/${prettyNumber(
+                    maxMintAmount
+                  )}`
+                : `${prettyNumber(mintedRingAmount)}/${prettyNumber(
+                    totalRingAmount
+                  )}`}
             </span>
           </div>
         </Card>
@@ -386,6 +392,7 @@ export function RingLottery() {
                 </span>
               </div>
               <Button
+                disabled={season === 0 || season > 1}
                 onClick={handleDrawLottery}
                 className="h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
               >
