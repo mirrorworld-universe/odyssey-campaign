@@ -18,7 +18,7 @@ import {
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
 import { NotificationBar } from "./NotificationBar";
-import { useLotteryBar } from "@/app/store/lottery";
+import { useLotteryBar, useLotteryInfo } from "@/app/store/lottery";
 import { openWalletStatics } from "@/lib/analytics";
 import {
   trackActionEvent,
@@ -73,6 +73,7 @@ export function Header() {
     useLotteryBar();
   const { isOpen: isOpenNotificationBar, onOpen: onOpenNotificationBar } =
     useNotificationBar();
+  const { lotterySeason } = useLotteryInfo();
 
   const [bannerMessage, setBannerMessage] = useState<any>({});
 
@@ -112,7 +113,7 @@ export function Header() {
   useEffect(() => {
     if (dataWinnerBanner?.data?.wallet) {
       setBannerMessage(dataWinnerBanner.data);
-      onOpenLotteryBar();
+      // onOpenLotteryBar();
     }
   }, [dataWinnerBanner]);
 
