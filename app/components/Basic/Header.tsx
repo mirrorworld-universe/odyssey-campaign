@@ -18,7 +18,7 @@ import {
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
 import { NotificationBar } from "./NotificationBar";
-import { useLotteryBar } from "@/app/store/lottery";
+import { useLotteryBar, useLotteryInfo } from "@/app/store/lottery";
 import { openWalletStatics } from "@/lib/analytics";
 import {
   trackActionEvent,
@@ -73,15 +73,16 @@ export function Header() {
     useLotteryBar();
   const { isOpen: isOpenNotificationBar, onOpen: onOpenNotificationBar } =
     useNotificationBar();
+  const { lotterySeason } = useLotteryInfo();
 
   const [bannerMessage, setBannerMessage] = useState<any>({});
 
-  const { data: dataWinnerBanner } = useQuery({
-    queryKey: ["queryLotteryBanner", address],
-    queryFn: () => getLotteryBanner({ token }),
-    enabled: !!address && !!token,
-    refetchInterval: 30 * 60 * 1000,
-  });
+  // const { data: dataWinnerBanner } = useQuery({
+  //   queryKey: ["queryLotteryBanner", address],
+  //   queryFn: () => getLotteryBanner({ token }),
+  //   enabled: !!address && !!token,
+  //   refetchInterval: 30 * 60 * 1000,
+  // });
 
   // useEffect(() => {
   //   if (publicKey) {
@@ -109,12 +110,12 @@ export function Header() {
     trackCriteoWalletTransactionClick();
   };
 
-  useEffect(() => {
-    if (dataWinnerBanner?.data?.wallet) {
-      setBannerMessage(dataWinnerBanner.data);
-      onOpenLotteryBar();
-    }
-  }, [dataWinnerBanner]);
+  // useEffect(() => {
+  //   if (dataWinnerBanner?.data?.wallet) {
+  //     setBannerMessage(dataWinnerBanner.data);
+  //     onOpenLotteryBar();
+  //   }
+  // }, [dataWinnerBanner]);
 
   useEffect(() => {
     if (isInMaintenanceTime()) {
