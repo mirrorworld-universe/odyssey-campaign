@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Link as IconLink } from "@/app/icons/Link";
 import { Play as IconPlay } from "@/app/icons/Play";
+import { Hour as IconHour } from "@/app/icons/Hour";
 import { Card, CardSize } from "../Basic/Card";
 import { trackLinkClick } from "@/lib/track";
 import { UTCDate } from "@date-fns/utc";
@@ -15,6 +16,7 @@ export function GameVenture() {
         "https://mirrorworldfun.notion.site/SnakeLite-Odyssey-Game-and-Task-Guide-585d67b5d76348ba868d58a5d1acfa72?pvs=4",
       play: "https://t.me/Snakelite_official_bot",
       time: "2024-07-04T21:00:00+08:00",
+      available: true,
     },
     // {
     //   name: "Lumittera",
@@ -29,6 +31,7 @@ export function GameVenture() {
         "https://fomoney.gitbook.io/fomoney-litepaper/how-to-play-fomoney-to-earn-1-million-usdsonic-rings-via-odyssey-campaign",
       play: "https://fomoney-sonic.io/",
       time: "2024-06-27T21:00:00+08:00",
+      available: true,
     },
     // {
     //   name: "Biu",
@@ -42,6 +45,7 @@ export function GameVenture() {
       guide:
         "https://www.notion.so/mirrorworldfun/JOGOJOGO-Odyssey-Game-and-Task-Guide-f8b1e4d54bee4d318926964c9f87a4be",
       play: "https://app.jogojogo.game/register?code=SOSONIC",
+      available: false,
     },
   ];
 
@@ -109,54 +113,65 @@ export function GameVenture() {
                     {game.name}
                   </h6>
                   <p className="flex flex-row justify-center gap-6 mt-5 translate-y-2 group-hover/game:translate-y-0 transition-transform duration-300">
-                    <a
-                      className="group/link h-8 inline-flex flex-row items-center gap-1"
-                      href={game.guide}
-                      target="_blank"
-                      onClick={trackLinkClick}
-                    >
-                      <span className="inline-flex w-8 h-8 relative">
-                        <IconLink
-                          width={32}
-                          height={32}
-                          color="#25A3ED"
-                          className="absolute"
-                        />
-                        <IconLink
-                          width={32}
-                          height={32}
-                          color="white"
-                          className="absolute group-hover/link:opacity-0 transition-opacity"
-                        />
+                    {!game.available ? (
+                      <span className="h-8 inline-flex flex-row items-center gap-1">
+                        <IconHour width={32} height={32} color="white" />
+                        <span className="text-white  text-xl font-semibold font-orbitron">
+                          Coming soon...
+                        </span>
                       </span>
-                      <span className="text-white group-hover/link:text-[#25A3ED] text-xl font-semibold font-orbitron transition-colors">
-                        Guide
-                      </span>
-                    </a>
-                    <a
-                      className="group/link h-8 inline-flex flex-row items-center gap-1"
-                      href={game.play}
-                      target="_blank"
-                      onClick={trackLinkClick}
-                    >
-                      <span className="inline-flex w-8 h-8 relative">
-                        <IconPlay
-                          width={32}
-                          height={32}
-                          color="#25A3ED"
-                          className="absolute"
-                        />
-                        <IconPlay
-                          width={32}
-                          height={32}
-                          color="white"
-                          className="absolute group-hover/link:opacity-0 transition-opacity"
-                        />
-                      </span>
-                      <span className="text-white group-hover/link:text-[#25A3ED] text-xl font-semibold font-orbitron transition-colors">
-                        Play
-                      </span>
-                    </a>
+                    ) : (
+                      <>
+                        <a
+                          className="group/link h-8 inline-flex flex-row items-center gap-1"
+                          href={game.guide}
+                          target="_blank"
+                          onClick={trackLinkClick}
+                        >
+                          <span className="inline-flex w-8 h-8 relative">
+                            <IconLink
+                              width={32}
+                              height={32}
+                              color="#25A3ED"
+                              className="absolute"
+                            />
+                            <IconLink
+                              width={32}
+                              height={32}
+                              color="white"
+                              className="absolute group-hover/link:opacity-0 transition-opacity"
+                            />
+                          </span>
+                          <span className="text-white group-hover/link:text-[#25A3ED] text-xl font-semibold font-orbitron transition-colors">
+                            Guide
+                          </span>
+                        </a>
+                        <a
+                          className="group/link h-8 inline-flex flex-row items-center gap-1"
+                          href={game.play}
+                          target="_blank"
+                          onClick={trackLinkClick}
+                        >
+                          <span className="inline-flex w-8 h-8 relative">
+                            <IconPlay
+                              width={32}
+                              height={32}
+                              color="#25A3ED"
+                              className="absolute"
+                            />
+                            <IconPlay
+                              width={32}
+                              height={32}
+                              color="white"
+                              className="absolute group-hover/link:opacity-0 transition-opacity"
+                            />
+                          </span>
+                          <span className="text-white group-hover/link:text-[#25A3ED] text-xl font-semibold font-orbitron transition-colors">
+                            Play
+                          </span>
+                        </a>
+                      </>
+                    )}
                   </p>
                 </div>
               </div>
