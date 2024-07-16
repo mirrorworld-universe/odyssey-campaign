@@ -197,11 +197,11 @@ export function RingLottery() {
   return (
     <div className="flex flex-col w-full">
       {/* title */}
-      <h1 className="hidden md:flex text-white font-orbitron font-semibold text-[64px]">
-        Ring Lottery{" "}
+      <h1 className="flex text-white font-orbitron font-semibold text-2xl md:text-[64px] gap-6">
+        <span className="hidden md:inline">Ring Lottery</span>
         {season > 0 ? (
-          // <span className="text-white/20">Season {season}</span>
-          <span className="text-white/20">Season 1</span>
+          // <span className="text-white/50 md:text-white/20">Season {season}</span>
+          <span className="text-white/50 md:text-white/20">Season 1</span>
         ) : null}
       </h1>
 
@@ -211,7 +211,7 @@ export function RingLottery() {
       </div>
 
       {/* content */}
-      <div className="">
+      <div className="mt-8 md:mt-0">
         {/* rules */}
         <Card
           name="Rules"
@@ -303,7 +303,7 @@ export function RingLottery() {
         <Card
           name="Minted Rings"
           size={CardSize.Medium}
-          className="mt-20 max-w-[1024px]"
+          className="mt-8 md:mt-20 max-w-[1024px]"
           nameClassName="bg-[#000]"
         >
           <div className="flex flex-row justify-between items-center">
@@ -320,7 +320,7 @@ export function RingLottery() {
           </div>
         </Card>
 
-        <div className="flex flex-row items-start gap-20 mt-20">
+        <div className="flex flex-row items-start gap-20 mt-8 md:mt-20">
           {/* winner board */}
           <Card
             name="Winner Board"

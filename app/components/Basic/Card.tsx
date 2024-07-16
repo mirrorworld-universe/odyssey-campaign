@@ -10,6 +10,7 @@ export enum CardSize {
 export function Card({
   name,
   nameClassName,
+  contentClassName,
   size = CardSize.Default,
   className,
   children,
@@ -48,7 +49,9 @@ export function Card({
         </h4>
       )}
       {/* content */}
-      <div className="content w-full h-auto">{children}</div>
+      <div className={cn("content w-full h-auto", contentClassName)}>
+        {children}
+      </div>
     </div>
   );
 }

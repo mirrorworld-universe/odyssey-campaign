@@ -190,6 +190,7 @@ const TaskCenter: NextPage = () => {
                         width={20}
                         height={20}
                         color="rgba(255,255,255,0.7)"
+                        className="inline-block md:hidden"
                       />
                     </h5>
                     <p className="hidden md:flex text-white/60 text-base font-normal w-[420px] mt-5">

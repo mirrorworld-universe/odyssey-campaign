@@ -6,6 +6,9 @@ import { Hour as IconHour } from "@/app/icons/Hour";
 import { Card, CardSize } from "../Basic/Card";
 import { trackLinkClick } from "@/lib/track";
 import { UTCDate } from "@date-fns/utc";
+import { Rules } from "./Rules";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export function GameVenture() {
   const games = [
@@ -49,6 +52,12 @@ export function GameVenture() {
     },
   ];
 
+  const [showRules, setShowRules] = useState(false);
+
+  const handleClickGameBlock = () => {
+    return false;
+  };
+
   return (
     <div className="flex flex-col w-full">
       {/* title */}
@@ -64,13 +73,8 @@ export function GameVenture() {
       {/* content */}
       <div className="">
         {/* rules */}
-        <Card
-          name="Rules"
-          size={CardSize.Medium}
-          className="max-w-[1024px]"
-          nameClassName="bg-[#000]"
-        >
-          <ul className="list-decimal text-xl font-normal leading-relaxed pl-6">
+        <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
+          <ul className="list-decimal font-normal pl-6">
             <li className="">
               Click any game below to download or try it out.
             </li>
@@ -79,10 +83,10 @@ export function GameVenture() {
             </li>
             <li className="">Play these games to earn rewards.</li>
           </ul>
-        </Card>
+        </Rules>
 
         {/* main */}
-        <div className="w-full max-w-[1024px] flex flex-row flex-wrap justify-between gap-10 mt-20">
+        <div className="w-full max-w-[1024px] flex flex-row flex-wrap justify-between gap-8 md:gap-10 md:mt-20">
           {games
             .filter(
               (game: any) => !game.time || new UTCDate() > new Date(game.time)
@@ -90,7 +94,7 @@ export function GameVenture() {
             .map((game: any, gameIndex: number) => (
               <div
                 key={gameIndex}
-                className="group/game w-[492px] h-[263px] flex rounded-lg overflow-hidden relative"
+                className="group/game w-full md:w-[492px] h-[263px] flex rounded-lg overflow-hidden relative"
               >
                 <img
                   className="w-full h-full group-hover/game:scale-110 transition-transform duration-300"
@@ -112,7 +116,10 @@ export function GameVenture() {
                   <h6 className="text-white text-5xl font-bold font-orbitron text-center mt-20 translate-y-2 group-hover/game:translate-y-0 transition-transform duration-300">
                     {game.name}
                   </h6>
-                  <p className="flex flex-row justify-center gap-6 mt-5 translate-y-2 group-hover/game:translate-y-0 transition-transform duration-300">
+                  <p
+                    className="flex flex-row justify-center gap-6 mt-5 translate-y-2 group-hover/game:translate-y-0 transition-transform duration-300"
+                    onClick={handleClickGameBlock}
+                  >
                     {!game.available ? (
                       <span className="h-8 inline-flex flex-row items-center gap-1">
                         <IconHour width={32} height={32} color="white" />
@@ -177,6 +184,18 @@ export function GameVenture() {
               </div>
             ))}
         </div>
+      </div>
+
+      {/* mobile version tools */}
+      <div className="flex md:hidden flex-row fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+        <Button
+          className="w-full h-12 border border-solid border-white/40 bg-transparent"
+          onClick={() => setShowRules(true)}
+        >
+          <span className="text-white text-base font-bold font-orbitron">
+            Rules
+          </span>
+        </Button>
       </div>
     </div>
   );

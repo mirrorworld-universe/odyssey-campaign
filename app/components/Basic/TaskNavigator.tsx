@@ -100,17 +100,18 @@ export function TaskNavigator({ taskId, className }: any) {
         )}
       >
         <img
-          className="w-6 h-6 group-hover:opacity-80 transition-opacity duration-300"
+          className="w-8 h-8 md:w-6 md:h-6 group-hover:opacity-80 transition-opacity duration-300"
           src="/images/arrow-back.svg"
           alt=""
         />
-        <span className="text-white/30 text-2xl font-semibold font-orbitron group-hover:opacity-80 transition-opacity duration-300">
+        <span className="text-white/30 text-xl md:text-2xl font-semibold font-orbitron group-hover:opacity-80 transition-opacity duration-300">
           Back
         </span>
       </Link>
 
       {tasks.map((task, taskIndex) => (
         <div
+          key={taskIndex}
           className={cn(
             "w-full h-14 md:h-auto relative md:pb-[50%] transition-all duration-300",
             !isExpand ? "h-auto" : "",
