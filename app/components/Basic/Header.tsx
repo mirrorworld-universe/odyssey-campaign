@@ -77,12 +77,12 @@ export function Header() {
 
   const [bannerMessage, setBannerMessage] = useState<any>({});
 
-  const { data: dataWinnerBanner } = useQuery({
-    queryKey: ["queryLotteryBanner", address],
-    queryFn: () => getLotteryBanner({ token }),
-    enabled: !!address && !!token,
-    refetchInterval: 30 * 60 * 1000,
-  });
+  // const { data: dataWinnerBanner } = useQuery({
+  //   queryKey: ["queryLotteryBanner", address],
+  //   queryFn: () => getLotteryBanner({ token }),
+  //   enabled: !!address && !!token,
+  //   refetchInterval: 30 * 60 * 1000,
+  // });
 
   // useEffect(() => {
   //   if (publicKey) {
@@ -110,12 +110,12 @@ export function Header() {
     trackCriteoWalletTransactionClick();
   };
 
-  useEffect(() => {
-    if (dataWinnerBanner?.data?.wallet) {
-      setBannerMessage(dataWinnerBanner.data);
-      // onOpenLotteryBar();
-    }
-  }, [dataWinnerBanner]);
+  // useEffect(() => {
+  //   if (dataWinnerBanner?.data?.wallet) {
+  //     setBannerMessage(dataWinnerBanner.data);
+  //     onOpenLotteryBar();
+  //   }
+  // }, [dataWinnerBanner]);
 
   useEffect(() => {
     if (isInMaintenanceTime()) {
