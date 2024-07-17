@@ -18,6 +18,7 @@ import {
 } from "../../store/account";
 import { fetchLogout } from "../../data/account";
 import { WalletList } from "../../wallet/wallet-list";
+import { isMobileViewport } from "@/lib/utils";
 
 export function UserDropdown() {
   const { isInMaintenance } = useSystemInfo();
@@ -101,7 +102,7 @@ export function UserDropdown() {
             className="w-5 h-5 md:w-6 md:h-6"
           />
           <span className="text-white font-semibold font-orbitron text-sm md:text-base">
-            {formatAddress(publicKey?.toBase58(), 2)}
+            {formatAddress(publicKey?.toBase58(), isMobileViewport() ? 2 : 4)}
           </span>
         </div>
       </PopoverTrigger>

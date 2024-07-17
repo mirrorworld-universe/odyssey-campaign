@@ -52,7 +52,7 @@ export const taskGroupList = [
         name: "Ring Lottery",
         description:
           "Participate in the lottery for a chance to win a ring; there's only one lucky winner in every block.",
-        period: "24-Hour Period",
+        period: "Season 1 Ended",
         reward: "Test SOL Needed",
         iconName: "chip",
         available: true,
