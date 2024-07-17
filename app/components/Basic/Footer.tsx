@@ -28,7 +28,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="flex flex-col items-center justify-center gap-4 sm:gap-8 bg-sonic-nav w-full sm:!py-14 lg:!py-24 px-4 sm:p-0 relative overflow-hidden">
+    <footer className="flex flex-col items-center justify-center gap-4 sm:gap-8 bg-sonic-nav w-full sm:!py-14 lg:!py-24 px-4 sm:p-0 relative overflow-hidden pb-[88px] md:pb-0">
       <img
         src="/images/fingerprint.png"
         alt=""
@@ -38,8 +38,15 @@ export function Footer() {
       <div className="w-full flex flex-col max-w-[1464px] mx-auto relative">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-14 w-full">
           <div className="flex space-x-3 justify-start items-center">
-            <Link href="/">
-              <img alt="Sonic Logo" className="w-auto h-10" src="/sonic.png" />
+            <Link href="/" className="inline-flex flex-row items-center gap-2">
+              <img
+                alt="Sonic Logo"
+                className="w-6 md:w-10 h-auto"
+                src="/sonic.png"
+              />
+              <span className="hidden md:inline text-white text-[22px] font-bold font-orbitron tracking-widest">
+                SONIC
+              </span>
             </Link>
             <a
               className="text-white text-sm font-semibold font-orbitron border-l border-solid border-[#8F8F8F] h-[21px] ml-4 pl-4 hover:underline"

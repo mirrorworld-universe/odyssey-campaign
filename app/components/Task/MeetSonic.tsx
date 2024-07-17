@@ -22,6 +22,7 @@ import {
 } from "../../data/task";
 import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
+import { Rules } from "./Rules";
 
 let hasFollowedBoth = false;
 let currentToken = "";
@@ -39,6 +40,8 @@ export function MeetSonic() {
   const [hasFollowedDiscord, setHasFollowedDiscord] = useState(false);
   const [authDiscordState, setAuthDiscordState] = useState("");
   const [authDiscordCode, setAuthDiscordCode] = useState("");
+
+  const [showRules, setShowRules] = useState(false);
 
   const {
     data: dataFollowingStatus,
@@ -158,7 +161,7 @@ export function MeetSonic() {
       link: "https://twitter.com/SonicSVM",
       description:
         "Follow @SonicSVM on X for the latest updates, project progress, and to stay informed about all the exciting developments and news.",
-      buttonIcon: <Twitter width={20} height={20} />,
+      buttonIcon: <Twitter className="w-4 h-4 md:w-5 md:h-5" />,
       buttonText: "Follow on X",
       handler: () => {
         if (hasFollowedTwitter) {
@@ -213,13 +216,8 @@ export function MeetSonic() {
       {/* content */}
       <div className="">
         {/* rules */}
-        <Card
-          name="Rules"
-          size={CardSize.Medium}
-          nameClassName="bg-[#000]"
-          className="max-w-[1024px]"
-        >
-          <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
+        <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
+          <ul className="w-full list-disc font-normal pl-6">
             <li className="">
               Click the social buttons to link your account and complete the
               tasks.
@@ -234,35 +232,35 @@ export function MeetSonic() {
             </li>
             <li className="">This is a one-time task and will not reset.</li>
           </ul>
-        </Card>
+        </Rules>
 
         {/* main */}
         <Card
           size={CardSize.Medium}
-          className="max-w-[1024px] mt-20"
+          className="max-w-[1024px] md:mt-20 p-6 rounded-lg md:p-10 md:rounded-xl"
           nameClassName="bg-[#000]"
         >
-          <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
+          <ul className="list-disc font-normal leading-relaxed md:pl-6">
             {socialMediaList.map((socialMedia, socialMediaIndex) => (
               <li
                 className={`flex flex-col xl:flex-row items-start xl:items-center w-full ${
                   socialMediaIndex > 0
-                    ? "border-t-[1px] border-white/10 border-solid pt-10"
-                    : "pb-10"
+                    ? "border-t-[1px] border-white/10 border-solid pt-6 md:pt-10"
+                    : "pb-6 md:pb-10"
                 }`}
                 key={socialMediaIndex}
               >
                 <div className="flex flex-col pr-20 xl:border-r xl:border-solid xl:border-white/10">
-                  <h5 className="text-white font-orbitron">
+                  <h5 className="text-sm md:text-xl text-white font-semibold font-orbitron">
                     {socialMedia.name}
                   </h5>
-                  <p className="w-full text-base text-white/50 font-normal mt-4">
+                  <p className="w-full text-xs md:text-base text-white/50 font-normal mt-2 md:mt-4">
                     {socialMedia.description}
                   </p>
                 </div>
                 <Button
                   className={cn(
-                    "inline-flex justify-center items-center w-[177px] h-12 rounded gap-2 px-4 py-[10px] bg-[#0000FF] transition-all duration-300 mt-10 xl:mt-0 xl:ml-20",
+                    "inline-flex justify-center items-center w-[148px] md:w-[178px] md:h-12 rounded gap-2 px-4 py-2 md:py-[10px] bg-[#0000FF] transition-all duration-300 mt-5 md:mt-10 xl:mt-0 xl:ml-20",
                     socialMedia.id === "twitter"
                       ? hasFollowedTwitter
                         ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
@@ -288,7 +286,7 @@ export function MeetSonic() {
                   }}
                 >
                   {socialMedia.buttonIcon}
-                  <span className="text-white font-orbitron text-base font-semibold">
+                  <span className="text-white font-orbitron text-sm md:text-base font-semibold">
                     {address && token
                       ? isLoadingStatus
                         ? "Loading"
@@ -306,6 +304,18 @@ export function MeetSonic() {
             ))}
           </ul>
         </Card>
+      </div>
+
+      {/* mobile version tools */}
+      <div className="flex md:hidden flex-row fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+        <Button
+          className="w-full h-12 border border-solid border-white/40 bg-transparent"
+          onClick={() => setShowRules(true)}
+        >
+          <span className="text-white text-base font-bold font-orbitron">
+            Rules
+          </span>
+        </Button>
       </div>
     </div>
   );
