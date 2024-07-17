@@ -64,12 +64,17 @@ export function TaskNavigator({ taskId, className }: any) {
       ></div>
       <span
         className={cn(
-          `inline-flex items-center font-orbitron text-base md:text-2xl font-semibold md:font-normal absolute left-[32px] top-0 md:top-auto bottom-0 md:bottom-[24px] transition-colors duration-300`,
+          `inline-flex flex-col gap-2 items-start font-orbitron text-base md:text-2xl font-semibold md:font-normal absolute left-[32px] top-0 md:top-auto bottom-0 md:bottom-[24px] transition-colors duration-300`,
           task.id === taskId ? "text-[#FBB042]" : "text-white/50",
           task.available ? "group-hover/nav:text-[#FBB042]" : ""
         )}
       >
-        {task.name}
+        {task.showPeriod ? (
+          <span className="hidden md:inline-flex text-xs font-semibold">
+            {task.period}
+          </span>
+        ) : null}
+        <span>{task.name}</span>
       </span>
       {task.id === taskId ? (
         <Arrow
