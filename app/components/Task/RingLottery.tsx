@@ -350,6 +350,7 @@ export function RingLottery() {
                 </span>
                 <div className="flex items-center">
                   <Select
+                    disabled={true}
                     value={drawAmount}
                     onValueChange={(value: string) =>
                       handleSetLotteryDrawAmount(value)
