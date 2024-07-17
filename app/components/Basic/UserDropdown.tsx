@@ -18,6 +18,7 @@ import {
 } from "../../store/account";
 import { fetchLogout } from "../../data/account";
 import { WalletList } from "../../wallet/wallet-list";
+import { isMobileViewport } from "@/lib/utils";
 
 export function UserDropdown() {
   const { isInMaintenance } = useSystemInfo();
@@ -91,13 +92,17 @@ export function UserDropdown() {
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger>
         <div
-          className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-5 py-[10px] rounded cursor-pointer transition-all duration-300"
+          className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-3 py-2 md:px-5 md:py-[10px] rounded cursor-pointer transition-all duration-300"
           onClick={handleClickOpenWallet}
           title={publicKey?.toBase58()}
         >
-          <img src="/images/wallet.svg" alt="" />
-          <span className="text-white font-semibold font-orbitron">
-            {formatAddress(publicKey?.toBase58())}
+          <img
+            src="/images/wallet.svg"
+            alt=""
+            className="w-5 h-5 md:w-6 md:h-6"
+          />
+          <span className="text-white font-semibold font-orbitron text-sm md:text-base">
+            {formatAddress(publicKey?.toBase58(), isMobileViewport() ? 2 : 4)}
           </span>
         </div>
       </PopoverTrigger>

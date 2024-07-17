@@ -7,7 +7,7 @@ export const taskGroupList = [
         name: "Meet Sonic",
         description:
           "Follow Sonic on social media to get the latest updates and your rewards.",
-        period: "24-hour period",
+        period: "24-Hour Period",
         reward: "",
         iconName: "twitter",
         available: true,
@@ -22,7 +22,7 @@ export const taskGroupList = [
         name: "Check-in",
         description:
           "Check in on Sonic every day. The longer your streak, the greater your rewards.",
-        period: "24-hour period",
+        period: "24-Hour Period",
         reward: "Test SOL Needed",
         iconName: "calendar",
         available: true,
@@ -32,7 +32,7 @@ export const taskGroupList = [
         name: "TX Milestone",
         description:
           "Interact with Sonic through any form of transaction to earn increasing rewards based on your level of engagement!",
-        period: "24-hour period",
+        period: "24-Hour Period",
         reward: "",
         iconName: "recommand",
         available: true,
@@ -42,7 +42,7 @@ export const taskGroupList = [
         name: "Referral",
         description:
           "Invite friends to Sonic Odyssey! Share the adventure and explore together in this thrilling journey.",
-        period: "24-hour period",
+        period: "24-Hour Period",
         reward: "",
         iconName: "diversity",
         available: true,
@@ -52,7 +52,7 @@ export const taskGroupList = [
         name: "Ring Lottery",
         description:
           "Participate in the lottery for a chance to win a ring; there's only one lucky winner in every block.",
-        period: "24-hour period",
+        period: "Season 1 Ended",
         reward: "Test SOL Needed",
         iconName: "chip",
         available: true,
@@ -67,7 +67,7 @@ export const taskGroupList = [
         name: "Game Adventure",
         description:
           "Play different games to enjoy a variety of fun experiences and earn exciting rewards along the way!",
-        period: "24-hour period",
+        period: "24-Hour Period",
         reward: "",
         iconName: "game",
         available: true,

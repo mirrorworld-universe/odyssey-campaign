@@ -38,6 +38,8 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getLotteryBanner } from "@/app/data/lottery";
 import { Trophy } from "@/app/icons/Trophy";
+import { Menu as IconMenu } from "@/app/icons/Menu";
+import { Close as IconClose } from "@/app/icons/Close";
 import { usePathname } from "next/navigation";
 
 export const menu: any[] = [
@@ -76,6 +78,7 @@ export function Header() {
   const { lotterySeason } = useLotteryInfo();
 
   const [bannerMessage, setBannerMessage] = useState<any>({});
+  const [showMenu, setShowMenu] = useState(false);
 
   // const { data: dataWinnerBanner } = useQuery({
   //   queryKey: ["queryLotteryBanner", address],
@@ -139,40 +142,70 @@ export function Header() {
 
   return (
     <nav className="flex flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
-      <div className="h-20 flex items-center justify-between px-10 py-4 bg-[#111111] w-full transition-all duration-300">
+      <div className="h-20 flex items-center justify-between p-4 md:px-10 md:py-4 bg-[#111111] w-full transition-all duration-300">
         {/* left */}
-        <div className="flex items-center gap-12 space-x-4">
+        <div className="flex items-center gap-3 md:gap-12 md:space-x-4">
           {/* logo */}
-          <Link href="/">
+          <Link href="/" className="inline-flex flex-row items-center gap-2">
             <img
               alt="Sonic Logo"
-              className="w-[135px] h-auto"
+              className="w-7 md:w-8 h-auto"
               src="/sonic.png"
-              style={{
-                aspectRatio: "100/40",
-                objectFit: "contain",
-              }}
-              width="100"
             />
+            <span className="hidden md:inline text-white text-[22px] font-bold font-orbitron tracking-widest">
+              SONIC
+            </span>
           </Link>
 
+          {/* menu */}
+          <span
+            className="inline-flex md:hidden cursor-pointer"
+            onClick={() => setShowMenu(true)}
+          >
+            <IconMenu color="white" />
+          </span>
+
           {/* nav */}
-          {menu.map((menuItem, menuIndex) => (
-            <Link
-              className={cn(
-                "gap-12 text-sm md:text-base text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors",
-                pathname.startsWith("/task") && menuItem.link === "/task"
-                  ? "text-[#FBB042]"
-                  : ""
-              )}
-              href={menuItem.link}
-              key={menuIndex}
-              target={menuItem.target}
-              onClick={trackLinkClick}
-            >
-              {menuItem.name}
-            </Link>
-          ))}
+          <div
+            className={cn(
+              "flex flex-col md:flex-row fixed md:static top-0 right-0 bottom-0 left-0 m-auto z-30 bg-[#111] w-full h-full md:w-auto md:h-auto duration-300 transition-transform",
+              showMenu ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+            )}
+          >
+            <div className="flex md:hidden p-4 justify-between items-center border-b border-solid border-white/10">
+              <span className="text-white/30 font-orbitron font-bold">
+                Menu
+              </span>
+              <span
+                className="cursor-pointer"
+                onClick={() => setShowMenu(false)}
+              >
+                <IconClose
+                  width={32}
+                  height={32}
+                  color="rgba(255,255,255,0.3)"
+                />
+              </span>
+            </div>
+            <div className="flex flex-col md:flex-row items-start md:items-center md:gap-12 md:space-x-4">
+              {menu.map((menuItem, menuIndex) => (
+                <Link
+                  className={cn(
+                    "gap-12 text-sm md:text-base text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors px-4 py-5 md:px-0 md:py-0",
+                    pathname.startsWith("/task") && menuItem.link === "/task"
+                      ? "text-[#FBB042]"
+                      : ""
+                  )}
+                  href={menuItem.link}
+                  key={menuIndex}
+                  target={menuItem.target}
+                  onClick={trackLinkClick}
+                >
+                  {menuItem.name}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* right */}
