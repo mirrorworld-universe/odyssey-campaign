@@ -56,6 +56,7 @@ export const taskGroupList = [
         reward: "Test SOL Needed",
         iconName: "chip",
         available: true,
+        showPeriod: true,
       },
     ],
   },
