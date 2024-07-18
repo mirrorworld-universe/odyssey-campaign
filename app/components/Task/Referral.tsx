@@ -108,7 +108,7 @@ export function Referral() {
         <Card
           name="Invite Code"
           size={CardSize.Medium}
-          className="max-w-[1024px] md:mt-20 w-full relative px-6 py-6 md:px-10 md:py-10 rounded-lg md:rounded-xl"
+          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-lg md:rounded-xl"
           nameClassName="text-sm md:text-[28px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-5 md:left-8 -top-3 md:-top-3"
         >
           <div className="w-full flex flex-row items-center justify-between">
@@ -128,7 +128,7 @@ export function Referral() {
         <Card
           name="Rewards"
           size={CardSize.Medium}
-          className="max-w-[1024px] mt-8 md:mt-20 w-full relative px-6 py-6 md:px-10 md:py-10 rounded-lg md:rounded-xl"
+          className="max-w-[1024px] mt-8 md:mt-20 w-full relative p-6 md:p-10 rounded-lg md:rounded-xl"
           nameClassName="text-sm md:text-[28px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-5 md:left-8 -top-3 md:-top-3"
         >
           <ul className="w-full">

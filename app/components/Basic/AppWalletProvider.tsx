@@ -24,23 +24,23 @@ export default function AppWalletProvider({
 }) {
   const { network: currentNetwork } = useNetworkInfo();
 
-  const customRpcUrl = "https://devnet.sonic.game";
-  const [network, setNetwork] = useState(customRpcUrl);
+  const defaultRpc = (
+    networks.find((network: any) => network.name === currentNetwork) ||
+    networks[0]
+  ).rpc;
+  const [network, setNetwork] = useState(defaultRpc);
   // const network = WalletAdapterNetwork.Devnet;
 
   // const connection = new Connection(customRpcUrl, { commitment: "confirmed" });
   // const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-  const endpoint = useMemo(
-    () => customRpcUrl,
-    [networks.find((network: any) => network.name === currentNetwork).rpc]
-  );
+  const endpoint = useMemo(() => defaultRpc, [defaultRpc]);
 
   useEffect(() => {
     setNetwork(currentNetwork);
   }, [currentNetwork]);
 
   useEffect(() => {
-    setNetwork(customRpcUrl);
+    setNetwork(defaultRpc);
   });
 
   const wallets = useMemo(

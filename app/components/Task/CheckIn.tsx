@@ -269,7 +269,7 @@ export function CheckIn() {
         {/* main */}
         <Card
           size={CardSize.Medium}
-          className="max-w-[1024px] p-6 md:mt-20"
+          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-lg md:rounded-xl"
           nameClassName="bg-[#000]"
         >
           <div className="flex flex-col gap-8 md:gap-16">
