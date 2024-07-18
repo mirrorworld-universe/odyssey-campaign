@@ -34,6 +34,7 @@ import {
 } from "@/app/store/lottery";
 import { taskGroupList } from "@/app/data/task";
 import { LotteryPriceTableDialog } from "../Dialog/LotteryPriceTable";
+import { Rules } from "./Rules";
 
 let winnerBoardPage = 1;
 let winnerBoardList: any[] = [];
@@ -49,6 +50,8 @@ export function RingLottery() {
   const [winnerBoard, setWinnerBoard] = useState<any[]>([]);
   const [drawAmount, setDrawAmount] = useState("1");
   const [season, setSeason] = useState(0);
+
+  const [showRules, setShowRules] = useState(false);
 
   const {
     lotteryDrawPrice,
@@ -213,13 +216,8 @@ export function RingLottery() {
       {/* content */}
       <div className="mt-8 md:mt-0">
         {/* rules */}
-        <Card
-          name="Rules"
-          size={CardSize.Medium}
-          className="max-w-[1024px]"
-          nameClassName="bg-[#000]"
-        >
-          <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
+        <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
+          <ul className="list-disc font-normal pl-6">
             <li className="">
               Request test SOL first.{" "}
               <a
@@ -257,10 +255,8 @@ export function RingLottery() {
                   <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
                     1 x{" "}
                     <Ring
-                      width={18}
-                      height={18}
                       color="#FBB042"
-                      className="mx-1"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
                     />{" "}
                     Ring
                   </span>
@@ -271,10 +267,8 @@ export function RingLottery() {
                   <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
                     {prettyNumber(100000)} x{" "}
                     <Ring
-                      width={18}
-                      height={18}
                       color="#FBB042"
-                      className="mx-1"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
                     />{" "}
                     Rings each
                   </span>
@@ -285,10 +279,8 @@ export function RingLottery() {
                   <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
                     {prettyNumber(10000)} x{" "}
                     <Ring
-                      width={18}
-                      height={18}
                       color="#FBB042"
-                      className="mx-1"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
                     />{" "}
                     Rings
                   </span>
@@ -297,7 +289,7 @@ export function RingLottery() {
               </ul>
             </li>
           </ul>
-        </Card>
+        </Rules>
 
         {/* minted rings */}
         <Card
@@ -415,6 +407,18 @@ export function RingLottery() {
           .find((task) => task.id === "ring-lottery")?.available && (
           <div className="w-screen h-screen bg-black/90 fixed top-0 left-0 z-20"></div>
         )}
+      </div>
+
+      {/* mobile version tools */}
+      <div className="flex md:hidden flex-row fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+        <Button
+          className="w-full h-12 border border-solid border-white/40 bg-transparent"
+          onClick={() => setShowRules(true)}
+        >
+          <span className="text-white text-base font-bold font-orbitron">
+            Rules
+          </span>
+        </Button>
       </div>
     </div>
   );

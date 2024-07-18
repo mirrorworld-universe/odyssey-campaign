@@ -13,6 +13,25 @@ export const useSystemInfo = create<{
   },
 }));
 
+export const useNetworkInfo = create(
+  persist<{
+    network: string;
+    setNetwork: (network: string) => void;
+  }>(
+    (set, get) => ({
+      network: get()?.network,
+      setNetwork: (network: string) => {
+        set({
+          network,
+        });
+      },
+    }),
+    {
+      name: "sonic-network-info",
+    }
+  )
+);
+
 export const useNotificationBar = create<{
   isOpen: boolean;
   onOpen: () => void;

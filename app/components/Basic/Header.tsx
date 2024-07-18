@@ -30,6 +30,7 @@ import {
 import {
   cn,
   isInMaintenanceTime,
+  isMobileViewport,
   maintenanceEndTime,
   maintenanceStartTime,
 } from "@/lib/utils";
@@ -41,6 +42,7 @@ import { Trophy } from "@/app/icons/Trophy";
 import { Menu as IconMenu } from "@/app/icons/Menu";
 import { Close as IconClose } from "@/app/icons/Close";
 import { usePathname } from "next/navigation";
+import { NetworkSwitch } from "./NetworkSwitch";
 
 export const menu: any[] = [
   {
@@ -144,7 +146,7 @@ export function Header() {
     <nav className="flex flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
       <div className="h-20 flex items-center justify-between p-4 md:px-10 md:py-4 bg-[#111111] w-full transition-all duration-300">
         {/* left */}
-        <div className="flex items-center gap-3 md:gap-12 md:space-x-4">
+        <div className="flex items-center gap-3 md:gap-8">
           {/* logo */}
           <Link href="/" className="inline-flex flex-row items-center gap-2">
             <img
@@ -164,6 +166,12 @@ export function Header() {
           >
             <IconMenu color="white" />
           </span>
+
+          {/* switch network */}
+          <NetworkSwitch />
+
+          {/* spliter */}
+          <i className="hidden md:inline-flex h-4 w-[1px] bg-white/20"></i>
 
           {/* nav */}
           <div
@@ -187,7 +195,7 @@ export function Header() {
                 />
               </span>
             </div>
-            <div className="flex flex-col md:flex-row items-start md:items-center md:gap-12 md:space-x-4">
+            <div className="flex flex-col md:flex-row items-start md:items-center md:gap-8">
               {menu.map((menuItem, menuIndex) => (
                 <Link
                   className={cn(
@@ -209,7 +217,7 @@ export function Header() {
         </div>
 
         {/* right */}
-        <div className="gap-12 flex items-center">
+        <div className="gap-6 md:gap-8 flex items-center">
           {address && token ? <RingPopover /> : null}
 
           {address && token ? <Notification /> : null}
@@ -217,14 +225,18 @@ export function Header() {
           {!publicKey ? (
             <Button
               className={cn(
-                "w-[200px] h-12 justify-center items-center bg-[#0000FF] font-orbitron font-semibold text-white text-base transition-all duration-300",
+                "min-w-[90px] h-8 md:min-w-[200px] md:h-12 justify-center items-center bg-[#0000FF] font-orbitron font-bold text-white text-sm md:text-base transition-all duration-300",
                 isInMaintenance
                   ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                   : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
               )}
               onClick={handleClickOpenWallet}
             >
-              {connecting ? "Connecting..." : "Connect Wallet"}
+              {connecting
+                ? "Connecting..."
+                : isMobileViewport()
+                ? "Connect"
+                : "Connect Wallet"}
             </Button>
           ) : (
             <UserDropdown />

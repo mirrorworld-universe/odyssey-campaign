@@ -61,7 +61,7 @@ export function MeetSonic() {
           You've received{" "}
           <span className="inline-flex items-center text-[#FBB042]">
             3 x mystery boxes
-            <Gift width={12} height={12} color="#FBB042" className="mx-1" />
+            <Gift color="#FBB042" className="w-3 h-3 mx-[2px]" />
           </span>
           . Open it in the navbar to exchange for rings.
         </p>
@@ -225,8 +225,12 @@ export function MeetSonic() {
             <li className="">
               Earn{" "}
               <span className="inline-flex items-center text-[#FBB042]">
-                3 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
-                Boxes
+                3 x{" "}
+                <Gift
+                  color="#FBB042"
+                  className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                />{" "}
+                Ring Mystery Boxes
               </span>{" "}
               after linking both your X and Discord accounts.
             </li>

@@ -74,7 +74,10 @@ export function HowToPlayDialog() {
             </h3>
             <p className="flex flex-row gap-1 items-center text-white">
               Earn Mystery Box
-              <Gift width={18} height={18} color="#FBB042" />{" "}
+              <Gift
+                color="#FBB042"
+                className="w-3 h-3 md:w-[18px] md:h-[18px]"
+              />{" "}
             </p>
           </div>
           <div className="w-full flex flex-row h-[96px] pl-[70px]">

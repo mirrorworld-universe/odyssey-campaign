@@ -150,7 +150,7 @@ export default function RingPopover() {
       <PopoverTrigger>
         <div className="flex flex-row items-center gap-2 cursor-pointer">
           <Ring width={24} height={24} color="#FBB042" />
-          <span className="text-white text-base font-orbitron font-semibold">
+          <span className="hidden md:inline-flex text-white text-base font-orbitron font-semibold">
             {isInMaintenance ? "--" : prettyNumber(ringAmount)}
           </span>
           <Arrow
@@ -158,7 +158,7 @@ export default function RingPopover() {
             height={24}
             color="white"
             className={cn(
-              "transition-transform duration-300",
+              "hidden md:inline-flex transition-transform duration-300",
               popoverOpen ? "rotate-180" : "rotate-0"
             )}
           />

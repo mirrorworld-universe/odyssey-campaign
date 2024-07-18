@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { getReferralInfo } from "@/app/data/account";
 import { Card, CardSize } from "../Basic/Card";
 import { trackClick } from "@/lib/track";
+import { Rules } from "./Rules";
 
 let currentToken = "";
 
@@ -19,6 +20,8 @@ export function Referral() {
   const [inviteUrl, setInviteUrl] = useState("");
   const [referralAmount, setReferralAmount] = useState(0);
   const [referralRewards, setReferralRewards] = useState(0);
+
+  const [showRules, setShowRules] = useState(false);
 
   const {
     data: dataReferralInfo,
@@ -78,13 +81,8 @@ export function Referral() {
       {/* content */}
       <div className="">
         {/* rules */}
-        <Card
-          name="Rules"
-          size={CardSize.Medium}
-          className="max-w-[1024px]"
-          nameClassName="bg-[#000]"
-        >
-          <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
+        <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
+          <ul className="list-disc font-normal pl-6">
             <li className="">
               Copy the invite code and send it to a friend. If the friend
               successfully completes the "Meet Sonic" task, they will be
@@ -94,27 +92,31 @@ export function Referral() {
             <li className="">
               For each successfully invited friend, you will receive{" "}
               <span className="inline-flex items-center text-[#FBB042]">
-                1 x <Gift color="#FBB042" className="mx-[2px]" /> Ring Mystery
-                Box
+                1 x{" "}
+                <Gift
+                  color="#FBB042"
+                  className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                />{" "}
+                Ring Mystery Box
               </span>{" "}
               automatically.
             </li>
           </ul>
-        </Card>
+        </Rules>
 
         {/* invite code */}
         <Card
           name="Invite Code"
           size={CardSize.Medium}
-          className="max-w-[1024px] mt-20"
-          nameClassName="bg-[#000]"
+          className="max-w-[1024px] md:mt-20 w-full relative px-6 py-6 md:px-10 md:py-10 rounded-lg md:rounded-xl"
+          nameClassName="text-sm md:text-[28px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-5 md:left-8 -top-3 md:-top-3"
         >
           <div className="w-full flex flex-row items-center justify-between">
-            <span className="text-white text-xl font-orbitron font-normal">
+            <span className="text-white text-sm md:text-xl font-orbitron font-normal">
               {inviteUrl}
             </span>
             <Button
-              className="w-[183px] h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
+              className="hidden md:inline-flex w-[183px] h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
               onClick={handleInviteNow}
             >
               Invite Now
@@ -126,28 +128,46 @@ export function Referral() {
         <Card
           name="Rewards"
           size={CardSize.Medium}
-          className="max-w-[1024px] mt-20"
-          nameClassName="bg-[#000]"
+          className="max-w-[1024px] mt-8 md:mt-20 w-full relative px-6 py-6 md:px-10 md:py-10 rounded-lg md:rounded-xl"
+          nameClassName="text-sm md:text-[28px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-5 md:left-8 -top-3 md:-top-3"
         >
           <ul className="w-full">
             <li className="flex flex-row items-center justify-between pb-5">
-              <span className="text-xl text-white  font-orbitron">
+              <span className="text-sm md:text-xl text-white  font-orbitron">
                 Successfully activated invitees
               </span>
-              <span className="text-[56px] text-[#FBB042] font-semibold font-orbitron">
+              <span className="text-[32px] md:text-[56px] text-[#FBB042] font-semibold font-orbitron">
                 {referralAmount}
               </span>
             </li>
             <li className="flex flex-row items-center justify-between pt-5 border-t border-solid border-white/10">
-              <span className="text-xl text-white font-orbitron">
+              <span className="text-sm md:text-xl text-white font-orbitron">
                 Received Ring Mystery Boxes
               </span>
-              <span className="text-[56px] text-[#FBB042] font-semibold font-orbitron">
+              <span className="text-[32px] md:text-[56px] text-[#FBB042] font-semibold font-orbitron">
                 {referralRewards}
               </span>
             </li>
           </ul>
         </Card>
+      </div>
+
+      {/* mobile version tools */}
+      <div className="flex md:hidden flex-row gap-4 fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+        <Button
+          className="w-2/6 h-12 border border-solid border-white/40 bg-transparent"
+          onClick={() => setShowRules(true)}
+        >
+          <span className="text-white text-base font-bold font-orbitron">
+            Rules
+          </span>
+        </Button>
+        <Button
+          className="w-4/6 h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
+          onClick={handleInviteNow}
+        >
+          Invite Now
+        </Button>
       </div>
     </div>
   );

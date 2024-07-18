@@ -71,7 +71,7 @@ export function GameVenture() {
       </div>
 
       {/* content */}
-      <div className="">
+      <div className="pb-[88px] md:pb-0">
         {/* rules */}
         <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
           <ul className="list-decimal font-normal pl-6">
