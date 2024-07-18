@@ -55,7 +55,10 @@ export const metadata: Metadata = {
     images: ["https://odyssey.sonic.game/seo-banner.png"],
   },
 
-  viewport: "width=device-width, initial-scale=1.0",
+  // viewport: {
+  //   width: "device-width",
+  //   initialScale: 1,
+  // },
 };
 
 export default function RootLayout({

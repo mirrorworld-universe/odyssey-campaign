@@ -32,61 +32,80 @@ export function TaskNavigator({ taskId, className }: any) {
     }
   };
 
-  const NavigatorItem = ({ task, taskIndex, className }: any) => (
-    <Link
-      key={taskIndex}
-      href={
-        task.available && task.id !== taskId
-          ? `/task/${task.id}`
-          : "javascript:;"
-      }
-      className={cn(
-        "group/nav flex w-full h-full border-l-[4px] md:border-l-[6px] border-solid transition-all duration-300 relative overflow-hidden",
-        task.id === taskId ? "border-[#F79342]" : "border-transparent",
-        task.available
-          ? "opacity-100 cursor-pointer"
-          : "opacity-30 cursor-not-allowed border-none",
-        className
-      )}
-      onClick={() => handleExpandMenu(task.id)}
-    >
-      <img
-        className="w-full h-auto md:h-full absolute top-0 left-0  "
-        src={`/images/${task.id}.png`}
-        alt=""
-      />
-      <div
-        className={cn(
-          `w-full h-full absolute top-0 left-0 background-highlight opacity-0 transition-opacity duration-300 rotate-180 md:rotate-0`,
-          task.id === taskId ? "opacity-40 md:opacity-100" : "",
-          task.available ? "" : ""
-        )}
-      ></div>
-      <span
-        className={cn(
-          `inline-flex md:flex-col md:gap-2 items-center md:items-start font-orbitron text-base md:text-2xl font-semibold md:font-normal absolute left-[32px] top-0 md:top-auto bottom-0 md:bottom-[24px] transition-colors duration-300`,
-          task.id === taskId ? "text-[#FBB042]" : "text-white/50",
-          task.available ? "group-hover/nav:text-[#FBB042]" : ""
-        )}
-      >
-        {task.showPeriod ? (
-          <span className="hidden md:inline-flex text-xs font-semibold">
-            {task.period}
-          </span>
-        ) : null}
-        <span className="inline-flex items-center">{task.name}</span>
-      </span>
-      {task.id === taskId ? (
-        <Arrow
-          color="#FBB042"
-          className={cn(
-            isExpand ? "rotate-0" : "rotate-180",
-            "inline-flex md:hidden w-6 h-6 absolute z-0 top-0 bottom-0 right-4 m-auto transition-transform duration-300"
-          )}
+  const NavigatorItem = ({ task, taskIndex, className }: any) => {
+    const LinkContent = () => (
+      <>
+        <img
+          className="w-full h-auto md:h-full absolute top-0 left-0  "
+          src={`/images/${task.id}.png`}
+          alt=""
         />
-      ) : null}
-    </Link>
-  );
+        <div
+          className={cn(
+            `w-full h-full absolute top-0 left-0 background-highlight opacity-0 transition-opacity duration-300 rotate-180 md:rotate-0`,
+            task.id === taskId ? "opacity-40 md:opacity-100" : "",
+            task.available ? "" : ""
+          )}
+        ></div>
+        <span
+          className={cn(
+            `inline-flex md:flex-col md:gap-2 items-center md:items-start font-orbitron text-base md:text-2xl font-semibold md:font-normal absolute left-[32px] top-0 md:top-auto bottom-0 md:bottom-[24px] transition-colors duration-300`,
+            task.id === taskId ? "text-[#FBB042]" : "text-white/50",
+            task.available ? "group-hover/nav:text-[#FBB042]" : ""
+          )}
+        >
+          {task.showPeriod ? (
+            <span className="hidden md:inline-flex text-xs font-semibold">
+              {task.period}
+            </span>
+          ) : null}
+          <span className="inline-flex items-center">{task.name}</span>
+        </span>
+        {task.id === taskId ? (
+          <Arrow
+            color="#FBB042"
+            className={cn(
+              isExpand ? "rotate-0" : "rotate-180",
+              "inline-flex md:hidden w-6 h-6 absolute z-0 top-0 bottom-0 right-4 m-auto transition-transform duration-300"
+            )}
+          />
+        ) : null}
+      </>
+    );
+
+    return task.available && task.id !== taskId ? (
+      <Link
+        key={taskIndex}
+        href={`/task/${task.id}`}
+        className={cn(
+          "group/nav flex w-full h-full border-l-[4px] md:border-l-[6px] border-solid transition-all duration-300 relative overflow-hidden",
+          task.id === taskId ? "border-[#F79342]" : "border-transparent",
+          task.available
+            ? "opacity-100 cursor-pointer"
+            : "opacity-30 cursor-not-allowed border-none",
+          className
+        )}
+        onClick={() => handleExpandMenu(task.id)}
+      >
+        <LinkContent />
+      </Link>
+    ) : (
+      <div
+        key={taskIndex}
+        className={cn(
+          "group/nav flex w-full h-full border-l-[4px] md:border-l-[6px] border-solid transition-all duration-300 relative overflow-hidden",
+          task.id === taskId ? "border-[#F79342]" : "border-transparent",
+          task.available
+            ? "opacity-100 cursor-pointer"
+            : "opacity-30 cursor-not-allowed border-none",
+          className
+        )}
+        onClick={() => handleExpandMenu(task.id)}
+      >
+        <LinkContent />
+      </div>
+    );
+  };
 
   return (
     <div

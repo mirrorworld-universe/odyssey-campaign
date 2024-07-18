@@ -88,9 +88,12 @@ export const isInMaintenanceTime = () => {
 };
 
 export const isMobileViewport = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
   var viewportWidth = Math.max(
-    document.documentElement.clientWidth,
-    window.innerWidth || 0
+    document?.documentElement.clientWidth,
+    window?.innerWidth || 0
   );
   return viewportWidth <= 768;
 };
