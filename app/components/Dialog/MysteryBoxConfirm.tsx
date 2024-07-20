@@ -8,14 +8,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/components/ui/use-toast";
 
@@ -30,7 +26,10 @@ import {
 } from "@/app/store/task";
 import { cn } from "@/lib/utils";
 import { useAccountInfo } from "@/app/store/account";
-import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
+import {
+  confirmTransaction,
+  sendTransactionWithRetry,
+} from "@/lib/transaction-sender";
 import {
   getMysteryboxHistory,
   getMysteryboxTx,
@@ -111,12 +110,16 @@ export function MysteryBoxConfirmDialog() {
     }
 
     try {
+      console.log("transactionString >> ::", transactionString);
       const tx = Transaction.from(Buffer.from(transactionString, "base64"));
-      const { txid, slot } = await sendLegacyTransaction(
+      const { txid, slot } = await sendTransactionWithRetry(
         connection,
         // @ts-ignore
         wallet?.adapter,
-        tx,
+        tx.instructions,
+        undefined,
+        400000,
+        150,
         "processed"
       );
 
@@ -126,11 +129,7 @@ export function MysteryBoxConfirmDialog() {
 
       txHash = txid;
 
-      const result = await confirmTransaction(connection, txHash, "processed");
-
-      if (result.value.err) {
-        throw new Error(result.value.err.toString());
-      }
+      await confirmTransaction(connection, txHash, "processed");
 
       mutationOpenMysteryBox.mutate();
     } catch (error) {

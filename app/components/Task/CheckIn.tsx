@@ -25,9 +25,8 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   confirmTransaction,
-  sendLegacyTransaction,
-  sendSignedTransaction,
-} from "@/lib/transactions";
+  sendTransactionWithRetry,
+} from "@/lib/transaction-sender";
 import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 
@@ -81,12 +80,22 @@ export function CheckIn() {
 
       // const connection = new Connection("https://devnet.sonic.game");
 
-      const { txid, slot } = await sendLegacyTransaction(
+      // const { txid, slot } = await sendLegacyTransaction(
+      //   connection,
+      //   // @ts-ignore
+      //   wallet?.adapter,
+      //   tx,
+      //   "processed"
+      // );
+      const { txid, slot } = await sendTransactionWithRetry(
         connection,
         // @ts-ignore
         wallet?.adapter,
-        tx,
-        "confirmed"
+        tx.instructions,
+        undefined,
+        400000,
+        150,
+        "processed"
       );
 
       if (!txid) {
@@ -100,10 +109,6 @@ export function CheckIn() {
         transactionHash,
         "confirmed"
       );
-
-      if (result.value.err) {
-        throw new Error(result.value.err.toString());
-      }
 
       mutationCheckIn.mutate();
     } catch (error) {

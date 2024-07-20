@@ -7,16 +7,11 @@ import { Loader2 } from "lucide-react";
 
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { Ring } from "@/app/icons/Ring";
 import { useAccountInfo } from "@/app/store/account";
@@ -25,7 +20,10 @@ import {
   useDrawResultModal,
   useLotteryInfo,
 } from "@/app/store/lottery";
-import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
+import {
+  confirmTransaction,
+  sendTransactionWithRetry,
+} from "@/lib/transaction-sender";
 import { Card, CardSize } from "../Basic/Card";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -75,13 +73,18 @@ export function DrawRecordDialog() {
 
     try {
       const tx = Transaction.from(Buffer.from(transactionString, "base64"));
-      const { txid, slot } = await sendLegacyTransaction(
+      const { txid, slot } = await sendTransactionWithRetry(
         connection,
         // @ts-ignore
         wallet?.adapter,
-        tx,
-        "confirmed"
+        tx.instructions,
+        undefined,
+        400000,
+        150,
+        "processed"
       );
+
+      console.log("txid >> ", txid);
 
       if (!txid) {
         throw new Error("Could not retrieve transaction hash");
@@ -89,11 +92,7 @@ export function DrawRecordDialog() {
 
       txHash = txid;
 
-      const result = await confirmTransaction(connection, txHash, "confirmed");
-
-      if (result.value.err) {
-        throw new Error(result.value.err.toString());
-      }
+      await confirmTransaction(connection, txHash, "confirmed");
 
       mutationDrawLottery.mutate();
     } catch (error: any) {

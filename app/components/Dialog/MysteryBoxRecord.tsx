@@ -28,7 +28,10 @@ import {
   getMysteryboxTx,
   openMysterybox,
 } from "@/app/data/reward";
-import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
+import {
+  confirmTransaction,
+  sendTransactionWithRetry,
+} from "@/lib/transaction-sender";
 import { Card, CardSize } from "../Basic/Card";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -63,11 +66,14 @@ export function MysteryBoxRecordDialog() {
 
     try {
       const tx = Transaction.from(Buffer.from(transactionString, "base64"));
-      const { txid, slot } = await sendLegacyTransaction(
+      const { txid, slot } = await sendTransactionWithRetry(
         connection,
         // @ts-ignore
         wallet?.adapter,
-        tx,
+        tx.instructions,
+        undefined,
+        400000,
+        150,
         "processed"
       );
 
@@ -75,14 +81,11 @@ export function MysteryBoxRecordDialog() {
         throw new Error("Could not retrieve transaction hash");
       }
 
+      console.log("txid >> ::", txid);
+
       txHash = txid;
 
-      const result = await confirmTransaction(connection, txHash, "processed");
-
-      if (result.value.err) {
-        throw new Error(result.value.err.toString());
-      }
-
+      await confirmTransaction(connection, txHash, "processed");
       mutationOpenMysteryBox.mutate();
     } catch (error: any) {
       // if (
