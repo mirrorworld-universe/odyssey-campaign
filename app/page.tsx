@@ -7,7 +7,12 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 
-import { useAccountInfo, useSystemInfo, useWalletModal } from "./store/account";
+import {
+  useAccountInfo,
+  useNetworkInfo,
+  useSystemInfo,
+  useWalletModal,
+} from "./store/account";
 import { inviteUser } from "./data/account";
 import { loadHomePageStatics, openWalletStatics } from "@/lib/analytics";
 import { trackClick } from "@/lib/track";
@@ -19,6 +24,7 @@ export default function Home() {
   const { address, token } = useAccountInfo();
   const { isOpen, onOpen, onClose } = useWalletModal();
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
+  const { networkId } = useNetworkInfo();
 
   const [network, setNetwork] = useState(clusterApiUrl("devnet"));
   const [invitationCode, setInvitationCode] = useState("");
@@ -29,6 +35,7 @@ export default function Home() {
       inviteUser({
         token,
         code: invitationCode,
+        networkId,
       }),
   });
 

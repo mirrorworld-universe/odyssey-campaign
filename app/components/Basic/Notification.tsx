@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/popover";
 import { useQuery } from "@tanstack/react-query";
 import { getNotificationRecords } from "../../data/account";
-import { useAccountInfo } from "../../store/account";
+import { useAccountInfo, useNetworkInfo } from "../../store/account";
 import { trackClick } from "@/lib/track";
 
 const maxAmount = 5;
@@ -24,6 +24,7 @@ export default function Notification({ data }: any) {
     hasNews,
     setNews: hasNotification,
   } = useAccountInfo();
+  const { networkId } = useNetworkInfo();
 
   const [showPanel, setShowPanel] = useState(false);
   const [list, setList] = useState([]);
@@ -35,7 +36,7 @@ export default function Notification({ data }: any) {
     refetch: refetchNotificationRecords,
   } = useQuery({
     queryKey: ["queryUserNotificationRecords", address],
-    queryFn: () => getNotificationRecords({ token }),
+    queryFn: () => getNotificationRecords({ token, networkId }),
     enabled: !!address && !!token,
     refetchInterval: 10 * 1000,
   });

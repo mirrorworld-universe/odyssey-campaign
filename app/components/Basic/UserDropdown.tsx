@@ -13,6 +13,7 @@ import {
   formatAddress,
   toFixed,
   useAccountInfo,
+  useNetworkInfo,
   useSystemInfo,
   useWalletModal,
 } from "../../store/account";
@@ -24,10 +25,11 @@ export function UserDropdown() {
   const { isInMaintenance } = useSystemInfo();
   const { setToken } = useAccountInfo();
   const { connection } = useConnection();
-  const { isOpen, onOpen } = useWalletModal();
+  const { isOpen, onOpen, setSwitching } = useWalletModal();
   const { select, wallet, wallets, publicKey, disconnect, connecting } =
     useWallet();
   const { address, token, reset } = useAccountInfo();
+  const { networkId } = useNetworkInfo();
 
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [balance, setBalance] = useState<number | null>(null);
@@ -39,8 +41,10 @@ export function UserDropdown() {
   };
 
   const mutationLogout = useMutation({
-    mutationFn: () => fetchLogout({ token }),
+    mutationFn: () => fetchLogout({ token, networkId }),
     onSuccess: () => {
+      setSwitching(false);
+      setToken("");
       reset();
     },
   });
@@ -63,7 +67,6 @@ export function UserDropdown() {
 
   const handleDisconnect = () => {
     disconnect();
-    setToken("");
     mutationLogout.mutate();
     setPopoverOpen(false);
   };
@@ -92,16 +95,16 @@ export function UserDropdown() {
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
       <PopoverTrigger>
         <div
-          className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-3 py-2 md:px-5 md:py-[10px] rounded cursor-pointer transition-all duration-300"
+          className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-3 py-2 md:px-4 2xl:px-5 md:py-2 2xl:py-[10px] rounded cursor-pointer transition-all duration-300"
           onClick={handleClickOpenWallet}
           title={publicKey?.toBase58()}
         >
           <img
             src="/images/wallet.svg"
             alt=""
-            className="w-5 h-5 md:w-6 md:h-6"
+            className="w-5 h-5 2xl:w-6 2xl:h-6"
           />
-          <span className="text-white font-semibold font-orbitron text-sm md:text-base">
+          <span className="text-white font-semibold font-orbitron text-sm 2xl:text-base">
             {formatAddress(publicKey?.toBase58(), isMobileViewport() ? 2 : 4)}
           </span>
         </div>
@@ -148,7 +151,9 @@ export function UserDropdown() {
 
         <a
           className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5"
-          href={`https://explorer.sonic.game/address/${address}`}
+          href={`https://explorer.sonic.game/address/${address}${
+            networkId === "testnet" ? "?cluster=testnet" : ""
+          }`}
           target="_blank"
         >
           <img src="/images/description.svg" alt="" className="w-5 h-5 mr-3" />

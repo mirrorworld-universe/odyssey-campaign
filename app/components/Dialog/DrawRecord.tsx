@@ -19,7 +19,7 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { Ring } from "@/app/icons/Ring";
-import { useAccountInfo } from "@/app/store/account";
+import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import {
   useDrawRecordModal,
   useDrawResultModal,
@@ -50,6 +50,7 @@ export function DrawRecordDialog() {
   const { connection } = useConnection();
   const { address, token } = useAccountInfo();
   const { isOpen, onOpen, onClose } = useDrawRecordModal();
+  const { networkId } = useNetworkInfo();
   const {
     isOpen: isOpenResultModal,
     onOpen: onOpenResultModal,
@@ -113,7 +114,11 @@ export function DrawRecordDialog() {
     useQuery({
       queryKey: ["queryUserNotificationRecords", address],
       queryFn: () =>
-        getBlockNumberWinner({ token, blockNumber: currentBlockNumber }),
+        getBlockNumberWinner({
+          token,
+          blockNumber: currentBlockNumber,
+          networkId,
+        }),
       enabled: !!address && !!token && !!blockNumber,
       refetchInterval: 3 * 1000,
     });
@@ -151,6 +156,7 @@ export function DrawRecordDialog() {
       drawLottery({
         token,
         hash: txHash,
+        networkId,
       }),
     onSuccess({ data, status }) {
       if (data.block_number) {
@@ -169,7 +175,7 @@ export function DrawRecordDialog() {
 
   const mutationBuildTx = useMutation({
     mutationKey: ["buildLotteryTx", address],
-    mutationFn: () => getLotteryTx({ token }),
+    mutationFn: () => getLotteryTx({ token, networkId }),
     onSuccess: async ({ data }) => {
       const transactionString = data.hash;
       triggerTransaction(transactionString);

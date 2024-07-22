@@ -17,6 +17,7 @@ import { MoreWalletDialog } from "./components/Dialog/MoreWallet";
 import { SetUpSonicNetworkDialog } from "./components/Dialog/SetUpSonicNetwork";
 import { SetUpFinishDialog } from "./components/Dialog/SetUpFinish";
 import "../lib/track";
+import { WhitelistDialog } from "./components/Dialog/Whitelist";
 
 const manrope = Manrope({
   weight: ["400", "500"],
@@ -126,6 +127,7 @@ window.criteo_q.push(
             <MoreWalletDialog />
             <SetUpSonicNetworkDialog />
             <SetUpFinishDialog />
+            <WhitelistDialog />
 
             {/* welcome dialog */}
             <WelcomeDialog />

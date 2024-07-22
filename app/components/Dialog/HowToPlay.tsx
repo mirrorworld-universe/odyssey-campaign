@@ -15,9 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Gift } from "@/app/icons/Gift";
 import { Ring } from "@/app/icons/Ring";
 import { useHowToPlayModal } from "@/app/store/tutorials";
+import { useNetworkInfo } from "@/app/store/account";
 
 export function HowToPlayDialog() {
   const { isOpen, onOpen, onClose } = useHowToPlayModal();
+  const { networkId } = useNetworkInfo();
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -56,7 +58,9 @@ export function HowToPlayDialog() {
               to transact. Click{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
-                href="https://faucet.sonic.game/#/"
+                href={`https://faucet.sonic.game/#/${
+                  networkId === "testnet" ? "?network=testnet" : ""
+                }`}
                 target="_blank"
               >
                 faucet link

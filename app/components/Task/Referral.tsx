@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Gift } from "@/app/icons/Gift";
-import { useAccountInfo } from "@/app/store/account";
+import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { getReferralInfo } from "@/app/data/account";
@@ -15,6 +15,7 @@ let currentToken = "";
 export function Referral() {
   const { address, token } = useAccountInfo();
   const { toast } = useToast();
+  const { networkId } = useNetworkInfo();
 
   const [inviteCode, setInviteCode] = useState("");
   const [inviteUrl, setInviteUrl] = useState("");
@@ -29,7 +30,7 @@ export function Referral() {
     refetch: refetchReferralInfo,
   } = useQuery({
     queryKey: ["queryReferralInfo", address],
-    queryFn: () => getReferralInfo({ token }),
+    queryFn: () => getReferralInfo({ token, networkId }),
     enabled: !!token,
   });
 

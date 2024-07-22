@@ -1,21 +1,26 @@
-export const fetchBasicInfo = async (address: string) => {
+import { getNetworkUrl } from "@/lib/utils";
+
+export const fetchBasicInfo = async ({ address, networkId }: any) => {
   const response = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_API_DOMAIN
-    }/auth/sonic/challenge?${new URLSearchParams({
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/auth/sonic/challenge?${new URLSearchParams({
       wallet: address,
     })}`
   );
   return response.json();
 };
 
-export const fetchAuthorize = async (
-  address: string,
-  address_encoded: string,
-  signature: string
-) => {
+export const fetchAuthorize = async ({
+  address,
+  address_encoded,
+  signature,
+  networkId,
+}: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/auth/sonic/authorize`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/auth/sonic/authorize`,
     {
       headers: {
         "content-type": "application/json",
@@ -31,9 +36,11 @@ export const fetchAuthorize = async (
   return response.json();
 };
 
-export const fetchLogout = async ({ token }: any) => {
+export const fetchLogout = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/auth/logout`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/auth/logout`,
     {
       headers: {
         Authorization: token,
@@ -44,9 +51,11 @@ export const fetchLogout = async ({ token }: any) => {
   return response.json();
 };
 
-export const getUserRewardInfo = async ({ token }: any) => {
+export const getUserRewardInfo = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/rewards/info`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/rewards/info`,
     {
       headers: {
         Authorization: token,
@@ -57,9 +66,11 @@ export const getUserRewardInfo = async ({ token }: any) => {
   return response.json();
 };
 
-export const getNotificationRecords = async ({ token }: any) => {
+export const getNotificationRecords = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/rewards/history`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/rewards/history`,
     {
       headers: {
         Authorization: token,
@@ -70,9 +81,11 @@ export const getNotificationRecords = async ({ token }: any) => {
   return response.json();
 };
 
-export const inviteUser = async ({ token, code }: any) => {
+export const inviteUser = async ({ token, code, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/referral`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/referral`,
     {
       headers: {
         Authorization: token,
@@ -87,9 +100,11 @@ export const inviteUser = async ({ token, code }: any) => {
   return response.json();
 };
 
-export const getReferralInfo = async ({ token }: any) => {
+export const getReferralInfo = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/referral/info`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/referral/info`,
     {
       headers: {
         Authorization: token,

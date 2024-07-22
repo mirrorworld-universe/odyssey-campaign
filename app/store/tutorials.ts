@@ -19,6 +19,24 @@ export const useWelcomeModal = create<{
   },
 }));
 
+export const useWhitelistModal = create<{
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}>((set) => ({
+  isOpen: false,
+  onOpen: () => {
+    set({
+      isOpen: true,
+    });
+  },
+  onClose: () => {
+    set({
+      isOpen: false,
+    });
+  },
+}));
+
 export const useSetUpNetworkModal = create<{
   isOpen: boolean;
   onOpen: () => void;

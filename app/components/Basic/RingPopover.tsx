@@ -13,7 +13,11 @@ import { Arrow } from "../../icons/Arrow";
 import { Gift } from "../../icons/Gift";
 import { Card, CardSize } from "./Card";
 import { cn, prettyNumber } from "@/lib/utils";
-import { useAccountInfo, useSystemInfo } from "../../store/account";
+import {
+  useAccountInfo,
+  useNetworkInfo,
+  useSystemInfo,
+} from "../../store/account";
 import { getMysteryboxHistory } from "../../data/reward";
 import {
   useMysteryBoxInfo,
@@ -30,6 +34,7 @@ let currentToken = "";
 export default function RingPopover() {
   const { isInMaintenance } = useSystemInfo();
   const { address, token } = useAccountInfo();
+  const { networkId } = useNetworkInfo();
   const { wallet } = useWallet();
   const { setMysteryBoxAmount, setMysteryBoxRewardsAmount } =
     useMysteryBoxInfo();
@@ -64,7 +69,7 @@ export default function RingPopover() {
     refetch: refetchRewardsInfo,
   } = useQuery({
     queryKey: ["queryUserRewardsInfo", address],
-    queryFn: () => getUserRewardInfo({ token }),
+    queryFn: () => getUserRewardInfo({ token, networkId }),
     enabled: !!address && !!token,
   });
 
@@ -74,7 +79,7 @@ export default function RingPopover() {
     refetch: refetchRewardsHistory,
   } = useQuery({
     queryKey: ["queryMysteryBoxHistory", address],
-    queryFn: () => getMysteryboxHistory({ token }),
+    queryFn: () => getMysteryboxHistory({ token, networkId }),
     enabled: !!address && !!token,
   });
 

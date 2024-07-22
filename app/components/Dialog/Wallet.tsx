@@ -10,9 +10,17 @@ import base58 from "bs58";
 import nacl from "tweetnacl";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { decodeUTF8, encodeBase64 } from "tweetnacl-util";
-import { useWalletModal, useAccountInfo } from "@/app/store/account";
+import {
+  useWalletModal,
+  useAccountInfo,
+  useNetworkInfo,
+} from "@/app/store/account";
 import { useTaskInfo } from "@/app/store/task";
-import { fetchAuthorize, fetchBasicInfo } from "@/app/data/account";
+import {
+  fetchAuthorize,
+  fetchBasicInfo,
+  fetchLogout,
+} from "@/app/data/account";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -29,6 +37,7 @@ import {
   useMoreWalletModal,
   useSetUpNetworkModal,
   useSetupInfo,
+  useWhitelistModal,
 } from "@/app/store/tutorials";
 import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import { connectWalletStatics } from "@/lib/analytics";
@@ -38,19 +47,40 @@ import {
   trackCriteoWalletClick,
   trackCriteoWalletTransactionClick,
 } from "@/lib/track";
+import { networks } from "@/app/data/config";
 
 let lastAddress = "";
 let currentSignature = "";
 let currentToken = "";
 let messageToSign = "";
 
+const networkSwitchingNames: any = {
+  devnet: {
+    id: "Testnet",
+    name: "Frontier",
+  },
+  testnet: {
+    id: "Devnet",
+    name: "Origin",
+  },
+};
+
 export function WalletDialog({ text = "Connect", className }: any) {
   const { select, wallet, publicKey, disconnect, connected, signMessage } =
     useWallet();
-  const { address, setAddress, token, setToken } = useAccountInfo();
+  const {
+    address,
+    setAddress,
+    token,
+    setToken,
+    isInWhitelist,
+    setIsInWhitelist,
+    reset,
+  } = useAccountInfo();
   const { setAddress: setTaskAddress } = useTaskInfo();
-  const { isOpen, onOpen, onClose } = useWalletModal();
+  const { isOpen, onOpen, onClose, isSwitching } = useWalletModal();
   const { status } = useSetupInfo();
+  const { networkId, setNetworkId } = useNetworkInfo();
   const {
     isOpen: isOpenMoreWalletDialog,
     onOpen: onOpenMoreWalletDialog,
@@ -61,6 +91,11 @@ export function WalletDialog({ text = "Connect", className }: any) {
     onOpen: onOpenSetUpNetworkWalletDialog,
     onClose: onCloseSetUpNetworkWalletDialog,
   } = useSetUpNetworkModal();
+  const {
+    isOpen: isOpenWhitelistDialog,
+    onOpen: onOpenWhitelistDialog,
+    onClose: onCloseWhitelistDialog,
+  } = useWhitelistModal();
 
   const [walletList, setWalletList] = useState(WalletList);
 
@@ -70,7 +105,11 @@ export function WalletDialog({ text = "Connect", className }: any) {
     refetch: refetchBasicInfo,
   } = useQuery({
     queryKey: ["queryBasicInfo", publicKey?.toString() || address],
-    queryFn: () => fetchBasicInfo(publicKey?.toString() || address),
+    queryFn: () =>
+      fetchBasicInfo({
+        address: publicKey?.toString() || address,
+        networkId,
+      }),
     enabled: false,
   });
 
@@ -81,15 +120,30 @@ export function WalletDialog({ text = "Connect", className }: any) {
   } = useQuery({
     queryKey: ["queryAuthorize", publicKey?.toString() || address],
     queryFn: () =>
-      fetchAuthorize(
-        publicKey?.toString() || address,
-        encodeBase64(publicKey!.toBytes()),
-        currentSignature
-      ),
+      fetchAuthorize({
+        address: publicKey?.toString() || address,
+        address_encoded: encodeBase64(publicKey!.toBytes()),
+        signature: currentSignature,
+        networkId,
+      }),
     enabled: false,
   });
 
+  const mutationLogout = useMutation({
+    mutationFn: () => fetchLogout({ token, networkId }),
+    onSuccess: () => {
+      setToken("");
+      reset();
+    },
+  });
+
   const handleWalletSelect = async (wallet: any) => {
+    if (isSwitching) {
+      disconnect();
+      mutationLogout.mutate();
+      setNetworkId(networkId === "testnet" ? "devnet" : "testnet");
+    }
+
     const walletName = wallet.adapter.name;
     if (walletName) {
       try {
@@ -163,8 +217,23 @@ export function WalletDialog({ text = "Connect", className }: any) {
 
   const afterWalletConnected = () => {
     if (isSupportSonic(wallet?.adapter.name)) {
-      if (!status || !status[address]) {
-        onOpenSetUpNetworkWalletDialog();
+      // testnet
+      if (networkId === "testnet") {
+        if (isInWhitelist) {
+          onOpenSetUpNetworkWalletDialog();
+        } else {
+          onOpenWhitelistDialog();
+          if (!isSwitching) {
+            disconnect();
+            mutationLogout.mutate();
+          }
+        }
+      }
+      // devnet
+      else {
+        if (!status || !status[address]) {
+          onOpenSetUpNetworkWalletDialog();
+        }
       }
     } else {
       switchMoreWallets();
@@ -191,9 +260,16 @@ export function WalletDialog({ text = "Connect", className }: any) {
   }, [dataBasicInfo]);
 
   useEffect(() => {
+    // not in whitelist
+    if (dataAuthorize?.code === 100027) {
+      setIsInWhitelist(false);
+      return;
+    }
+
     if (dataAuthorize?.data?.token) {
       currentToken = dataAuthorize.data.token;
       setToken(currentToken);
+      setIsInWhitelist(true);
     }
   }, [dataAuthorize]);
 
@@ -228,18 +304,32 @@ export function WalletDialog({ text = "Connect", className }: any) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[467px] h-auto bg-[#1A1A1A] border-none px-8 py-8">
-        <DialogHeader className="">
-          <DialogTitle className="text-white text-[32px] font-orbitron">
-            Connect Your Wallet
+      <DialogContent className="flex flex-col w-full md:w-[500px] h-full md:h-auto bg-[#111] md:bg-[#1A1A1A] border-none p-4 md:p-8">
+        <DialogHeader className="md:max-w-[350px]">
+          <DialogTitle className="inline-flex items-center h-8 md:h-auto text-left text-white/30 md:text-white text-sm md:text-[32px] font-orbitron leading-normal">
+            {isSwitching
+              ? `Welcome to ${
+                  networkSwitchingNames[networkId || "devnet"].id
+                } - ${networkSwitchingNames[networkId || "devnet"].name}`
+              : "Connect Your Wallet"}
           </DialogTitle>
-          <DialogDescription className="w-[355px] text-white/60 text-base">
-            Choose one of the wallets and install the corresponding browser
-            extension.
+          <DialogDescription className="hidden md:block w-[355px] text-white/60 text-base">
+            {isSwitching ? (
+              <>
+                <span className="text-[#FBB042]">Re-login</span> required for
+                Sonic {networkSwitchingNames[networkId || "devnet"].name}{" "}
+                {networkSwitchingNames[networkId || "devnet"].id}
+              </>
+            ) : (
+              <>
+                Choose one of the wallets and install the corresponding browser
+                extension.
+              </>
+            )}
           </DialogDescription>
         </DialogHeader>
 
-        <ul className="flex gap-8 flex-col w-full mt-12">
+        <ul className="flex gap-10 md:gap-8 flex-col w-full mt-10 md:mt-12">
           {walletList.map(
             (wallet: any) =>
               !wallet.hide && (
@@ -250,14 +340,14 @@ export function WalletDialog({ text = "Connect", className }: any) {
                 >
                   <div
                     className="flex items-center cursor-pointer hover:opacity-80 transition-all"
-                    onClick={() => handleWalletSelect(wallet.adapter)}
+                    onClick={() => handleWalletSelect(wallet)}
                   >
                     <img
                       src={wallet.adapter?.icon}
                       alt={wallet.adapter?.name}
                       className="w-8 h-8 mr-3"
                     />
-                    <span className="text-lg text-white font-semibold font-orbitron mr-2">
+                    <span className="text-sm md:text-lg text-white font-semibold font-orbitron mr-2">
                       {wallet.adapter?.name}
                     </span>
                     {wallet.isSupportSonic ? <SupportSonicTag /> : null}
@@ -272,6 +362,11 @@ export function WalletDialog({ text = "Connect", className }: any) {
                       onClick={() => handleWalletSelect(wallet)}
                     >
                       <span className="text-white text-base font-orbitron font-bold">
+                        {/* {isSwitching
+                          ? wallet.adapter?.name === wallet?.adapter?.name
+                            ? "Reconnect"
+                            : "Connect"
+                          : "Connect"} */}
                         Connect
                       </span>
                     </div>

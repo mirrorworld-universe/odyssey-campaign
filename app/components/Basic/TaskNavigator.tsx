@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { taskGroupList } from "@/app/data/task";
-import { useNotificationBar } from "@/app/store/account";
+import { useNetworkInfo, useNotificationBar } from "@/app/store/account";
 import { cn, isMobileViewport } from "@/lib/utils";
 import { useLotteryBar } from "@/app/store/lottery";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
@@ -15,6 +15,8 @@ export function TaskNavigator({ taskId, className }: any) {
 
   const currentTask = tasks.find((task: any) => task.id === taskId);
   const [isExpand, setIsExpand] = useState(false);
+
+  const { networkId } = useNetworkInfo();
 
   if (currentTask && isMobileViewport()) {
     tasks = tasks.filter((task: any) => task.id !== taskId);
@@ -44,14 +46,16 @@ export function TaskNavigator({ taskId, className }: any) {
           className={cn(
             `w-full h-full absolute top-0 left-0 background-highlight opacity-0 transition-opacity duration-300 rotate-180 md:rotate-0`,
             task.id === taskId ? "opacity-40 md:opacity-100" : "",
-            task.available ? "" : ""
+            task.available[networkId || "devnet"] ? "" : ""
           )}
         ></div>
         <span
           className={cn(
             `inline-flex md:flex-col md:gap-2 items-center md:items-start font-orbitron text-base md:text-2xl font-semibold md:font-normal absolute left-[32px] top-0 md:top-auto bottom-0 md:bottom-[24px] transition-colors duration-300`,
             task.id === taskId ? "text-[#FBB042]" : "text-white/50",
-            task.available ? "group-hover/nav:text-[#FBB042]" : ""
+            task.available[networkId || "devnet"]
+              ? "group-hover/nav:text-[#FBB042]"
+              : ""
           )}
         >
           {task.showPeriod ? (
@@ -73,14 +77,14 @@ export function TaskNavigator({ taskId, className }: any) {
       </>
     );
 
-    return task.available && task.id !== taskId ? (
+    return task.available[networkId || "devnet"] && task.id !== taskId ? (
       <Link
         key={taskIndex}
         href={`/task/${task.id}`}
         className={cn(
           "group/nav flex w-full h-full border-l-[4px] md:border-l-[6px] border-solid transition-all duration-300 relative overflow-hidden",
           task.id === taskId ? "border-[#F79342]" : "border-transparent",
-          task.available
+          task.available[networkId || "devnet"]
             ? "opacity-100 cursor-pointer"
             : "opacity-30 cursor-not-allowed border-none",
           className
@@ -95,7 +99,7 @@ export function TaskNavigator({ taskId, className }: any) {
         className={cn(
           "group/nav flex w-full h-full border-l-[4px] md:border-l-[6px] border-solid transition-all duration-300 relative overflow-hidden",
           task.id === taskId ? "border-[#F79342]" : "border-transparent",
-          task.available
+          task.available[networkId || "devnet"]
             ? "opacity-100 cursor-pointer"
             : "opacity-30 cursor-not-allowed border-none",
           className

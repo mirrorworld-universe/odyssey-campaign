@@ -1,3 +1,4 @@
+import { networks } from "@/app/data/config";
 import { UTCDate } from "@date-fns/utc";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -72,6 +73,15 @@ export const openDialoguePopup = (
 
 export const prettyNumber = (number: number) => {
   return new Intl.NumberFormat("en-US").format(number);
+};
+
+export const getNetworkUrl = (networkId: any) => {
+  const currentNetwork = networks.find(
+    (item: any) => item.id === networkId
+  ) || {
+    url: "",
+  };
+  return currentNetwork.url;
 };
 
 export const maintenanceStartTime = "2024-07-09T16:00:00+08:00";

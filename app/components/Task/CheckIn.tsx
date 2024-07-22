@@ -12,7 +12,11 @@ import {
 } from "@solana/web3.js";
 import { Gift } from "@/app/icons/Gift";
 import { Button } from "@/components/ui/button";
-import { useAccountInfo, useSystemInfo } from "@/app/store/account";
+import {
+  useAccountInfo,
+  useNetworkInfo,
+  useSystemInfo,
+} from "@/app/store/account";
 import {
   fetchCheckinStatus,
   fetchCheckinTransaction,
@@ -37,6 +41,7 @@ let currentToken = "";
 
 export function CheckIn() {
   const totalDays = 14;
+  const maxRewardsAmount = 3;
   const wordings = ["1 - 7", "8 - 14", "over 14"];
   const linearGradients = [
     "from-[#00F] to-[#25A3ED]",
@@ -48,6 +53,7 @@ export function CheckIn() {
   const { address, token } = useAccountInfo();
   const { connection } = useConnection();
   const { publicKey, wallet, signTransaction } = useWallet();
+  const { networkId } = useNetworkInfo();
 
   const [isChekingIn, setIsChekingIn] = useState(false);
   const [hasChecked, setHasChecked] = useState(true);
@@ -122,13 +128,13 @@ export function CheckIn() {
     refetch: refetchCheckInInfo,
   } = useQuery({
     queryKey: ["queryCheckInInfo", address],
-    queryFn: () => fetchCheckinStatus({ token }),
+    queryFn: () => fetchCheckinStatus({ token, networkId }),
     enabled: !!token,
   });
 
   const getTransactionHash = useMutation({
     mutationKey: ["buildCheckinTx", address],
-    mutationFn: () => fetchCheckinTransaction({ token }),
+    mutationFn: () => fetchCheckinTransaction({ token, networkId }),
     onSuccess({ data }) {
       if (data?.hash) {
         triggerTransaction(data.hash);
@@ -140,7 +146,8 @@ export function CheckIn() {
 
   const mutationCheckIn = useMutation({
     mutationKey: ["mutationCheckIn", address],
-    mutationFn: () => fetchFinishCheckin({ token, hash: transactionHash }),
+    mutationFn: () =>
+      fetchFinishCheckin({ token, hash: transactionHash, networkId }),
     onSuccess({ data, status }) {
       if (data.checked) {
         setHasChecked(true);
@@ -209,7 +216,9 @@ export function CheckIn() {
               Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
-                href="https://faucet.sonic.game/#/"
+                href={`https://faucet.sonic.game/#/${
+                  networkId === "testnet" ? "?network=testnet" : ""
+                }`}
                 target="_blank"
               >
                 Request here.
@@ -329,8 +338,14 @@ export function CheckIn() {
                 }{" "}
                 days Rewards:{" "}
                 <span className="inline-flex items-center text-[#FBB042] font-orbitron">
-                  x {Math.ceil(checkInDays / (totalDays / 2)) || 1}{" "}
-                  <Gift color="#FBB042" className="mx-1" />
+                  x{" "}
+                  {checkInDays > totalDays
+                    ? maxRewardsAmount
+                    : Math.ceil(checkInDays / (totalDays / 2)) || 1}{" "}
+                  <Gift
+                    color="#FBB042"
+                    className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px] md:mx-1"
+                  />
                 </span>
               </p>
               <Button

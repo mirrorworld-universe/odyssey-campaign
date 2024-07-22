@@ -11,6 +11,7 @@ import Notification from "./Notification";
 import {
   formatAddress,
   useAccountInfo,
+  useNetworkInfo,
   useNotificationBar,
   useSystemInfo,
   useWalletModal,
@@ -43,26 +44,39 @@ import { Menu as IconMenu } from "@/app/icons/Menu";
 import { Close as IconClose } from "@/app/icons/Close";
 import { usePathname } from "next/navigation";
 import { NetworkSwitch } from "./NetworkSwitch";
+import { useWhitelistModal } from "@/app/store/tutorials";
 
 export const menu: any[] = [
   {
     name: "Task Center",
-    link: "/task",
+    link: {
+      devnet: "/task",
+      testnet: "/task",
+    },
     target: "_self",
   },
   {
     name: "Faucet",
-    link: "https://faucet.sonic.game/#/",
+    link: {
+      devnet: "https://faucet.sonic.game/#/",
+      testnet: "https://faucet.sonic.game/#/?network=testnet",
+    },
     target: "_blank",
   },
   {
     name: "Odyssey Guide",
-    link: "https://blog.sonic.game/sonic-testnet-odyssey-guide",
+    link: {
+      devnet: "https://blog.sonic.game/sonic-testnet-odyssey-guide",
+      testnet: "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide",
+    },
     target: "_blank",
   },
   {
     name: "About Sonic",
-    link: "https://sonic.game/",
+    link: {
+      devnet: "https://sonic.game/",
+      testnet: "https://sonic.game/",
+    },
     target: "_blank",
   },
 ];
@@ -78,13 +92,14 @@ export function Header() {
   const { isOpen: isOpenNotificationBar, onOpen: onOpenNotificationBar } =
     useNotificationBar();
   const { lotterySeason } = useLotteryInfo();
+  const { networkId } = useNetworkInfo();
 
   const [bannerMessage, setBannerMessage] = useState<any>({});
   const [showMenu, setShowMenu] = useState(false);
 
   // const { data: dataWinnerBanner } = useQuery({
   //   queryKey: ["queryLotteryBanner", address],
-  //   queryFn: () => getLotteryBanner({ token }),
+  //   queryFn: () => getLotteryBanner({ token, networkId }),
   //   enabled: !!address && !!token,
   //   refetchInterval: 30 * 60 * 1000,
   // });
@@ -144,14 +159,14 @@ export function Header() {
 
   return (
     <nav className="flex flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
-      <div className="h-20 flex items-center justify-between p-4 md:px-10 md:py-4 bg-[#111111] w-full transition-all duration-300">
+      <div className="h-16 md:h-20 flex items-center justify-between p-4 md:px-10 md:py-4 bg-[#111111] w-full transition-all duration-300">
         {/* left */}
-        <div className="flex items-center gap-3 md:gap-8">
+        <div className="flex items-center gap-3 md:gap-6 2xl:gap-8">
           {/* logo */}
           <Link href="/" className="inline-flex flex-row items-center gap-2">
             <img
               alt="Sonic Logo"
-              className="w-7 md:w-8 h-auto"
+              className="min-w-7 md:min-w-8 w-7 md:w-6 2xl:w-8 h-auto"
               src="/sonic.png"
             />
             <span className="hidden md:inline text-white text-[22px] font-bold font-orbitron tracking-widest">
@@ -161,26 +176,20 @@ export function Header() {
 
           {/* menu */}
           <span
-            className="inline-flex md:hidden cursor-pointer"
+            className="w-full inline-flex md:hidden cursor-pointer"
             onClick={() => setShowMenu(true)}
           >
             <IconMenu color="white" />
           </span>
 
-          {/* switch network */}
-          <NetworkSwitch />
-
-          {/* spliter */}
-          <i className="hidden md:inline-flex h-4 w-[1px] bg-white/20"></i>
-
           {/* nav */}
           <div
             className={cn(
-              "flex flex-col md:flex-row fixed md:static top-0 right-0 bottom-0 left-0 m-auto z-30 bg-[#111] w-full h-full md:w-auto md:h-auto duration-300 transition-transform",
+              "flex flex-col md:flex-row fixed items-center md:static top-0 right-0 bottom-0 left-0 m-auto z-30 bg-[#111] w-full h-full md:w-auto md:h-auto duration-300 transition-transform",
               showMenu ? "translate-x-0" : "-translate-x-full md:translate-x-0"
             )}
           >
-            <div className="flex md:hidden p-4 justify-between items-center border-b border-solid border-white/10">
+            <div className="w-full flex md:hidden p-4 justify-between items-center border-b border-solid border-white/10">
               <span className="text-white/30 font-orbitron font-bold">
                 Menu
               </span>
@@ -195,16 +204,25 @@ export function Header() {
                 />
               </span>
             </div>
-            <div className="flex flex-col md:flex-row items-start md:items-center md:gap-8">
+
+            {/* switch network */}
+            <div className="w-full md:w-auto p-4 md:p-0">
+              <NetworkSwitch />
+            </div>
+
+            {/* spliter */}
+            <i className="hidden md:inline-flex h-4 w-[1px] border-r border-solid border-white/20 md:mx-6 2xl:mx-8"></i>
+
+            <div className="w-full md:w-auto flex flex-col md:flex-row items-start md:items-center md:gap-6 2xl:gap-8">
               {menu.map((menuItem, menuIndex) => (
                 <Link
                   className={cn(
-                    "gap-12 text-sm md:text-base text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors px-4 py-5 md:px-0 md:py-0",
+                    "gap-12 text-sm 2xl:text-base text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors px-4 py-5 md:px-0 md:py-0",
                     pathname.startsWith("/task") && menuItem.link === "/task"
                       ? "text-[#FBB042]"
                       : ""
                   )}
-                  href={menuItem.link}
+                  href={menuItem.link[networkId || "devnet"]}
                   key={menuIndex}
                   target={menuItem.target}
                   onClick={trackLinkClick}
@@ -232,11 +250,7 @@ export function Header() {
               )}
               onClick={handleClickOpenWallet}
             >
-              {connecting
-                ? "Connecting..."
-                : isMobileViewport()
-                ? "Connect"
-                : "Connect Wallet"}
+              {connecting ? "Connecting..." : "Connect Wallet"}
             </Button>
           ) : (
             <UserDropdown />

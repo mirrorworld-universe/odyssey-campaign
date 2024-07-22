@@ -10,6 +10,7 @@ import { Twitter } from "@/app/icons/Twitter";
 import { Discord } from "@/app/icons/Discord";
 import {
   useAccountInfo,
+  useNetworkInfo,
   useSystemInfo,
   useWalletModal,
 } from "@/app/store/account";
@@ -31,6 +32,7 @@ export function MeetSonic() {
   const { isOpen, onOpen, onClose } = useWalletModal();
   const { address, token } = useAccountInfo();
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
+  const { networkId } = useNetworkInfo();
 
   const [isLoadingStatus, setIsLoadingStatus] = useState(true);
   const [hasFollowedTwitter, setHasFollowedTwitter] = useState(false);
@@ -49,7 +51,7 @@ export function MeetSonic() {
     refetch: refetchFollowingStatus,
   } = useQuery({
     queryKey: ["queryFollowingStatus", address],
-    queryFn: () => fetchFollowingStatus({ token }),
+    queryFn: () => fetchFollowingStatus({ token, networkId }),
     enabled: !!token,
   });
 
@@ -71,7 +73,12 @@ export function MeetSonic() {
 
   const mutationFollowTwitter = useMutation({
     mutationKey: ["followTwitter", address],
-    mutationFn: () => fetchFollowTwitter(authTwitterState, authTwitterCode),
+    mutationFn: () =>
+      fetchFollowTwitter({
+        state: authTwitterState,
+        code: authTwitterCode,
+        networkId,
+      }),
     onSuccess: ({ data, code, message }) => {
       if (code !== 0) {
         toast({
@@ -89,7 +96,12 @@ export function MeetSonic() {
 
   const mutationFollowDiscord = useMutation({
     mutationKey: ["followDiscord", address],
-    mutationFn: () => fetchFollowDiscord(authDiscordState, authDiscordCode),
+    mutationFn: () =>
+      fetchFollowDiscord({
+        state: authDiscordState,
+        code: authDiscordCode,
+        networkId,
+      }),
     onSuccess: ({ data, code, message }) => {
       if (code !== 0) {
         toast({

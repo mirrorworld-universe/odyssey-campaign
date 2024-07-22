@@ -1,3 +1,5 @@
+import { getNetworkUrl } from "@/lib/utils";
+
 export const taskGroupList = [
   {
     name: "One - time",
@@ -10,7 +12,10 @@ export const taskGroupList = [
         period: "24-Hour Period",
         reward: "",
         iconName: "twitter",
-        available: true,
+        available: {
+          devnet: true,
+          testnet: false,
+        },
       },
     ],
   },
@@ -25,7 +30,10 @@ export const taskGroupList = [
         period: "24-Hour Period",
         reward: "Test SOL Needed",
         iconName: "calendar",
-        available: true,
+        available: {
+          devnet: true,
+          testnet: true,
+        },
       },
       {
         id: "milestone",
@@ -35,7 +43,10 @@ export const taskGroupList = [
         period: "24-Hour Period",
         reward: "",
         iconName: "recommand",
-        available: true,
+        available: {
+          devnet: true,
+          testnet: true,
+        },
       },
       {
         id: "referral",
@@ -45,7 +56,10 @@ export const taskGroupList = [
         period: "24-Hour Period",
         reward: "",
         iconName: "diversity",
-        available: true,
+        available: {
+          devnet: true,
+          testnet: false,
+        },
       },
       {
         id: "ring-lottery",
@@ -55,7 +69,10 @@ export const taskGroupList = [
         period: "Season 1 Ended",
         reward: "Test SOL Needed",
         iconName: "chip",
-        available: true,
+        available: {
+          devnet: true,
+          testnet: false,
+        },
         showPeriod: true,
       },
     ],
@@ -71,15 +88,20 @@ export const taskGroupList = [
         period: "24-Hour Period",
         reward: "",
         iconName: "game",
-        available: true,
+        available: {
+          devnet: true,
+          testnet: false,
+        },
       },
     ],
   },
 ];
 
-export const fetchFollowingStatus = async ({ token }: any) => {
+export const fetchFollowingStatus = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/social/status`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/social/status`,
     {
       headers: {
         Authorization: token,
@@ -90,9 +112,11 @@ export const fetchFollowingStatus = async ({ token }: any) => {
   return response.json();
 };
 
-export const fetchFollowTwitter = async (state: string, code: string) => {
+export const fetchFollowTwitter = async ({ state, code, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/social/follow/twitter`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/social/follow/twitter`,
     {
       headers: {
         "content-type": "application/json",
@@ -107,9 +131,11 @@ export const fetchFollowTwitter = async (state: string, code: string) => {
   return response.json();
 };
 
-export const fetchFollowDiscord = async (state: string, code: string) => {
+export const fetchFollowDiscord = async ({ state, code, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/social/follow/discord`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/social/follow/discord`,
     {
       headers: {
         "content-type": "application/json",
@@ -124,9 +150,11 @@ export const fetchFollowDiscord = async (state: string, code: string) => {
   return response.json();
 };
 
-export const fetchCheckinStatus = async ({ token }: any) => {
+export const fetchCheckinStatus = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/check-in/status`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/check-in/status`,
     {
       headers: {
         Authorization: token,
@@ -137,9 +165,11 @@ export const fetchCheckinStatus = async ({ token }: any) => {
   return response.json();
 };
 
-export const fetchCheckinTransaction = async ({ token }: any) => {
+export const fetchCheckinTransaction = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/check-in/transaction`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/check-in/transaction`,
     {
       headers: {
         Authorization: token,
@@ -150,9 +180,11 @@ export const fetchCheckinTransaction = async ({ token }: any) => {
   return response.json();
 };
 
-export const fetchFinishCheckin = async ({ token, hash }: any) => {
+export const fetchFinishCheckin = async ({ token, hash, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/check-in`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/check-in`,
     {
       headers: {
         Authorization: token,

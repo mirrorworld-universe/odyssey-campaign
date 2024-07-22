@@ -26,6 +26,7 @@ import { useFAQModal, useHowToPlayModal } from "../store/tutorials";
 import { cn } from "@/lib/utils";
 import { trackClick } from "@/lib/track";
 import { Footer } from "../components/Basic/Footer";
+import { useNetworkInfo } from "../store/account";
 
 const icons: any = {
   twitter: (
@@ -70,6 +71,7 @@ const TaskCenter: NextPage = () => {
   const router = useRouter();
   const { address, status, setStatus } = useTaskInfo();
   const { wallet } = useWallet();
+  const { networkId } = useNetworkInfo();
   const {
     isOpen: isOpenHowToPlayDialog,
     onOpen: onOpenHowToPlayDialog,
@@ -158,19 +160,21 @@ const TaskCenter: NextPage = () => {
             size={CardSize.Default}
             name={taskGroup.name}
             className="w-full relative px-4 py-4 md:px-12 md:py-12 rounded md:rounded-xl"
-            nameClassName="text-xs md:text-[32px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-2 md:left-7 -top-2 md:-top-7"
+            nameClassName="text-xs md:text-[32px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-2 md:left-7 -top-2"
           >
             <div className="flex flex-wrap flex-row gap-4 md:gap-10">
               {taskGroup.list.map((task: any, taskIndex: number) => (
                 <Link
                   href={
-                    task.available && isSupportSonic(wallet?.adapter.name)
+                    task.available[networkId || "devnet"] &&
+                    isSupportSonic(wallet?.adapter.name)
                       ? `/task/${task.id}`
                       : "#"
                   }
                   className={cn(
                     "group/task w-full md:max-w-[663px]",
-                    task.available && isSupportSonic(wallet?.adapter.name)
+                    task.available[networkId || "devnet"] &&
+                      isSupportSonic(wallet?.adapter.name)
                       ? "opacity-100 cursor-pointer"
                       : "opacity-30 cursor-not-allowed"
                   )}
@@ -179,7 +183,8 @@ const TaskCenter: NextPage = () => {
                   <div
                     className={cn(
                       "bg-[#1E1E1E] w-full h-auto md:h-[263px] px-4 py-4 md:px-8 md:py-8 rounded md:rounded-md transition-colors duration-300 overflow-hidden relative",
-                      task.available && isSupportSonic(wallet?.adapter.name)
+                      task.available[networkId || "devnet"] &&
+                        isSupportSonic(wallet?.adapter.name)
                         ? "group-hover/task:bg-[#181818]"
                         : ""
                     )}
@@ -221,7 +226,8 @@ const TaskCenter: NextPage = () => {
                     <div
                       className={cn(
                         "origin-center rotate-12 opacity-50 absolute -bottom-6 md:-bottom-4 right-0 md:right-0 transition-all duration-300",
-                        task.available && isSupportSonic(wallet?.adapter.name)
+                        task.available[networkId || "devnet"] &&
+                          isSupportSonic(wallet?.adapter.name)
                           ? "group-hover/task:-right-14"
                           : ""
                       )}

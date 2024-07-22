@@ -15,14 +15,14 @@ export const useSystemInfo = create<{
 
 export const useNetworkInfo = create(
   persist<{
-    network: string;
-    setNetwork: (network: string) => void;
+    networkId: string;
+    setNetworkId: (networkId: string) => void;
   }>(
     (set, get) => ({
-      network: get()?.network,
-      setNetwork: (network: string) => {
+      networkId: get()?.networkId,
+      setNetworkId: (networkId: string) => {
         set({
-          network,
+          networkId,
         });
       },
     }),
@@ -54,6 +54,8 @@ export const useWalletModal = create<{
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+  isSwitching: boolean;
+  setSwitching: (isSwitching: boolean) => void;
 }>((set) => ({
   isOpen: false,
   onOpen: () => {
@@ -66,6 +68,13 @@ export const useWalletModal = create<{
       isOpen: false,
     });
   },
+
+  isSwitching: false,
+  setSwitching: (isSwitching: boolean) => {
+    set({
+      isSwitching,
+    });
+  },
 }));
 
 export const useAccountInfo = create(
@@ -76,6 +85,8 @@ export const useAccountInfo = create(
     setToken: (token: string) => void;
     hasNews: boolean;
     setNews: (hasNews: boolean) => void;
+    isInWhitelist: boolean;
+    setIsInWhitelist: (isInWhitelist: boolean) => void;
     reset: () => void;
   }>(
     (set, get) => ({
@@ -100,11 +111,19 @@ export const useAccountInfo = create(
         });
       },
 
+      isInWhitelist: get()?.isInWhitelist,
+      setIsInWhitelist: (isInWhitelist: boolean) => {
+        set({
+          isInWhitelist,
+        });
+      },
+
       reset: () => {
         set({
           address: undefined,
           token: undefined,
           hasNews: false,
+          isInWhitelist: false,
         });
       },
     }),

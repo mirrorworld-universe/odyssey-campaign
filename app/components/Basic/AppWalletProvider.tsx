@@ -22,11 +22,10 @@ export default function AppWalletProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { network: currentNetwork } = useNetworkInfo();
+  const { networkId } = useNetworkInfo();
 
   const defaultRpc = (
-    networks.find((network: any) => network.name === currentNetwork) ||
-    networks[0]
+    networks.find((network: any) => network.id === networkId) || networks[0]
   ).rpc;
   const [network, setNetwork] = useState(defaultRpc);
   // const network = WalletAdapterNetwork.Devnet;
@@ -36,8 +35,11 @@ export default function AppWalletProvider({
   const endpoint = useMemo(() => defaultRpc, [defaultRpc]);
 
   useEffect(() => {
-    setNetwork(currentNetwork);
-  }, [currentNetwork]);
+    if (networkId) {
+      console.log("networkId", networkId);
+      setNetwork(networks.find((network: any) => network.id === networkId).rpc);
+    }
+  }, [networkId]);
 
   useEffect(() => {
     setNetwork(defaultRpc);
@@ -46,14 +48,14 @@ export default function AppWalletProvider({
   const wallets = useMemo(
     () => [
       // manually add any legacy wallet adapters here
-      new NightlyWalletAdapter(),
+      // new NightlyWalletAdapter(),
       // new PhantomWalletAdapter(),
     ],
     [network]
   );
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
+    <ConnectionProvider endpoint={network}>
       <WalletProvider wallets={wallets} autoConnect={!isInMaintenanceTime()}>
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>

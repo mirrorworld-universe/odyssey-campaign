@@ -18,7 +18,11 @@ import {
 import { trackClick } from "@/lib/track";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { formatAddress, useAccountInfo } from "@/app/store/account";
+import {
+  formatAddress,
+  useAccountInfo,
+  useNetworkInfo,
+} from "@/app/store/account";
 import {
   getLotteryDrawPrice,
   getLotteryMintedAmount,
@@ -67,7 +71,7 @@ export function RingLottery() {
   } = useDrawConfirmModal();
 
   const { onOpen: onOpenLotteryPriceTableModal } = useLotteryPriceTableModal();
-
+  const { networkId } = useNetworkInfo();
   const {
     address,
     token,
@@ -79,7 +83,7 @@ export function RingLottery() {
   const { data: dataMintedRingAmount, refetch: refetchMintedRingAmount } =
     useQuery({
       queryKey: ["queryMintedRingAmount", address],
-      queryFn: () => getLotteryMintedAmount({ token }),
+      queryFn: () => getLotteryMintedAmount({ token, networkId }),
       enabled: !!address && !!token,
     });
 
@@ -89,13 +93,14 @@ export function RingLottery() {
     refetch: refetchWinnerBoard,
   } = useQuery({
     queryKey: ["queryWinnerBoard", address],
-    queryFn: () => getLotteryWinnerBoard({ token, page: winnerBoardPage }),
+    queryFn: () =>
+      getLotteryWinnerBoard({ token, page: winnerBoardPage, networkId }),
     enabled: !!address && !!token,
   });
 
   const { data: dataDrawPrice, refetch: refetchDrawPrice } = useQuery({
     queryKey: ["queryDrawPrice", address],
-    queryFn: () => getLotteryDrawPrice({ token }),
+    queryFn: () => getLotteryDrawPrice({ token, networkId }),
     enabled: !!address && !!token,
   });
 
@@ -222,7 +227,9 @@ export function RingLottery() {
               Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
-                href="https://faucet.sonic.game/#/"
+                href={`https://faucet.sonic.game/#/${
+                  networkId === "testnet" ? "?network=testnet" : ""
+                }`}
                 target="_blank"
               >
                 Request here.

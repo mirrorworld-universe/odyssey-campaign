@@ -4,7 +4,11 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Gift } from "@/app/icons/Gift";
 import { Button } from "@/components/ui/button";
 import { Card, CardSize } from "../Basic/Card";
-import { useAccountInfo, useSystemInfo } from "@/app/store/account";
+import {
+  useAccountInfo,
+  useNetworkInfo,
+  useSystemInfo,
+} from "@/app/store/account";
 import {
   claimMilestoneRewards,
   getMilestoneDailyInfo,
@@ -32,6 +36,7 @@ export function MileStone() {
 
   const { isInMaintenance } = useSystemInfo();
   const { address, token } = useAccountInfo();
+  const { networkId } = useNetworkInfo();
 
   const getPartition = () => {
     return transactionAmount <= stageList["stage_1"]?.quantity
@@ -47,12 +52,13 @@ export function MileStone() {
     refetch: refetchMilestoneDailyInfo,
   } = useQuery({
     queryKey: ["queryMilestoneDailyInfo", address],
-    queryFn: () => getMilestoneDailyInfo({ token }),
+    queryFn: () => getMilestoneDailyInfo({ token, networkId }),
     enabled: !!token,
   });
 
   const mutationClaimRewards = useMutation({
-    mutationFn: () => claimMilestoneRewards({ token, stage: claimStage }),
+    mutationFn: () =>
+      claimMilestoneRewards({ token, stage: claimStage, networkId }),
     onSuccess: ({ data, status }) => {
       if (data.claimed) {
         const currentStageKey = Object.keys(stageList)[claimStage - 1];
