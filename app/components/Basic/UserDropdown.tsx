@@ -35,9 +35,17 @@ export function UserDropdown() {
   const [balance, setBalance] = useState<number | null>(null);
 
   const setUpUrls: any = {
-    nightly: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
-    backpack:
-      "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
+    nightly: {
+      devnet: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
+      testnet:
+        "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet",
+    },
+    backpack: {
+      devnet:
+        "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
+      testnet:
+        "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet",
+    },
   };
 
   const mutationLogout = useMutation({
@@ -167,7 +175,11 @@ export function UserDropdown() {
         ).isSupportSonic && (
           <a
             className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5"
-            href={setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]}
+            href={
+              setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"][
+                networkId || "devnet"
+              ]
+            }
             target="_blank"
           >
             <img src="/images/settings.svg" alt="" className="w-5 h-5 mr-3" />

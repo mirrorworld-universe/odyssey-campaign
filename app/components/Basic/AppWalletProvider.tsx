@@ -33,6 +33,7 @@ export default function AppWalletProvider({
   // const connection = new Connection(customRpcUrl, { commitment: "confirmed" });
   // const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   const endpoint = useMemo(() => defaultRpc, [defaultRpc]);
+  // const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
   useEffect(() => {
     if (networkId) {
@@ -55,7 +56,7 @@ export default function AppWalletProvider({
   );
 
   return (
-    <ConnectionProvider endpoint={network}>
+    <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect={!isInMaintenanceTime()}>
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>

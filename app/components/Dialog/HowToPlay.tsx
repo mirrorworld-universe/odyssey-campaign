@@ -33,7 +33,11 @@ export function HowToPlayDialog() {
             Check{" "}
             <a
               className="text-[#25A3ED] hover:underline"
-              href="https://blog.sonic.game/sonic-testnet-odyssey-guide"
+              href={
+                networkId === "testnet"
+                  ? "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide"
+                  : "https://blog.sonic.game/sonic-testnet-odyssey-guide"
+              }
               target="_blank"
             >
               guides

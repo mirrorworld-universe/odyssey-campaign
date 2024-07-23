@@ -42,9 +42,17 @@ export function SetUpSonicNetworkDialog() {
   } = useWhitelistModal();
 
   const setUpUrls: any = {
-    nightly: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
-    backpack:
-      "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
+    nightly: {
+      devnet: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
+      testnet:
+        "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet",
+    },
+    backpack: {
+      devnet:
+        "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
+      testnet:
+        "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet",
+    },
   };
 
   const handleConfirmInTestnet = () => {
@@ -102,7 +110,9 @@ export function SetUpSonicNetworkDialog() {
               Open this network{" "}
               <a
                 href={
-                  setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]
+                  setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"][
+                    networkId || "devnet"
+                  ]
                 }
                 target="_blank"
                 className="text-[#25A3ED] hover:underline underline-offset-2"

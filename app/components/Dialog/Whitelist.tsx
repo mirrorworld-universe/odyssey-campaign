@@ -20,8 +20,9 @@ import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 export function WhitelistDialog() {
   const router = useRouter();
 
+  const { disconnect } = useWallet();
   const { isOpen, onOpen, onClose } = useWhitelistModal();
-  const { isInWhitelist } = useAccountInfo();
+  const { isInWhitelist, reset } = useAccountInfo();
   const { setNetworkId } = useNetworkInfo();
 
   const handleToTaskCenter = () => {
@@ -30,6 +31,8 @@ export function WhitelistDialog() {
   };
 
   const handleConfirm = () => {
+    disconnect();
+    reset();
     setNetworkId("devnet");
     router.push("/");
     onClose();
@@ -54,8 +57,8 @@ export function WhitelistDialog() {
           <AlertDialogDescription className="text-[#717171] text-base text-center mt-4">
             {isInWhitelist ? (
               <p>
-                Welcome to Sonic Testnet Stage 2 testing phase! You're
-                whitelisted. Please share your feedback with our{" "}
+                You're whitelisted! Check out this guide to get started. Please
+                share your feedback with our{" "}
                 <a
                   className="text-[#25A3ED] hover:underline"
                   href="https://discord.com/channels/878219562351484948/1263097331750928535"

@@ -25,6 +25,10 @@ export function NetworkSwitch({ className }: any) {
   const [networks, setNetworks] = useState<any[]>(currentNetworkList);
 
   const handleSwitchNetwork = (network: any) => {
+    if (network.id === networkId) {
+      return;
+    }
+
     if (token) {
       setSwitching(true);
       onOpen();
