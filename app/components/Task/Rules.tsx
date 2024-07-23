@@ -56,7 +56,7 @@ export function Rules({ show, onClose, children }: any) {
             size={CardSize.Medium}
             className="max-w-[1024px] px-4 py-6 rounded-lg md:px-10 md:py-10 md:rounded-xl"
             nameClassName="bg-[#000] hidden md:block"
-            contentClassName="text-xs md:text-xl text-white/60 md:text-white leading-loose md:leading-relaxed"
+            contentClassName="text-xs md:text-xl text-white/60 leading-loose md:leading-relaxed"
           >
             {children}
           </Card>
