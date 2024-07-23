@@ -8,11 +8,13 @@ import {
   useWalletModal,
 } from "@/app/store/account";
 import { cn } from "@/lib/utils";
+import { useSwitchNetworkModal } from "@/app/store/tutorials";
 
 export function NetworkSwitch({ className }: any) {
   const { token } = useAccountInfo();
   const { setNetworkId, networkId } = useNetworkInfo();
-  const { isOpen, onOpen, setSwitching, isSwitching } = useWalletModal();
+  // const { isOpen, onOpen, setSwitching, isSwitching } = useWalletModal();
+  const { isOpen, onOpen } = useSwitchNetworkModal();
 
   const currentNetworkList = networkList.map((item, index) => {
     if (networkId) {
@@ -30,7 +32,7 @@ export function NetworkSwitch({ className }: any) {
     }
 
     if (token) {
-      setSwitching(true);
+      // setSwitching(true);
       onOpen();
     } else {
       setNetworkId(network.id);

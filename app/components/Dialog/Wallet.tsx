@@ -58,12 +58,12 @@ let isWhitelist = false;
 
 const networkSwitchingNames: any = {
   devnet: {
-    id: "Testnet",
-    name: "Frontier",
-  },
-  testnet: {
     id: "Devnet",
     name: "Origin",
+  },
+  testnet: {
+    id: "Testnet",
+    name: "Frontier",
   },
 };
 
@@ -147,27 +147,18 @@ export function WalletDialog({ text = "Connect", className }: any) {
   });
 
   const handleWalletSelect = async (currentWallet: any) => {
-    if (isSwitching) {
-      mutationLogout.mutate();
-    }
-
-    setTimeout(() => {
-      if (isSwitching) {
-        setNetworkId(networkId === "testnet" ? "devnet" : "testnet");
+    const walletName = currentWallet.adapter.name;
+    if (walletName) {
+      try {
+        // currentToken = "";
+        // setToken("");
+        select(walletName);
+        onClose();
         setSwitching(false);
+      } catch (error) {
+        console.log("wallet connection err : ", error);
       }
-      const walletName = currentWallet.adapter.name;
-      if (walletName) {
-        try {
-          // currentToken = "";
-          // setToken("");
-          select(walletName);
-          onClose();
-        } catch (error) {
-          console.log("wallet connection err : ", error);
-        }
-      }
-    });
+    }
 
     // track code
     trackClick({ text: "Connect Action" });
@@ -284,9 +275,11 @@ export function WalletDialog({ text = "Connect", className }: any) {
       isWhitelist = false;
     }
 
-    if (dataAuthorize?.code === 0) {
+    console.log("dataAuthorize", dataAuthorize);
+    if (dataAuthorize?.data?.token) {
       console.log("auth success", currentToken);
       currentToken = dataAuthorize.data?.token;
+      console.log("currentToken", currentToken);
       setToken(currentToken);
       setIsInWhitelist(true);
       isWhitelist = true;

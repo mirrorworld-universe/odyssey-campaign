@@ -84,7 +84,7 @@ export const menu: any[] = [
 export function Header() {
   const pathname = usePathname();
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
-  const { isOpen, onOpen } = useWalletModal();
+  const { isOpen, onOpen, setSwitching } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
   const { address, token, setToken } = useAccountInfo();
   const { isOpen: isOpenLotteryBar, onOpen: onOpenLotteryBar } =
@@ -119,6 +119,7 @@ export function Header() {
       return;
     }
 
+    setSwitching(false);
     !publicKey && onOpen();
 
     // ga4

@@ -18,6 +18,7 @@ import { SetUpSonicNetworkDialog } from "./components/Dialog/SetUpSonicNetwork";
 import { SetUpFinishDialog } from "./components/Dialog/SetUpFinish";
 import "../lib/track";
 import { WhitelistDialog } from "./components/Dialog/Whitelist";
+import { SwitchNetworkDialog } from "./components/Dialog/SwitchNetwork";
 
 const manrope = Manrope({
   weight: ["400", "500"],
@@ -128,6 +129,7 @@ window.criteo_q.push(
             <SetUpSonicNetworkDialog />
             <SetUpFinishDialog />
             <WhitelistDialog />
+            <SwitchNetworkDialog />
 
             {/* welcome dialog */}
             <WelcomeDialog />
