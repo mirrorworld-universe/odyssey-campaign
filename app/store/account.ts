@@ -83,6 +83,8 @@ export const useAccountInfo = create(
     setAddress: (address: string) => void;
     token: string;
     setToken: (token: string) => void;
+    signature: string;
+    setSignature: (signature: string) => void;
     hasNews: boolean;
     setNews: (hasNews: boolean) => void;
     isInWhitelist: boolean;
@@ -101,6 +103,13 @@ export const useAccountInfo = create(
       setToken: (token: string) => {
         set({
           token,
+        });
+      },
+
+      signature: get()?.signature,
+      setSignature: (signature: string) => {
+        set({
+          signature,
         });
       },
 

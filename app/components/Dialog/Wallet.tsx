@@ -81,6 +81,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
     setAddress,
     token,
     setToken,
+    signature,
+    setSignature,
     isInWhitelist,
     setIsInWhitelist,
     reset,
@@ -132,14 +134,14 @@ export function WalletDialog({ text = "Connect", className }: any) {
       fetchAuthorize({
         address: publicKey?.toString() || address,
         address_encoded: encodeBase64(publicKey!.toBytes()),
-        signature: currentSignature,
+        signature: currentSignature || signature,
         networkId,
       }),
     enabled: false,
   });
 
   const mutationLogout = useMutation({
-    mutationFn: () => fetchLogout({ token: currentToken, networkId }),
+    mutationFn: () => fetchLogout({ token: currentToken || token, networkId }),
     onSuccess: () => {
       reset();
       disconnect();
@@ -147,6 +149,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
   });
 
   const handleWalletSelect = async (currentWallet: any) => {
+    await disconnect();
+
     const walletName = currentWallet.adapter.name;
     if (walletName) {
       try {
@@ -167,16 +171,18 @@ export function WalletDialog({ text = "Connect", className }: any) {
     connectWalletStatics();
   };
 
-  const sign = async (messageToSign: string) => {
+  const sign = async () => {
     try {
       if (!signMessage) {
         console.log("signMessage function is not available");
         return;
       }
+
       const message = new TextEncoder().encode(messageToSign);
       const uint8arraySignature = await signMessage(message);
       const signature = encodeBase64(uint8arraySignature);
       currentSignature = signature;
+      setSignature(currentSignature);
       refetchAuthorize();
       // open tip dilogs
       afterWalletConnected();
@@ -218,8 +224,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
     setWalletList(list);
   };
 
-  const signWalletMessage = async (message: string) => {
-    await sign(message);
+  const signWalletMessage = async () => {
+    await sign();
   };
 
   const afterWalletConnected = () => {
@@ -257,13 +263,15 @@ export function WalletDialog({ text = "Connect", className }: any) {
     }
 
     if (dataBasicInfo?.data) {
+      if (messageToSign === dataBasicInfo.data) {
+        return;
+      }
       messageToSign = dataBasicInfo.data;
       const isNoToken = !token && !currentToken;
       const isNewAddress = publicKey?.toString() !== lastAddress;
       if (messageToSign && (isNoToken || isNewAddress) && !isSigning) {
-        console.log("signWalletMessage");
         isSigning = true;
-        signWalletMessage(messageToSign);
+        signWalletMessage();
       }
     }
   }, [dataBasicInfo]);
@@ -275,11 +283,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
       isWhitelist = false;
     }
 
-    console.log("dataAuthorize", dataAuthorize);
     if (dataAuthorize?.data?.token) {
-      console.log("auth success", currentToken);
       currentToken = dataAuthorize.data?.token;
-      console.log("currentToken", currentToken);
       setToken(currentToken);
       setIsInWhitelist(true);
       isWhitelist = true;
