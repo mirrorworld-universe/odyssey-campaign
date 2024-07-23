@@ -15,13 +15,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useWhitelistModal } from "@/app/store/tutorials";
-import { useAccountInfo } from "@/app/store/account";
+import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 
 export function WhitelistDialog() {
   const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useWhitelistModal();
   const { isInWhitelist } = useAccountInfo();
+  const { setNetworkId } = useNetworkInfo();
 
   const handleToTaskCenter = () => {
     router.push("/task");
@@ -29,6 +30,8 @@ export function WhitelistDialog() {
   };
 
   const handleConfirm = () => {
+    setNetworkId("devnet");
+    router.push("/");
     onClose();
   };
 

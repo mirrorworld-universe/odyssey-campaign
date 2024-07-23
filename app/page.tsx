@@ -131,7 +131,9 @@ export default function Home() {
             <img className="" src="/images/sonic-odyssey.png" alt="" />
           </h1>
           <p className="text-[32px] font-orbitron text-[#FFFFFF]/[0.8] mt-12">
-            Join the Sonic Odyssey Testnet Campaign.
+            {networkId === "testnet"
+              ? "Join the Sonic Odyssey testnet stage 2."
+              : "Join the Sonic Odyssey Testnet Campaign."}
           </p>
           <p className="text-[32px] font-orbitron text-[#FFFFFF]/[0.8]">
             Earn Your Ring Rewards!

@@ -53,6 +53,8 @@ let lastAddress = "";
 let currentSignature = "";
 let currentToken = "";
 let messageToSign = "";
+let isSigning = false;
+let isWhitelist = false;
 
 const networkSwitchingNames: any = {
   devnet: {
@@ -66,8 +68,14 @@ const networkSwitchingNames: any = {
 };
 
 export function WalletDialog({ text = "Connect", className }: any) {
-  const { select, wallet, publicKey, disconnect, connected, signMessage } =
-    useWallet();
+  const {
+    select,
+    wallet: currentWallet,
+    publicKey,
+    disconnect,
+    connected,
+    signMessage,
+  } = useWallet();
   const {
     address,
     setAddress,
@@ -78,7 +86,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
     reset,
   } = useAccountInfo();
   const { setAddress: setTaskAddress } = useTaskInfo();
-  const { isOpen, onOpen, onClose, isSwitching } = useWalletModal();
+  const { isOpen, onOpen, onClose, isSwitching, setSwitching } =
+    useWalletModal();
   const { status } = useSetupInfo();
   const { networkId, setNetworkId } = useNetworkInfo();
   const {
@@ -130,35 +139,40 @@ export function WalletDialog({ text = "Connect", className }: any) {
   });
 
   const mutationLogout = useMutation({
-    mutationFn: () => fetchLogout({ token, networkId }),
+    mutationFn: () => fetchLogout({ token: currentToken, networkId }),
     onSuccess: () => {
-      setToken("");
       reset();
+      disconnect();
     },
   });
 
-  const handleWalletSelect = async (wallet: any) => {
+  const handleWalletSelect = async (currentWallet: any) => {
     if (isSwitching) {
-      disconnect();
       mutationLogout.mutate();
-      setNetworkId(networkId === "testnet" ? "devnet" : "testnet");
     }
 
-    const walletName = wallet.adapter.name;
-    if (walletName) {
-      try {
-        currentToken = "";
-        setToken("");
-        select(walletName);
-        onClose();
-        // track code
-        trackClick({ text: "Connect Action" });
-        trackCriteoWalletClick();
-        trackCriteoWalletTransactionClick();
-      } catch (error) {
-        console.log("wallet connection err : ", error);
+    setTimeout(() => {
+      if (isSwitching) {
+        setNetworkId(networkId === "testnet" ? "devnet" : "testnet");
+        setSwitching(false);
       }
-    }
+      const walletName = currentWallet.adapter.name;
+      if (walletName) {
+        try {
+          // currentToken = "";
+          // setToken("");
+          select(walletName);
+          onClose();
+        } catch (error) {
+          console.log("wallet connection err : ", error);
+        }
+      }
+    });
+
+    // track code
+    trackClick({ text: "Connect Action" });
+    trackCriteoWalletClick();
+    trackCriteoWalletTransactionClick();
     connectWalletStatics();
   };
 
@@ -175,11 +189,13 @@ export function WalletDialog({ text = "Connect", className }: any) {
       refetchAuthorize();
       // open tip dilogs
       afterWalletConnected();
+      isSigning = false;
     } catch (e) {
       console.log("could not sign message", e);
       currentToken = "";
       setToken("");
       disconnect();
+      isSigning = false;
     }
   };
 
@@ -216,10 +232,10 @@ export function WalletDialog({ text = "Connect", className }: any) {
   };
 
   const afterWalletConnected = () => {
-    if (isSupportSonic(wallet?.adapter.name)) {
+    if (isSupportSonic(currentWallet?.adapter.name)) {
       // testnet
       if (networkId === "testnet") {
-        if (isInWhitelist) {
+        if (isWhitelist) {
           onOpenSetUpNetworkWalletDialog();
         } else {
           onOpenWhitelistDialog();
@@ -253,7 +269,9 @@ export function WalletDialog({ text = "Connect", className }: any) {
       messageToSign = dataBasicInfo.data;
       const isNoToken = !token && !currentToken;
       const isNewAddress = publicKey?.toString() !== lastAddress;
-      if (messageToSign && (isNoToken || isNewAddress)) {
+      if (messageToSign && (isNoToken || isNewAddress) && !isSigning) {
+        console.log("signWalletMessage");
+        isSigning = true;
         signWalletMessage(messageToSign);
       }
     }
@@ -263,13 +281,15 @@ export function WalletDialog({ text = "Connect", className }: any) {
     // not in whitelist
     if (dataAuthorize?.code === 100027) {
       setIsInWhitelist(false);
-      return;
+      isWhitelist = false;
     }
 
-    if (dataAuthorize?.data?.token) {
-      currentToken = dataAuthorize.data.token;
+    if (dataAuthorize?.code === 0) {
+      console.log("auth success", currentToken);
+      currentToken = dataAuthorize.data?.token;
       setToken(currentToken);
       setIsInWhitelist(true);
+      isWhitelist = true;
     }
   }, [dataAuthorize]);
 
@@ -356,24 +376,24 @@ export function WalletDialog({ text = "Connect", className }: any) {
                   {wallet.adapter.readyState === WalletReadyState.Installed ? (
                     <div
                       className={cn(
-                        "inline-flex items-center justify-center min-w-[115px] h-10 text-center rounded border-none cursor-pointer px-4 py-2.5 transition-all",
+                        "inline-flex items-center justify-center min-w-[136px] h-10 text-center rounded border-none cursor-pointer px-4 py-2.5 transition-all",
                         "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
                       )}
                       onClick={() => handleWalletSelect(wallet)}
                     >
                       <span className="text-white text-base font-orbitron font-bold">
-                        {/* {isSwitching
-                          ? wallet.adapter?.name === wallet?.adapter?.name
+                        {isSwitching
+                          ? wallet.adapter?.name ===
+                            currentWallet?.adapter?.name
                             ? "Reconnect"
                             : "Connect"
-                          : "Connect"} */}
-                        Connect
+                          : "Connect"}
                       </span>
                     </div>
                   ) : (
                     <a
                       className={cn(
-                        "inline-flex items-center justify-center min-w-[115px] h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
+                        "inline-flex items-center justify-center min-w-[136px] h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
                         "border-white/40 hover:border-white/80"
                       )}
                       href={wallet.adapter.url}
@@ -387,7 +407,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
                 </li>
               )
           )}
-          {walletList.some((wallet: any) => wallet.hide) && (
+          {walletList.some((currentWallet: any) => currentWallet.hide) && (
             <li
               className="flex w-full justify-center cursor-pointer hover:opacity-80"
               onClick={handleShowMoreWallet}

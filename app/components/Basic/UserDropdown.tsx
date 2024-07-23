@@ -44,7 +44,6 @@ export function UserDropdown() {
     mutationFn: () => fetchLogout({ token, networkId }),
     onSuccess: () => {
       setSwitching(false);
-      setToken("");
       reset();
     },
   });
