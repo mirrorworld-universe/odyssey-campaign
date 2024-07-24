@@ -57,11 +57,11 @@ let isWhitelist = false;
 
 const networkSwitchingNames: any = {
   devnet: {
-    id: "Devnet",
+    id: "1",
     name: "Origin",
   },
   testnet: {
-    id: "Testnet",
+    id: "2",
     name: "Frontier",
   },
 };
@@ -326,17 +326,17 @@ export function WalletDialog({ text = "Connect", className }: any) {
         <DialogHeader className="md:max-w-[350px]">
           <DialogTitle className="inline-flex items-center h-8 md:h-auto text-left text-white/30 md:text-white text-sm md:text-[32px] font-orbitron leading-normal">
             {isSwitching
-              ? `Welcome to ${
-                  networkSwitchingNames[networkId || "devnet"].id
-                } - ${networkSwitchingNames[networkId || "devnet"].name}`
+              ? `Welcome to Sonic - ${
+                  networkSwitchingNames[networkId || "devnet"].name
+                }`
               : "Connect Your Wallet"}
           </DialogTitle>
           <DialogDescription className="hidden md:block w-[355px] text-white/60 text-base">
             {isSwitching ? (
               <>
-                Re-login required for Sonic{" "}
-                {networkSwitchingNames[networkId || "devnet"].name}{" "}
-                {networkSwitchingNames[networkId || "devnet"].id}
+                Re-login required for Sonic Stage{" "}
+                {networkSwitchingNames[networkId || "devnet"].id}{" "}
+                {networkSwitchingNames[networkId || "devnet"].name}
               </>
             ) : (
               <>
