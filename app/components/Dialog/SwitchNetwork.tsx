@@ -82,15 +82,14 @@ export function SwitchNetworkDialog() {
               <Switch width={64} height={64} color="#FBD314" />
             </p>
             <span className="text-white text-2xl font-semibold font-orbitron">
-              Switching to Sonic [
-              {networkSwitchingNames[networkId || "devnet"].name}]
+              Switching to Sonic{" "}
+              {networkSwitchingNames[networkId || "devnet"].name}
             </span>
           </AlertDialogTitle>
           <AlertDialogDescription className="text-[#717171] text-base text-center mt-4">
-            To switch to the [
-            {networkSwitchingNames[networkId || "devnet"].name}] network, you
-            need to log out of your current wallet connection. Do you wish to
-            continue?
+            To switch to the {networkSwitchingNames[networkId || "devnet"].name}{" "}
+            network, you need to log out of your current wallet connection. Do
+            you wish to continue?
           </AlertDialogDescription>
         </AlertDialogHeader>
 

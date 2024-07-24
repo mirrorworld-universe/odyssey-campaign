@@ -330,8 +330,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
           <DialogDescription className="hidden md:block w-[355px] text-white/60 text-base">
             {isSwitching ? (
               <>
-                <span className="text-[#FBB042]">Re-login</span> required for
-                Sonic {networkSwitchingNames[networkId || "devnet"].name}{" "}
+                Re-login required for Sonic{" "}
+                {networkSwitchingNames[networkId || "devnet"].name}{" "}
                 {networkSwitchingNames[networkId || "devnet"].id}
               </>
             ) : (

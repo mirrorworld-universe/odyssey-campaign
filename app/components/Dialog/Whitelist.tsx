@@ -40,7 +40,7 @@ export function WhitelistDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[468px] bg-[#1A1A1A] border-none px-8 py-8">
+      <AlertDialogContent className="w-[460px] bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
           <AlertDialogTitle className="flex flex-col justify-start items-center text-white text-[32px] font-orbitron gap-8">
             <p className="flex flex-row justify-center items-center gap-3 text-white text-5xl font-semibold font-orbitron pt-4">
