@@ -114,7 +114,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     isLoading: loadingBasicInfo,
     refetch: refetchBasicInfo,
   } = useQuery({
-    queryKey: ["queryBasicInfo", publicKey?.toString() || address],
+    queryKey: ["queryBasicInfo"],
     queryFn: () =>
       fetchBasicInfo({
         address: publicKey?.toString() || address,
@@ -181,10 +181,9 @@ export function WalletDialog({ text = "Connect", className }: any) {
       const uint8arraySignature = await signMessage(message);
       const signature = encodeBase64(uint8arraySignature);
       currentSignature = signature;
+      messageToSign = "";
       setSignature(currentSignature);
       refetchAuthorize();
-      // open tip dilogs
-      afterWalletConnected();
     } catch (e) {
       console.log("could not sign message", e);
       currentToken = "";
@@ -273,19 +272,24 @@ export function WalletDialog({ text = "Connect", className }: any) {
   }, [dataBasicInfo]);
 
   useEffect(() => {
-    // not in whitelist
-    if (dataAuthorize?.code === 100027) {
-      setIsInWhitelist(false);
-      isWhitelist = false;
-    }
+    if (dataAuthorize) {
+      // not in whitelist
+      if (dataAuthorize.code === 100027) {
+        setIsInWhitelist(false);
+        isWhitelist = false;
+      }
 
-    if (dataAuthorize?.data?.token) {
-      currentToken = dataAuthorize.data?.token;
-      setToken(currentToken);
-      setIsInWhitelist(true);
-      isWhitelist = true;
+      if (dataAuthorize.data?.token) {
+        currentToken = dataAuthorize.data.token;
+        setToken(currentToken);
+        setIsInWhitelist(true);
+        isWhitelist = true;
+      }
+
+      // open tip dilogs
+      afterWalletConnected();
     }
-  }, [dataAuthorize]);
+  }, [JSON.stringify(dataAuthorize)]);
 
   useEffect(() => {
     if (publicKey) {
