@@ -1,4 +1,4 @@
-// import { socketConnected } from "./ws";
+import { socketConnected } from "./ws";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import {
   AddressLookupTableAccount,
@@ -317,27 +317,19 @@ export async function sendSignedTransaction({
   })();
 
   try {
-    const signatureStatus = await awaitTransactionSignatureConfirmation(
-      txid,
-      timeout,
-      connection,
-      commitment,
-      true
-    );
-    console.log("signatureStatus", signatureStatus);
-    // if (socketConnected(connection)) {
-    //   const result = await confirmTransaction(connection, txid, commitment);
-    //   console.log("result", result);
-    // } else {
-    //   const signatureStatus = await awaitTransactionSignatureConfirmation(
-    //     txid,
-    //     timeout,
-    //     connection,
-    //     commitment,
-    //     true
-    //   );
-    //   console.log("signatureStatus", signatureStatus);
-    // }
+    if (socketConnected(connection)) {
+      const result = await confirmTransaction(connection, txid, commitment);
+      console.log("result", result);
+    } else {
+      const signatureStatus = await awaitTransactionSignatureConfirmation(
+        txid,
+        timeout,
+        connection,
+        commitment,
+        true
+      );
+      console.log("signatureStatus", signatureStatus);
+    }
   } catch (error) {
     if (isDevMode) {
       console.error(error);
@@ -498,48 +490,34 @@ export async function confirmTransaction(
   signature: TransactionSignature,
   commitment: Commitment = "confirmed"
 ) {
-  const signatureStatus = await awaitTransactionSignatureConfirmation(
-    signature,
-    DEFAULT_TIMEOUT,
-    connection,
-    commitment,
-    true
-  );
-  console.log("signatureStatus", signatureStatus);
+  if (socketConnected(connection)) {
+    const latestBlockHash = await connection.getLatestBlockhash();
+    const result = await connection.confirmTransaction(
+      {
+        signature,
+        ...latestBlockHash,
+      },
+      commitment
+    );
 
-  if (!signatureStatus) {
-    throw new Error("Timed out awaiting confirmation on transaction");
+    if (result.value.err) {
+      throw new Error(result.value.err.toString());
+    }
+
+    return result;
+  } else {
+    const signatureStatus = await awaitTransactionSignatureConfirmation(
+      signature,
+      DEFAULT_TIMEOUT,
+      connection,
+      commitment,
+      true
+    );
+    console.log("signatureStatus", signatureStatus);
+
+    if (!signatureStatus) {
+      throw new Error("Timed out awaiting confirmation on transaction");
+    }
+    return signatureStatus;
   }
-  return signatureStatus;
-
-  // if (socketConnected(connection)) {
-  //   const latestBlockHash = await connection.getLatestBlockhash();
-  //   const result = await connection.confirmTransaction(
-  //     {
-  //       signature,
-  //       ...latestBlockHash,
-  //     },
-  //     commitment
-  //   );
-
-  //   if (result.value.err) {
-  //     throw new Error(result.value.err.toString());
-  //   }
-
-  //   return result;
-  // } else {
-  //   const signatureStatus = await awaitTransactionSignatureConfirmation(
-  //     signature,
-  //     DEFAULT_TIMEOUT,
-  //     connection,
-  //     commitment,
-  //     true
-  //   );
-  //   console.log("signatureStatus", signatureStatus);
-
-  //   if (!signatureStatus) {
-  //     throw new Error("Timed out awaiting confirmation on transaction");
-  //   }
-  //   return signatureStatus;
-  // }
 }
