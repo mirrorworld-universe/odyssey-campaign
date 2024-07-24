@@ -128,7 +128,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     isLoading: loadingAuthorize,
     refetch: refetchAuthorize,
   } = useQuery({
-    queryKey: ["queryAuthorize", publicKey?.toString() || address],
+    queryKey: ["queryAuthorize"],
     queryFn: () =>
       fetchAuthorize({
         address: publicKey?.toString() || address,
