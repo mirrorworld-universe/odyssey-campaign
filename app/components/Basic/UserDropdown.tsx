@@ -176,9 +176,11 @@ export function UserDropdown() {
           <a
             className="flex justify-start px-4 py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5"
             href={
-              setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"][
-                networkId || "devnet"
-              ]
+              setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]
+                ? setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"][
+                    networkId || "devnet"
+                  ]
+                : "https://blog.sonic.game/sonic-network-settings---nightly-wallet"
             }
             target="_blank"
           >

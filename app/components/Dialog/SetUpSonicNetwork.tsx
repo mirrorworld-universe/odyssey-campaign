@@ -110,9 +110,11 @@ export function SetUpSonicNetworkDialog() {
               Open this network{" "}
               <a
                 href={
-                  setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"][
-                    networkId || "devnet"
-                  ]
+                  setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]
+                    ? setUpUrls[
+                        wallet?.adapter.name.toLowerCase() || "nightly"
+                      ][networkId || "devnet"]
+                    : "https://blog.sonic.game/sonic-network-settings---nightly-wallet"
                 }
                 target="_blank"
                 className="text-[#25A3ED] hover:underline underline-offset-2"
