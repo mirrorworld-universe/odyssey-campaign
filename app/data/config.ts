@@ -14,8 +14,23 @@ function getENV() {
 
 const ENV = getENV();
 
-export const networks = {
-  // mainnet: "https://mainnet.sonic.game",
-  testnet: "https://devnet.sonic.game",
-  devnet: "https://devnet.sonic.game",
-};
+export const networks: any[] = [
+  {
+    id: "devnet",
+    name: "Origin",
+    url: "",
+    rpc: "https://devnet.sonic.game",
+  },
+  {
+    id: "testnet",
+    name: "Frontier",
+    url: "/testnet",
+    rpc: "https://api.testnet.sonic.game",
+  },
+  // {
+  //   id: "mainnet",
+  //   url: "/mainnet",
+  //   name: "Mainnet",
+  //   rpc: "https://mainnet.sonic.game",
+  // },
+];

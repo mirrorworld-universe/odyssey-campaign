@@ -29,7 +29,7 @@ import {
   useMysteryBoxResultModal,
 } from "@/app/store/task";
 import { cn } from "@/lib/utils";
-import { useAccountInfo } from "@/app/store/account";
+import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import {
   getMysteryboxHistory,
@@ -44,6 +44,7 @@ export function MysteryBoxConfirmDialog() {
   const { publicKey, wallet, signTransaction } = useWallet();
   const { connection } = useConnection();
   const { address, token } = useAccountInfo();
+  const { networkId } = useNetworkInfo();
   const { mysteryBoxAmount, setMysteryBoxOpenAmount } = useMysteryBoxInfo();
   const {
     isOpen: isOpenRecordModal,
@@ -148,6 +149,7 @@ export function MysteryBoxConfirmDialog() {
       openMysterybox({
         token,
         hash: txHash,
+        networkId,
       }),
     onSuccess({ data, status }) {
       if (data.success) {
@@ -181,7 +183,7 @@ export function MysteryBoxConfirmDialog() {
 
   const mutationBuildTx = useMutation({
     mutationKey: ["buildMysteryboxTx", address],
-    mutationFn: () => getMysteryboxTx({ token }),
+    mutationFn: () => getMysteryboxTx({ token, networkId }),
     onSuccess: async ({ data }) => {
       const transactionString = data.hash;
       triggerTransaction(transactionString);

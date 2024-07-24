@@ -17,6 +17,8 @@ import { MoreWalletDialog } from "./components/Dialog/MoreWallet";
 import { SetUpSonicNetworkDialog } from "./components/Dialog/SetUpSonicNetwork";
 import { SetUpFinishDialog } from "./components/Dialog/SetUpFinish";
 import "../lib/track";
+import { WhitelistDialog } from "./components/Dialog/Whitelist";
+import { SwitchNetworkDialog } from "./components/Dialog/SwitchNetwork";
 
 const manrope = Manrope({
   weight: ["400", "500"],
@@ -55,7 +57,10 @@ export const metadata: Metadata = {
     images: ["https://odyssey.sonic.game/seo-banner.png"],
   },
 
-  viewport: "width=device-width, initial-scale=1.0",
+  // viewport: {
+  //   width: "device-width",
+  //   initialScale: 1,
+  // },
 };
 
 export default function RootLayout({
@@ -105,7 +110,7 @@ window.criteo_q.push(
   return (
     <html lang="en">
       <body
-        className={`${manrope.variable} ${orbitron.variable} bg-[#01030C] font-manrope w-full`}
+        className={`${manrope.variable} ${orbitron.variable} bg-[#01030C] font-manrope w-full relative`}
       >
         <Providers>
           <AppWalletProvider>
@@ -123,6 +128,8 @@ window.criteo_q.push(
             <MoreWalletDialog />
             <SetUpSonicNetworkDialog />
             <SetUpFinishDialog />
+            <WhitelistDialog />
+            <SwitchNetworkDialog />
 
             {/* welcome dialog */}
             <WelcomeDialog />

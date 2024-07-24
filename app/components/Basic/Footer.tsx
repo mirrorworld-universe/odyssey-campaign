@@ -4,9 +4,11 @@ import { menu } from "./Header";
 import { Twitter } from "../../icons/Twitter";
 import { Discord } from "../../icons/Discord";
 import { trackClick } from "@/lib/track";
+import { useNetworkInfo } from "@/app/store/account";
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const { networkId } = useNetworkInfo();
 
   const socialMedias = [
     {
@@ -66,7 +68,7 @@ export function Footer() {
               {menu.map((menuItem, menuIndex) => (
                 <Link
                   className="text-base gap-12 text-white/60 hover:text-white font-semibold font-orbitron transition-colors"
-                  href={menuItem.link}
+                  href={menuItem.link[networkId || "devnet"]}
                   key={menuIndex}
                   target={menuItem.target}
                 >

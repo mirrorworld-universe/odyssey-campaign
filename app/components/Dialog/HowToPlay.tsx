@@ -15,9 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Gift } from "@/app/icons/Gift";
 import { Ring } from "@/app/icons/Ring";
 import { useHowToPlayModal } from "@/app/store/tutorials";
+import { useNetworkInfo } from "@/app/store/account";
 
 export function HowToPlayDialog() {
   const { isOpen, onOpen, onClose } = useHowToPlayModal();
+  const { networkId } = useNetworkInfo();
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -31,7 +33,11 @@ export function HowToPlayDialog() {
             Check{" "}
             <a
               className="text-[#25A3ED] hover:underline"
-              href="https://blog.sonic.game/sonic-testnet-odyssey-guide"
+              href={
+                networkId === "testnet"
+                  ? "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide"
+                  : "https://blog.sonic.game/sonic-testnet-odyssey-guide"
+              }
               target="_blank"
             >
               guides
@@ -56,7 +62,9 @@ export function HowToPlayDialog() {
               to transact. Click{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
-                href="https://faucet.sonic.game/#/"
+                href={`https://faucet.sonic.game/#/${
+                  networkId === "testnet" ? "?network=testnet" : ""
+                }`}
                 target="_blank"
               >
                 faucet link
@@ -74,7 +82,10 @@ export function HowToPlayDialog() {
             </h3>
             <p className="flex flex-row gap-1 items-center text-white">
               Earn Mystery Box
-              <Gift width={18} height={18} color="#FBB042" />{" "}
+              <Gift
+                color="#FBB042"
+                className="w-3 h-3 md:w-[18px] md:h-[18px]"
+              />{" "}
             </p>
           </div>
           <div className="w-full flex flex-row h-[96px] pl-[70px]">

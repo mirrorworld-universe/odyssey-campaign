@@ -24,7 +24,7 @@ export function Go({
         width="20"
         height="20"
       >
-        <rect width="20" height="20" fill="white" fill-opacity="0.7" />
+        <rect width="20" height="20" fill="white" />
       </mask>
       <g mask="url(#maskXgo)">
         <path

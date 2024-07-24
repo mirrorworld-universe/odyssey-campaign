@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Gift } from "@/app/icons/Gift";
 import { Ring } from "@/app/icons/Ring";
-import { useAccountInfo } from "@/app/store/account";
+import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import { useMysteryBoxInfo, useMysteryBoxRecordModal } from "@/app/store/task";
 import {
   getMysteryboxHistory,
@@ -48,6 +48,7 @@ export function MysteryBoxRecordDialog() {
   const { address, token } = useAccountInfo();
   const { isOpen, onOpen, onClose } = useMysteryBoxRecordModal();
   const { mysteryBoxAmount } = useMysteryBoxInfo();
+  const { networkId } = useNetworkInfo();
 
   const [mysteryBoxRecords, setMysteryBoxRecords] = useState<any[]>([]);
   const [hasRefused, setHasRefused] = useState(false);
@@ -112,6 +113,7 @@ export function MysteryBoxRecordDialog() {
       openMysterybox({
         token,
         hash: txHash,
+        networkId,
       }),
     onSuccess({ data, status }) {
       if (data.success) {
@@ -131,7 +133,9 @@ export function MysteryBoxRecordDialog() {
         boxRecords[boxRecords.length - 1] = {
           loaded: true,
           quantity: data.amount,
-          link: `https://explorer.sonic.game/tx/${txHash}`,
+          link: `https://explorer.sonic.game/tx/${txHash}${
+            networkId === "testnet" ? "?cluster=testnet" : ""
+          }`,
         };
         setMysteryBoxRecords([...boxRecords]);
         openMysteryBoxes();
@@ -141,7 +145,7 @@ export function MysteryBoxRecordDialog() {
 
   const mutationBuildTx = useMutation({
     mutationKey: ["buildMysteryboxTx", address],
-    mutationFn: () => getMysteryboxTx({ token }),
+    mutationFn: () => getMysteryboxTx({ token, networkId }),
     onSuccess: async ({ data }) => {
       const transactionString = data.hash;
       triggerTransaction(transactionString);

@@ -19,24 +19,45 @@ import {
   useSetUpFinishModal,
   useSetUpNetworkModal,
   useSetupInfo,
+  useWhitelistModal,
 } from "@/app/store/tutorials";
-import { useAccountInfo } from "@/app/store/account";
+import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
+import { networks } from "@/app/data/config";
 
 export function SetUpSonicNetworkDialog() {
   const { publicKey, wallet, signTransaction } = useWallet();
   const { address } = useAccountInfo();
   const { isOpen, onOpen, onClose } = useSetUpNetworkModal();
   const { status, setStatus } = useSetupInfo();
+  const { networkId } = useNetworkInfo();
   const {
     isOpen: isOpenSetUpFinishWalletDialog,
     onOpen: onOpenSetUpFinishWalletDialog,
     onClose: onCloseSetUpFinishWalletDialog,
   } = useSetUpFinishModal();
+  const {
+    isOpen: isOpenWhitelistDialog,
+    onOpen: onOpenWhitelistDialog,
+    onClose: onCloseWhitelistDialog,
+  } = useWhitelistModal();
 
   const setUpUrls: any = {
-    nightly: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
-    backpack:
-      "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
+    nightly: {
+      devnet: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
+      testnet:
+        "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet",
+    },
+    backpack: {
+      devnet:
+        "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
+      testnet:
+        "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet",
+    },
+  };
+
+  const handleConfirmInTestnet = () => {
+    onOpenWhitelistDialog();
+    onClose();
   };
 
   const handleConfirm = () => {
@@ -48,17 +69,25 @@ export function SetUpSonicNetworkDialog() {
     onClose();
   };
 
+  const StageTag = () => (
+    <div className="text-[#fbb042] text-[10px] bg-[#fbb0421a] px-1 py-[2px]">
+      Stage 2
+    </div>
+  );
+
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="w-[470px] bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
-          <AlertDialogTitle className="flex flex-col justify-start items-center text-white text-[32px] font-orbitron">
+          <AlertDialogTitle className="flex flex-row gap-2 justify-start items-center text-white text-[32px]">
             <span className="text-white text-[32px] font-semibold font-orbitron">
-              Set Up Sonic Network
+              Set Up Network
             </span>
+            {networkId === "testnet" ? <StageTag /> : null}
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-[#717171] text-base text-left mt-4">
-            Set up Sonic network for your {wallet?.adapter.name} wallet
+          <AlertDialogDescription className="text-white/60 text-base text-left mt-4">
+            Set up Sonic {networkId === "testnet" ? "Frontier" : "Origin"}{" "}
+            network for your {wallet?.adapter.name} wallet
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -82,6 +111,10 @@ export function SetUpSonicNetworkDialog() {
               <a
                 href={
                   setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]
+                    ? setUpUrls[
+                        wallet?.adapter.name.toLowerCase() || "nightly"
+                      ][networkId || "devnet"]
+                    : "https://blog.sonic.game/sonic-network-settings---nightly-wallet"
                 }
                 target="_blank"
                 className="text-[#25A3ED] hover:underline underline-offset-2"
@@ -89,15 +122,20 @@ export function SetUpSonicNetworkDialog() {
                 settings doc
               </a>
             </li>
-            <li>Setup Sonic network</li>
+            <li>
+              Setup {networkId === "testnet" ? "Frontier" : "Origin"} network
+            </li>
+            <li>Continue to the next step</li>
           </ul>
         </div>
         <div className="flex flex-col gap-12 mt-12">
           <Button
             className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
-            onClick={handleConfirm}
+            onClick={
+              networkId === "testnet" ? handleConfirmInTestnet : handleConfirm
+            }
           >
-            I already finished the setup
+            Continue
           </Button>
         </div>
       </AlertDialogContent>

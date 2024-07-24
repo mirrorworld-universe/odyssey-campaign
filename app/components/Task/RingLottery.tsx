@@ -18,7 +18,11 @@ import {
 import { trackClick } from "@/lib/track";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { formatAddress, useAccountInfo } from "@/app/store/account";
+import {
+  formatAddress,
+  useAccountInfo,
+  useNetworkInfo,
+} from "@/app/store/account";
 import {
   getLotteryDrawPrice,
   getLotteryMintedAmount,
@@ -34,6 +38,7 @@ import {
 } from "@/app/store/lottery";
 import { taskGroupList } from "@/app/data/task";
 import { LotteryPriceTableDialog } from "../Dialog/LotteryPriceTable";
+import { Rules } from "./Rules";
 
 let winnerBoardPage = 1;
 let winnerBoardList: any[] = [];
@@ -50,6 +55,8 @@ export function RingLottery() {
   const [drawAmount, setDrawAmount] = useState("1");
   const [season, setSeason] = useState(0);
 
+  const [showRules, setShowRules] = useState(false);
+
   const {
     lotteryDrawPrice,
     setLotteryDrawPrice,
@@ -64,7 +71,7 @@ export function RingLottery() {
   } = useDrawConfirmModal();
 
   const { onOpen: onOpenLotteryPriceTableModal } = useLotteryPriceTableModal();
-
+  const { networkId } = useNetworkInfo();
   const {
     address,
     token,
@@ -76,7 +83,7 @@ export function RingLottery() {
   const { data: dataMintedRingAmount, refetch: refetchMintedRingAmount } =
     useQuery({
       queryKey: ["queryMintedRingAmount", address],
-      queryFn: () => getLotteryMintedAmount({ token }),
+      queryFn: () => getLotteryMintedAmount({ token, networkId }),
       enabled: !!address && !!token,
     });
 
@@ -86,13 +93,14 @@ export function RingLottery() {
     refetch: refetchWinnerBoard,
   } = useQuery({
     queryKey: ["queryWinnerBoard", address],
-    queryFn: () => getLotteryWinnerBoard({ token, page: winnerBoardPage }),
+    queryFn: () =>
+      getLotteryWinnerBoard({ token, page: winnerBoardPage, networkId }),
     enabled: !!address && !!token,
   });
 
   const { data: dataDrawPrice, refetch: refetchDrawPrice } = useQuery({
     queryKey: ["queryDrawPrice", address],
-    queryFn: () => getLotteryDrawPrice({ token }),
+    queryFn: () => getLotteryDrawPrice({ token, networkId }),
     enabled: !!address && !!token,
   });
 
@@ -213,18 +221,15 @@ export function RingLottery() {
       {/* content */}
       <div className="mt-8 md:mt-0">
         {/* rules */}
-        <Card
-          name="Rules"
-          size={CardSize.Medium}
-          className="max-w-[1024px]"
-          nameClassName="bg-[#000]"
-        >
-          <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
+        <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
+          <ul className="list-disc font-normal pl-6">
             <li className="">
               Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
-                href="https://faucet.sonic.game/#/"
+                href={`https://faucet.sonic.game/#/${
+                  networkId === "testnet" ? "?network=testnet" : ""
+                }`}
                 target="_blank"
               >
                 Request here.
@@ -257,10 +262,8 @@ export function RingLottery() {
                   <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
                     1 x{" "}
                     <Ring
-                      width={18}
-                      height={18}
                       color="#FBB042"
-                      className="mx-1"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
                     />{" "}
                     Ring
                   </span>
@@ -271,10 +274,8 @@ export function RingLottery() {
                   <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
                     {prettyNumber(100000)} x{" "}
                     <Ring
-                      width={18}
-                      height={18}
                       color="#FBB042"
-                      className="mx-1"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
                     />{" "}
                     Rings each
                   </span>
@@ -285,10 +286,8 @@ export function RingLottery() {
                   <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
                     {prettyNumber(10000)} x{" "}
                     <Ring
-                      width={18}
-                      height={18}
                       color="#FBB042"
-                      className="mx-1"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
                     />{" "}
                     Rings
                   </span>
@@ -297,7 +296,7 @@ export function RingLottery() {
               </ul>
             </li>
           </ul>
-        </Card>
+        </Rules>
 
         {/* minted rings */}
         <Card
@@ -350,6 +349,7 @@ export function RingLottery() {
                 </span>
                 <div className="flex items-center">
                   <Select
+                    disabled={true}
                     value={drawAmount}
                     onValueChange={(value: string) =>
                       handleSetLotteryDrawAmount(value)
@@ -414,6 +414,18 @@ export function RingLottery() {
           .find((task) => task.id === "ring-lottery")?.available && (
           <div className="w-screen h-screen bg-black/90 fixed top-0 left-0 z-20"></div>
         )}
+      </div>
+
+      {/* mobile version tools */}
+      <div className="flex md:hidden flex-row fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+        <Button
+          className="w-full h-12 border border-solid border-white/40 bg-transparent"
+          onClick={() => setShowRules(true)}
+        >
+          <span className="text-white text-base font-bold font-orbitron">
+            Rules
+          </span>
+        </Button>
       </div>
     </div>
   );

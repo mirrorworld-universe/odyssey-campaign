@@ -13,6 +13,25 @@ export const useSystemInfo = create<{
   },
 }));
 
+export const useNetworkInfo = create(
+  persist<{
+    networkId: string;
+    setNetworkId: (networkId: string) => void;
+  }>(
+    (set, get) => ({
+      networkId: get()?.networkId,
+      setNetworkId: (networkId: string) => {
+        set({
+          networkId,
+        });
+      },
+    }),
+    {
+      name: "sonic-network-info",
+    }
+  )
+);
+
 export const useNotificationBar = create<{
   isOpen: boolean;
   onOpen: () => void;
@@ -35,6 +54,8 @@ export const useWalletModal = create<{
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+  isSwitching: boolean;
+  setSwitching: (isSwitching: boolean) => void;
 }>((set) => ({
   isOpen: false,
   onOpen: () => {
@@ -47,6 +68,13 @@ export const useWalletModal = create<{
       isOpen: false,
     });
   },
+
+  isSwitching: false,
+  setSwitching: (isSwitching: boolean) => {
+    set({
+      isSwitching,
+    });
+  },
 }));
 
 export const useAccountInfo = create(
@@ -55,8 +83,12 @@ export const useAccountInfo = create(
     setAddress: (address: string) => void;
     token: string;
     setToken: (token: string) => void;
+    signature: string;
+    setSignature: (signature: string) => void;
     hasNews: boolean;
     setNews: (hasNews: boolean) => void;
+    isInWhitelist: boolean;
+    setIsInWhitelist: (isInWhitelist: boolean) => void;
     reset: () => void;
   }>(
     (set, get) => ({
@@ -74,10 +106,24 @@ export const useAccountInfo = create(
         });
       },
 
+      signature: get()?.signature,
+      setSignature: (signature: string) => {
+        set({
+          signature,
+        });
+      },
+
       hasNews: get()?.hasNews,
       setNews: (hasNews: boolean) => {
         set({
           hasNews,
+        });
+      },
+
+      isInWhitelist: get()?.isInWhitelist,
+      setIsInWhitelist: (isInWhitelist: boolean) => {
+        set({
+          isInWhitelist,
         });
       },
 
@@ -86,6 +132,7 @@ export const useAccountInfo = create(
           address: undefined,
           token: undefined,
           hasNews: false,
+          isInWhitelist: false,
         });
       },
     }),
