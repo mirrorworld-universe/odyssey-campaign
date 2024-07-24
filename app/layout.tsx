@@ -110,7 +110,7 @@ window.criteo_q.push(
   return (
     <html lang="en">
       <body
-        className={`${manrope.variable} ${orbitron.variable} bg-[#01030C] font-manrope w-full`}
+        className={`${manrope.variable} ${orbitron.variable} bg-[#01030C] font-manrope w-full relative`}
       >
         <Providers>
           <AppWalletProvider>

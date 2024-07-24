@@ -79,9 +79,9 @@ export default function Home() {
     }
   };
 
-  const VideoBackground = () => (
+  const VideoBackground = ({ className }: any) => (
     <video
-      className="object-cover mix-blend-screen w-screen h-screen absolute top-0 bottom-0 left-0 right-0"
+      className={cn("object-cover mix-blend-screen", className)}
       preload="auto"
       loop
       autoPlay
@@ -120,13 +120,12 @@ export default function Home() {
   );
 
   return (
-    <main className="flex max-h-screen flex-col items-center justify-between absolute top-0 bottom-0 right-0 left-0">
+    <main className="flex h-screen flex-col items-center justify-between absolute top-0 bottom-0 right-0 left-0">
       <div className="w-screen h-screen flex-grow flex flex-col items-center justify-center relative">
-        <VideoBackground />
+        <VideoBackground className="w-screen h-screen absolute top-0 bottom-0 left-0 right-0" />
+        <div className="w-screen h-screen bg-gradient-to-t from-black/50 to-black/0 absolute top-0 bottom-0 left-0 right-0"></div>
 
-        <div className="w-full h-full bg-gradient-to-t from-black/50 to-black/0 relative"></div>
-
-        <div className="text-center max-w-[800px] flex flex-col items-center absolute">
+        <div className="text-center max-w-[800px] flex flex-col items-center relative">
           <h1 className="flex flex-row gap-2 text-8xl text-white font-orbitron font-bold pt-20">
             <img className="" src="/images/sonic-odyssey.png" alt="" />
           </h1>
