@@ -7,7 +7,12 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 
-import { useAccountInfo, useSystemInfo, useWalletModal } from "./store/account";
+import {
+  useAccountInfo,
+  useNetworkInfo,
+  useSystemInfo,
+  useWalletModal,
+} from "./store/account";
 import { inviteUser } from "./data/account";
 import { loadHomePageStatics, openWalletStatics } from "@/lib/analytics";
 import { trackClick } from "@/lib/track";
@@ -19,6 +24,7 @@ export default function Home() {
   const { address, token } = useAccountInfo();
   const { isOpen, onOpen, onClose } = useWalletModal();
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
+  const { networkId } = useNetworkInfo();
 
   const [network, setNetwork] = useState(clusterApiUrl("devnet"));
   const [invitationCode, setInvitationCode] = useState("");
@@ -29,6 +35,7 @@ export default function Home() {
       inviteUser({
         token,
         code: invitationCode,
+        networkId,
       }),
   });
 
@@ -72,9 +79,9 @@ export default function Home() {
     }
   };
 
-  const VideoBackground = () => (
+  const VideoBackground = ({ className }: any) => (
     <video
-      className="object-cover mix-blend-screen w-screen h-screen absolute top-0 bottom-0 left-0 right-0"
+      className={cn("object-cover mix-blend-screen", className)}
       preload="auto"
       loop
       autoPlay
@@ -113,18 +120,19 @@ export default function Home() {
   );
 
   return (
-    <main className="flex max-h-screen flex-col items-center justify-between absolute top-0 bottom-0 right-0 left-0">
+    <main className="flex h-screen flex-col items-center justify-between absolute top-0 bottom-0 right-0 left-0">
       <div className="w-screen h-screen flex-grow flex flex-col items-center justify-center relative">
-        <VideoBackground />
+        <VideoBackground className="w-screen h-screen absolute top-0 bottom-0 left-0 right-0" />
+        <div className="w-screen h-screen bg-gradient-to-t from-black/50 to-black/0 absolute top-0 bottom-0 left-0 right-0"></div>
 
-        <div className="w-full h-full bg-gradient-to-t from-black/50 to-black/0 relative"></div>
-
-        <div className="text-center max-w-[800px] flex flex-col items-center absolute">
+        <div className="text-center max-w-[800px] flex flex-col items-center relative">
           <h1 className="flex flex-row gap-2 text-8xl text-white font-orbitron font-bold pt-20">
             <img className="" src="/images/sonic-odyssey.png" alt="" />
           </h1>
           <p className="text-[32px] font-orbitron text-[#FFFFFF]/[0.8] mt-12">
-            Join the Sonic Odyssey Testnet Campaign.
+            {networkId === "testnet"
+              ? "Join the Sonic Odyssey testnet stage 2."
+              : "Join the Sonic Odyssey Testnet Campaign."}
           </p>
           <p className="text-[32px] font-orbitron text-[#FFFFFF]/[0.8]">
             Earn Your Ring Rewards!

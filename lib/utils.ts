@@ -1,3 +1,4 @@
+import { networks } from "@/app/data/config";
 import { UTCDate } from "@date-fns/utc";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -74,6 +75,15 @@ export const prettyNumber = (number: number) => {
   return new Intl.NumberFormat("en-US").format(number);
 };
 
+export const getNetworkUrl = (networkId: any) => {
+  const currentNetwork = networks.find(
+    (item: any) => item.id === networkId
+  ) || {
+    url: "",
+  };
+  return currentNetwork.url;
+};
+
 export const maintenanceStartTime = "2024-07-09T16:00:00+08:00";
 
 export const maintenanceEndTime = "2024-07-09T16:10:00+08:00";
@@ -88,9 +98,12 @@ export const isInMaintenanceTime = () => {
 };
 
 export const isMobileViewport = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
   var viewportWidth = Math.max(
-    document.documentElement.clientWidth,
-    window.innerWidth || 0
+    document?.documentElement.clientWidth,
+    window?.innerWidth || 0
   );
   return viewportWidth <= 768;
 };

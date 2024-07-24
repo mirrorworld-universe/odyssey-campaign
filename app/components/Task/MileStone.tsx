@@ -4,7 +4,11 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Gift } from "@/app/icons/Gift";
 import { Button } from "@/components/ui/button";
 import { Card, CardSize } from "../Basic/Card";
-import { useAccountInfo, useSystemInfo } from "@/app/store/account";
+import {
+  useAccountInfo,
+  useNetworkInfo,
+  useSystemInfo,
+} from "@/app/store/account";
 import {
   claimMilestoneRewards,
   getMilestoneDailyInfo,
@@ -13,6 +17,7 @@ import { Check } from "@/app/icons/Check";
 import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 import { cn } from "@/lib/utils";
+import { Rules } from "./Rules";
 
 let currentToken = "";
 
@@ -27,8 +32,11 @@ export function MileStone() {
   const [claimStage, setClaimStage] = useState(1);
   const [stageList, setStageList] = useState<any>({});
 
+  const [showRules, setShowRules] = useState(false);
+
   const { isInMaintenance } = useSystemInfo();
   const { address, token } = useAccountInfo();
+  const { networkId } = useNetworkInfo();
 
   const getPartition = () => {
     return transactionAmount <= stageList["stage_1"]?.quantity
@@ -44,12 +52,13 @@ export function MileStone() {
     refetch: refetchMilestoneDailyInfo,
   } = useQuery({
     queryKey: ["queryMilestoneDailyInfo", address],
-    queryFn: () => getMilestoneDailyInfo({ token }),
+    queryFn: () => getMilestoneDailyInfo({ token, networkId }),
     enabled: !!token,
   });
 
   const mutationClaimRewards = useMutation({
-    mutationFn: () => claimMilestoneRewards({ token, stage: claimStage }),
+    mutationFn: () =>
+      claimMilestoneRewards({ token, stage: claimStage, networkId }),
     onSuccess: ({ data, status }) => {
       if (data.claimed) {
         const currentStageKey = Object.keys(stageList)[claimStage - 1];
@@ -70,7 +79,7 @@ export function MileStone() {
               milestone today and received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
                 {stageList[currentStageKey].rewards} x mystery boxes
-                <Gift width={12} height={12} color="#FBB042" className="mx-1" />
+                <Gift color="#FBB042" className="w-3 h-3 mx-[2px]" />
               </span>
               . Open it in the navbar to exchange for rings.
             </p>
@@ -124,13 +133,8 @@ export function MileStone() {
       {/* content */}
       <div className="">
         {/* rules */}
-        <Card
-          name="Rules"
-          size={CardSize.Medium}
-          className="max-w-[1024px]"
-          nameClassName="bg-[#000]"
-        >
-          <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
+        <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
+          <ul className="list-disc font-normal pl-6">
             <li className="">
               Any task and on-chain interaction will generate a corresponding
               transaction record, abbreviated as tx.
@@ -146,19 +150,19 @@ export function MileStone() {
               at the end of the day(UTC Time).
             </li>
           </ul>
-        </Card>
+        </Rules>
 
         {/* main */}
         <Card
           size={CardSize.Medium}
-          className="max-w-[1024px] mt-20"
+          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-lg md:rounded-xl"
           nameClassName="bg-[#000]"
         >
-          <div className="flex flex-col gap-16">
+          <div className="flex flex-col gap-10 md:gap-16">
             {/* wordings */}
-            <p className="text-white text-[29px] font-orbitron font-semibold">
+            <p className="text-white text-sm md:text-[30px] font-orbitron font-semibold">
               You have made
-              <span className="text-[#FBB042] text-[56px] px-4">
+              <span className="text-[#FBB042] text-[28px] md:text-[56px] px-2 md:px-4">
                 {transactionAmount <= 100 ? transactionAmount : "100+"}
               </span>
               {transactionAmount === 1 ? "transaction" : "transactions"} today.
@@ -200,7 +204,7 @@ export function MileStone() {
                       className="rounded-[50%] border-2 border-solid border-[#222222] mx-[52px]"
                     >
                       {transactionAmount < stageList[stageKey].quantity ? (
-                        <span className="w-12 h-12 inline-flex justify-center items-center text-white text-xl font-bold bg-[#4C4C4C] rounded-[50%]">
+                        <span className="w-12 h-12 inline-flex justify-center items-center text-white text-xs md:text-xl font-bold bg-[#4C4C4C] rounded-[50%]">
                           {stageList[stageKey].quantity}
                         </span>
                       ) : (
@@ -219,12 +223,15 @@ export function MileStone() {
                   stageList[stageKey].claimed ? (
                     <p
                       key={stageIndex}
-                      className="text-xl text-white font-orbitron font-semibold"
+                      className="text-xs md:text-xl text-white font-orbitron font-semibold"
                     >
                       Received:{" "}
                       <span className="inline-flex items-center text-[#FBB042] font-orbitron">
                         x {stageList[stageKey].rewards}{" "}
-                        <Gift color="#FBB042" className="mx-1" />
+                        <Gift
+                          color="#FBB042"
+                          className="w-3 h-3 md:w-5 md:h-5 mx-1"
+                        />
                       </span>
                     </p>
                   ) : (
@@ -246,6 +253,18 @@ export function MileStone() {
             </div>
           </div>
         </Card>
+      </div>
+
+      {/* mobile version tools */}
+      <div className="flex md:hidden flex-row fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+        <Button
+          className="w-full h-12 border border-solid border-white/40 bg-transparent"
+          onClick={() => setShowRules(true)}
+        >
+          <span className="text-white text-base font-bold font-orbitron">
+            Rules
+          </span>
+        </Button>
       </div>
     </div>
   );

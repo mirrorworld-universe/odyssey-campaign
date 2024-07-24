@@ -1,6 +1,10 @@
-export const getMilestoneDailyInfo = async ({ token }: any) => {
+import { getNetworkUrl } from "@/lib/utils";
+
+export const getMilestoneDailyInfo = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/transactions/state/daily`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/transactions/state/daily`,
     {
       headers: {
         Authorization: token,
@@ -11,9 +15,15 @@ export const getMilestoneDailyInfo = async ({ token }: any) => {
   return response.json();
 };
 
-export const claimMilestoneRewards = async ({ token, stage }: any) => {
+export const claimMilestoneRewards = async ({
+  token,
+  stage,
+  networkId,
+}: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/transactions/rewards/claim`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/transactions/rewards/claim`,
     {
       headers: {
         Authorization: token,
@@ -28,9 +38,11 @@ export const claimMilestoneRewards = async ({ token, stage }: any) => {
   return response.json();
 };
 
-export const getMysteryboxTx = async ({ token }: any) => {
+export const getMysteryboxTx = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/rewards/mystery-box/build-tx`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/rewards/mystery-box/build-tx`,
     {
       headers: {
         Authorization: token,
@@ -41,9 +53,11 @@ export const getMysteryboxTx = async ({ token }: any) => {
   return response.json();
 };
 
-export const openMysterybox = async ({ token, hash }: any) => {
+export const openMysterybox = async ({ token, hash, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/rewards/mystery-box/open`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/rewards/mystery-box/open`,
     {
       headers: {
         Authorization: token,
@@ -62,9 +76,12 @@ export const getMysteryboxHistory = async ({
   token,
   page = 1,
   size = 50,
+  networkId,
 }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/rewards/mystery-box/history`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/rewards/mystery-box/history`,
     {
       headers: {
         Authorization: token,

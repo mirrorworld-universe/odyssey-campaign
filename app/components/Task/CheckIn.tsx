@@ -12,7 +12,11 @@ import {
 } from "@solana/web3.js";
 import { Gift } from "@/app/icons/Gift";
 import { Button } from "@/components/ui/button";
-import { useAccountInfo, useSystemInfo } from "@/app/store/account";
+import {
+  useAccountInfo,
+  useNetworkInfo,
+  useSystemInfo,
+} from "@/app/store/account";
 import {
   fetchCheckinStatus,
   fetchCheckinTransaction,
@@ -30,12 +34,14 @@ import {
 } from "@/lib/transactions";
 import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
+import { Rules } from "./Rules";
 
 let transactionHash = "";
 let currentToken = "";
 
 export function CheckIn() {
   const totalDays = 14;
+  const maxRewardsAmount = 3;
   const wordings = ["1 - 7", "8 - 14", "over 14"];
   const linearGradients = [
     "from-[#00F] to-[#25A3ED]",
@@ -47,10 +53,13 @@ export function CheckIn() {
   const { address, token } = useAccountInfo();
   const { connection } = useConnection();
   const { publicKey, wallet, signTransaction } = useWallet();
+  const { networkId } = useNetworkInfo();
 
   const [isChekingIn, setIsChekingIn] = useState(false);
   const [hasChecked, setHasChecked] = useState(true);
   const [checkInDays, setCheckInDays] = useState(0);
+
+  const [showRules, setShowRules] = useState(false);
 
   const getPartition = () => {
     const partitionLength = totalDays / 3;
@@ -119,13 +128,13 @@ export function CheckIn() {
     refetch: refetchCheckInInfo,
   } = useQuery({
     queryKey: ["queryCheckInInfo", address],
-    queryFn: () => fetchCheckinStatus({ token }),
+    queryFn: () => fetchCheckinStatus({ token, networkId }),
     enabled: !!token,
   });
 
   const getTransactionHash = useMutation({
     mutationKey: ["buildCheckinTx", address],
-    mutationFn: () => fetchCheckinTransaction({ token }),
+    mutationFn: () => fetchCheckinTransaction({ token, networkId }),
     onSuccess({ data }) {
       if (data?.hash) {
         triggerTransaction(data.hash);
@@ -137,7 +146,8 @@ export function CheckIn() {
 
   const mutationCheckIn = useMutation({
     mutationKey: ["mutationCheckIn", address],
-    mutationFn: () => fetchFinishCheckin({ token, hash: transactionHash }),
+    mutationFn: () =>
+      fetchFinishCheckin({ token, hash: transactionHash, networkId }),
     onSuccess({ data, status }) {
       if (data.checked) {
         setHasChecked(true);
@@ -200,18 +210,15 @@ export function CheckIn() {
       {/* content */}
       <div className="">
         {/* rules */}
-        <Card
-          name="Rules"
-          size={CardSize.Medium}
-          nameClassName="bg-[#000]"
-          className="max-w-[1024px]"
-        >
-          <ul className="list-disc text-xl font-normal leading-relaxed pl-6">
+        <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
+          <ul className="list-disc font-normal pl-6">
             <li className="">
               Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
-                href="https://faucet.sonic.game/#/"
+                href={`https://faucet.sonic.game/#/${
+                  networkId === "testnet" ? "?network=testnet" : ""
+                }`}
                 target="_blank"
               >
                 Request here.
@@ -230,53 +237,65 @@ export function CheckIn() {
                 <li>
                   a. Check in for 1-7 days to earn{" "}
                   <span className="inline-flex items-center text-[#FBB042]">
-                    1 x <Gift color="#FBB042" className="mx-[2px]" /> Ring
-                    Mystery Box
+                    1 x{" "}
+                    <Gift
+                      color="#FBB042"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                    />{" "}
+                    Ring Mystery Box
                   </span>
                   .
                 </li>
                 <li>
                   b. Check in for 8-14 days to earn{" "}
                   <span className="inline-flex items-center text-[#FBB042]">
-                    2 x <Gift color="#FBB042" className="mx-[2px]" /> Ring
-                    Mystery Boxes
+                    2 x{" "}
+                    <Gift
+                      color="#FBB042"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                    />{" "}
+                    Ring Mystery Boxes
                   </span>
                   .
                 </li>
                 <li>
                   c. Check in for over 14 days to earn{" "}
                   <span className="inline-flex items-center text-[#FBB042]">
-                    3 x <Gift color="#FBB042" className="mx-[2px]" /> Ring
-                    Mystery Boxes
+                    3 x{" "}
+                    <Gift
+                      color="#FBB042"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                    />{" "}
+                    Ring Mystery Boxes
                   </span>
                   .
                 </li>
               </ul>
             </li>
           </ul>
-        </Card>
+        </Rules>
 
         {/* main */}
         <Card
           size={CardSize.Medium}
-          className="max-w-[1024px] mt-8 md:mt-20"
+          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-lg md:rounded-xl"
           nameClassName="bg-[#000]"
         >
-          <div className="flex flex-col gap-16">
+          <div className="flex flex-col gap-8 md:gap-16">
             {/* wordings */}
-            <p className="text-white text-[29px] font-orbitron font-semibold">
+            <p className="text-white text-sm md:text-[29px] font-orbitron font-semibold">
               You have checked in for
-              <span className="text-[#FBB042] text-[56px] px-4">
+              <span className="text-[#FBB042] text-[32px] md:text-[56px] px-2 md:px-4">
                 {checkInDays}
               </span>
               {checkInDays === 1 ? "day" : "days"}
             </p>
             {/* progress */}
             <div className="w-full">
-              <div className="w-full h-3 bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
+              <div className="w-full h-[6px] md:h-3 bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
                 <div
                   className={cn(
-                    "rounded h-3 bg-gradient-to-r absolute",
+                    "rounded h-[6px] md:h-3 bg-gradient-to-r absolute",
                     linearGradients[getPartition()]
                   )}
                   style={{
@@ -289,7 +308,7 @@ export function CheckIn() {
                 ></div>
                 <div
                   className={cn(
-                    "rounded h-3 bg-gradient-to-r absolute blur-[6px]",
+                    "rounded h-[6px] md:h-3 bg-gradient-to-r absolute blur-[6px]",
                     linearGradients[getPartition()]
                   )}
                   style={{
@@ -301,7 +320,7 @@ export function CheckIn() {
                   }}
                 ></div>
               </div>
-              <ul className="flex flex-row justify-between text-white/50 text-2xl font-semibold font-orbitron mt-6">
+              <ul className="flex flex-row justify-between text-white/50 text-xs md:text-2xl font-semibold font-orbitron mt-3 md:mt-6">
                 <li className="c">1 day</li>
                 <li className="c">{totalDays / 2} days</li>
                 <li className="c">{totalDays} days</li>
@@ -309,7 +328,7 @@ export function CheckIn() {
             </div>
             {/* tools */}
             <div className="flex flex-row items-center justify-between">
-              <p className="text-xl text-white font-orbitron font-semibold">
+              <p className="text-sm md:text-xl text-white font-orbitron font-semibold">
                 {
                   wordings[
                     checkInDays > 0
@@ -319,12 +338,18 @@ export function CheckIn() {
                 }{" "}
                 days Rewards:{" "}
                 <span className="inline-flex items-center text-[#FBB042] font-orbitron">
-                  x {Math.ceil(checkInDays / (totalDays / 2)) || 1}{" "}
-                  <Gift color="#FBB042" className="mx-1" />
+                  x{" "}
+                  {checkInDays > totalDays
+                    ? maxRewardsAmount
+                    : Math.ceil(checkInDays / (totalDays / 2)) || 1}{" "}
+                  <Gift
+                    color="#FBB042"
+                    className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px] md:mx-1"
+                  />
                 </span>
               </p>
               <Button
-                className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron transition-colors duration-300 ${
+                className={`hidden md:inline-flex w-[177px] h-12 text-white text-base font-semibold font-orbitron transition-colors duration-300 ${
                   hasChecked || isInMaintenance || isChekingIn
                     ? "bg-[#0000FF]/80 hover:bg-[#0000FF] opacity-30"
                     : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
@@ -340,6 +365,30 @@ export function CheckIn() {
             </div>
           </div>
         </Card>
+      </div>
+
+      {/* mobile version tools */}
+      <div className="flex md:hidden flex-row items-center gap-4 fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+        <Button
+          className="w-2/6 h-12 border border-solid border-white/40 bg-transparent"
+          onClick={() => setShowRules(true)}
+        >
+          <span className="text-white text-base font-bold font-orbitron">
+            Rules
+          </span>
+        </Button>
+        <Button
+          className={`w-4/6 h-12 text-white text-base font-semibold font-orbitron transition-colors duration-300 ${
+            hasChecked || isInMaintenance || isChekingIn
+              ? "bg-[#0000FF]/80 hover:bg-[#0000FF] opacity-30"
+              : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+          }`}
+          disabled={hasChecked || isChekingIn}
+          onClick={handleCheckIn}
+        >
+          {isChekingIn && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Check-in
+        </Button>
       </div>
     </div>
   );

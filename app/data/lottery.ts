@@ -1,6 +1,10 @@
-export const getLotteryTx = async ({ token }: any) => {
+import { getNetworkUrl } from "@/lib/utils";
+
+export const getLotteryTx = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/build-tx`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/lottery/build-tx`,
     {
       headers: {
         Authorization: token,
@@ -11,9 +15,11 @@ export const getLotteryTx = async ({ token }: any) => {
   return response.json();
 };
 
-export const drawLottery = async ({ token, hash }: any) => {
+export const drawLottery = async ({ token, hash, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/draw`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/lottery/draw`,
     {
       headers: {
         Authorization: token,
@@ -28,11 +34,15 @@ export const drawLottery = async ({ token, hash }: any) => {
   return response.json();
 };
 
-export const getBlockNumberWinner = async ({ token, blockNumber }: any) => {
+export const getBlockNumberWinner = async ({
+  token,
+  blockNumber,
+  networkId,
+}: any) => {
   const response = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_API_DOMAIN
-    }/user/lottery/draw/winner?${new URLSearchParams({
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/lottery/draw/winner?${new URLSearchParams({
       block_number: blockNumber,
     })}`,
     {
@@ -45,9 +55,11 @@ export const getBlockNumberWinner = async ({ token, blockNumber }: any) => {
   return response.json();
 };
 
-export const getLotteryDrawPrice = async ({ token }: any) => {
+export const getLotteryDrawPrice = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/draw/price`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/lottery/draw/price`,
     {
       headers: {
         Authorization: token,
@@ -62,9 +74,12 @@ export const getLotteryWinnerBoard = async ({
   token,
   page = 1,
   size = 50,
+  networkId,
 }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/board`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/lottery/board`,
     {
       headers: {
         Authorization: token,
@@ -80,9 +95,11 @@ export const getLotteryWinnerBoard = async ({
   return response.json();
 };
 
-export const getLotteryMintedAmount = async ({ token }: any) => {
+export const getLotteryMintedAmount = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/minted/amount`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/lottery/minted/amount`,
     {
       headers: {
         Authorization: token,
@@ -93,9 +110,11 @@ export const getLotteryMintedAmount = async ({ token }: any) => {
   return response.json();
 };
 
-export const getLotteryBanner = async ({ token }: any) => {
+export const getLotteryBanner = async ({ token, networkId }: any) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/lottery/message/banner`,
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/user/lottery/message/banner`,
     {
       headers: {
         Authorization: token,
