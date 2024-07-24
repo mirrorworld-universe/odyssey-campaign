@@ -53,7 +53,6 @@ let lastAddress = "";
 let currentSignature = "";
 let currentToken = "";
 let messageToSign = "";
-let isSigning = false;
 let isWhitelist = false;
 
 const networkSwitchingNames: any = {
@@ -186,13 +185,11 @@ export function WalletDialog({ text = "Connect", className }: any) {
       refetchAuthorize();
       // open tip dilogs
       afterWalletConnected();
-      isSigning = false;
     } catch (e) {
       console.log("could not sign message", e);
       currentToken = "";
       setToken("");
       disconnect();
-      isSigning = false;
     }
   };
 
@@ -269,8 +266,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
       messageToSign = dataBasicInfo.data;
       const isNoToken = !token && !currentToken;
       const isNewAddress = publicKey?.toString() !== lastAddress;
-      if (messageToSign && (isNoToken || isNewAddress) && !isSigning) {
-        isSigning = true;
+      if (messageToSign && (isNoToken || isNewAddress)) {
         signWalletMessage();
       }
     }
