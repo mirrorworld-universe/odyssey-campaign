@@ -42,7 +42,6 @@ export default function AppWalletProvider({
 
   useEffect(() => {
     if (networkId) {
-      console.log("networkId", networkId);
       setNetwork(networks.find((network: any) => network.id === networkId).rpc);
     }
   }, [networkId]);
