@@ -26,7 +26,7 @@ import { useFAQModal, useHowToPlayModal } from "../store/tutorials";
 import { cn } from "@/lib/utils";
 import { trackClick } from "@/lib/track";
 import { Footer } from "../components/Basic/Footer";
-import { useNetworkInfo } from "../store/account";
+import { useAccountInfo, useNetworkInfo } from "../store/account";
 
 const icons: any = {
   twitter: (
@@ -69,6 +69,7 @@ const icons: any = {
 
 const TaskCenter: NextPage = () => {
   const router = useRouter();
+  const { token } = useAccountInfo();
   const { address, status, setStatus } = useTaskInfo();
   const { wallet } = useWallet();
   const { networkId } = useNetworkInfo();
@@ -84,6 +85,10 @@ const TaskCenter: NextPage = () => {
   } = useFAQModal();
 
   const handleStartTask = () => {
+    if (!token) {
+      return;
+    }
+
     router.push(
       status && status[address]["meet-sonic"]
         ? "/task/check-in"
