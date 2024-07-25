@@ -63,7 +63,7 @@ export default function AppWalletProvider({
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider
         wallets={wallets}
-        autoConnect={!isInMaintenanceTime() && !isSwitching}
+        autoConnect={!isInMaintenanceTime(networkId) && !isSwitching}
       >
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>

@@ -33,6 +33,7 @@ import {
   isInMaintenanceTime,
   isMobileViewport,
   maintenanceEndTime,
+  maintenanceNetworks,
   maintenanceStartTime,
 } from "@/lib/utils";
 import { Speaker } from "@/app/icons/Speaker";
@@ -45,6 +46,7 @@ import { Close as IconClose } from "@/app/icons/Close";
 import { usePathname } from "next/navigation";
 import { NetworkSwitch } from "./NetworkSwitch";
 import { useWhitelistModal } from "@/app/store/tutorials";
+import { networks } from "@/app/data/config";
 
 export const menu: any[] = [
   {
@@ -89,8 +91,11 @@ export function Header() {
   const { address, token, setToken } = useAccountInfo();
   const { isOpen: isOpenLotteryBar, onOpen: onOpenLotteryBar } =
     useLotteryBar();
-  const { isOpen: isOpenNotificationBar, onOpen: onOpenNotificationBar } =
-    useNotificationBar();
+  const {
+    isOpen: isOpenNotificationBar,
+    onOpen: onOpenNotificationBar,
+    onClose: onCloseNotificationBar,
+  } = useNotificationBar();
   const { lotterySeason } = useLotteryInfo();
   const { networkId } = useNetworkInfo();
 
@@ -131,6 +136,19 @@ export function Header() {
     trackCriteoWalletTransactionClick();
   };
 
+  const getNetworkTypesById = (ids: string[]): string[] => {
+    const types: string[] = [];
+
+    ids.forEach((id) => {
+      const network = networks.find((network) => network.id === id);
+      if (network) {
+        types.push(network.type);
+      }
+    });
+
+    return types;
+  };
+
   // useEffect(() => {
   //   if (dataWinnerBanner?.data?.wallet) {
   //     setBannerMessage(dataWinnerBanner.data);
@@ -139,11 +157,6 @@ export function Header() {
   // }, [dataWinnerBanner]);
 
   useEffect(() => {
-    if (isInMaintenanceTime()) {
-      setInMaintenance();
-      onOpenNotificationBar();
-    }
-
     try {
       const page_name = document.title;
       const entry_page = window.location.href;
@@ -157,6 +170,16 @@ export function Header() {
       console.log(e);
     }
   }, []);
+
+  useEffect(() => {
+    if (isInMaintenanceTime(networkId)) {
+      setInMaintenance(true);
+      onOpenNotificationBar();
+    } else {
+      setInMaintenance(false);
+      onCloseNotificationBar();
+    }
+  }, [networkId]);
 
   return (
     <nav className="flex flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
@@ -271,9 +294,10 @@ export function Header() {
             />
             <span className="inline-flex w-full max-w-[718px] whitespace-nowrap overflow-hidden">
               <div className="pl-[100%] animate-marquee">
-                Important Update: Sonic Testnet will upgrade on{" "}
-                {format(new UTCDate(maintenanceStartTime), "PPP")}, at{" "}
-                {format(new UTCDate(maintenanceStartTime), "h a")} UTC, for{" "}
+                Important Update: Sonic{" "}
+                {getNetworkTypesById(maintenanceNetworks).join(" & ")} will
+                upgrade on {format(new UTCDate(maintenanceStartTime), "PPP")},
+                at {format(new UTCDate(maintenanceStartTime), "h a")} UTC, for{" "}
                 {formatDistance(
                   new UTCDate(maintenanceStartTime),
                   new UTCDate(maintenanceEndTime)

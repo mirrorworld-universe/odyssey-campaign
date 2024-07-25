@@ -251,7 +251,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
   };
 
   useEffect(() => {
-    if (isInMaintenanceTime()) {
+    if (isInMaintenanceTime(networkId)) {
       disconnect();
       setAddress("");
       setToken("");

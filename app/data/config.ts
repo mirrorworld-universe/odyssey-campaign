@@ -17,12 +17,14 @@ const ENV = getENV();
 export const networks: any[] = [
   {
     id: "devnet",
+    type: "Devnet",
     name: "Origin",
     url: "",
     rpc: "https://devnet.sonic.game",
   },
   {
     id: "testnet",
+    type: "Testnet",
     name: "Frontier",
     url: "/testnet",
     rpc: "https://api.testnet.sonic.game",
