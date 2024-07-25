@@ -3,12 +3,12 @@ import { persist } from "zustand/middleware";
 
 export const useSystemInfo = create<{
   isInMaintenance: boolean;
-  setInMaintenance: () => void;
+  setInMaintenance: (isInMaintenance: boolean) => void;
 }>((set) => ({
   isInMaintenance: false,
-  setInMaintenance: () => {
+  setInMaintenance: (isInMaintenance: boolean) => {
     set({
-      isInMaintenance: true,
+      isInMaintenance,
     });
   },
 }));

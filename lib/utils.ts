@@ -84,17 +84,23 @@ export const getNetworkUrl = (networkId: any) => {
   return currentNetwork.url;
 };
 
-export const maintenanceStartTime = "2024-07-09T16:00:00+08:00";
+export const maintenanceStartTime = "2024-07-25T16:00:00+08:00";
 
-export const maintenanceEndTime = "2024-07-09T16:10:00+08:00";
+export const maintenanceEndTime = "2024-07-25T18:00:00+08:00";
+
+export const maintenanceNetworks = ["devnet", "testnet"];
 
 export const showInAdcance = false;
 
-export const isInMaintenanceTime = () => {
+export const isInMaintenanceTime = (networkId = "devnet") => {
+  const isMaintenanceNetwork = maintenanceNetworks.indexOf(networkId) > -1;
   const now = new UTCDate();
   const startTime = new UTCDate(maintenanceStartTime);
   const endTime = new UTCDate(maintenanceEndTime);
-  return showInAdcance || (now >= startTime && now <= endTime);
+  return (
+    showInAdcance ||
+    (now >= startTime && now <= endTime && isMaintenanceNetwork)
+  );
 };
 
 export const isMobileViewport = () => {

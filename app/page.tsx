@@ -125,16 +125,16 @@ export default function Home() {
         <VideoBackground className="w-screen h-screen absolute top-0 bottom-0 left-0 right-0" />
         <div className="w-screen h-screen bg-gradient-to-t from-black/50 to-black/0 absolute top-0 bottom-0 left-0 right-0"></div>
 
-        <div className="text-center max-w-[800px] flex flex-col items-center relative">
+        <div className="w-full max-w-[800px] flex flex-col items-center text-center relative px-4">
           <h1 className="flex flex-row gap-2 text-8xl text-white font-orbitron font-bold pt-20">
             <img className="" src="/images/sonic-odyssey.png" alt="" />
           </h1>
-          <p className="text-[32px] font-orbitron text-[#FFFFFF]/[0.8] mt-12">
+          <p className="text-sm md:text-[32px] leading-normal font-orbitron text-white/80 mt-12">
             {networkId === "testnet"
               ? "Join the Sonic Odyssey testnet stage 2."
               : "Join the Sonic Odyssey Testnet Campaign."}
           </p>
-          <p className="text-[32px] font-orbitron text-[#FFFFFF]/[0.8]">
+          <p className="text-sm md:text-[32px] leading-normal font-orbitron text-white/80">
             Earn Your Ring Rewards!
           </p>
 
