@@ -136,17 +136,17 @@ export function Header() {
     trackCriteoWalletTransactionClick();
   };
 
-  const getNetworkTypesById = (ids: string[]): string[] => {
-    const types: string[] = [];
+  const getNetworkNamesById = (ids: string[]): string[] => {
+    const names: string[] = [];
 
     ids.forEach((id) => {
       const network = networks.find((network) => network.id === id);
       if (network) {
-        types.push(network.type);
+        names.push(network.name);
       }
     });
 
-    return types;
+    return names;
   };
 
   // useEffect(() => {
@@ -295,7 +295,7 @@ export function Header() {
             <span className="inline-flex w-full max-w-[718px] whitespace-nowrap overflow-hidden">
               <div className="pl-[100%] animate-marquee">
                 Important Update: Sonic{" "}
-                {getNetworkTypesById(maintenanceNetworks).join(" & ")} will
+                {getNetworkNamesById(maintenanceNetworks).join(" & ")} will
                 upgrade on {format(new UTCDate(maintenanceStartTime), "PPP")},
                 at {format(new UTCDate(maintenanceStartTime), "h a")} UTC, for{" "}
                 {formatDistance(
