@@ -136,6 +136,11 @@ export function Header() {
     trackCriteoWalletTransactionClick();
   };
 
+  const handleClickMenu = (event: any) => {
+    setShowMenu(false);
+    trackLinkClick(event);
+  };
+
   const getNetworkNamesById = (ids: string[]): string[] => {
     const names: string[] = [];
 
@@ -249,7 +254,7 @@ export function Header() {
                   href={menuItem.link[networkId || "devnet"]}
                   key={menuIndex}
                   target={menuItem.target}
-                  onClick={trackLinkClick}
+                  onClick={handleClickMenu}
                 >
                   {menuItem.name}
                 </Link>

@@ -41,7 +41,7 @@ export function WhitelistDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="max-w-full w-full md:w-[460px] max-h-full h-full md:h-auto bg-[#1A1A1A] border-none px-8 py-8">
+      <AlertDialogContent className="max-w-full w-full md:w-[460px] max-h-full h-full md:h-auto bg-[#1A1A1A] border-none p-4 md:p-8">
         <AlertDialogHeader className="">
           <p className="flex md:hidden justify-between items-center pb-4">
             <span className="text-white/50 text-sm uppercase font-orbitron font-semibold">
