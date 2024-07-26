@@ -77,21 +77,24 @@ export function SetUpSonicNetworkDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[470px] bg-[#1A1A1A] border-none px-8 py-8">
+      <AlertDialogContent className="max-w-full w-full md:w-[470px] max-h-full h-full md:h-auto bg-[#1A1A1A] border-none p-4 md:p-8 items-start">
         <AlertDialogHeader className="">
-          <AlertDialogTitle className="flex flex-row gap-2 justify-start items-center text-white text-[32px]">
-            <span className="text-white text-[32px] font-semibold font-orbitron">
+          <p className="block md:hidden text-white/50 text-sm uppercase font-orbitron font-semibold text-left pb-4">
+            Connect Wallet
+          </p>
+          <AlertDialogTitle className="mt-4 md:mt-0 flex flex-row gap-2 justify-start items-center text-white text-[32px]">
+            <span className="text-white text-2xl md:text-[32px] font-semibold font-orbitron">
               Set Up Network
             </span>
             {networkId === "testnet" ? <StageTag /> : null}
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-white/60 text-base text-left mt-4">
+          <AlertDialogDescription className="hidden md:static text-white/60 text-base text-left mt-4">
             Set up Sonic {networkId === "testnet" ? "Frontier" : "Origin"}{" "}
             network for your {wallet?.adapter.name} wallet
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <div className="flex flex-row items-center justify-center gap-14 mt-12">
+        <div className="flex flex-row items-center justify-center gap-14 mt-[96px] md:mt-12">
           <img
             src="/images/icons/sonic-white.png"
             alt=""
@@ -104,7 +107,8 @@ export function SetUpSonicNetworkDialog() {
           </span>
           <img src={wallet?.adapter.icon} alt="" className="w-12 h-12" />
         </div>
-        <div className="flex flex-col gap-12 mt-12">
+
+        <div className="flex flex-col gap-12 mt-[96px] md:mt-12">
           <ul className="flex flex-col gap-6 list-decimal text-white text-lg font-semibold pl-[18px]">
             <li className="s">
               Open this network{" "}
@@ -128,7 +132,7 @@ export function SetUpSonicNetworkDialog() {
             <li>Continue to the next step</li>
           </ul>
         </div>
-        <div className="flex flex-col gap-12 mt-12">
+        <div className="flex flex-col gap-12 mt-12 fixed md:static left-4 right-4 bottom-4">
           <Button
             className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
             onClick={

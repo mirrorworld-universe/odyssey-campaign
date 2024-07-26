@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useWhitelistModal } from "@/app/store/tutorials";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
+import { Close } from "@/app/icons/Close";
 
 export function WhitelistDialog() {
   const router = useRouter();
@@ -40,9 +41,17 @@ export function WhitelistDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[460px] bg-[#1A1A1A] border-none px-8 py-8">
+      <AlertDialogContent className="max-w-full w-full md:w-[460px] max-h-full h-full md:h-auto bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
-          <AlertDialogTitle className="flex flex-col justify-start items-center text-white text-[32px] font-orbitron gap-8">
+          <p className="flex md:hidden justify-between items-center pb-4">
+            <span className="text-white/50 text-sm uppercase font-orbitron font-semibold">
+              Connect Testnet - Frontier
+            </span>
+            <span className="cursor-pointer hover:opacity-80" onClick={onClose}>
+              <Close color="rgba(255, 255, 255, .5)" />
+            </span>
+          </p>
+          <AlertDialogTitle className="flex flex-col justify-start items-center text-white text-[32px] font-orbitron gap-8 pt-14 md:pt-0">
             <p className="flex flex-row justify-center items-center gap-3 text-white text-5xl font-semibold font-orbitron pt-4">
               {isInWhitelist ? (
                 <img src="/sonic.png" className="w-16 h-16" />
@@ -92,7 +101,7 @@ export function WhitelistDialog() {
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <div className="flex flex-col gap-4 mt-12">
+        <div className="flex flex-col gap-4 mt-12 fixed md:static left-4 right-4 bottom-4">
           {isInWhitelist ? (
             <>
               <Button
@@ -102,7 +111,7 @@ export function WhitelistDialog() {
                 Task Center
               </Button>
               <Button
-                className="w-full h-12 bg-transparent hover:bg-transparent text-white/30 font-orbitron hover:opacity-80 active:opacity-50 transition-colors duration-300"
+                className="hidden md:block w-full h-12 bg-transparent hover:bg-transparent text-white/30 font-orbitron hover:opacity-80 active:opacity-50 transition-colors duration-300"
                 onClick={onClose}
               >
                 Cancel
