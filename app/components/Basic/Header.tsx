@@ -298,7 +298,8 @@ export function Header() {
               className="min-w-6 min-h-6"
             />
             <span className="inline-flex w-full max-w-[718px] whitespace-nowrap overflow-hidden">
-              <div className="pl-[100%] animate-marquee">
+              {/* upgrade */}
+              {/* <div className="pl-[100%] animate-marquee">
                 Important Update: Sonic{" "}
                 {getNetworkNamesById(maintenanceNetworks).join(" & ")} will
                 upgrade on {format(new UTCDate(maintenanceStartTime), "PPP")},
@@ -309,6 +310,16 @@ export function Header() {
                 )}
                 . Some tasks and on-chain interactions will be paused. Thank you
                 for understanding.
+              </div> */}
+              {/* maintenance */}
+              <div className="pl-[100%] animate-marquee">
+                Important Update: Sonic{" "}
+                {getNetworkNamesById(maintenanceNetworks).join(" & ")} will
+                undergo maintenance on{" "}
+                {format(new UTCDate(maintenanceStartTime), "PPP")}, at{" "}
+                {format(new UTCDate(maintenanceStartTime), "h a")} UTC. Some
+                tasks and on-chain interactions will be paused. Thank you for
+                understanding.
               </div>
             </span>
           </div>
