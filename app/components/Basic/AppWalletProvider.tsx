@@ -27,7 +27,6 @@ export default function AppWalletProvider({
   children: React.ReactNode;
 }) {
   const { networkId } = useNetworkInfo();
-  const { isSwitching } = useWalletModal();
 
   const defaultRpc = (
     networks.find((network: any) => network.id === networkId) || networks[0]
@@ -63,7 +62,7 @@ export default function AppWalletProvider({
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider
         wallets={wallets}
-        autoConnect={!isInMaintenanceTime(networkId) && !isSwitching}
+        autoConnect={!isInMaintenanceTime(networkId)}
       >
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>

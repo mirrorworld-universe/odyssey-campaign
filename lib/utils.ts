@@ -84,11 +84,11 @@ export const getNetworkUrl = (networkId: any) => {
   return currentNetwork.url;
 };
 
-export const maintenanceStartTime = "2024-07-24T16:00:00+08:00";
+export const maintenanceStartTime = "2024-07-29T11:00:00+08:00";
 
-export const maintenanceEndTime = "2024-07-24T18:00:00+08:00";
+export const maintenanceEndTime = "2024-07-29T23:00:00+08:00";
 
-export const maintenanceNetworks = ["devnet", "testnet"];
+export const maintenanceNetworks = ["devnet"];
 
 export const showInAdcance = false;
 
@@ -104,9 +104,10 @@ export const isInMaintenanceTime = (networkId = "devnet") => {
 };
 
 export const isMobileViewport = () => {
-  if (typeof window === "undefined") {
+  if (!window) {
     return false;
   }
+
   var viewportWidth = Math.max(
     document?.documentElement.clientWidth,
     window?.innerWidth || 0

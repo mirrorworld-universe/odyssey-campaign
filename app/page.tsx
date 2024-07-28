@@ -95,25 +95,20 @@ export default function Home() {
     </video>
   );
 
-  const GetStarted = () => (
+  const GetStarted = ({ className }: any) => (
     <Button
       className={cn(
-        "group w-[560px] h-[88px] bg-transparent hover:bg-transparent rounded-md p-0 relative mt-[132px]",
-        isInMaintenance ? "opacity-30 cursor-not-allowed" : ""
+        "group bg-transparent hover:bg-transparent rounded-md p-0 relative w-full md:w-[550px] h-[66px] md:h-[100px]",
+        isInMaintenance ? "opacity-30 cursor-not-allowed" : "",
+        className
       )}
       onClick={handleGetStarted}
     >
-      <video
-        preload="auto"
-        loop
-        autoPlay
-        muted
-        className="w-full h-full absolute"
-      >
+      <video preload="auto" loop autoPlay muted className="w-full h-full">
         <source src="/get-started.webm" type="video/mp4" />
       </video>
 
-      <span className="text-white text-[32px] font-orbitron font-bold group-hover:opacity-80 group-active:opacity-50 absolute transition-opacity duration-300">
+      <span className="text-white text-2xl md:text-[32px] font-orbitron font-bold group-hover:opacity-80 group-active:opacity-50 transition-opacity duration-300 absolute">
         Get Started
       </span>
     </Button>
@@ -126,10 +121,17 @@ export default function Home() {
         <div className="w-screen h-screen bg-gradient-to-t from-black/50 to-black/0 absolute top-0 bottom-0 left-0 right-0"></div>
 
         <div className="w-full max-w-[800px] flex flex-col items-center text-center relative px-4">
-          <h1 className="flex flex-row gap-2 text-8xl text-white font-orbitron font-bold pt-20">
-            <img className="" src="/images/sonic-odyssey.png" alt="" />
+          <h1 className="flex flex-col md:flex-row items-center gap-1 md:gap-8 text-8xl text-white font-orbitron font-bold pt-20">
+            <span className="text-4xl md:text-[96px] relative md:-top-2">
+              Sonic
+            </span>
+            <img
+              className="h-[70px] md:h-[120px]"
+              src="/images/odyssey.png"
+              alt=""
+            />
           </h1>
-          <p className="text-sm md:text-[32px] leading-normal font-orbitron text-white/80 mt-12">
+          <p className="text-sm md:text-[32px] leading-normal font-orbitron text-white/80 mt-10 md:mt-12">
             {networkId === "testnet"
               ? "Join the Sonic Odyssey testnet stage 2."
               : "Join the Sonic Odyssey Testnet Campaign."}
@@ -138,7 +140,7 @@ export default function Home() {
             Earn Your Ring Rewards!
           </p>
 
-          <GetStarted />
+          <GetStarted className="mt-[132px] fixed md:static bottom-4 left-0 right-0" />
         </div>
       </div>
     </main>

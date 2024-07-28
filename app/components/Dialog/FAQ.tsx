@@ -46,9 +46,9 @@ export function FAQDialog() {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[812px] bg-[#1A1A1A] border-none px-8 py-8">
-        <DialogHeader className="space-y-0">
-          <DialogTitle className="text-white text-[32px] font-orbitron pb-12 border-b border-solid border-white/10">
+      <DialogContent className="flex flex-col max-w-full w-full md:w-[812px] max-h-full h-full md:h-auto bg-[#1A1A1A] border-none p-4 md:p-8">
+        <DialogHeader className="text-left space-y-0">
+          <DialogTitle className="text-white text-2xl md:text-[32px] font-orbitron pb-12 border-b border-solid border-white/10">
             FAQs
           </DialogTitle>
         </DialogHeader>
@@ -63,12 +63,12 @@ export function FAQDialog() {
             <AccordionItem
               key={faqIndex}
               value={`item-${faqIndex + 1}`}
-              className="border-white/10 px-8 py-4 data-[state=open]:py-8"
+              className="border-white/10 px-4 md:px-8 py-2 md:py-4 data-[state=open]:py-6 md:data-[state=open]:py-8"
             >
-              <AccordionTrigger className="text-white text-lg font-semibold font-orbitron data-[state=open]:text-[#FBB042] outline-none">
+              <AccordionTrigger className="text-white text-sm md:text-lg font-semibold font-orbitron data-[state=open]:text-[#FBB042] outline-none">
                 {faq.title}
               </AccordionTrigger>
-              <AccordionContent className="text-white/60 text-base pr-[72px]">
+              <AccordionContent className="text-white/60 text-sm md:text-base pr-[72px]">
                 {faq.content}
               </AccordionContent>
             </AccordionItem>

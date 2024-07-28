@@ -33,26 +33,26 @@ export function WelcomeDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[468px] bg-[#1A1A1A] border-none px-8 py-8">
+      <AlertDialogContent className="max-w-[calc(100%_-_70px)] w-full md:w-[468px] bg-[#1A1A1A] border-none p-8">
         <AlertDialogHeader className="">
           <AlertDialogTitle className="flex flex-col justify-start items-center text-white text-[32px] font-orbitron">
-            <span className="text-white text-[32px] font-semibold font-orbitron">
+            <span className="text-white text-2xl md:text-[32px] font-semibold font-orbitron">
               Welcome to Sonic Odyssey Campaign!
             </span>
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-[#717171] text-base text-left mt-4">
+          <AlertDialogDescription className="text-[#717171] text-sm md:text-base text-left mt-3 md:mt-4">
             Here are the steps to participate in the Odyssey Campaign:
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <div className="mt-12">
+        <div className="mt-10 md:mt-12">
           <ul className="flex flex-col gap-6 list-decimal text-white text-lg font-semibold pl-[18px]">
             <li className="x">Set up Sonic Network in your wallet</li>
             <li className="x">Complete tasks</li>
             <li className="x">Collect rings</li>
           </ul>
         </div>
-        <div className="flex flex-col gap-12 mt-12">
+        <div className="flex flex-col gap-12 mt-10 md:mt-12 fixed md:static left-4 right-4 bottom-4">
           <Button
             className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
             onClick={handleConfirm}
