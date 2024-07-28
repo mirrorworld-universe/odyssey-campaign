@@ -104,9 +104,10 @@ export const isInMaintenanceTime = (networkId = "devnet") => {
 };
 
 export const isMobileViewport = () => {
-  if (typeof window === "undefined") {
+  if (!window) {
     return false;
   }
+
   var viewportWidth = Math.max(
     document?.documentElement.clientWidth,
     window?.innerWidth || 0

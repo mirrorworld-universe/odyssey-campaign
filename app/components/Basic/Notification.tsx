@@ -10,6 +10,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getNotificationRecords } from "../../data/account";
 import { useAccountInfo, useNetworkInfo } from "../../store/account";
 import { trackClick } from "@/lib/track";
+import { cn } from "@/lib/utils";
+import { Close } from "@/app/icons/Close";
 
 const maxAmount = 5;
 
@@ -76,6 +78,10 @@ export default function Notification({ data }: any) {
     setShowPanel(!showPanel);
   };
 
+  const handleClosePanel = () => {
+    setPopoverOpen(false);
+  };
+
   const NotificationIcon = () => (
     <div
       className="w-6 h-6 cursor-pointer relative"
@@ -103,7 +109,7 @@ export default function Notification({ data }: any) {
         {list.map((item: any, index: number) => (
           <div
             key={index}
-            className="flex flex-col gap-1 px-4 py-3 text-xs bg-[#1A1A1A] hover:bg-white/5 transition-opacity"
+            className="flex flex-col gap-3 md:gap-1 px-4 py-4 md:py-3 text-xs bg-[#1A1A1A] hover:bg-white/5 transition-opacity"
           >
             <p className="text-white">{item.text}</p>
             <span className="text-white/50">{item.date}</span>
@@ -113,20 +119,58 @@ export default function Notification({ data }: any) {
     );
   };
 
-  const NotificationPanel = () => (
-    <div className="bg-[#1A1A1A] w-[360px] max-h-[348px] py-2 rounded-md">
-      {list.length ? <NotificationList /> : <NotificationEmptyStatus />}
+  const NotificationPanel = ({ className, showHeader }: any) => (
+    <div className={cn("bg-[#1A1A1A] w-[360px] py-2 rounded-md", className)}>
+      {showHeader ? (
+        <p className="flex justify-between items-center px-4 py-5">
+          <span className="text-white/50 text-sm uppercase font-orbitron font-semibold">
+            Notification
+          </span>
+          <span
+            className="cursor-pointer hover:opacity-80"
+            onClick={handleClosePanel}
+          >
+            <Close color="rgba(255, 255, 255, .5)" />
+          </span>
+        </p>
+      ) : null}
+      <div className="w-full max-h-full md:max-h-[348px]">
+        {list.length ? <NotificationList /> : <NotificationEmptyStatus />}
+      </div>
     </div>
   );
 
   return (
-    <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-      <PopoverTrigger>
-        <NotificationIcon />
-      </PopoverTrigger>
-      <PopoverContent className="w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0 mt-5">
-        <NotificationPanel />
-      </PopoverContent>
-    </Popover>
+    <>
+      {/* popover */}
+      <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+        <PopoverTrigger>
+          <NotificationIcon />
+        </PopoverTrigger>
+        <PopoverContent className="hidden md:flex w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0 mt-5">
+          <NotificationPanel />
+        </PopoverContent>
+      </Popover>
+
+      {/* shadow */}
+      {popoverOpen && (
+        <div
+          className={cn(
+            "flex md:hidden bg-black/80 fixed z-20 top-0 bottom-0 right-0 left-0 transition-opacity duration-300"
+          )}
+          onClick={handleClosePanel}
+        ></div>
+      )}
+
+      {/* mobile */}
+      <div
+        className={cn(
+          "flex md:hidden flex-col w-full max-h-full fixed right-0 left-0 bottom-0 z-30 transition-transform duration-300",
+          popoverOpen ? "translate-y-0" : "translate-y-full"
+        )}
+      >
+        <NotificationPanel showHeader className={cn("w-full h-full")} />
+      </div>
+    </>
   );
 }

@@ -40,7 +40,7 @@ export function Rules({ show, onClose, children }: any) {
         >
           <h3 className="md:hidden flex flex-row justify-between py-4">
             <span className="text-base text-white/50 font-semibold font-orbitron">
-              Rules
+              Rules {JSON.stringify(isMobileViewport())}
             </span>
             <span onClick={handleCloseRulesDialog}>
               <Close
