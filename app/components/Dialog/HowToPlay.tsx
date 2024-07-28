@@ -23,12 +23,12 @@ export function HowToPlayDialog() {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[813px] h-[643px] bg-[#1A1A1A] border-none px-8 py-8">
-        <DialogHeader className="space-y-0">
-          <DialogTitle className="text-white text-[32px] font-orbitron">
+      <DialogContent className="flex flex-col max-w-full w-full md:w-[813px] max-h-full h-full md:h-[643px] bg-[#1A1A1A] border-none p-4 md:p-8">
+        <DialogHeader className="text-left space-y-0">
+          <DialogTitle className="text-white text-2xl md:text-[32px] font-orbitron">
             How to Play?
           </DialogTitle>
-          <DialogDescription className="text-white/60 text-base">
+          <DialogDescription className="text-white/60 text-sm md:text-base">
             Ensure you successfully switch the network in your wallet to Sonic.
             Check{" "}
             <a
@@ -57,7 +57,7 @@ export function HowToPlayDialog() {
             <p className="text-white">Request Test SOL</p>
           </div>
           <div className="w-full flex flex-row h-[96px] pl-[70px]">
-            <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px]">
+            <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px] text-sm md:text-base">
               On Sonic, you need SOL for gas. Ensure your wallet has enough SOL
               to transact. Click{" "}
               <a
@@ -89,7 +89,7 @@ export function HowToPlayDialog() {
             </p>
           </div>
           <div className="w-full flex flex-row h-[96px] pl-[70px]">
-            <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px]">
+            <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px] text-sm md:text-base">
               In the{" "}
               <span
                 className="text-[#25A3ED] hover:underline"
@@ -114,7 +114,7 @@ export function HowToPlayDialog() {
             </p>
           </div>
           <div className="w-full flex flex-row h-[96px] pl-[70px]">
-            <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px]">
+            <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px] text-sm md:text-base">
               Open a mystery box to receive a varying number of rings. Each
               mystery box can yield 1-5 rings. Claim them in the "Rings"
               dropdown section in the navigation bar.

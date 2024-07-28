@@ -123,8 +123,8 @@ export function TaskNavigator({ taskId, className }: any) {
         href="/task"
         className={cn(
           "group inline-flex flex-row items-center gap-2 h-[64px] md:h-[80px] bg-[#111111] pl-4 md:pl-8 sticky top-20 z-10",
-          isOpenNotificationBar ? "top-32" : "top-20",
-          isOpenLotteryBar ? "top-[124px]" : "top-20"
+          isOpenNotificationBar ? "top-32" : "top-16",
+          isOpenLotteryBar ? "top-[124px]" : "top-16"
         )}
       >
         <img
