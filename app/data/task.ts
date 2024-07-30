@@ -90,7 +90,7 @@ export const taskGroupList = [
         iconName: "game",
         available: {
           devnet: true,
-          testnet: false,
+          testnet: true,
         },
       },
     ],
