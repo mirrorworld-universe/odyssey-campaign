@@ -123,14 +123,14 @@ export default function Notification({ data }: any) {
     <div className={cn("bg-[#1A1A1A] w-[360px] py-2 rounded-md", className)}>
       {showHeader ? (
         <p className="flex justify-between items-center px-4 py-5">
-          <span className="text-white/50 text-sm uppercase font-orbitron font-semibold">
+          <span className="text-white/50 text-sm font-orbitron font-semibold">
             Notification
           </span>
           <span
             className="cursor-pointer hover:opacity-80"
             onClick={handleClosePanel}
           >
-            <Close color="rgba(255, 255, 255, .5)" />
+            <Close color="rgba(255, 255, 255, .3)" width={24} height={24} />
           </span>
         </p>
       ) : null}

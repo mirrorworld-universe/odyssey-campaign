@@ -1,7 +1,12 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { prettyNumber } from "@/lib/utils";
+import {
+  cn,
+  isInMaintenanceTime,
+  isMobileViewport,
+  prettyNumber,
+} from "@/lib/utils";
 import { Arrow } from "@/app/icons/Arrow";
 import { Gift } from "@/app/icons/Gift";
 import { Card, CardSize } from "../Basic/Card";
@@ -39,6 +44,7 @@ import {
 import { taskGroupList } from "@/app/data/task";
 import { LotteryPriceTableDialog } from "../Dialog/LotteryPriceTable";
 import { Rules } from "./Rules";
+import { Close } from "@/app/icons/Close";
 
 let winnerBoardPage = 1;
 let winnerBoardList: any[] = [];
@@ -56,6 +62,7 @@ export function RingLottery() {
   const [season, setSeason] = useState(0);
 
   const [showRules, setShowRules] = useState(false);
+  const [showDrawPanel, setShowDrawPanel] = useState(false);
 
   const {
     lotteryDrawPrice,
@@ -177,7 +184,7 @@ export function RingLottery() {
       {/* rows */}
       <ScrollArea
         ref={scrollAreaRef}
-        className="max-h-[280px] overflow-y-auto"
+        className="max-h-[180px] md:max-h-[280px] overflow-y-auto"
         onScroll={handleScrollWinnerBoard}
       >
         <div className="flex flex-col gap-5">
@@ -202,8 +209,116 @@ export function RingLottery() {
     </div>
   );
 
+  const DrawAmountSelector = () => (
+    <div className="flex flex-row items-center gap-4">
+      <span
+        className="minus text-2xl font-bold inline-flex bg-[#1d1d1d] w-6 h-6 justify-center items-center text-[#616161] cursor-pointer active:opacity-80"
+        onClick={() =>
+          Number(drawAmount) > 1
+            ? handleSetLotteryDrawAmount((Number(drawAmount) - 1).toString())
+            : null
+        }
+      >
+        -
+      </span>
+      <span className="text-white text-[18px]">{drawAmount}</span>
+      <span
+        className="plus text-2xl font-bold inline-flex bg-[#1d1d1d] w-6 h-6 justify-center items-center text-[#616161] cursor-pointer active:opacity-80"
+        onClick={() =>
+          Number(drawAmount) < maxDrawAmount
+            ? handleSetLotteryDrawAmount((Number(drawAmount) + 1).toString())
+            : null
+        }
+      >
+        +
+      </span>
+    </div>
+  );
+
+  const DrawLotteryPanel = ({ className, showHeader }: any) => (
+    <div className={cn("flex flex-col", className)}>
+      {showHeader ? (
+        <p className="flex justify-between items-center py-5">
+          <span className="text-white/50 text-sm font-orbitron font-semibold">
+            Draw Setting
+          </span>
+          <span
+            className="cursor-pointer hover:opacity-80"
+            onClick={() => setShowDrawPanel(false)}
+          >
+            <Close color="rgba(255, 255, 255, .3)" width={24} height={24} />
+          </span>
+        </p>
+      ) : null}
+
+      <div className={cn("w-full flex flex-col gap-5 pt-2 md:pt-0")}>
+        <div className="w-full flex flex-row justify-between">
+          <span className="text-white text-base md:text-xl font-orbitron">
+            Number of draws
+          </span>
+          <div className="flex items-center">
+            {isMobileViewport() ? (
+              <DrawAmountSelector />
+            ) : (
+              <Select
+                disabled={isInMaintenanceTime()}
+                value={drawAmount}
+                onValueChange={(value: string) =>
+                  handleSetLotteryDrawAmount(value)
+                }
+              >
+                <SelectTrigger className="bg-transparent text-white text-lg font-semibold outline-none border-none">
+                  <SelectValue placeholder="1" />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1B1B1B] border-none text-white rounded">
+                  <SelectGroup>
+                    {Array.from({ length: maxDrawAmount }, (_, i) => i + 1).map(
+                      (number) => (
+                        <SelectItem
+                          value={number.toString()}
+                          key={number}
+                          className="focus:bg-white/5 text-white focus:text-white h-11"
+                        >
+                          {number}
+                        </SelectItem>
+                      )
+                    )}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-row md:flex-col xl:flex-row justify-between text-white/60">
+          <span className="text-sm md:text-base">Current Price:</span>
+          <span className="text-sm md:text-base font-semibold xl:font-normal">
+            {lotteryDrawPrice} SOL
+          </span>
+        </div>
+        <div className="flex flex-row md:flex-col xl:flex-row justify-between text-white/60">
+          <span className="text-sm md:text-base">Token Spending:</span>
+          <span className="text-sm md:text-base font-semibold xl:font-normal">
+            {drawAmount} x {lotteryDrawPrice}{" "}
+            <span className="text-[10px] md:text-xs">SOL/Draw</span>{" "}
+            <span className="text-sm md:text-base">=</span>{" "}
+            {Number(drawAmount) * lotteryDrawPrice}{" "}
+            <span className="text-[10px] md:text-xs">SOL</span>
+          </span>
+        </div>
+
+        <Button
+          disabled={season === 0 || season > 1}
+          onClick={handleDrawLottery}
+          className="h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300 mt-5 md:mt-0"
+        >
+          Draw
+        </Button>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full pb-20 md:pb-0">
       {/* title */}
       <h1 className="flex text-white font-orbitron font-semibold text-2xl md:text-[64px] gap-6">
         <span className="hidden md:inline">Ring Lottery</span>
@@ -219,7 +334,7 @@ export function RingLottery() {
       </div>
 
       {/* content */}
-      <div className="mt-8 md:mt-0">
+      <div className="flex flex-col-reverse md:flex-col mt-0">
         {/* rules */}
         <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
           <ul className="list-disc font-normal pl-6">
@@ -302,12 +417,12 @@ export function RingLottery() {
         <Card
           name="Minted Rings"
           size={CardSize.Medium}
-          className="mt-8 md:mt-20 max-w-[1024px]"
-          nameClassName="bg-[#000]"
+          className="mt-8 md:mt-20 max-w-[1024px] p-4 md:p-10"
+          nameClassName="text-sm md:text-[28px] bg-[#000] px-1 md:px-4 left-5 md:left-8 -top-3 md:-top-3"
         >
           <div className="flex flex-row justify-between items-center">
-            <Ring width={56} height={56} color="#FBB042" />
-            <span className="text-white text-5xl font-semibold font-orbitron">
+            <Ring color="#FBB042" className="w-6 md:w-14 h-6 md:h-14" />
+            <span className="text-white text-base md:text-5xl font-semibold font-orbitron">
               {season > 1
                 ? `${prettyNumber(maxMintAmount)}/${prettyNumber(
                     maxMintAmount
@@ -324,8 +439,8 @@ export function RingLottery() {
           <Card
             name="Winner Board"
             size={CardSize.Medium}
-            className="w-[470px]"
-            nameClassName="bg-[#000]"
+            className="w-[470px] p-4 md:p-10"
+            nameClassName="text-sm md:text-[28px] bg-[#000] px-1 md:px-4 left-5 md:left-8 -top-3 md:-top-3"
           >
             {winnerBoard.length ? (
               <WinnerBoard />
@@ -336,69 +451,13 @@ export function RingLottery() {
             )}
           </Card>
 
-          {/* draw */}
+          {/* draw panel */}
           <Card
             size={CardSize.Medium}
-            className="w-[470px]"
+            className={cn("w-[470px] hidden md:flex")}
             nameClassName="bg-[#000]"
           >
-            <div className="w-full flex flex-col gap-5">
-              <div className="w-full flex flex-row justify-between">
-                <span className="text-white text-xl font-orbitron">
-                  Number of draws
-                </span>
-                <div className="flex items-center">
-                  <Select
-                    disabled={true}
-                    value={drawAmount}
-                    onValueChange={(value: string) =>
-                      handleSetLotteryDrawAmount(value)
-                    }
-                  >
-                    <SelectTrigger className="bg-transparent text-white text-lg font-semibold outline-none border-none">
-                      <SelectValue placeholder="1" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#1B1B1B] border-none text-white rounded">
-                      <SelectGroup>
-                        {Array.from(
-                          { length: maxDrawAmount },
-                          (_, i) => i + 1
-                        ).map((number) => (
-                          <SelectItem
-                            value={number.toString()}
-                            key={number}
-                            className="focus:bg-white/5 text-white focus:text-white h-11"
-                          >
-                            {number}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div className="flex flex-col xl:flex-row justify-between text-white/60">
-                <span className="">Current Price:</span>
-                <span className="font-semibold xl:font-normal">
-                  {lotteryDrawPrice} SOL
-                </span>
-              </div>
-              <div className="flex flex-col xl:flex-row justify-between text-white/60">
-                <span className="">Token Spending:</span>
-                <span className="font-semibold xl:font-normal">
-                  {drawAmount} x {lotteryDrawPrice}{" "}
-                  <span className="text-xs">SOL/Draw</span> ={" "}
-                  {Number(drawAmount) * lotteryDrawPrice} SOL
-                </span>
-              </div>
-              <Button
-                disabled={season === 0 || season > 1}
-                onClick={handleDrawLottery}
-                className="h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
-              >
-                Draw
-              </Button>
-            </div>
+            <DrawLotteryPanel />
           </Card>
         </div>
 
@@ -416,16 +475,49 @@ export function RingLottery() {
         )}
       </div>
 
+      {/* shadow */}
+      {showDrawPanel && (
+        <div
+          className={cn(
+            "flex md:hidden bg-black/80 fixed z-20 top-0 bottom-0 right-0 left-0 transition-opacity duration-300"
+          )}
+          onClick={() => setShowDrawPanel(false)}
+        ></div>
+      )}
+
       {/* mobile version tools */}
-      <div className="flex md:hidden flex-row fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+      <div className="flex md:hidden flex-row fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5 gap-4">
         <Button
-          className="w-full h-12 border border-solid border-white/40 bg-transparent"
+          className="w-2/6 h-12 border border-solid border-white/40 bg-transparent"
           onClick={() => setShowRules(true)}
         >
           <span className="text-white text-base font-bold font-orbitron">
             Rules
           </span>
         </Button>
+        <Button
+          className={cn(
+            "w-4/6 h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300",
+            isInMaintenanceTime()
+              ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
+              : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
+          )}
+          onClick={() => setShowDrawPanel(true)}
+        >
+          Set Draw
+        </Button>
+      </div>
+
+      {/* draw panel */}
+      <div
+        className={cn(
+          "flex md:hidden z-30 flex-col fixed bottom-0 right-0 left-0 m-auto bg-[#111] pt-0 pb-5 px-5 transition-transform duration-300 rounded-xl",
+          showDrawPanel || !isMobileViewport()
+            ? "translate-y-0"
+            : "translate-y-full"
+        )}
+      >
+        <DrawLotteryPanel showHeader />
       </div>
     </div>
   );

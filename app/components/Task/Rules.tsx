@@ -34,13 +34,13 @@ export function Rules({ show, onClose, children }: any) {
       {
         <div
           className={cn(
-            "fixed md:static z-30 bottom-0 left-0 right-0 m-auto bg-[#111] md:bg-transparent px-4 md:px-0 pb-6 md:pb-0 transition-transform duration-300",
+            "w-full fixed md:static z-20 bottom-0 left-0 right-0 m-auto bg-[#111] md:bg-transparent px-4 md:px-0 pb-6 md:pb-0 transition-transform duration-300",
             isOpen || !isMobileViewport() ? "translate-y-0" : "translate-y-full"
           )}
         >
           <h3 className="md:hidden flex flex-row justify-between py-4">
             <span className="text-base text-white/50 font-semibold font-orbitron">
-              Rules {JSON.stringify(isMobileViewport())}
+              Rules
             </span>
             <span onClick={handleCloseRulesDialog}>
               <Close

@@ -16,7 +16,7 @@ import {
 import { Check } from "@/app/icons/Check";
 import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
-import { cn } from "@/lib/utils";
+import { cn, isMobileViewport } from "@/lib/utils";
 import { Rules } from "./Rules";
 
 let currentToken = "";
@@ -33,6 +33,8 @@ export function MileStone() {
   const [stageList, setStageList] = useState<any>({});
 
   const [showRules, setShowRules] = useState(false);
+  const [currentStageKey, setCurrentStageKey] = useState("stage_1");
+  const [currentStageIndex, setCurrentStageIndex] = useState(0);
 
   const { isInMaintenance } = useSystemInfo();
   const { address, token } = useAccountInfo();
@@ -95,6 +97,15 @@ export function MileStone() {
       const { total_transactions, stage_info } = data;
       setTransactionAmount(total_transactions);
       setStageList(stage_info);
+      setCurrentStageKey(
+        Object.keys(stage_info).filter((key) => stage_info[key].claimed)[0] ||
+          "stage_1"
+      );
+      setCurrentStageIndex(
+        Object.keys(stage_info).findIndex((key) => stage_info[key].claimed) > -1
+          ? Object.keys(stage_info).findIndex((key) => stage_info[key].claimed)
+          : 0
+      );
     }
   }, [dataMilestoneDailyInfo]);
 
@@ -158,7 +169,7 @@ export function MileStone() {
           className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-lg md:rounded-xl"
           nameClassName="bg-[#000]"
         >
-          <div className="flex flex-col gap-10 md:gap-16">
+          <div className="flex flex-col gap-1 md:gap-16">
             {/* wordings */}
             <p className="text-white text-sm md:text-[30px] font-orbitron font-semibold">
               You have made
@@ -169,10 +180,10 @@ export function MileStone() {
             </p>
 
             {/* progress */}
-            <div className="w-full h-3 bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
+            <div className="w-full h-[6px] md:h-3 bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative mt-9 md:mt-0">
               <div
                 className={cn(
-                  "rounded h-3 bg-gradient-to-r absolute",
+                  "rounded h-[6px] md:h-3 bg-gradient-to-r absolute",
                   linearGradients[getPartition()]
                 )}
                 style={{
@@ -185,7 +196,7 @@ export function MileStone() {
               ></div>
               <div
                 className={cn(
-                  "rounded h-3 bg-gradient-to-r blur-[6px] absolute",
+                  "rounded h-[6px] md:h-3 bg-gradient-to-r blur-[6px] absolute",
                   linearGradients[getPartition()]
                 )}
                 style={{
@@ -196,15 +207,15 @@ export function MileStone() {
                   }%`,
                 }}
               ></div>
-              <ul className="w-full flex flex-row justify-between text-white/50 text-2xl font-semibold font-orbitron absolute -top-6">
+              <ul className="w-full flex flex-row justify-between text-white/50 text-2xl font-semibold font-orbitron absolute -top-4 md:-top-6">
                 {Object.keys(stageList).map(
                   (stageKey: string, stageIndex: number) => (
                     <li
                       key={stageIndex}
-                      className="rounded-[50%] border-2 border-solid border-[#222222] mx-[52px]"
+                      className="inline-flex rounded-[50%] border-4 md:border-8 border-solid border-[#222222] mx-[9px] md:mx-[52px]"
                     >
                       {transactionAmount < stageList[stageKey].quantity ? (
-                        <span className="w-12 h-12 inline-flex justify-center items-center text-white text-xs md:text-xl font-bold bg-[#4C4C4C] rounded-[50%]">
+                        <span className="w-7 md:w-12 h-7 md:h-12 inline-flex justify-center items-center text-white text-xs md:text-xl font-bold bg-[#4C4C4C] rounded-[50%]">
                           {stageList[stageKey].quantity}
                         </span>
                       ) : (
@@ -221,12 +232,41 @@ export function MileStone() {
               {Object.keys(stageList).map(
                 (stageKey: string, stageIndex: number) =>
                   stageList[stageKey].claimed ? (
+                    isMobileViewport() ? (
+                      <p
+                        key={stageIndex}
+                        className="inline-flex flex-col items-center gap-1 text-xs md:text-xl font-orbitron font-semibold mt-5"
+                      >
+                        <span className="inline-flex items-center text-[#FBB042] font-orbitron">
+                          x {stageList[stageKey].rewards}{" "}
+                          <Gift
+                            color="#FBB042"
+                            className="w-3 h-3 md:w-5 md:h-5 mx-1"
+                          />
+                        </span>
+                        <span className="text-white">Claimed</span>
+                      </p>
+                    ) : (
+                      <p
+                        key={stageIndex}
+                        className="text-xs md:text-xl text-white font-orbitron font-semibold"
+                      >
+                        Received:{" "}
+                        <span className="inline-flex items-center text-[#FBB042] font-orbitron">
+                          x {stageList[stageKey].rewards}{" "}
+                          <Gift
+                            color="#FBB042"
+                            className="w-3 h-3 md:w-5 md:h-5 mx-1"
+                          />
+                        </span>
+                      </p>
+                    )
+                  ) : isMobileViewport() ? (
                     <p
                       key={stageIndex}
-                      className="text-xs md:text-xl text-white font-orbitron font-semibold"
+                      className="inline-flex flex-col items-center gap-1 text-xs md:text-xl font-orbitron font-semibold mt-5"
                     >
-                      Received:{" "}
-                      <span className="inline-flex items-center text-[#FBB042] font-orbitron">
+                      <span className="inline-flex items-center min-w-13 text-[#FBB042] font-orbitron">
                         x {stageList[stageKey].rewards}{" "}
                         <Gift
                           color="#FBB042"
@@ -256,14 +296,27 @@ export function MileStone() {
       </div>
 
       {/* mobile version tools */}
-      <div className="flex md:hidden flex-row fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+      <div className="flex md:hidden flex-row gap-3 fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
         <Button
-          className="w-full h-12 border border-solid border-white/40 bg-transparent"
+          className="w-2/6 h-12 border border-solid border-white/40 bg-transparent"
           onClick={() => setShowRules(true)}
         >
           <span className="text-white text-base font-bold font-orbitron">
             Rules
           </span>
+        </Button>
+        <Button
+          className={cn(
+            "w-4/6 h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300",
+            transactionAmount < stageList[currentStageKey]?.quantity ||
+              isInMaintenance
+              ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
+              : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
+          )}
+          onClick={() => handleClaimGifts(currentStageKey, currentStageIndex)}
+        >
+          Claim x {stageList[currentStageKey]?.rewards}{" "}
+          <Gift color="#FFFFFF" className="mx-1" />
         </Button>
       </div>
     </div>

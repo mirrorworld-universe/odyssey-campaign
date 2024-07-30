@@ -200,12 +200,12 @@ export function MysteryBoxRecordDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[440px] bg-[#1A1A1A] border-none px-8 py-8">
+      <AlertDialogContent className="max-w-[calc(100%_-_32px)] w-full md:w-[440px] bg-[#1A1A1A] border-none p-6 md:p-8">
         <AlertDialogHeader className="">
           {mysteryBoxRecords.every((record) => record.loaded === true) ? (
             <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
               <p className="flex flex-row justify-center items-center gap-3 text-white text-5xl font-semibold font-orbitron">
-                <Ring width={64} height={64} color="#FBB042" />x{" "}
+                <Ring color="#FBB042" className="w-14 md:w-16 h-14 md:h-16" />x{" "}
                 {mysteryBoxRecords.reduce(
                   (sum, item) => sum + item.quantity,
                   0
@@ -222,15 +222,15 @@ export function MysteryBoxRecordDialog() {
             </AlertDialogTitle>
           ) : (
             <AlertDialogTitle className="flex flex-row justify-center items-center text-white text-[32px] font-orbitron">
-              <Gift width={40} height={40} color="#FBB042" className="mr-2" />
-              <span className="text-white text-[32px] font-semibold font-orbitron">
+              <Gift color="#FBB042" className="w-8 md:w-10 h-8 md:h-10 mr-2" />
+              <span className="text-white text-2xl md:text-[32px] font-semibold font-orbitron">
                 Rings Record
               </span>
             </AlertDialogTitle>
           )}
           <AlertDialogDescription
             className={cn(
-              "text-[#717171] text-base mt-4",
+              "text-[#717171] text-sm md:text-base mt-4",
               mysteryBoxRecords.every((record) => record.loaded === true)
                 ? "text-center"
                 : "text-center"
@@ -250,7 +250,7 @@ export function MysteryBoxRecordDialog() {
           {mysteryBoxRecords.length ? (
             <Card
               size={CardSize.List}
-              className="rounded-lg mt-12"
+              className="rounded-lg mt-10 md:mt-12"
               nameClassName="bg-[#1A1A1A]"
             >
               <div className="flex flex-col text-sm">
@@ -343,7 +343,7 @@ export function MysteryBoxRecordDialog() {
 
           {mysteryBoxRecords.every((record) => record.loaded === true) ? (
             <Button
-              className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300 mt-12"
+              className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300 mt-10 md:mt-12"
               onClick={handleConfirm}
             >
               Confirm

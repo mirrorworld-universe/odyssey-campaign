@@ -237,7 +237,7 @@ export function DrawRecordDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="w-[468px] bg-[#1A1A1A] border-none px-8 py-8">
+      <AlertDialogContent className="max-w-[calc(100%_-_32px)] w-full md:w-[468px] bg-[#1A1A1A] border-none p-6 md:p-8">
         <AlertDialogHeader className="">
           {lotteryDrawRecords.every((record) => record.loaded === true) ? (
             <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
@@ -248,7 +248,7 @@ export function DrawRecordDialog() {
                   0
                 )}
               </p>
-              <span className="text-white text-2xl font-semibold font-orbitron mt-8">
+              <span className="text-white text-2xl font-semibold font-orbitron mt-5 md:mt-8">
                 {lotteryDrawRecords.reduce(
                   (sum, item) => sum + item.rewards,
                   0
@@ -260,14 +260,14 @@ export function DrawRecordDialog() {
           ) : (
             <AlertDialogTitle className="flex flex-row justify-start items-center text-white text-[32px] font-orbitron">
               <Casino width={40} height={40} color="#FBB042" className="mr-2" />
-              <span className="text-white text-[32px] font-semibold font-orbitron">
+              <span className="text-white text-2xl md:text-[32px] font-semibold font-orbitron">
                 Draw Record
               </span>
             </AlertDialogTitle>
           )}
           <AlertDialogDescription
             className={cn(
-              "text-[#717171] text-base mt-4",
+              "text-[#717171] text-sm md:text-base mt-4",
               lotteryDrawRecords.every((record) => record.loaded === true)
                 ? "text-center"
                 : "text-center"
@@ -299,7 +299,7 @@ export function DrawRecordDialog() {
           {lotteryDrawRecords.length ? (
             <Card
               size={CardSize.List}
-              className="rounded-lg mt-12"
+              className="rounded-md md:rounded-lg mt-10 md:mt-12"
               nameClassName="bg-[#1A1A1A]"
             >
               <div className="flex flex-col text-sm">
@@ -367,14 +367,14 @@ export function DrawRecordDialog() {
                   className="w-5 h-5 mt-[2px]"
                   src="/images/icons/report.svg"
                 />
-                <span className="text-[#FBB042] text-base">
+                <span className="text-[#FBB042] text-sm md:text-base">
                   Detected a wallet signature issue. Would you like to stop or
                   continue drawing lotteries?
                 </span>
               </p>
               {/* continue */}
               <Button
-                className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300 mt-12"
+                className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white font-orbitron transition-colors duration-300 mt-10 md:mt-12"
                 onClick={handleContinue}
               >
                 Continue
