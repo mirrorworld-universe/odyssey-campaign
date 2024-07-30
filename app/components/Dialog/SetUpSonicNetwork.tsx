@@ -77,7 +77,7 @@ export function SetUpSonicNetworkDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="max-w-full w-full md:w-[470px] max-h-full h-full md:h-auto bg-[#1A1A1A] border-none p-4 md:p-8 items-start">
+      <AlertDialogContent className="flex flex-col max-w-full w-full md:w-[470px] max-h-full h-full md:h-auto bg-[#1A1A1A] border-none p-4 md:p-8 items-start">
         <AlertDialogHeader className="">
           <p className="block md:hidden text-white/50 text-sm uppercase font-orbitron font-semibold text-left pb-4">
             Connect Wallet
@@ -94,7 +94,7 @@ export function SetUpSonicNetworkDialog() {
           </AlertDialogDescription>
         </AlertDialogHeader>
 
-        <div className="flex flex-row items-center justify-center gap-14 mt-[96px] md:mt-12">
+        <div className="w-full flex flex-row items-center justify-center gap-14 mt-[96px] md:mt-12">
           <img
             src="/images/icons/sonic-white.png"
             alt=""
@@ -132,7 +132,7 @@ export function SetUpSonicNetworkDialog() {
             <li>Continue to the next step</li>
           </ul>
         </div>
-        <div className="flex flex-col gap-12 mt-12 fixed md:static left-4 right-4 bottom-4">
+        <div className="flex flex-col md:w-full gap-12 mt-12 fixed md:static left-4 right-4 bottom-4">
           <Button
             className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
             onClick={
