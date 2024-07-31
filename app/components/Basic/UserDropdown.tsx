@@ -33,6 +33,7 @@ export function UserDropdown() {
   const { networkId } = useNetworkInfo();
 
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [showPanel, setShowPanel] = useState(false);
   const [balance, setBalance] = useState<number | null>(null);
 
   const setUpUrls: any = {
@@ -57,12 +58,13 @@ export function UserDropdown() {
     },
   });
 
-  const handleClickOpenWallet = () => {
+  const handleClickOpenMyWallet = () => {
     !publicKey && onOpen();
+    setShowPanel(true);
   };
 
   const handleClosePanel = () => {
-    setPopoverOpen(false);
+    setShowPanel(false);
   };
 
   const hanldeCopyAddress = async () => {
@@ -212,7 +214,7 @@ export function UserDropdown() {
         <PopoverTrigger>
           <div
             className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-3 py-2 md:px-4 2xl:px-5 md:py-2 2xl:py-[10px] rounded cursor-pointer transition-all duration-300"
-            onClick={handleClickOpenWallet}
+            onClick={handleClickOpenMyWallet}
             title={publicKey?.toBase58()}
           >
             <img
@@ -225,7 +227,7 @@ export function UserDropdown() {
             </span>
           </div>
         </PopoverTrigger>
-        <PopoverContent className="hidden md:flex max-w-full w-full md:w-[248px] bg-[#1b1b1b] border-none rounded px-0 py-1 relative top-1 right-10">
+        <PopoverContent className="hidden md:flex max-w-full w-full md:w-[248px] bg-[#1b1b1b] border-none rounded px-0 py-1 relative top-1 right-10 2xl:right-8">
           <UserDropdownPanel />
         </PopoverContent>
       </Popover>
@@ -234,7 +236,7 @@ export function UserDropdown() {
       <div
         className={cn(
           "flex md:hidden flex-col w-full max-h-full fixed top-0 right-0 left-0 bottom-0 z-30 transition-transform duration-300",
-          popoverOpen ? "translate-x-0" : "-translate-x-full"
+          showPanel ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <UserDropdownPanel showHeader className={cn("w-full h-full")} />

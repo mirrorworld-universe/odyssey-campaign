@@ -79,7 +79,7 @@ export default function Notification({ data }: any) {
   };
 
   const handleClosePanel = () => {
-    setPopoverOpen(false);
+    setShowPanel(false);
   };
 
   const NotificationIcon = () => (
@@ -153,7 +153,7 @@ export default function Notification({ data }: any) {
       </Popover>
 
       {/* shadow */}
-      {popoverOpen && (
+      {showPanel && (
         <div
           className={cn(
             "flex md:hidden bg-black/80 fixed z-20 top-0 bottom-0 right-0 left-0 transition-opacity duration-300"
@@ -166,7 +166,7 @@ export default function Notification({ data }: any) {
       <div
         className={cn(
           "flex md:hidden flex-col w-full max-h-full fixed right-0 left-0 bottom-0 z-30 transition-transform duration-300",
-          popoverOpen ? "translate-y-0" : "translate-y-full"
+          showPanel ? "translate-y-0" : "translate-y-full"
         )}
       >
         <NotificationPanel showHeader className={cn("w-full h-full")} />
