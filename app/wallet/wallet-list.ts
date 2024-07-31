@@ -8,6 +8,13 @@ import { OKXWalletAdapter } from "./okx-adapter";
 
 export const WalletList: any = [
   {
+    name: "OKX Wallet",
+    isSupportSonic: false,
+    hasExtraBonus: true,
+    adapter: new OKXWalletAdapter(),
+    hide: false,
+  },
+  {
     name: "Backpack",
     isSupportSonic: true,
     adapter: new BackpackWalletAdapter(),
@@ -20,16 +27,10 @@ export const WalletList: any = [
     hide: false,
   },
   {
-    name: "OKX Wallet",
-    isSupportSonic: false,
-    adapter: new OKXWalletAdapter(),
-    hide: false,
-  },
-  {
     name: "Phantom",
     isSupportSonic: false,
     adapter: new PhantomWalletAdapter(),
-    hide: false,
+    hide: true,
   },
   {
     name: "Solflare",

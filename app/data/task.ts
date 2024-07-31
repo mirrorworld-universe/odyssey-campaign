@@ -34,6 +34,10 @@ export const taskGroupList = [
           devnet: true,
           testnet: true,
         },
+        bonus: {
+          devnet: ["okx"],
+          testnet: ["okx"],
+        },
       },
       {
         id: "milestone",
@@ -46,6 +50,10 @@ export const taskGroupList = [
         available: {
           devnet: true,
           testnet: true,
+        },
+        bonus: {
+          devnet: ["okx"],
+          testnet: ["okx"],
         },
       },
       {

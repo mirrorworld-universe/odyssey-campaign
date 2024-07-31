@@ -5,13 +5,15 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { Chip } from "../icons/Chip";
-import { Twitter } from "../icons/Twitter";
-import { Calendar } from "../icons/Calendar";
-import { Recommand } from "../icons/Recommand";
-import { Diversity } from "../icons/Diversity";
-import { Controller } from "../icons/Controller";
+import { Chip } from "@/app/icons/Chip";
+import { Twitter } from "@/app/icons/Twitter";
+import { Calendar } from "@/app/icons/Calendar";
+import { Recommand } from "@/app/icons/Recommand";
+import { Diversity } from "@/app/icons/Diversity";
+import { Controller } from "@/app/icons/Controller";
 import { Go as IconGo } from "@/app/icons/Go";
+import { OKX as IconOKX } from "@/app/icons/OKX";
+import { Backpack as IconBackpack } from "@/app/icons/Backpack";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardSize } from "../components/Basic/Card";
@@ -65,6 +67,11 @@ const icons: any = {
       color="#313131"
     />
   ),
+};
+
+const walletIcons: any = {
+  okx: <IconOKX className="w-full h-full" />,
+  backpack: <IconBackpack className="w-full h-full" />,
 };
 
 const TaskCenter: NextPage = () => {
@@ -194,6 +201,7 @@ const TaskCenter: NextPage = () => {
                         : ""
                     )}
                   >
+                    {/* task name */}
                     <h5 className="flex flex-row gap-2 items-center text-white/70 text-base md:text-5xl font-semibold font-orbitron">
                       {task.name}
                       <IconGo
@@ -203,9 +211,24 @@ const TaskCenter: NextPage = () => {
                         className="inline-block md:hidden"
                       />
                     </h5>
+
+                    {/* description */}
                     <p className="hidden md:flex text-white/60 text-base font-normal w-[420px] mt-5">
                       {task.description}
                     </p>
+
+                    {/* bonus tag */}
+                    {task.bonus && task.bonus[networkId].length ? (
+                      <p className="hidden md:inline-flex items-center gap-2 bg-[#2C251D] px-2 py-[2px] mt-4">
+                        <span className="text-[#FBB042] text-[10px] font-normal font-orbitron">
+                          Extra Bonus:
+                        </span>
+                        {task.bonus[networkId].map((bonus: any) => (
+                          <div className="w-3 h-3">{walletIcons[bonus]}</div>
+                        ))}
+                      </p>
+                    ) : null}
+
                     <div className="flex flex-row gap-2 md:hidden mt-4">
                       <div className="text-[10px] text-[#25A3ED] bg-[#212b32] rounded-[2px] px-1 py-[2px]">
                         {task.period}

@@ -32,7 +32,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { cn, isInMaintenanceTime } from "@/lib/utils";
+import { cn, isInMaintenanceTime, isMobileViewport } from "@/lib/utils";
 import {
   useMoreWalletModal,
   useSetUpNetworkModal,
@@ -314,24 +314,39 @@ export function WalletDialog({ text = "Connect", className }: any) {
     }
   }, [publicKey]);
 
+  useEffect(() => {
+    if (isMobileViewport()) {
+      const list = WalletList.map((wallet: any) => {
+        return { ...wallet, hide: false };
+      });
+      setWalletList(list);
+    }
+  }, []);
+
   const SupportSonicTag = () => (
     <div className="text-[#fbb042] text-[10px] bg-[#fbb0421a] rounded px-1 py-[2px]">
       Support Sonic
     </div>
   );
 
+  const ExtraBonusTag = () => (
+    <div className="text-[#fbb042] text-[8px] md:text-[10px] bg-[#fbb0421a] font-orbitron px-2 py-[2px]">
+      Extra Bonus
+    </div>
+  );
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="flex flex-col w-full md:w-[500px] h-full md:h-auto bg-[#111] md:bg-[#1A1A1A] border-none p-4 md:p-8">
-        <DialogHeader className="md:max-w-[350px]">
-          <DialogTitle className="inline-flex items-center h-8 md:h-auto text-left text-white/30 md:text-white text-sm md:text-[32px] font-orbitron leading-normal">
+      <DialogContent className="flex flex-col w-full md:w-[520px] h-full md:h-auto bg-[#111] md:bg-[#151519] border-none p-4 md:p-8">
+        <DialogHeader className="md:max-w-[416px]">
+          <DialogTitle className="inline-flex items-center h-8 md:h-auto text-left text-white/30 md:text-white text-sm md:text-[20px] font-orbitron leading-normal">
             {isSwitching
               ? `Welcome to Sonic - ${
                   networkSwitchingNames[networkId || "devnet"].name
                 }`
               : "Connect Your Wallet"}
           </DialogTitle>
-          <DialogDescription className="hidden md:block w-[355px] text-white/60 text-base">
+          <DialogDescription className="hidden md:block w-[416px] text-[#666666] text-sm font-manrope">
             {isSwitching ? (
               <>
                 Re-login required for Sonic Stage{" "}
@@ -347,7 +362,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
           </DialogDescription>
         </DialogHeader>
 
-        <ul className="flex gap-10 md:gap-8 flex-col w-full mt-10 md:mt-12">
+        <ul className="flex gap-10 md:gap-8 flex-col w-full mt-10 md:mt-8">
           {walletList.map(
             (wallet: any) =>
               !wallet.hide && (
@@ -363,23 +378,24 @@ export function WalletDialog({ text = "Connect", className }: any) {
                     <img
                       src={wallet.adapter?.icon}
                       alt={wallet.adapter?.name}
-                      className="w-8 h-8 mr-3"
+                      className="w-6 h-6 mr-3"
                     />
-                    <span className="text-sm md:text-lg text-white font-semibold font-orbitron mr-2">
+                    <span className="text-sm md:text-base text-white font-semibold font-orbitron mr-2 md:mr-3">
                       {wallet.adapter?.name}
                     </span>
-                    {wallet.isSupportSonic ? <SupportSonicTag /> : null}
+                    {/* {wallet.isSupportSonic ? <SupportSonicTag /> : null} */}
+                    {wallet.hasExtraBonus ? <ExtraBonusTag /> : null}
                   </div>
 
                   {wallet.adapter.readyState === WalletReadyState.Installed ? (
                     <div
                       className={cn(
-                        "inline-flex items-center justify-center min-w-[136px] h-10 text-center rounded border-none cursor-pointer px-4 py-2.5 transition-all",
+                        "inline-flex items-center justify-center min-w-[113px] md:min-w-[136px] h-10 text-center rounded border-none cursor-pointer px-4 py-2.5 transition-all",
                         "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
                       )}
                       onClick={() => handleWalletSelect(wallet)}
                     >
-                      <span className="text-white text-base font-orbitron font-bold">
+                      <span className="text-white text-sm md:text-base font-orbitron font-bold">
                         {isSwitching
                           ? wallet.adapter?.name ===
                             currentWallet?.adapter?.name
@@ -391,13 +407,13 @@ export function WalletDialog({ text = "Connect", className }: any) {
                   ) : (
                     <a
                       className={cn(
-                        "inline-flex items-center justify-center min-w-[136px] h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
+                        "inline-flex items-center justify-center min-w-[113px] md:min-w-[136px] h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
                         "border-white/40 hover:border-white/80"
                       )}
                       href={wallet.adapter.url}
                       target="_blank"
                     >
-                      <span className="text-white text-base font-orbitron font-bold">
+                      <span className="text-white text-sm md:text-base font-orbitron font-bold">
                         Install
                       </span>
                     </a>
