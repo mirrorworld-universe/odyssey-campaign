@@ -118,6 +118,9 @@ export function WalletDialog({ text = "Connect", className }: any) {
     queryFn: () =>
       fetchBasicInfo({
         address: publicKey?.toString() || address,
+        source: WalletList.find(
+          (wallet: any) => wallet.name === currentWallet?.adapter.name
+        )?.id,
         networkId,
       }),
     enabled: false,
@@ -384,7 +387,10 @@ export function WalletDialog({ text = "Connect", className }: any) {
                       {wallet.adapter?.name}
                     </span>
                     {/* {wallet.isSupportSonic ? <SupportSonicTag /> : null} */}
-                    {wallet.hasExtraBonus ? <ExtraBonusTag /> : null}
+                    {wallet.hasExtraBonus &&
+                    wallet.hasExtraBonus[networkId || "devnet"] ? (
+                      <ExtraBonusTag />
+                    ) : null}
                   </div>
 
                   {wallet.adapter.readyState === WalletReadyState.Installed ? (

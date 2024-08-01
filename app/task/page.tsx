@@ -22,7 +22,7 @@ import { HowToPlayDialog } from "../components/Dialog/HowToPlay";
 
 import { taskGroupList } from "../data/task";
 import { useTaskInfo } from "../store/task";
-import { isSupportSonic } from "../wallet/wallet-list";
+import { WalletList, isSupportSonic } from "../wallet/wallet-list";
 import { useFAQModal, useHowToPlayModal } from "../store/tutorials";
 
 import { cn } from "@/lib/utils";
@@ -70,8 +70,8 @@ const icons: any = {
 };
 
 const walletIcons: any = {
-  okx: <IconOKX className="w-full h-full" />,
-  backpack: <IconBackpack className="w-full h-full" />,
+  okx: <IconOKX className="w-full h-full" color="#FBB042" />,
+  backpack: <IconBackpack className="w-full h-full" color="#FBB042" />,
 };
 
 const TaskCenter: NextPage = () => {
@@ -218,24 +218,67 @@ const TaskCenter: NextPage = () => {
                     </p>
 
                     {/* bonus tag */}
-                    {task.bonus && task.bonus[networkId].length ? (
+                    {task.bonus &&
+                    WalletList.filter(
+                      (wallet: any) =>
+                        wallet.hasExtraBonus &&
+                        wallet.hasExtraBonus[networkId || "devnet"]
+                    )?.length ? (
                       <p className="hidden md:inline-flex items-center gap-2 bg-[#2C251D] px-2 py-[2px] mt-4">
                         <span className="text-[#FBB042] text-[10px] font-normal font-orbitron">
                           Extra Bonus:
                         </span>
-                        {task.bonus[networkId].map((bonus: any) => (
-                          <div className="w-3 h-3">{walletIcons[bonus]}</div>
-                        ))}
+                        <span className="inline-flex flex-row-reverse items-center gap-2">
+                          {WalletList.filter(
+                            (wallet: any) =>
+                              wallet.hasExtraBonus &&
+                              wallet.hasExtraBonus[networkId || "devnet"]
+                          )
+                            .map((wallet: any) => wallet.id)
+                            .map((bonus: any) => (
+                              <div className="w-3 h-3">
+                                {walletIcons[bonus]}
+                              </div>
+                            ))}
+                        </span>
                       </p>
                     ) : null}
 
                     <div className="flex flex-row gap-2 md:hidden mt-4">
+                      {/* period */}
                       <div className="text-[10px] text-[#25A3ED] bg-[#212b32] rounded-[2px] px-1 py-[2px]">
                         {task.period}
                       </div>
+                      {/* reward */}
                       {task.reward ? (
                         <div className="text-[10px] text-[#FBB042] bg-[#332d23] rounded-[2px] px-1 py-[2px]">
                           {task.reward}
+                        </div>
+                      ) : null}
+                      {/* bonus */}
+                      {task.bonus &&
+                      WalletList.filter(
+                        (wallet: any) =>
+                          wallet.hasExtraBonus &&
+                          wallet.hasExtraBonus[networkId || "devnet"]
+                      )?.length ? (
+                        <div className="inline-flex flex-row justify-center items-center gap-[2px] text-[10px] text-[#FBB042] bg-[#2C251D] rounded-[2px] px-1 py-[2px]">
+                          <span className="text-[#FBB042] text-[10px] font-normal">
+                            Extra Bonus:{""}
+                          </span>
+                          <span className="inline-flex flex-row-reverse items-center justify-center gap-[2px]">
+                            {WalletList.filter(
+                              (wallet: any) =>
+                                wallet.hasExtraBonus &&
+                                wallet.hasExtraBonus[networkId || "devnet"]
+                            )
+                              .map((wallet: any) => wallet.id)
+                              .map((bonus: any) => (
+                                <div className="w-2 h-2">
+                                  {walletIcons[bonus]}
+                                </div>
+                              ))}
+                          </span>
                         </div>
                       ) : null}
                     </div>

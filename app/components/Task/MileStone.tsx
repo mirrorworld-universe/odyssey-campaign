@@ -1,8 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useQuery, useMutation } from "@tanstack/react-query";
+
 import { Gift } from "@/app/icons/Gift";
+import { Check } from "@/app/icons/Check";
+import { OKX as IconOKX } from "@/app/icons/OKX";
+import { Backpack as IconBackpack } from "@/app/icons/Backpack";
+
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { Card, CardSize } from "../Basic/Card";
 import {
   useAccountInfo,
@@ -13,13 +20,17 @@ import {
   claimMilestoneRewards,
   getMilestoneDailyInfo,
 } from "@/app/data/reward";
-import { Check } from "@/app/icons/Check";
-import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 import { cn, isMobileViewport } from "@/lib/utils";
 import { Rules } from "./Rules";
+import { WalletList } from "@/app/wallet/wallet-list";
 
 let currentToken = "";
+
+const walletIcons: any = {
+  okx: <IconOKX className="w-full h-full" color="white" />,
+  backpack: <IconBackpack className="w-full h-full" color="white" />,
+};
 
 export function MileStone() {
   const totalAmount = 100;
@@ -39,6 +50,18 @@ export function MileStone() {
   const { isInMaintenance } = useSystemInfo();
   const { address, token } = useAccountInfo();
   const { networkId } = useNetworkInfo();
+  const { wallet } = useWallet();
+
+  const hasExtraWalletBonus = () => {
+    return (
+      WalletList.find(
+        (currentWallet: any) => currentWallet.name === wallet?.adapter.name
+      )?.hasExtraBonus &&
+      WalletList.find(
+        (currentWallet: any) => currentWallet.name === wallet?.adapter.name
+      )?.hasExtraBonus[networkId || "devnet"]
+    );
+  };
 
   const getPartition = () => {
     return transactionAmount <= stageList["stage_1"]?.quantity
@@ -80,7 +103,10 @@ export function MileStone() {
               You completed {stageList[currentStageKey].quantity} transactions
               milestone today and received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
-                {stageList[currentStageKey].rewards} x mystery boxes
+                {hasExtraWalletBonus()
+                  ? stageList[currentStageKey].rewards + 1
+                  : stageList[currentStageKey].rewards}{" "}
+                x mystery boxes
                 <Gift color="#FBB042" className="w-3 h-3 mx-[2px]" />
               </span>
               . Open it in the navbar to exchange for rings.
@@ -129,6 +155,58 @@ export function MileStone() {
     trackClick({ text: "TX Milestone" });
   };
 
+  const ExtraBonusTip = ({ transparent, className }: any) =>
+    hasExtraWalletBonus() ? (
+      <p
+        className={cn(
+          "inline-flex flex-row items-center gap-1 md:gap-2",
+          transparent ? "opacity-30" : "",
+          className
+        )}
+      >
+        <span className={cn("inline-flex w-3 h-3 md:w-[14px] md:h-[14px]")}>
+          {
+            walletIcons[
+              WalletList.find(
+                (currentWallet: any) =>
+                  currentWallet.name === wallet?.adapter.name
+              )?.id
+            ]
+          }
+        </span>
+        <span className="text-white text-xs md:text-sm font-semibold font-manrope">
+          Bonus added
+        </span>
+      </p>
+    ) : (
+      <p
+        className={cn(
+          "inline-flex flex-row items-center gap-1 md:gap-2",
+          transparent ? "opacity-30" : "",
+          className
+        )}
+      >
+        <span className="text-white text-xs md:text-sm font-semibold font-manrope">
+          Extra bonus for:
+        </span>
+        <span className="inline-flex flex-row-reverse justify-center items-center gap-2">
+          {WalletList.filter(
+            (wallet: any) =>
+              wallet.hasExtraBonus &&
+              wallet.hasExtraBonus[networkId || "devnet"]
+          )
+            .map((wallet: any) => wallet.id)
+            .map((bonus: any) => (
+              <div
+                className={cn("inline-flex w-3 h-3 md:w-[14px] md:h-[14px]")}
+              >
+                {walletIcons[bonus]}
+              </div>
+            ))}
+        </span>
+      </p>
+    );
+
   return (
     <div className="flex flex-col w-full">
       {/* title */}
@@ -159,6 +237,47 @@ export function MileStone() {
               </span>{" "}
               by clicking the button below. Unclaimed rewards will be forfeited
               at the end of the day(UTC Time).
+            </li>
+            <li className="">
+              Rewards Detail:
+              <ul className="flex flex-col">
+                <li>
+                  a. Complete 10 transactions to earn{" "}
+                  <span className="inline-flex items-center text-[#FBB042]">
+                    2 x{" "}
+                    <Gift
+                      color="#FBB042"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                    />{" "}
+                    Ring Mystery Box
+                  </span>
+                  .
+                </li>
+                <li>
+                  b. Complete 50 transactions to earn{" "}
+                  <span className="inline-flex items-center text-[#FBB042]">
+                    4 x{" "}
+                    <Gift
+                      color="#FBB042"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                    />{" "}
+                    Ring Mystery Boxes
+                  </span>
+                  .
+                </li>
+                <li>
+                  c. Complete 100 transactions to earn{" "}
+                  <span className="inline-flex items-center text-[#FBB042]">
+                    6 x{" "}
+                    <Gift
+                      color="#FBB042"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                    />{" "}
+                    Ring Mystery Boxes
+                  </span>
+                  .
+                </li>
+              </ul>
             </li>
           </ul>
         </Rules>
@@ -238,7 +357,10 @@ export function MileStone() {
                         className="inline-flex flex-col items-center gap-1 text-xs md:text-xl font-orbitron font-semibold mt-5"
                       >
                         <span className="inline-flex items-center text-[#FBB042] font-orbitron">
-                          x {stageList[stageKey].rewards}{" "}
+                          x{" "}
+                          {hasExtraWalletBonus()
+                            ? stageList[stageKey].rewards + 1
+                            : stageList[stageKey].rewards}{" "}
                           <Gift
                             color="#FBB042"
                             className="w-3 h-3 md:w-5 md:h-5 mx-1"
@@ -253,7 +375,10 @@ export function MileStone() {
                       >
                         Received:{" "}
                         <span className="inline-flex items-center text-[#FBB042] font-orbitron">
-                          x {stageList[stageKey].rewards}{" "}
+                          x{" "}
+                          {hasExtraWalletBonus()
+                            ? stageList[stageKey].rewards + 1
+                            : stageList[stageKey].rewards}{" "}
                           <Gift
                             color="#FBB042"
                             className="w-3 h-3 md:w-5 md:h-5 mx-1"
@@ -262,32 +387,49 @@ export function MileStone() {
                       </p>
                     )
                   ) : isMobileViewport() ? (
-                    <p
-                      key={stageIndex}
-                      className="inline-flex flex-col items-center gap-1 text-xs md:text-xl font-orbitron font-semibold mt-5"
-                    >
-                      <span className="inline-flex items-center min-w-13 text-[#FBB042] font-orbitron">
-                        x {stageList[stageKey].rewards}{" "}
-                        <Gift
-                          color="#FBB042"
-                          className="w-3 h-3 md:w-5 md:h-5 mx-1"
-                        />
-                      </span>
-                    </p>
+                    <div className="inline-flex flex-col">
+                      <p
+                        key={stageIndex}
+                        className="inline-flex flex-col items-center gap-1 text-xs md:text-xl font-orbitron font-semibold mt-5"
+                      >
+                        <span className="inline-flex items-center min-w-13 text-[#FBB042] font-orbitron">
+                          x{" "}
+                          {hasExtraWalletBonus()
+                            ? stageList[stageKey].rewards + 1
+                            : stageList[stageKey].rewards}{" "}
+                          <Gift
+                            color="#FBB042"
+                            className="w-3 h-3 md:w-5 md:h-5 mx-1"
+                          />
+                        </span>
+                      </p>
+                      <ExtraBonusTip transparent={false} />
+                    </div>
                   ) : (
-                    <Button
-                      key={stageIndex}
-                      className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300 ${
-                        transactionAmount < stageList[stageKey].quantity ||
-                        isInMaintenance
-                          ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
-                          : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
-                      }`}
-                      onClick={() => handleClaimGifts(stageKey, stageIndex)}
-                    >
-                      Claim x {stageList[stageKey].rewards}{" "}
-                      <Gift color="#FFFFFF" className="mx-1" />
-                    </Button>
+                    <div className="inline-flex flex-col justify-center items-center gap-3">
+                      <Button
+                        key={stageIndex}
+                        className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300 ${
+                          transactionAmount < stageList[stageKey].quantity ||
+                          isInMaintenance
+                            ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
+                            : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
+                        }`}
+                        onClick={() => handleClaimGifts(stageKey, stageIndex)}
+                      >
+                        Claim x{" "}
+                        {hasExtraWalletBonus()
+                          ? stageList[stageKey].rewards + 1
+                          : stageList[stageKey].rewards}{" "}
+                        <Gift color="#FFFFFF" className="mx-1" />
+                      </Button>
+                      <ExtraBonusTip
+                        transparent={
+                          transactionAmount < stageList[stageKey].quantity ||
+                          isInMaintenance
+                        }
+                      />
+                    </div>
                   )
               )}
             </div>
@@ -315,7 +457,10 @@ export function MileStone() {
           )}
           onClick={() => handleClaimGifts(currentStageKey, currentStageIndex)}
         >
-          Claim x {stageList[currentStageKey]?.rewards}{" "}
+          Claim x{" "}
+          {hasExtraWalletBonus()
+            ? stageList[currentStageKey]?.rewards + 1
+            : stageList[currentStageKey]?.rewards}{" "}
           <Gift color="#FFFFFF" className="mx-1" />
         </Button>
       </div>
