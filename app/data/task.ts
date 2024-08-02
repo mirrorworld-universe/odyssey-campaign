@@ -30,6 +30,7 @@ export const taskGroupList = [
         period: "24-Hour Period",
         reward: "Test SOL Needed",
         iconName: "calendar",
+        bonus: true,
         available: {
           devnet: true,
           testnet: true,
@@ -43,6 +44,7 @@ export const taskGroupList = [
         period: "24-Hour Period",
         reward: "",
         iconName: "recommand",
+        bonus: true,
         available: {
           devnet: true,
           testnet: true,
