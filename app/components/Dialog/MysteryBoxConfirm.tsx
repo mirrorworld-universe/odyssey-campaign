@@ -129,6 +129,10 @@ export function MysteryBoxConfirmDialog() {
 
       const result = await confirmTransaction(connection, txHash, "processed");
 
+      if (result.value.err) {
+        throw new Error(result.value.err.toString());
+      }
+
       mutationOpenMysteryBox.mutate();
     } catch (error) {
       console.error("Transaction failed:", error);
@@ -188,26 +192,26 @@ export function MysteryBoxConfirmDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="max-w-[calc(100%_-_32px)] w-full md:w-[467px] bg-[#1A1A1A] border-none p-6 md:p-8">
+      <AlertDialogContent className="w-[467px] bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
           <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
-            <p className="flex flex-row gap-3 text-white text-[40px] md:text-5xl font-semibold font-orbitron">
-              <Gift color="#FBB042" className="w-14 md:w-16 h-14 md:h-16" />x{" "}
+            <p className="flex flex-row gap-3 text-white text-5xl font-semibold font-orbitron">
+              <Gift width={64} height={64} color="#FBB042" />x{" "}
               {openGroup.find((group) => group.active)?.amount}
             </p>
-            <span className="text-white text-2xl font-semibold font-orbitron mt-5 md:mt-8">
+            <span className="text-white text-2xl font-semibold font-orbitron mt-8">
               Open Mystery Box
             </span>
           </AlertDialogTitle>
           {mysteryBoxAmount > 1 ? (
-            <AlertDialogDescription className="text-[#717171] text-sm md:text-base text-center mt-4">
+            <AlertDialogDescription className="text-[#717171] text-base text-center mt-4">
               Please select the number of Mystery Box you would like to open.
             </AlertDialogDescription>
           ) : null}
         </AlertDialogHeader>
 
         {/* options */}
-        <div className="flex flex-col gap-4 mt-10 md:mt-12">
+        <div className="flex flex-col gap-4 mt-8">
           {openGroup.map((group, groupIndex) => (
             <div
               key={groupIndex}
@@ -243,7 +247,7 @@ export function MysteryBoxConfirmDialog() {
         {openGroup.find((group) => group.active)?.amount > 1 ? (
           <p className="flex flex-row gap-2 mt-4">
             <img className="w-5 h-5 mt-[2px]" src="/images/icons/report.svg" />
-            <span className="text-[#FBB042] text-sm md:text-base">
+            <span className="text-[#FBB042] text-base">
               You need to sign {mysteryBoxAmount} times in your wallet to unlock
               all mystery box rewards.
             </span>
@@ -251,7 +255,7 @@ export function MysteryBoxConfirmDialog() {
         ) : null}
 
         {/* buttons */}
-        <div className="flex flex-col gap-4 mt-10 md:mt-12">
+        <div className="flex flex-col gap-4 mt-12">
           <Button
             disabled={isOpeningMysterybox}
             className={cn(

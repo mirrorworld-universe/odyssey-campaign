@@ -6,48 +6,32 @@ import {
 import { BackpackWalletAdapter } from "./backpack-adapter";
 import { OKXWalletAdapter } from "./okx-adapter";
 
-import { OKX as IconOKX } from "@/app/icons/OKX";
-import { Backpack as IconBackpack } from "@/app/icons/Backpack";
-
-export const WalletList: any[] = [
+export const WalletList: any = [
   {
-    id: "okx",
-    name: "OKX Wallet",
-    isSupportSonic: false,
-    hasExtraBonus: {
-      devnet: true,
-      testnet: false,
-    },
-    adapter: new OKXWalletAdapter(),
-    hide: false,
-  },
-  {
-    id: "backpack",
     name: "Backpack",
     isSupportSonic: true,
-    hasExtraBonus: {
-      devnet: true,
-      testnet: false,
-    },
     adapter: new BackpackWalletAdapter(),
     hide: false,
   },
   {
-    id: "nightly",
     name: "Nightly",
     isSupportSonic: true,
     adapter: new NightlyWalletAdapter(),
     hide: false,
   },
   {
-    id: "phantom",
+    name: "OKX Wallet",
+    isSupportSonic: false,
+    adapter: new OKXWalletAdapter(),
+    hide: false,
+  },
+  {
     name: "Phantom",
     isSupportSonic: false,
     adapter: new PhantomWalletAdapter(),
-    hide: true,
+    hide: false,
   },
   {
-    id: "solflare",
     name: "Solflare",
     isSupportSonic: false,
     adapter: new SolflareWalletAdapter(),

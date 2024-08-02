@@ -34,13 +34,13 @@ export function Rules({ show, onClose, children }: any) {
       {
         <div
           className={cn(
-            "w-full fixed md:static z-20 bottom-0 left-0 right-0 m-auto bg-[#111] md:bg-transparent px-4 md:px-0 pb-6 md:pb-0 transition-transform duration-300",
+            "fixed md:static z-30 bottom-0 left-0 right-0 m-auto bg-[#111] md:bg-transparent px-4 md:px-0 pb-6 md:pb-0 transition-transform duration-300",
             isOpen || !isMobileViewport() ? "translate-y-0" : "translate-y-full"
           )}
         >
           <h3 className="md:hidden flex flex-row justify-between py-4">
             <span className="text-base text-white/50 font-semibold font-orbitron">
-              Rules
+              Rules {JSON.stringify(isMobileViewport())}
             </span>
             <span onClick={handleCloseRulesDialog}>
               <Close
@@ -56,7 +56,7 @@ export function Rules({ show, onClose, children }: any) {
             size={CardSize.Medium}
             className="max-w-[1024px] px-4 py-6 rounded-lg md:px-10 md:py-10 md:rounded-xl"
             nameClassName="bg-[#000] hidden md:block"
-            contentClassName="text-xs md:text-xl text-white/60 leading-loose md:leading-relaxed font-manrope font-normal"
+            contentClassName="text-xs md:text-xl text-white/60 leading-loose md:leading-relaxed"
           >
             {children}
           </Card>

@@ -20,17 +20,17 @@ export function Toaster() {
           <Toast
             key={id}
             {...props}
-            className="bg-[#1A1A1A] border-t-0 border-b-0 border-r-0 border-solid border-[#FBB042] border-l-4 md:border-l-5 p-4 md:p-5 md:pr-14"
+            className="bg-[#1A1A1A] border-t-0 border-b-0 border-r-0 border-solid border-[#FBB042] border-l-[5px] p-5 pr-14"
             duration={3000}
           >
-            <div className="grid gap-4 md:gap-1">
+            <div className="grid gap-1">
               {title && (
-                <ToastTitle className="text-white text-sm md:text-base font-semibold leading-none md:leading-normal">
+                <ToastTitle className="text-white text-base font-semibold">
                   {title}
                 </ToastTitle>
               )}
               {description && (
-                <ToastDescription className="text-white/60 text-xs md:text-sm leading-none md:leading-normal">
+                <ToastDescription className="text-white/60 text-[14px]">
                   {description}
                 </ToastDescription>
               )}

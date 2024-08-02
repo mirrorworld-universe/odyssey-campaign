@@ -104,7 +104,7 @@ export const isInMaintenanceTime = (networkId = "devnet") => {
 };
 
 export const isMobileViewport = () => {
-  if (typeof window === "undefined") {
+  if (!window) {
     return false;
   }
 

@@ -186,7 +186,7 @@ export function MeetSonic() {
           /(redirect_uri=)[^&]+/,
           `$1${currentHref}`
         );
-        window.open(newUrl);
+        window.location.href = newUrl;
       },
     },
     {
@@ -208,7 +208,7 @@ export function MeetSonic() {
           /(redirect_uri=)[^&]+/,
           `$1${currentHref}`
         );
-        window.open(newUrl);
+        window.location.href = newUrl;
       },
     },
   ];

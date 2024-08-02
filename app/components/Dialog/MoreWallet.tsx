@@ -65,10 +65,10 @@ export function MoreWalletDialog() {
               is coming. We recommend using{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
-                href="https://www.okx.com/web3"
+                href="https://www.backpack.app/"
                 target="_blank"
               >
-                OKX Wallet
+                Backpack
               </a>{" "}
               or{" "}
               <a
@@ -77,14 +77,6 @@ export function MoreWalletDialog() {
                 target="_blank"
               >
                 Nightly
-              </a>{" "}
-              or{" "}
-              <a
-                className="text-[#25A3ED] hover:underline"
-                href="https://www.backpack.app/"
-                target="_blank"
-              >
-                Backpack
               </a>{" "}
               wallets for now. Your support will enrich the Solana ecosystem!
             </p>

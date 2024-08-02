@@ -219,14 +219,18 @@ export function Header() {
             )}
           >
             <div className="w-full flex md:hidden p-4 justify-between items-center border-b border-solid border-white/10">
-              <span className="text-[#666] text-base font-orbitron font-semibold">
+              <span className="text-white/30 font-orbitron font-bold">
                 Menu
               </span>
               <span
                 className="cursor-pointer"
                 onClick={() => setShowMenu(false)}
               >
-                <IconClose width={24} height={24} color="#4D4D4D" />
+                <IconClose
+                  width={32}
+                  height={32}
+                  color="rgba(255,255,255,0.3)"
+                />
               </span>
             </div>
 
