@@ -20,6 +20,7 @@ import {
   type TransactionSignature,
   VersionedTransaction,
 } from "@solana/web3.js";
+import { socketConnected } from "./ws";
 
 const DEFAULT_TIMEOUT = 180000;
 const isDevMode = process.env.NODE_ENV === "development";
@@ -474,12 +475,34 @@ export async function confirmTransaction(
   signature: TransactionSignature,
   commitment: Commitment = "confirmed"
 ) {
-  const latestBlockHash = await connection.getLatestBlockhash();
-  return await connection.confirmTransaction(
-    {
-      signature,
-      ...latestBlockHash,
-    },
-    commitment
-  );
+  console.log("socketConnected(connection)", socketConnected(connection));
+  if (socketConnected(connection)) {
+    const latestBlockHash = await connection.getLatestBlockhash();
+    return await connection.confirmTransaction(
+      {
+        signature,
+        ...latestBlockHash,
+      },
+      commitment
+    );
+  } else {
+    let callCount = 0;
+    while (callCount < 10) {
+      try {
+        const response = await connection.getSignatureStatus(signature);
+        console.log("Signature status:", response);
+        callCount++;
+        if (response?.value?.confirmationStatus === commitment) {
+          return response;
+        } else {
+          await wait(2000);
+        }
+      } catch (error) {
+        console.error("Error getting signature status:", error);
+        callCount++;
+        await wait(2000);
+      }
+    }
+    throw new Error("Timed out awaiting confirmation on transaction");
+  }
 }
