@@ -1,12 +1,5 @@
-import {
-  CloverWalletAdapter,
-  Coin98WalletAdapter,
-  CoinbaseWalletAdapter,
-  MathWalletAdapter,
-  PhantomWalletAdapter,
-  SolflareWalletAdapter,
-  TorusWalletAdapter,
-} from "@solana/wallet-adapter-wallets";
+import { socketConnected } from "./ws";
+import { WalletContextState } from "@solana/wallet-adapter-react";
 import {
   AddressLookupTableAccount,
   type Commitment,
@@ -20,19 +13,9 @@ import {
   type TransactionSignature,
   VersionedTransaction,
 } from "@solana/web3.js";
-import { socketConnected } from "./ws";
 
-const DEFAULT_TIMEOUT = 180000;
+const DEFAULT_TIMEOUT = 60000;
 const isDevMode = process.env.NODE_ENV === "development";
-
-export type WalletAdapter =
-  | PhantomWalletAdapter
-  | SolflareWalletAdapter
-  | MathWalletAdapter
-  | TorusWalletAdapter
-  | CoinbaseWalletAdapter
-  | CloverWalletAdapter
-  | Coin98WalletAdapter;
 
 export const wait = (milliseconds: number) => {
   // eslint-disable-next-line no-promise-executor-return
@@ -43,7 +26,7 @@ export async function awaitTransactionSignatureConfirmation(
   txid: TransactionSignature,
   timeout: number,
   connection: Connection,
-  commitment: Commitment = "recent",
+  commitment: Commitment = "processed",
   queryStatus = false
 ) {
   let done = false;
@@ -169,7 +152,7 @@ export async function awaitTransactionSignatureConfirmation(
 
 export const sendTransactionWithRetry = async (
   connection: Connection,
-  wallet: WalletAdapter,
+  wallet: WalletContextState,
   instructions: TransactionInstruction[],
   signers?: Keypair[],
   computeUnits = 0,
@@ -222,12 +205,13 @@ export const sendTransactionWithRetry = async (
   );
   await wait(1000);
 
-  // @ts-expect-error signtx type not yet available on all adapters
   const signedTransaction = await wallet.signTransaction!(tx);
 
   if (beforeSend) {
     beforeSend();
   }
+
+  console.log("tx hash", signedTransaction);
 
   const { txid, slot } = await sendSignedTransaction({
     connection,
@@ -240,56 +224,59 @@ export const sendTransactionWithRetry = async (
 
 export const sendLegacyTransaction = async (
   connection: Connection,
-  wallet: WalletAdapter,
+  wallet: WalletContextState,
   transaction: Transaction,
-  commitment: Commitment = "confirmed",
+  commitment: Commitment = "processed",
   beforeSend?: () => void
 ) => {
   if (!wallet.publicKey) throw new Error("Wallet not connected");
 
-  // @ts-expect-error signtx type not yet available on all adapters
   const signedTransaction = await wallet.signTransaction!(transaction);
 
   if (beforeSend) {
     beforeSend();
   }
 
-  const { txid, slot } = await sendSignedTransaction({
+  const { txid, slot, latency } = await sendSignedTransaction({
     connection,
     signedTransaction,
     commitment,
   });
 
-  return { txid, slot };
+  return { txid, slot, latency };
 };
 export const sendTransaction = async (
   connection: Connection,
-  wallet: WalletAdapter,
-  transaction: VersionedTransaction,
+  wallet: WalletContextState,
+  transaction: VersionedTransaction | Transaction,
   commitment: Commitment = "confirmed",
   beforeSend?: () => void
 ) => {
   if (!wallet.publicKey) throw new Error("Wallet not connected");
 
-  // @ts-expect-error signtx type not yet available on all adapters
   const signedTransaction = await wallet.signTransaction!(transaction);
 
   if (beforeSend) {
     beforeSend();
   }
 
-  const { txid, slot } = await sendSignedTransaction({
+  const signatures = signedTransaction.signatures
+    .map((sig) => sig.toString())
+    .map(console.log);
+
+  const { txid, slot, latency } = await sendSignedTransaction({
     connection,
     signedTransaction,
     commitment,
   });
 
-  return { txid, slot };
+  return { txid, slot, latency };
 };
 
 export interface Txn {
   txid: string | null;
   slot: number | null;
+  latency: number;
 }
 
 export async function sendSignedTransaction({
@@ -317,22 +304,48 @@ export async function sendSignedTransaction({
     console.log("Started awaiting confirmation for", txid);
   }
 
-  // let done = false;
-  // (async () => {
-  //   while (!done && getUnixTs() - startTime < timeout) {
-  //     connection.sendRawTransaction(rawTransaction, {
-  //       skipPreflight: true,
-  //     });
-  //     // eslint-disable-next-line no-await-in-loop
-  //     await wait(500);
-  //   }
-  // })();
+  let done = false;
+
+  (async () => {
+    while (!done && getUnixTs() - startTime < timeout) {
+      connection.sendRawTransaction(rawTransaction, {
+        skipPreflight: true,
+      });
+      // eslint-disable-next-line no-await-in-loop
+      await wait(500);
+    }
+  })();
+
+  try {
+    if (socketConnected(connection)) {
+      const result = await confirmTransaction(connection, txid, commitment);
+      console.log("result", result);
+    } else {
+      const signatureStatus = await awaitTransactionSignatureConfirmation(
+        txid,
+        timeout,
+        connection,
+        commitment,
+        true
+      );
+      console.log("signatureStatus", signatureStatus);
+    }
+  } catch (error) {
+    if (isDevMode) {
+      console.error(error);
+    }
+    throw new Error("Transaction failed");
+  } finally {
+    done = true;
+  }
 
   // try {
+  //   console.log("confirming transaction ::", txid);
   //   const confirmation = await awaitTransactionSignatureConfirmation(
   //     txid,
   //     timeout,
-  //     connection
+  //     connection,
+  //     commitment
   //   );
   //   if (!confirmation)
   //     throw new Error("Timed out awaiting confirmation on transaction");
@@ -351,10 +364,12 @@ export async function sendSignedTransaction({
   //   done = true;
   // }
 
-  // if (isDevMode) {
-  //   console.log("Latency", txid, getUnixTs() - startTime);
-  // }
-  return { txid, slot };
+  const latency = getUnixTs() - startTime;
+
+  if (isDevMode) {
+    console.log("Latency", txid, latency);
+  }
+  return { txid, slot, latency };
 }
 
 export const getUnixTs = () => new Date().getTime() / 1000;
@@ -491,24 +506,18 @@ export async function confirmTransaction(
 
     return result;
   } else {
-    const maxRetryCount = 100;
-    let callCount = 0;
-    while (callCount < maxRetryCount) {
-      try {
-        const response = await connection.getSignatureStatus(signature);
-        console.log("Signature status:", response);
-        callCount++;
-        if (response?.value?.confirmationStatus === commitment) {
-          return response;
-        } else {
-          await wait(2000);
-        }
-      } catch (error) {
-        console.error("Error getting signature status:", error);
-        callCount++;
-        await wait(2000);
-      }
+    const signatureStatus = await awaitTransactionSignatureConfirmation(
+      signature,
+      DEFAULT_TIMEOUT,
+      connection,
+      commitment,
+      true
+    );
+    console.log("signatureStatus", signatureStatus);
+
+    if (!signatureStatus) {
+      throw new Error("Timed out awaiting confirmation on transaction");
     }
-    throw new Error("Timed out awaiting confirmation on transaction");
+    return signatureStatus;
   }
 }

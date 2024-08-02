@@ -92,10 +92,6 @@ export function DrawRecordDialog() {
 
       const result = await confirmTransaction(connection, txHash, "confirmed");
 
-      if (result.value.err) {
-        throw new Error(result.value.err.toString());
-      }
-
       mutationDrawLottery.mutate();
     } catch (error: any) {
       // if (

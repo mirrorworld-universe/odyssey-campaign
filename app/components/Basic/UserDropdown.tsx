@@ -21,6 +21,7 @@ import { fetchLogout } from "../../data/account";
 import { WalletList } from "../../wallet/wallet-list";
 import { cn, isMobileViewport } from "@/lib/utils";
 import { Close } from "@/app/icons/Close";
+import { socketConnected } from "@/lib/ws";
 
 export function UserDropdown() {
   const { isInMaintenance } = useSystemInfo();
@@ -88,19 +89,21 @@ export function UserDropdown() {
       return;
     }
 
-    connection.onAccountChange(
-      publicKey,
-      (updatedAccountInfo) => {
-        setBalance(updatedAccountInfo.lamports / LAMPORTS_PER_SOL);
-      },
-      "confirmed"
-    );
+    if (socketConnected(connection)) {
+      connection.onAccountChange(
+        publicKey,
+        (updatedAccountInfo) => {
+          setBalance(updatedAccountInfo.lamports / LAMPORTS_PER_SOL);
+        },
+        "confirmed"
+      );
 
-    connection.getAccountInfo(publicKey).then((info) => {
-      if (info) {
-        setBalance(info?.lamports / LAMPORTS_PER_SOL);
-      }
-    });
+      connection.getAccountInfo(publicKey).then((info) => {
+        if (info) {
+          setBalance(info?.lamports / LAMPORTS_PER_SOL);
+        }
+      });
+    }
   }, [publicKey, connection]);
 
   const UserDropdownPanel = ({ className, showHeader }: any) => (
