@@ -110,10 +110,6 @@ export function CheckIn() {
         "confirmed"
       );
 
-      if (result.value.err) {
-        throw new Error(result.value.err.toString());
-      }
-
       mutationCheckIn.mutate();
     } catch (error) {
       console.error("Transaction failed:", error);

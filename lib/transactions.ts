@@ -477,13 +477,19 @@ export async function confirmTransaction(
 ) {
   if (socketConnected(connection)) {
     const latestBlockHash = await connection.getLatestBlockhash();
-    return await connection.confirmTransaction(
+    const result = await connection.confirmTransaction(
       {
         signature,
         ...latestBlockHash,
       },
       commitment
     );
+
+    if (result.value.err) {
+      throw new Error(result.value.err.toString());
+    }
+
+    return result;
   } else {
     let callCount = 0;
     while (callCount < 10) {

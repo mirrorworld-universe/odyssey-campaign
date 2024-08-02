@@ -129,10 +129,6 @@ export function MysteryBoxConfirmDialog() {
 
       const result = await confirmTransaction(connection, txHash, "processed");
 
-      if (result.value.err) {
-        throw new Error(result.value.err.toString());
-      }
-
       mutationOpenMysteryBox.mutate();
     } catch (error) {
       console.error("Transaction failed:", error);
