@@ -37,7 +37,7 @@ export function DrawConfirmDialog() {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="max-w-[calc(100%_-_32px)] w-full md:w-[468px] bg-[#1A1A1A] border-none p-6 md:p-8">
+      <AlertDialogContent className="w-[468px] bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
           <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
             <p className="flex flex-row justify-center items-center gap-3 text-white text-5xl font-semibold font-orbitron pt-4">
@@ -48,14 +48,14 @@ export function DrawConfirmDialog() {
                 className="animate-spin-light"
               />
             </p>
-            <span className="text-white text-2xl font-semibold font-orbitron mt-5 md:mt-8">
+            <span className="text-white text-2xl font-semibold font-orbitron mt-8">
               Place the Bet
             </span>
           </AlertDialogTitle>
         </AlertDialogHeader>
 
-        <div className="flex flex-col gap-10 md:gap-12 mt-10 md:mt-12">
-          <div className="flex flex-col items-center gap-5 text-base md:text-lg text-white font-normal">
+        <div className="flex flex-col gap-12 mt-12">
+          <div className="flex flex-col items-center gap-5 text-lg text-white font-normal">
             <div className="w-full flex justify-between">
               <span>Number of draws</span>
               <span className="font-semibold">{lotteryDrawAmount || 0}</span>

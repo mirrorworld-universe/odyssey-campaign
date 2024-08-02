@@ -110,7 +110,7 @@ export function Referral() {
           name="Invite Code"
           size={CardSize.Medium}
           className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-lg md:rounded-xl"
-          nameClassName="text-sm md:text-[28px] bg-[#000] px-1 md:px-4 left-5 md:left-8 -top-3 md:-top-3"
+          nameClassName="text-sm md:text-[28px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-5 md:left-8 -top-3 md:-top-3"
         >
           <div className="w-full flex flex-row items-center justify-between">
             <span className="text-white text-sm md:text-xl font-orbitron font-normal">
