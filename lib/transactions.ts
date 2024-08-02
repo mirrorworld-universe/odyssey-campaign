@@ -474,12 +474,31 @@ export async function confirmTransaction(
   signature: TransactionSignature,
   commitment: Commitment = "confirmed"
 ) {
-  const latestBlockHash = await connection.getLatestBlockhash();
-  return await connection.confirmTransaction(
-    {
-      signature,
-      ...latestBlockHash,
-    },
-    commitment
-  );
+  // const latestBlockHash = await connection.getLatestBlockhash();
+  // return await connection.confirmTransaction(
+  //   {
+  //     signature,
+  //     ...latestBlockHash,
+  //   },
+  //   commitment
+  // );
+  let callCount = 0;
+
+  while (callCount < 10) {
+    try {
+      const response = await connection.getSignatureStatus(signature);
+      console.log('Signature status:', response);
+      callCount++;
+      if (response?.value?.confirmationStatus === commitment) {
+        return response;
+      } else {
+        await wait(2000);
+      }
+    } catch (error) {
+      console.error('Error getting signature status:', error);
+      callCount++;
+      await wait(2000);
+    }
+  }
+  throw new Error("Timed out awaiting confirmation on transaction");
 }
