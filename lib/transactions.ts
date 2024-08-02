@@ -491,8 +491,9 @@ export async function confirmTransaction(
 
     return result;
   } else {
+    const maxRetryCount = 100;
     let callCount = 0;
-    while (callCount < 10) {
+    while (callCount < maxRetryCount) {
       try {
         const response = await connection.getSignatureStatus(signature);
         console.log("Signature status:", response);

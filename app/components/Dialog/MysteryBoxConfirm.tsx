@@ -127,7 +127,7 @@ export function MysteryBoxConfirmDialog() {
 
       txHash = txid;
 
-      const result = await confirmTransaction(connection, txHash, "processed");
+      const result = await confirmTransaction(connection, txHash, "confirmed");
 
       mutationOpenMysteryBox.mutate();
     } catch (error) {
