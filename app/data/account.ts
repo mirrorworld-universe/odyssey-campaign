@@ -1,11 +1,12 @@
 import { getNetworkUrl } from "@/lib/utils";
 
-export const fetchBasicInfo = async ({ address, networkId }: any) => {
+export const fetchBasicInfo = async ({ address, source, networkId }: any) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
       networkId
     )}/auth/sonic/challenge?${new URLSearchParams({
       wallet: address,
+      wallet_source: source,
     })}`
   );
   return response.json();
