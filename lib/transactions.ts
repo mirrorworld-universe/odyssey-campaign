@@ -475,7 +475,6 @@ export async function confirmTransaction(
   signature: TransactionSignature,
   commitment: Commitment = "confirmed"
 ) {
-  console.log("socketConnected(connection)", socketConnected(connection));
   if (socketConnected(connection)) {
     const latestBlockHash = await connection.getLatestBlockhash();
     return await connection.confirmTransaction(
