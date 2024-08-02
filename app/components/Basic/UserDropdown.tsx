@@ -21,7 +21,6 @@ import { fetchLogout } from "../../data/account";
 import { WalletList } from "../../wallet/wallet-list";
 import { cn, isMobileViewport } from "@/lib/utils";
 import { Close } from "@/app/icons/Close";
-import { socketConnected } from "@/lib/ws";
 
 export function UserDropdown() {
   const { isInMaintenance } = useSystemInfo();
@@ -34,7 +33,6 @@ export function UserDropdown() {
   const { networkId } = useNetworkInfo();
 
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [showPanel, setShowPanel] = useState(false);
   const [balance, setBalance] = useState<number | null>(null);
 
   const setUpUrls: any = {
@@ -59,13 +57,12 @@ export function UserDropdown() {
     },
   });
 
-  const handleClickOpenMyWallet = () => {
+  const handleClickOpenWallet = () => {
     !publicKey && onOpen();
-    setShowPanel(true);
   };
 
   const handleClosePanel = () => {
-    setShowPanel(false);
+    setPopoverOpen(false);
   };
 
   const hanldeCopyAddress = async () => {
@@ -91,49 +88,47 @@ export function UserDropdown() {
       return;
     }
 
-    if (socketConnected(connection)) {
-      connection.onAccountChange(
-        publicKey,
-        (updatedAccountInfo) => {
-          setBalance(updatedAccountInfo.lamports / LAMPORTS_PER_SOL);
-        },
-        "confirmed"
-      );
+    connection.onAccountChange(
+      publicKey,
+      (updatedAccountInfo) => {
+        setBalance(updatedAccountInfo.lamports / LAMPORTS_PER_SOL);
+      },
+      "confirmed"
+    );
 
-      connection.getAccountInfo(publicKey).then((info) => {
-        if (info) {
-          setBalance(info?.lamports / LAMPORTS_PER_SOL);
-        }
-      });
-    }
+    connection.getAccountInfo(publicKey).then((info) => {
+      if (info) {
+        setBalance(info?.lamports / LAMPORTS_PER_SOL);
+      }
+    });
   }, [publicKey, connection]);
 
   const UserDropdownPanel = ({ className, showHeader }: any) => (
     <div className={cn("bg-[#111] md:bg-[#1b1b1b] w-full", className)}>
       {showHeader ? (
-        <p className="flex justify-between items-center p-4">
-          <span className="text-[#666] text-base font-orbitron font-semibold">
+        <p className="flex justify-between items-center px-4 py-5">
+          <span className="text-white/50 text-sm uppercase font-orbitron font-semibold">
             My Wallet
           </span>
           <span
             className="cursor-pointer hover:opacity-80"
             onClick={handleClosePanel}
           >
-            <Close color="#4D4D4D" width={24} height={24} />
+            <Close color="rgba(255, 255, 255, .5)" />
           </span>
         </p>
       ) : null}
 
-      <div className="flex flex-col p-4 pt-6">
+      <div className="flex flex-col px-4 py-6">
         {/* user basic info */}
-        <div className="flex gap-4 md:gap-3 justify-start items-center hover:bg-transparent md:hover:bg-[#1b1b1b]">
+        <div className="flex gap-4 md:gap-3 justify-start items-center hover:bg-[#1b1b1b]">
           <img
             className="w-10 h-10 rounded-[50%] md:rounded-none"
             src={wallet?.adapter.icon}
             alt=""
           />
           <div className="flex flex-col justify-between items-start gap-1">
-            <span className="text-white text-xl md:text-lg font-semibold md:font-bold font-manrope md:font-orbitron">
+            <span className="text-white text-xl md:text-lg font-bold font-orbitron">
               {isInMaintenance ? "--" : balance} SOL
             </span>
             <div
@@ -171,12 +166,8 @@ export function UserDropdown() {
         }`}
         target="_blank"
       >
-        <img
-          src="/images/description.svg"
-          alt=""
-          className="w-6 md:w-5 h-6 md:h-5 mr-2 md:mr-3"
-        />
-        <span className="text-white text-base md:text-sm font-semibold font-orbitron">
+        <img src="/images/description.svg" alt="" className="w-5 h-5 mr-3" />
+        <span className="text-white text-sm font-semibold font-orbitron">
           Tx History
         </span>
       </a>
@@ -196,12 +187,8 @@ export function UserDropdown() {
           }
           target="_blank"
         >
-          <img
-            src="/images/settings.svg"
-            alt=""
-            className="w-6 md:w-5 h-6 md:h-5 mr-2 md:mr-3"
-          />
-          <span className="text-white text-base md:text-sm font-semibold font-orbitron">
+          <img src="/images/settings.svg" alt="" className="w-5 h-5 mr-3" />
+          <span className="text-white text-sm font-semibold font-orbitron">
             Set up Network
           </span>
         </a>
@@ -211,12 +198,8 @@ export function UserDropdown() {
         className="flex justify-start px-4 py-5 md:py-4 border-t border-white/10 border-none md:border-solid cursor-pointer hover:bg-white/5"
         onClick={handleDisconnect}
       >
-        <img
-          src="/images/logout.svg"
-          alt=""
-          className="w-6 md:w-5 h-6 md:h-5 mr-2 md:mr-3"
-        />
-        <span className="text-white text-base md:text-sm font-semibold font-orbitron">
+        <img src="/images/logout.svg" alt="" className="w-5 h-5 mr-3" />
+        <span className="text-white text-sm font-semibold font-orbitron">
           Disconnect
         </span>
       </div>
@@ -229,7 +212,7 @@ export function UserDropdown() {
         <PopoverTrigger>
           <div
             className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-3 py-2 md:px-4 2xl:px-5 md:py-2 2xl:py-[10px] rounded cursor-pointer transition-all duration-300"
-            onClick={handleClickOpenMyWallet}
+            onClick={handleClickOpenWallet}
             title={publicKey?.toBase58()}
           >
             <img
@@ -242,7 +225,7 @@ export function UserDropdown() {
             </span>
           </div>
         </PopoverTrigger>
-        <PopoverContent className="hidden md:flex max-w-full w-full md:w-[248px] bg-[#1b1b1b] border-none rounded px-0 py-1 relative top-1 right-10 2xl:right-8">
+        <PopoverContent className="hidden md:flex max-w-full w-full md:w-[248px] bg-[#1b1b1b] border-none rounded px-0 py-1 relative top-1 right-10">
           <UserDropdownPanel />
         </PopoverContent>
       </Popover>
@@ -251,7 +234,7 @@ export function UserDropdown() {
       <div
         className={cn(
           "flex md:hidden flex-col w-full max-h-full fixed top-0 right-0 left-0 bottom-0 z-30 transition-transform duration-300",
-          showPanel ? "translate-x-0" : "-translate-x-full"
+          popoverOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <UserDropdownPanel showHeader className={cn("w-full h-full")} />
