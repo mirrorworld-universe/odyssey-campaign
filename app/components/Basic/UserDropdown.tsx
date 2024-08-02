@@ -108,29 +108,29 @@ export function UserDropdown() {
   const UserDropdownPanel = ({ className, showHeader }: any) => (
     <div className={cn("bg-[#111] md:bg-[#1b1b1b] w-full", className)}>
       {showHeader ? (
-        <p className="flex justify-between items-center px-4 py-5">
-          <span className="text-white/50 text-sm uppercase font-orbitron font-semibold">
+        <p className="flex justify-between items-center p-4">
+          <span className="text-[#666] text-base font-orbitron font-semibold">
             My Wallet
           </span>
           <span
             className="cursor-pointer hover:opacity-80"
             onClick={handleClosePanel}
           >
-            <Close color="rgba(255, 255, 255, .5)" />
+            <Close color="#4D4D4D" width={24} height={24} />
           </span>
         </p>
       ) : null}
 
-      <div className="flex flex-col px-4 py-6">
+      <div className="flex flex-col p-4 pt-6">
         {/* user basic info */}
-        <div className="flex gap-4 md:gap-3 justify-start items-center hover:bg-[#1b1b1b]">
+        <div className="flex gap-4 md:gap-3 justify-start items-center hover:bg-transparent md:hover:bg-[#1b1b1b]">
           <img
             className="w-10 h-10 rounded-[50%] md:rounded-none"
             src={wallet?.adapter.icon}
             alt=""
           />
           <div className="flex flex-col justify-between items-start gap-1">
-            <span className="text-white text-xl md:text-lg font-bold font-orbitron">
+            <span className="text-white text-xl md:text-lg font-semibold md:font-bold font-manrope md:font-orbitron">
               {isInMaintenance ? "--" : balance} SOL
             </span>
             <div
@@ -168,8 +168,12 @@ export function UserDropdown() {
         }`}
         target="_blank"
       >
-        <img src="/images/description.svg" alt="" className="w-5 h-5 mr-3" />
-        <span className="text-white text-sm font-semibold font-orbitron">
+        <img
+          src="/images/description.svg"
+          alt=""
+          className="w-6 md:w-5 h-6 md:h-5 mr-2 md:mr-3"
+        />
+        <span className="text-white text-base md:text-sm font-semibold font-orbitron">
           Tx History
         </span>
       </a>
@@ -189,8 +193,12 @@ export function UserDropdown() {
           }
           target="_blank"
         >
-          <img src="/images/settings.svg" alt="" className="w-5 h-5 mr-3" />
-          <span className="text-white text-sm font-semibold font-orbitron">
+          <img
+            src="/images/settings.svg"
+            alt=""
+            className="w-6 md:w-5 h-6 md:h-5 mr-2 md:mr-3"
+          />
+          <span className="text-white text-base md:text-sm font-semibold font-orbitron">
             Set up Network
           </span>
         </a>
@@ -200,8 +208,12 @@ export function UserDropdown() {
         className="flex justify-start px-4 py-5 md:py-4 border-t border-white/10 border-none md:border-solid cursor-pointer hover:bg-white/5"
         onClick={handleDisconnect}
       >
-        <img src="/images/logout.svg" alt="" className="w-5 h-5 mr-3" />
-        <span className="text-white text-sm font-semibold font-orbitron">
+        <img
+          src="/images/logout.svg"
+          alt=""
+          className="w-6 md:w-5 h-6 md:h-5 mr-2 md:mr-3"
+        />
+        <span className="text-white text-base md:text-sm font-semibold font-orbitron">
           Disconnect
         </span>
       </div>

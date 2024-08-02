@@ -327,13 +327,13 @@ export function WalletDialog({ text = "Connect", className }: any) {
   }, []);
 
   const SupportSonicTag = () => (
-    <div className="text-[#fbb042] text-[10px] bg-[#fbb0421a] rounded px-1 py-[2px]">
+    <div className="text-[#fbb042] text-[10px] bg-[#2C251D] rounded px-1 py-[2px]">
       Support Sonic
     </div>
   );
 
   const ExtraBonusTag = () => (
-    <div className="text-[#fbb042] text-[8px] md:text-[10px] bg-[#fbb0421a] font-orbitron px-2 py-[2px]">
+    <div className="text-[#fbb042] text-[10px] bg-[#2C251D] font-orbitron px-2 py-[2px]">
       Extra Bonus
     </div>
   );
@@ -365,7 +365,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
           </DialogDescription>
         </DialogHeader>
 
-        <ul className="flex gap-10 md:gap-8 flex-col w-full mt-10 md:mt-8">
+        <ul className="flex gap-8 flex-col w-full mt-12 md:mt-8">
           {walletList.map(
             (wallet: any) =>
               !wallet.hide && (
@@ -396,12 +396,12 @@ export function WalletDialog({ text = "Connect", className }: any) {
                   {wallet.adapter.readyState === WalletReadyState.Installed ? (
                     <div
                       className={cn(
-                        "inline-flex items-center justify-center min-w-[113px] md:min-w-[136px] h-10 text-center rounded border-none cursor-pointer px-4 py-2.5 transition-all",
+                        "inline-flex items-center justify-center min-w-[98px] md:min-w-[136px] h-8 md:h-10 text-center rounded border-none cursor-pointer px-4 py-2.5 transition-all",
                         "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
                       )}
                       onClick={() => handleWalletSelect(wallet)}
                     >
-                      <span className="text-white text-sm md:text-base font-orbitron font-bold">
+                      <span className="text-white text-sm md:text-base font-orbitron font-semibold md:font-bold">
                         {isSwitching
                           ? wallet.adapter?.name ===
                             currentWallet?.adapter?.name
@@ -413,13 +413,13 @@ export function WalletDialog({ text = "Connect", className }: any) {
                   ) : (
                     <a
                       className={cn(
-                        "inline-flex items-center justify-center min-w-[113px] md:min-w-[136px] h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
-                        "border-white/40 hover:border-white/80"
+                        "inline-flex items-center justify-center min-w-[98px] md:min-w-[136px] h-8 md:h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
+                        "border-[#27282D] hover:border-white/80"
                       )}
                       href={wallet.adapter.url}
                       target="_blank"
                     >
-                      <span className="text-white text-sm md:text-base font-orbitron font-bold">
+                      <span className="text-white text-sm md:text-base font-orbitron font-semibold md:font-bold">
                         Install
                       </span>
                     </a>
