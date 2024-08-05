@@ -164,7 +164,7 @@ export function MileStone() {
           className
         )}
       >
-        <span className={cn("inline-flex w-3 h-3 md:w-[14px] md:h-[14px]")}>
+        <span className={cn("inline-flex w-[14px] h-[14px]")}>
           {
             walletIcons[
               WalletList.find(
@@ -174,7 +174,7 @@ export function MileStone() {
             ]
           }
         </span>
-        <span className="text-white text-xs md:text-sm font-semibold font-manrope">
+        <span className="text-white text-sm font-semibold font-manrope">
           Bonus added
         </span>
       </p>
@@ -186,7 +186,7 @@ export function MileStone() {
           className
         )}
       >
-        <span className="text-white text-xs md:text-sm font-semibold font-manrope">
+        <span className="text-white text-sm font-semibold font-manrope">
           Extra bonus for:
         </span>
         <span className="inline-flex flex-row-reverse justify-center items-center gap-2">
@@ -197,9 +197,7 @@ export function MileStone() {
           )
             .map((wallet: any) => wallet.id)
             .map((bonus: any) => (
-              <div
-                className={cn("inline-flex w-3 h-3 md:w-[14px] md:h-[14px]")}
-              >
+              <div className={cn("inline-flex w-[14px] h-[14px]")}>
                 {walletIcons[bonus]}
               </div>
             ))}
@@ -285,7 +283,7 @@ export function MileStone() {
         {/* main */}
         <Card
           size={CardSize.Medium}
-          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-lg md:rounded-xl"
+          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-none md:rounded-xl"
           nameClassName="bg-[#000]"
         >
           <div className="flex flex-col gap-1 md:gap-16">
@@ -403,7 +401,10 @@ export function MileStone() {
                           />
                         </span>
                       </p>
-                      <ExtraBonusTip transparent={false} />
+                      <ExtraBonusTip
+                        transparent={false}
+                        className="hidden md:inline-flex"
+                      />
                     </div>
                   ) : (
                     <div className="inline-flex flex-col justify-center items-center gap-3">
@@ -428,6 +429,7 @@ export function MileStone() {
                           transactionAmount < stageList[stageKey].quantity ||
                           isInMaintenance
                         }
+                        className="hidden md:inline-flex"
                       />
                     </div>
                   )
@@ -435,6 +437,8 @@ export function MileStone() {
             </div>
           </div>
         </Card>
+
+        <ExtraBonusTip className="inline-flex md:hidden mt-4" />
       </div>
 
       {/* mobile version tools */}

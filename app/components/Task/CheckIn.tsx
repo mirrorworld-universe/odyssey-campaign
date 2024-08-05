@@ -197,6 +197,56 @@ export function CheckIn() {
     return hasExtraWalletBonus() ? rewards + 1 : rewards;
   };
 
+  const ExtraBonusTip = ({ transparent, className }: any) =>
+    hasExtraWalletBonus() ? (
+      <p
+        className={cn(
+          "inline-flex flex-row items-center gap-1 md:gap-2",
+          transparent ? "opacity-30" : "",
+          className
+        )}
+      >
+        <span className={cn("inline-flex w-[14px] h-[14px]")}>
+          {
+            walletIcons[
+              WalletList.find(
+                (currentWallet: any) =>
+                  currentWallet.name === wallet?.adapter.name
+              )?.id
+            ]
+          }
+        </span>
+        <span className="text-white text-sm font-semibold font-manrope">
+          Bonus added
+        </span>
+      </p>
+    ) : (
+      <p
+        className={cn(
+          "inline-flex flex-row items-center gap-1 md:gap-2",
+          transparent ? "opacity-30" : "",
+          className
+        )}
+      >
+        <span className="text-white text-sm font-semibold font-manrope">
+          Extra bonus for:
+        </span>
+        <span className="inline-flex flex-row-reverse justify-center items-center gap-2">
+          {WalletList.filter(
+            (wallet: any) =>
+              wallet.hasExtraBonus &&
+              wallet.hasExtraBonus[networkId || "devnet"]
+          )
+            .map((wallet: any) => wallet.id)
+            .map((bonus: any) => (
+              <div className={cn("inline-flex w-[14px] h-[14px]")}>
+                {walletIcons[bonus]}
+              </div>
+            ))}
+        </span>
+      </p>
+    );
+
   useEffect(() => {
     const checkInInfo = dataCheckInInfo?.data;
     if (checkInInfo) {
@@ -304,7 +354,7 @@ export function CheckIn() {
         {/* main */}
         <Card
           size={CardSize.Medium}
-          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-lg md:rounded-xl"
+          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-none md:rounded-xl"
           nameClassName="bg-[#000]"
         >
           <div className="flex flex-col gap-8 md:gap-16">
@@ -355,7 +405,7 @@ export function CheckIn() {
             </div>
 
             {/* tools */}
-            <div className="flex flex-row items-center justify-between">
+            <div className="hidden md:flex flex-row items-center justify-between">
               {/* left */}
               <div className="flex flex-col gap-2 text-sm md:text-xl text-white font-orbitron font-semibold">
                 <p>
@@ -378,42 +428,7 @@ export function CheckIn() {
                     />
                   </span>
                 </p>
-                {hasExtraWalletBonus() ? (
-                  <p className="inline-flex flex-row items-center gap-2">
-                    <span className="inline-flex w-[14px] h-[14px]">
-                      {
-                        walletIcons[
-                          WalletList.find(
-                            (currentWallet: any) =>
-                              currentWallet.name === wallet?.adapter.name
-                          )?.id
-                        ]
-                      }
-                    </span>
-                    <span className="text-white text-sm font-semibold font-manrope">
-                      Bonus added
-                    </span>
-                  </p>
-                ) : (
-                  <p className="inline-flex flex-row items-center gap-2">
-                    <span className="text-white text-sm font-semibold font-manrope">
-                      Extra bonus for:
-                    </span>
-                    <span className="inline-flex flex-row-reverse justify-center items-center gap-2">
-                      {WalletList.filter(
-                        (wallet: any) =>
-                          wallet.hasExtraBonus &&
-                          wallet.hasExtraBonus[networkId || "devnet"]
-                      )
-                        .map((wallet: any) => wallet.id)
-                        .map((bonus: any) => (
-                          <div className="w-[14px] h-[14px]">
-                            {walletIcons[bonus]}
-                          </div>
-                        ))}
-                    </span>
-                  </p>
-                )}
+                <ExtraBonusTip />
               </div>
               {/* right */}
               <Button
@@ -433,6 +448,27 @@ export function CheckIn() {
             </div>
           </div>
         </Card>
+
+        <div className="flex flex-col gap-4 text-sm md:text-xl text-white font-orbitron font-semibold mt-4">
+          <p>
+            {
+              wordings[
+                checkInDays > 0
+                  ? Math.ceil(checkInDays / (totalDays / 2)) - 1
+                  : 0
+              ]
+            }{" "}
+            days Rewards:{" "}
+            <span className="inline-flex items-center text-[#FBB042] font-orbitron">
+              x{" "}
+              {checkInDays > totalDays
+                ? computedMaxRewards()
+                : computedRewardsByDays()}{" "}
+              <Gift color="#FBB042" className="w-4 h-4 mx-[2px] md:mx-1" />
+            </span>
+          </p>
+          <ExtraBonusTip />
+        </div>
       </div>
 
       {/* mobile version tools */}
