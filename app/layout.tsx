@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Manrope, Orbitron } from "next/font/google";
+// import { GoogleTagManager } from "@next/third-parties/google";
 
 import "./globals.css";
 import Providers from "./providers";
@@ -112,6 +113,7 @@ window.criteo_q.push(
 
   return (
     <html lang="en">
+      {/* <GoogleTagManager gtmId="AW-16645551423" /> */}
       <body
         className={`${manrope.variable} ${orbitron.variable} bg-[#01030C] font-manrope w-full relative`}
       >
@@ -153,6 +155,16 @@ window.criteo_q.push(
         <CriteoScript />
         <TikTokPixelScriptA />
         <TikTokPixelScriptB />
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-16645551423"
+        />
+        <Script>
+          {`window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-16645551423');`}
+        </Script>
       </body>
     </html>
   );
