@@ -86,6 +86,7 @@ export default function Home() {
       loop
       autoPlay
       muted
+      playsInline
       // tabIndex="-1"
     >
       <source
@@ -109,6 +110,7 @@ export default function Home() {
         loop
         autoPlay
         muted
+        playsInline
         className="w-full h-full mix-blend-screen"
       >
         <source src="/get-started.webm" type="video/webm" />
