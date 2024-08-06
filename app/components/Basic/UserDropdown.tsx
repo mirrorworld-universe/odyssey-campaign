@@ -91,11 +91,13 @@ export function UserDropdown() {
       return;
     }
 
-    if (socketConnected(connection)) {
+    try {
       connection.onAccountChange(
         publicKey,
         (updatedAccountInfo) => {
-          setBalance(updatedAccountInfo.lamports / LAMPORTS_PER_SOL);
+          if (updatedAccountInfo) {
+            setBalance(updatedAccountInfo.lamports / LAMPORTS_PER_SOL);
+          }
         },
         "confirmed"
       );
@@ -105,6 +107,8 @@ export function UserDropdown() {
           setBalance(info?.lamports / LAMPORTS_PER_SOL);
         }
       });
+    } catch (ex) {
+      console.log("connection ex", ex);
     }
   }, [publicKey, connection]);
 
