@@ -157,14 +157,14 @@ export function MileStone() {
 
   const ExtraBonusTip = ({ transparent, className }: any) =>
     hasExtraWalletBonus() ? (
-      <p
+      <div
         className={cn(
           "inline-flex flex-row items-center gap-1 md:gap-2",
           transparent ? "opacity-30" : "",
           className
         )}
       >
-        <span className={cn("inline-flex w-[14px] h-[14px]")}>
+        <div className={cn("inline-flex w-[14px] h-[14px]")}>
           {
             walletIcons[
               WalletList.find(
@@ -173,13 +173,13 @@ export function MileStone() {
               )?.id
             ]
           }
-        </span>
+        </div>
         <span className="text-white text-sm font-semibold font-manrope">
           Bonus added
         </span>
-      </p>
+      </div>
     ) : (
-      <p
+      <div
         className={cn(
           "inline-flex flex-row items-center gap-1 md:gap-2",
           transparent ? "opacity-30" : "",
@@ -189,7 +189,7 @@ export function MileStone() {
         <span className="text-white text-sm font-semibold font-manrope">
           Extra bonus for:
         </span>
-        <span className="inline-flex flex-row-reverse justify-center items-center gap-2">
+        <div className="inline-flex flex-row-reverse justify-center items-center gap-2">
           {WalletList.filter(
             (wallet: any) =>
               wallet.hasExtraBonus &&
@@ -201,8 +201,8 @@ export function MileStone() {
                 {walletIcons[bonus]}
               </div>
             ))}
-        </span>
-      </p>
+        </div>
+      </div>
     );
 
   return (
