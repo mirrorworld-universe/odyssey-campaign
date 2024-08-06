@@ -104,8 +104,14 @@ export default function Home() {
       )}
       onClick={handleGetStarted}
     >
-      <video preload="auto" loop autoPlay muted className="w-full h-full">
-        <source src="/get-started.webm" type="video/mp4" />
+      <video
+        preload="auto"
+        loop
+        autoPlay
+        muted
+        className="w-full h-full mix-blend-screen"
+      >
+        <source src="/get-started.webm" type="video/webm" />
       </video>
 
       <span className="text-white text-2xl md:text-[32px] font-orbitron font-bold group-hover:opacity-80 group-active:opacity-50 transition-opacity duration-300 absolute">
