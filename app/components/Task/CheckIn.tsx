@@ -449,7 +449,7 @@ export function CheckIn() {
           </div>
         </Card>
 
-        <div className="flex flex-col gap-4 text-sm md:text-xl text-white font-orbitron font-semibold mt-4">
+        <div className="flex md:hidden flex-col gap-4 text-sm md:text-xl text-white font-orbitron font-semibold mt-4">
           <p>
             {
               wordings[
