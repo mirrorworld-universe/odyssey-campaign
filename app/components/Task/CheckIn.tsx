@@ -30,7 +30,7 @@ import {
 import { Card, CardSize } from "../Basic/Card";
 import base58 from "bs58";
 import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, hasExtraWalletBonus, isInWalletCampaignTime } from "@/lib/utils";
 import {
   confirmTransaction,
   sendLegacyTransaction,
@@ -160,7 +160,10 @@ export function CheckIn() {
         refetchCheckInInfo();
         let rewards =
           Math.ceil((data.accumulative_days || 1) / (totalDays / 2)) || 1;
-        if (hasExtraWalletBonus()) {
+        if (
+          isInWalletCampaignTime(networkId) &&
+          hasExtraWalletBonus(wallet, networkId)
+        ) {
           rewards++;
         }
         toast({
@@ -180,28 +183,23 @@ export function CheckIn() {
     },
   });
 
-  const hasExtraWalletBonus = () => {
-    return (
-      WalletList.find(
-        (currentWallet: any) => currentWallet.name === wallet?.adapter.name
-      )?.hasExtraBonus &&
-      WalletList.find(
-        (currentWallet: any) => currentWallet.name === wallet?.adapter.name
-      )?.hasExtraBonus[networkId || "devnet"]
-    );
-  };
-
   const computedMaxRewards = () => {
-    return hasExtraWalletBonus() ? maxRewardsAmount + 1 : maxRewardsAmount;
+    return isInWalletCampaignTime(networkId) &&
+      hasExtraWalletBonus(wallet, networkId)
+      ? maxRewardsAmount + 1
+      : maxRewardsAmount;
   };
 
   const computedRewardsByDays = () => {
     const rewards = Math.ceil(checkInDays / (totalDays / 2)) || 1;
-    return hasExtraWalletBonus() ? rewards + 1 : rewards;
+    return isInWalletCampaignTime(networkId) &&
+      hasExtraWalletBonus(wallet, networkId)
+      ? rewards + 1
+      : rewards;
   };
 
   const ExtraBonusTip = ({ transparent, className }: any) =>
-    hasExtraWalletBonus() ? (
+    hasExtraWalletBonus(wallet, networkId) ? (
       <div
         className={cn(
           "inline-flex flex-row items-center gap-1 md:gap-2",
@@ -434,7 +432,7 @@ export function CheckIn() {
                     />
                   </span>
                 </p>
-                <ExtraBonusTip />
+                {isInWalletCampaignTime(networkId) ? <ExtraBonusTip /> : null}
               </div>
               {/* right */}
               <Button
@@ -473,7 +471,7 @@ export function CheckIn() {
               <Gift color="#FBB042" className="w-4 h-4 mx-[2px] md:mx-1" />
             </span>
           </p>
-          <ExtraBonusTip />
+          {isInWalletCampaignTime(networkId) ? <ExtraBonusTip /> : null}
         </div>
       </div>
 

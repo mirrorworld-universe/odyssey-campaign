@@ -32,7 +32,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { cn, isInMaintenanceTime, isMobileViewport } from "@/lib/utils";
+import {
+  cn,
+  isInMaintenanceTime,
+  isInWalletCampaignTime,
+  isMobileViewport,
+} from "@/lib/utils";
 import {
   useMoreWalletModal,
   useSetUpNetworkModal,
@@ -386,10 +391,13 @@ export function WalletDialog({ text = "Connect", className }: any) {
                     <span className="text-sm md:text-base text-white font-semibold font-orbitron mr-2 md:mr-3">
                       {wallet.adapter?.name}
                     </span>
-                    {/* {wallet.isSupportSonic ? <SupportSonicTag /> : null} */}
-                    {wallet.hasExtraBonus &&
-                    wallet.hasExtraBonus[networkId || "devnet"] ? (
-                      <ExtraBonusTag />
+                    {isInWalletCampaignTime(networkId) ? (
+                      wallet.hasExtraBonus &&
+                      wallet.hasExtraBonus[networkId || "devnet"] ? (
+                        <ExtraBonusTag />
+                      ) : null
+                    ) : wallet.isSupportSonic ? (
+                      <SupportSonicTag />
                     ) : null}
                   </div>
 

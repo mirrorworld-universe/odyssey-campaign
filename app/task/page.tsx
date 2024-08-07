@@ -25,7 +25,7 @@ import { useTaskInfo } from "../store/task";
 import { WalletList, isSupportSonic } from "../wallet/wallet-list";
 import { useFAQModal, useHowToPlayModal } from "../store/tutorials";
 
-import { cn } from "@/lib/utils";
+import { cn, isInWalletCampaignTime } from "@/lib/utils";
 import { trackClick } from "@/lib/track";
 import { Footer } from "../components/Basic/Footer";
 import { useAccountInfo, useNetworkInfo } from "../store/account";
@@ -218,7 +218,8 @@ const TaskCenter: NextPage = () => {
                     </p>
 
                     {/* bonus tag */}
-                    {task.bonus &&
+                    {isInWalletCampaignTime(networkId) &&
+                    task.bonus &&
                     WalletList.filter(
                       (wallet: any) =>
                         wallet.hasExtraBonus &&
@@ -256,7 +257,8 @@ const TaskCenter: NextPage = () => {
                         </div>
                       ) : null}
                       {/* bonus */}
-                      {task.bonus &&
+                      {isInWalletCampaignTime(networkId) &&
+                      task.bonus &&
                       WalletList.filter(
                         (wallet: any) =>
                           wallet.hasExtraBonus &&

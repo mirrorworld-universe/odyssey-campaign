@@ -21,7 +21,12 @@ import {
   getMilestoneDailyInfo,
 } from "@/app/data/reward";
 import { trackClick } from "@/lib/track";
-import { cn, isMobileViewport } from "@/lib/utils";
+import {
+  cn,
+  isInWalletCampaignTime,
+  hasExtraWalletBonus,
+  isMobileViewport,
+} from "@/lib/utils";
 import { Rules } from "./Rules";
 import { WalletList } from "@/app/wallet/wallet-list";
 
@@ -51,17 +56,6 @@ export function MileStone() {
   const { address, token } = useAccountInfo();
   const { networkId } = useNetworkInfo();
   const { wallet } = useWallet();
-
-  const hasExtraWalletBonus = () => {
-    return (
-      WalletList.find(
-        (currentWallet: any) => currentWallet.name === wallet?.adapter.name
-      )?.hasExtraBonus &&
-      WalletList.find(
-        (currentWallet: any) => currentWallet.name === wallet?.adapter.name
-      )?.hasExtraBonus[networkId || "devnet"]
-    );
-  };
 
   const getPartition = () => {
     return transactionAmount <= stageList["stage_1"]?.quantity
@@ -97,7 +91,10 @@ export function MileStone() {
           },
         });
         let rewards = stageList[currentStageKey].rewards;
-        if (hasExtraWalletBonus()) {
+        if (
+          isInWalletCampaignTime(networkId) &&
+          hasExtraWalletBonus(wallet, networkId)
+        ) {
           rewards++;
         }
         toast({
@@ -157,7 +154,8 @@ export function MileStone() {
   };
 
   const ExtraBonusTip = ({ transparent, className }: any) =>
-    hasExtraWalletBonus() ? (
+    isInWalletCampaignTime(networkId) &&
+    hasExtraWalletBonus(wallet, networkId) ? (
       <div
         className={cn(
           "inline-flex flex-row items-center gap-1 md:gap-2",
@@ -357,7 +355,8 @@ export function MileStone() {
                       >
                         <span className="inline-flex items-center text-[#FBB042] font-orbitron">
                           x{" "}
-                          {hasExtraWalletBonus()
+                          {isInWalletCampaignTime(networkId) &&
+                          hasExtraWalletBonus(wallet, networkId)
                             ? stageList[stageKey].rewards + 1
                             : stageList[stageKey].rewards}{" "}
                           <Gift
@@ -375,7 +374,8 @@ export function MileStone() {
                         Received:{" "}
                         <span className="inline-flex items-center text-[#FBB042] font-orbitron">
                           x{" "}
-                          {hasExtraWalletBonus()
+                          {isInWalletCampaignTime(networkId) &&
+                          hasExtraWalletBonus(wallet, networkId)
                             ? stageList[stageKey].rewards + 1
                             : stageList[stageKey].rewards}{" "}
                           <Gift
@@ -393,7 +393,8 @@ export function MileStone() {
                       >
                         <span className="inline-flex items-center min-w-13 text-[#FBB042] font-orbitron">
                           x{" "}
-                          {hasExtraWalletBonus()
+                          {isInWalletCampaignTime(networkId) &&
+                          hasExtraWalletBonus(wallet, networkId)
                             ? stageList[stageKey].rewards + 1
                             : stageList[stageKey].rewards}{" "}
                           <Gift
@@ -402,10 +403,12 @@ export function MileStone() {
                           />
                         </span>
                       </p>
-                      <ExtraBonusTip
-                        transparent={false}
-                        className="hidden md:inline-flex"
-                      />
+                      {isInWalletCampaignTime(networkId) ? (
+                        <ExtraBonusTip
+                          transparent={false}
+                          className="hidden md:inline-flex"
+                        />
+                      ) : null}
                     </div>
                   ) : (
                     <div className="inline-flex flex-col justify-center items-center gap-3">
@@ -420,18 +423,21 @@ export function MileStone() {
                         onClick={() => handleClaimGifts(stageKey, stageIndex)}
                       >
                         Claim x{" "}
-                        {hasExtraWalletBonus()
+                        {isInWalletCampaignTime(networkId) &&
+                        hasExtraWalletBonus(wallet, networkId)
                           ? stageList[stageKey].rewards + 1
                           : stageList[stageKey].rewards}{" "}
                         <Gift color="#FFFFFF" className="mx-1" />
                       </Button>
-                      <ExtraBonusTip
-                        transparent={
-                          transactionAmount < stageList[stageKey].quantity ||
-                          isInMaintenance
-                        }
-                        className="hidden md:inline-flex"
-                      />
+                      {isInWalletCampaignTime(networkId) ? (
+                        <ExtraBonusTip
+                          transparent={
+                            transactionAmount < stageList[stageKey].quantity ||
+                            isInMaintenance
+                          }
+                          className="hidden md:inline-flex"
+                        />
+                      ) : null}
                     </div>
                   )
               )}
@@ -439,7 +445,9 @@ export function MileStone() {
           </div>
         </Card>
 
-        <ExtraBonusTip className="inline-flex md:hidden mt-4" />
+        {isInWalletCampaignTime(networkId) ? (
+          <ExtraBonusTip className="inline-flex md:hidden mt-4" />
+        ) : null}
       </div>
 
       {/* mobile version tools */}
@@ -463,7 +471,8 @@ export function MileStone() {
           onClick={() => handleClaimGifts(currentStageKey, currentStageIndex)}
         >
           Claim x{" "}
-          {hasExtraWalletBonus()
+          {isInWalletCampaignTime(networkId) &&
+          hasExtraWalletBonus(wallet, networkId)
             ? stageList[currentStageKey]?.rewards + 1
             : stageList[currentStageKey]?.rewards}{" "}
           <Gift color="#FFFFFF" className="mx-1" />
