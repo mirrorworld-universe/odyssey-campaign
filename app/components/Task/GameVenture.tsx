@@ -60,6 +60,15 @@ export function GameVenture() {
     ],
     testnet: [
       {
+        name: "SnakeLite",
+        cover: "/images/games/snakelite.jpg",
+        guide:
+          "https://mirrorworldfun.notion.site/SnakeLite-Odyssey-Game-and-Task-Guide-585d67b5d76348ba868d58a5d1acfa72?pvs=4",
+        play: "https://t.me/Snakelite_official_bot",
+        time: "2024-08-08T21:00:00+08:00",
+        available: true,
+      },
+      {
         name: "JOGO JOGO",
         cover: "/images/games/d.jpg",
         guide:
