@@ -158,8 +158,11 @@ export function CheckIn() {
       if (data.checked) {
         setHasChecked(true);
         refetchCheckInInfo();
-        const rewards =
+        let rewards =
           Math.ceil((data.accumulative_days || 1) / (totalDays / 2)) || 1;
+        if (hasExtraWalletBonus()) {
+          rewards++;
+        }
         toast({
           title: '"Check-in" task completed.',
           description: (

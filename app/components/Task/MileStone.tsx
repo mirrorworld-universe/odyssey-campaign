@@ -96,6 +96,10 @@ export function MileStone() {
             },
           },
         });
+        let rewards = stageList[currentStageKey].rewards;
+        if (hasExtraWalletBonus()) {
+          rewards++;
+        }
         toast({
           title: '"TX Milestone" task completed.',
           description: (
@@ -103,10 +107,7 @@ export function MileStone() {
               You completed {stageList[currentStageKey].quantity} transactions
               milestone today and received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
-                {hasExtraWalletBonus()
-                  ? stageList[currentStageKey].rewards + 1
-                  : stageList[currentStageKey].rewards}{" "}
-                x mystery boxes
+                {rewards} x mystery boxes
                 <Gift color="#FBB042" className="w-3 h-3 mx-[2px]" />
               </span>
               . Open it in the navbar to exchange for rings.
