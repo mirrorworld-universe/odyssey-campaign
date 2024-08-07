@@ -33,7 +33,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="flex flex-col items-center justify-center gap-4 sm:gap-8 bg-sonic-nav w-full sm:!py-14 lg:!py-24 px-4 sm:p-0 relative overflow-hidden pb-[88px] md:pb-0 mt-[72px] md:mt-0">
+    <footer className="flex flex-col items-center justify-center gap-4 md:gap-8 bg-sonic-nav w-full md:!py-14 lg:!py-24 px-4 md:p-0 relative overflow-hidden pb-[88px] md:pb-0 mt-[72px] md:mt-0">
       <img
         src="/images/fingerprint.png"
         alt=""
@@ -41,7 +41,8 @@ export function Footer() {
       />
 
       <div className="w-full flex flex-col max-w-[1464px] mx-auto relative">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-14 w-full">
+        {/* Mobile version Copyright */}
+        <div className="flex md:hidden flex-col md:flex-row md:justify-between md:items-center gap-14 w-full">
           <div className="flex space-x-3 justify-start items-center">
             <Link href="/" className="inline-flex flex-row items-center gap-2">
               <img
@@ -63,7 +64,7 @@ export function Footer() {
           </div>
 
           {/* Links */}
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:ml-auto sm:w-fit">
+          <div className="flex flex-col md:flex-row gap-3 w-full md:ml-auto md:w-fit">
             <div className="text-[10px] text-[#717171]">Links</div>
             <div className="flex flex-col gap-6">
               {menu.map((menuItem, menuIndex) => (
@@ -148,11 +149,52 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Desktop Copyright */}
+        {/* Desktop version Copyright */}
         <div
           data-desktop-copyright
-          className="w-full hidden sm:flex flex-col items-center"
+          className="w-full hidden md:flex flex-col items-center"
         >
+          <div className="w-full flex justify-between items-center">
+            {/* logo */}
+            <div className="flex space-x-3 justify-start items-center">
+              <Link href="/" className="inline-flex flex-row items-center gap-">
+                <img
+                  alt="Sonic Logo"
+                  className="w-6 md:w-10 h-auto"
+                  src="/sonic.png"
+                />
+                <span className="text-white text-[28px] font-bold font-orbitron tracking-widest">
+                  SONIC
+                </span>
+              </Link>
+              <a
+                className="text-white text-sm font-semibold font-orbitron border-l border-solid border-[#27282D] h-[21px] ml-4 pl-4 hover:underline"
+                href="https://www.sonic.game/"
+                target="_blank"
+              >
+                www.sonic.game
+              </a>
+            </div>
+
+            {/* Links */}
+            <div className="flex flex-col md:flex-row gap-3 w-full md:ml-auto md:w-fit">
+              <div className="flex flex-row gap-10">
+                {menu.map((menuItem, menuIndex) => (
+                  <Link
+                    className="flex justify-between"
+                    href={menuItem.link[networkId || "devnet"]}
+                    target={menuItem.target}
+                    key={menuIndex}
+                  >
+                    <span className="text-base gap-12 text-[#666666] font-semibold font-orbitron transition-colors">
+                      {menuItem.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
           <div className="relative w-full py-10">
             <div
               className="absolute inset-0 flex items-center"
