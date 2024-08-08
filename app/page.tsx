@@ -111,7 +111,7 @@ export default function Home() {
         autoPlay
         muted
         playsInline
-        className="w-full h-full mix-blend-screen"
+        className="w-full h-full mix-blend-screen bg-black"
       >
         <source src="/get-started.webm" type="video/webm" />
       </video>
@@ -148,9 +148,10 @@ export default function Home() {
             Earn Your Ring Rewards!
           </p>
 
-          <GetStarted className="mt-[132px] fixed md:static bottom-4 left-0 right-0" />
+          <GetStarted className="mt-[132px] hidden md:flex bottom-4 left-0 right-0" />
         </div>
       </div>
+      <GetStarted className="absolute md:hidden bottom-4 left-0 right-0" />
     </main>
   );
 }
