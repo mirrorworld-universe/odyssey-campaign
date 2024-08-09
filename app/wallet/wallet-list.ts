@@ -13,7 +13,7 @@ export const WalletList: any[] = [
   {
     id: "okx",
     name: "OKX Wallet",
-    isSupportSonic: false,
+    isSupportSonic: true,
     hasExtraBonus: {
       devnet: true,
       testnet: true,
