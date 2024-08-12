@@ -115,7 +115,7 @@ export const isMobileViewport = () => {
 };
 
 export const walletCampaignStartTime = "2024-07-30T11:00:00+08:00";
-export const walletCampaignEndTime = "2024-08-30T11:00:00+08:00";
+export const walletCampaignEndTime = "2024-07-30T11:00:00+08:00";
 export const walletCampaignNetworks = ["devnet", "testnet"];
 
 export const isInWalletCampaignTime = (networkId = "devnet") => {
