@@ -23,6 +23,7 @@ import {
 } from "@/app/store/tutorials";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import { networks } from "@/app/data/config";
+import { setUpUrls } from "@/app/wallet/wallet-list";
 
 export function SetUpSonicNetworkDialog() {
   const { publicKey, wallet, signTransaction } = useWallet();
@@ -40,20 +41,6 @@ export function SetUpSonicNetworkDialog() {
     onOpen: onOpenWhitelistDialog,
     onClose: onCloseWhitelistDialog,
   } = useWhitelistModal();
-
-  const setUpUrls: any = {
-    nightly: {
-      devnet: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
-      testnet:
-        "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet",
-    },
-    backpack: {
-      devnet:
-        "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
-      testnet:
-        "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet",
-    },
-  };
 
   const handleConfirmInTestnet = () => {
     onOpenWhitelistDialog();

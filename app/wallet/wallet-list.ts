@@ -16,7 +16,7 @@ export const WalletList: any[] = [
     isSupportSonic: true,
     hasExtraBonus: {
       devnet: true,
-      testnet: true,
+      testnet: false,
     },
     adapter: new OKXWalletAdapter(),
     hide: false,
@@ -27,7 +27,7 @@ export const WalletList: any[] = [
     isSupportSonic: true,
     hasExtraBonus: {
       devnet: true,
-      testnet: true,
+      testnet: false,
     },
     adapter: new BackpackWalletAdapter(),
     hide: false,
@@ -54,6 +54,25 @@ export const WalletList: any[] = [
     hide: true,
   },
 ];
+
+export const setUpUrls: any = {
+  ["okx wallet"]: {
+    devnet:
+      "https://blog.sonic.game/sonic-origin-network-settings---okx-wallet",
+    testnet:
+      "https://blog.sonic.game/sonic-origin-network-settings---okx-wallet",
+  },
+  nightly: {
+    devnet: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
+    testnet:
+      "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet",
+  },
+  backpack: {
+    devnet: "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
+    testnet:
+      "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet",
+  },
+};
 
 export const isSupportSonic = (walletName: string | undefined) => {
   if (!walletName) {

@@ -18,7 +18,7 @@ import {
   useWalletModal,
 } from "../../store/account";
 import { fetchLogout } from "../../data/account";
-import { WalletList } from "../../wallet/wallet-list";
+import { WalletList, setUpUrls } from "@/app/wallet/wallet-list";
 import { cn, isMobileViewport } from "@/lib/utils";
 import { Close } from "@/app/icons/Close";
 import { socketConnected } from "@/lib/ws";
@@ -36,20 +36,6 @@ export function UserDropdown() {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [balance, setBalance] = useState<number | null>(null);
-
-  const setUpUrls: any = {
-    nightly: {
-      devnet: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
-      testnet:
-        "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet",
-    },
-    backpack: {
-      devnet:
-        "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
-      testnet:
-        "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet",
-    },
-  };
 
   const mutationLogout = useMutation({
     mutationFn: () => fetchLogout({ token, networkId }),
