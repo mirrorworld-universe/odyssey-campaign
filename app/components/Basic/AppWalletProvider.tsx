@@ -61,10 +61,10 @@ export default function AppWalletProvider({
   return (
     <ConnectionProvider
       endpoint={endpoint}
-      config={{
-        commitment: "confirmed",
-        wsEndpoint: "wss://ws-proxy-staging-api.mirrorworld.fun",
-      }}
+      // config={{
+      //   commitment: "confirmed",
+      //   wsEndpoint: "wss://ws-proxy-staging-api.mirrorworld.fun",
+      // }}
     >
       <WalletProvider
         wallets={wallets}
