@@ -18,7 +18,7 @@ import {
   useWalletModal,
 } from "../../store/account";
 import { fetchLogout } from "../../data/account";
-import { WalletList } from "../../wallet/wallet-list";
+import { WalletList, setUpUrls } from "@/app/wallet/wallet-list";
 import { cn, isMobileViewport } from "@/lib/utils";
 import { Close } from "@/app/icons/Close";
 import { socketConnected } from "@/lib/ws";
@@ -35,20 +35,6 @@ export function UserDropdown() {
 
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [balance, setBalance] = useState<number | null>(null);
-
-  const setUpUrls: any = {
-    nightly: {
-      devnet: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
-      testnet:
-        "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet",
-    },
-    backpack: {
-      devnet:
-        "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
-      testnet:
-        "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet",
-    },
-  };
 
   const mutationLogout = useMutation({
     mutationFn: () => fetchLogout({ token, networkId }),
@@ -89,11 +75,13 @@ export function UserDropdown() {
       return;
     }
 
-    if (socketConnected(connection)) {
+    try {
       connection.onAccountChange(
         publicKey,
         (updatedAccountInfo) => {
-          setBalance(updatedAccountInfo.lamports / LAMPORTS_PER_SOL);
+          if (updatedAccountInfo) {
+            setBalance(updatedAccountInfo.lamports / LAMPORTS_PER_SOL);
+          }
         },
         "confirmed"
       );
@@ -103,6 +91,8 @@ export function UserDropdown() {
           setBalance(info?.lamports / LAMPORTS_PER_SOL);
         }
       });
+    } catch (ex) {
+      console.log("connection ex", ex);
     }
   }, [publicKey, connection]);
 

@@ -35,9 +35,10 @@ export function DrawResultDialog() {
                 loop
                 autoPlay
                 muted
+                playsInline
                 className="w-[85px] h-[85px] absolute -top-6 mix-blend-screen"
               >
-                <source src="/winner.webm" type="video/mp4" />
+                <source src="/winner.webm" type="video/webm" />
               </video>
             </p>
             <span className="text-white text-2xl font-semibold font-orbitron mt-8">

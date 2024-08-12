@@ -59,7 +59,13 @@ export default function AppWalletProvider({
   );
 
   return (
-    <ConnectionProvider endpoint={endpoint}>
+    <ConnectionProvider
+      endpoint={endpoint}
+      // config={{
+      //   commitment: "confirmed",
+      //   wsEndpoint: "wss://ws-proxy-staging-api.mirrorworld.fun",
+      // }}
+    >
       <WalletProvider
         wallets={wallets}
         autoConnect={!isInMaintenanceTime(networkId)}
