@@ -1,8 +1,11 @@
 "use client";
 import Link from "next/link";
 import { menu } from "./Header";
-import { Twitter } from "../../icons/Twitter";
-import { Discord } from "../../icons/Discord";
+
+import { Twitter } from "@/app/icons/Twitter";
+import { Discord } from "@/app/icons/Discord";
+import { Go as IconGo } from "@/app/icons/Go";
+
 import { trackClick } from "@/lib/track";
 import { useNetworkInfo } from "@/app/store/account";
 
@@ -30,7 +33,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="flex flex-col items-center justify-center gap-4 sm:gap-8 bg-sonic-nav w-full sm:!py-14 lg:!py-24 px-4 sm:p-0 relative overflow-hidden pb-[88px] md:pb-0">
+    <footer className="flex flex-col items-center justify-center gap-4 md:gap-8 bg-sonic-nav w-full md:!py-14 lg:!py-24 px-4 md:p-0 relative overflow-hidden pb-[88px] md:pb-0 mt-[72px] md:mt-0">
       <img
         src="/images/fingerprint.png"
         alt=""
@@ -38,7 +41,8 @@ export function Footer() {
       />
 
       <div className="w-full flex flex-col max-w-[1464px] mx-auto relative">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-14 w-full">
+        {/* Mobile version Copyright */}
+        <div className="flex md:hidden flex-col md:flex-row md:justify-between md:items-center gap-14 w-full">
           <div className="flex space-x-3 justify-start items-center">
             <Link href="/" className="inline-flex flex-row items-center gap-2">
               <img
@@ -46,12 +50,12 @@ export function Footer() {
                 className="w-6 md:w-10 h-auto"
                 src="/sonic.png"
               />
-              <span className="hidden md:inline text-white text-[22px] font-bold font-orbitron tracking-widest">
+              <span className="text-white text-base font-bold font-orbitron tracking-widest">
                 SONIC
               </span>
             </Link>
             <a
-              className="text-white text-sm font-semibold font-orbitron border-l border-solid border-[#8F8F8F] h-[21px] ml-4 pl-4 hover:underline"
+              className="text-white text-sm font-semibold font-orbitron border-l border-solid border-white/30 h-[21px] ml-4 pl-4 hover:underline"
               href="https://www.sonic.game/"
               target="_blank"
             >
@@ -60,29 +64,33 @@ export function Footer() {
           </div>
 
           {/* Links */}
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:ml-auto sm:w-fit">
-            <div className="text-sonic-disabled text-[10px] font-sub block sm:hidden">
-              Links
-            </div>
-            <div className="flex flex-col sm:flex-row sm:space-x-6 sm:space-y-0 space-y-6 font-sans">
+          <div className="flex flex-col md:flex-row gap-3 w-full md:ml-auto md:w-fit">
+            <div className="text-[10px] text-[#717171]">Links</div>
+            <div className="flex flex-col gap-6">
               {menu.map((menuItem, menuIndex) => (
                 <Link
-                  className="text-base gap-12 text-white/60 hover:text-white font-semibold font-orbitron transition-colors"
+                  className="flex justify-between"
                   href={menuItem.link[networkId || "devnet"]}
-                  key={menuIndex}
                   target={menuItem.target}
+                  key={menuIndex}
                 >
-                  {menuItem.name}
+                  <span className="text-base gap-12 text-white font-semibold font-orbitron transition-colors">
+                    {menuItem.name}
+                  </span>
+                  <IconGo
+                    width={24}
+                    height={24}
+                    color="#717171"
+                    className="inline-block"
+                  />
                 </Link>
               ))}
             </div>
           </div>
 
           {/* Commnuity */}
-          <div className="flex flex-col sm:hidden gap-3 w-full">
-            <div className="text-sonic-disabled text-[10px] font-sub block sm:hidden">
-              Community
-            </div>
+          <div className="flex flex-col gap-3 w-full">
+            <div className="text-[10px] text-[#717171]">Community</div>
             <div className="flex gap-4 items-center justify-start">
               {socialMedias.map((media: any, mediaIndex: number) => (
                 <a
@@ -98,7 +106,7 @@ export function Footer() {
           </div>
 
           <div
-            className="w-full flex flex-col gap-2 sm:gap-2 items-center sm:hidden"
+            className="w-full flex flex-col gap-8 items-center md:hidden pb-6"
             data-mobile-copyright
           >
             <div className="relative w-full">
@@ -110,7 +118,7 @@ export function Footer() {
               </div>
             </div>
 
-            <p className="font-sub text-sonic-disabled text-xs">
+            <p className="w-full flex flex-row items-center justify-start gap-2 font-sub text-xs opacity-60">
               <span className="text-white/60">
                 <a
                   className="hover:underline"
@@ -121,15 +129,17 @@ export function Footer() {
                 </a>{" "}
                 {year} Sonic
               </span>
+              <i className="w-[1px] h-[9px] border-l border-white/20"></i>
               <a
-                className="text-white/60 font-semibold h-[11px] ml-4 pl-4 hover:underline"
+                className="text-white/60 font-semibold hover:underline"
                 href="/terms-of-use"
                 target="_blank"
               >
                 Terms of Use
               </a>
+              <i className="w-[1px] h-[9px] border-l border-white/20"></i>
               <a
-                className="text-white/60 font-semibold h-[11px] ml-4 pl-4 hover:underline"
+                className="text-white/60 font-semibold hover:underline"
                 href="/private-policy"
                 target="_blank"
               >
@@ -139,11 +149,52 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Desktop Copyright */}
+        {/* Desktop version Copyright */}
         <div
           data-desktop-copyright
-          className="w-full flex flex-col items-center hidden sm:flex"
+          className="w-full hidden md:flex flex-col items-center"
         >
+          <div className="w-full flex justify-between items-center">
+            {/* logo */}
+            <div className="flex space-x-3 justify-start items-center">
+              <Link href="/" className="inline-flex flex-row items-center gap-">
+                <img
+                  alt="Sonic Logo"
+                  className="w-6 md:w-10 h-auto"
+                  src="/sonic.png"
+                />
+                <span className="text-white text-[28px] font-bold font-orbitron tracking-widest">
+                  SONIC
+                </span>
+              </Link>
+              <a
+                className="text-white text-sm font-semibold font-orbitron border-l border-solid border-[#27282D] h-[21px] ml-4 pl-4 hover:underline"
+                href="https://www.sonic.game/"
+                target="_blank"
+              >
+                www.sonic.game
+              </a>
+            </div>
+
+            {/* Links */}
+            <div className="flex flex-col md:flex-row gap-3 w-full md:ml-auto md:w-fit">
+              <div className="flex flex-row gap-10">
+                {menu.map((menuItem, menuIndex) => (
+                  <Link
+                    className="flex justify-between"
+                    href={menuItem.link[networkId || "devnet"]}
+                    target={menuItem.target}
+                    key={menuIndex}
+                  >
+                    <span className="text-base gap-12 text-[#666666] font-semibold font-orbitron transition-colors">
+                      {menuItem.name}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
           <div className="relative w-full py-10">
             <div
               className="absolute inset-0 flex items-center"

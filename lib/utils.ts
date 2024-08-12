@@ -1,5 +1,7 @@
 import { networks } from "@/app/data/config";
+import { WalletList } from "@/app/wallet/wallet-list";
 import { UTCDate } from "@date-fns/utc";
+import { Wallet } from "@solana/wallet-adapter-react";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -84,12 +86,9 @@ export const getNetworkUrl = (networkId: any) => {
   return currentNetwork.url;
 };
 
-export const maintenanceStartTime = "2024-08-08T14:00:00+08:00";
-
-export const maintenanceEndTime = "2024-08-08T16:00:00+08:00";
-
-export const maintenanceNetworks = ["devnet", "testnet"];
-
+export const maintenanceStartTime = "2024-07-29T11:00:00+08:00";
+export const maintenanceEndTime = "2024-07-30T11:00:00+08:00";
+export const maintenanceNetworks = ["devnet"];
 export const showInAdcance = false;
 
 export const isInMaintenanceTime = (networkId = "devnet") => {
@@ -104,7 +103,7 @@ export const isInMaintenanceTime = (networkId = "devnet") => {
 };
 
 export const isMobileViewport = () => {
-  if (!window) {
+  if (typeof window === "undefined") {
     return false;
   }
 
@@ -113,4 +112,31 @@ export const isMobileViewport = () => {
     window?.innerWidth || 0
   );
   return viewportWidth <= 768;
+};
+
+export const walletCampaignStartTime = "2024-07-30T11:00:00+08:00";
+export const walletCampaignEndTime = "2024-07-30T11:00:00+08:00";
+export const walletCampaignNetworks = ["devnet", "testnet"];
+
+export const isInWalletCampaignTime = (networkId = "devnet") => {
+  const isWalletCampaignNetwork =
+    walletCampaignNetworks.indexOf(networkId) > -1;
+  const now = new UTCDate();
+  const startTime = new UTCDate(walletCampaignStartTime);
+  const endTime = new UTCDate(walletCampaignEndTime);
+  return now >= startTime && now <= endTime && isWalletCampaignNetwork;
+};
+
+export const hasExtraWalletBonus = (
+  wallet: Wallet | null,
+  networkId = "devnet"
+) => {
+  return (
+    WalletList.find(
+      (currentWallet: any) => currentWallet.name === wallet?.adapter.name
+    )?.hasExtraBonus &&
+    WalletList.find(
+      (currentWallet: any) => currentWallet.name === wallet?.adapter.name
+    )?.hasExtraBonus[networkId]
+  );
 };

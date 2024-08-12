@@ -1,6 +1,6 @@
 export const openWalletStatics = () => {
   const ttq = (window as any).ttq;
-  ttq.track("ClickButton", {
+  ttq?.track("ClickButton", {
     contents: [
       {
         content_id: "0001",
@@ -11,7 +11,7 @@ export const openWalletStatics = () => {
     value: "1",
     currency: "USD",
   });
-  ttq.track("CompleteRegistration", {
+  ttq?.track("CompleteRegistration", {
     contents: [
       {
         content_id: "0002",

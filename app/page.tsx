@@ -86,6 +86,7 @@ export default function Home() {
       loop
       autoPlay
       muted
+      playsInline
       // tabIndex="-1"
     >
       <source
@@ -104,8 +105,15 @@ export default function Home() {
       )}
       onClick={handleGetStarted}
     >
-      <video preload="auto" loop autoPlay muted className="w-full h-full">
-        <source src="/get-started.webm" type="video/mp4" />
+      <video
+        preload="auto"
+        loop
+        autoPlay
+        muted
+        playsInline
+        className="w-full h-full mix-blend-screen bg-black"
+      >
+        <source src="/get-started.webm" type="video/webm" />
       </video>
 
       <span className="text-white text-2xl md:text-[32px] font-orbitron font-bold group-hover:opacity-80 group-active:opacity-50 transition-opacity duration-300 absolute">
@@ -140,9 +148,10 @@ export default function Home() {
             Earn Your Ring Rewards!
           </p>
 
-          <GetStarted className="mt-[132px] fixed md:static bottom-4 left-0 right-0" />
+          <GetStarted className="mt-[132px] hidden md:flex bottom-4 left-0 right-0" />
         </div>
       </div>
+      <GetStarted className="absolute md:hidden bottom-4 left-0 right-0" />
     </main>
   );
 }

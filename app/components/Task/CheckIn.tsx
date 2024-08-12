@@ -10,7 +10,11 @@ import {
   Commitment,
   Connection,
 } from "@solana/web3.js";
+
 import { Gift } from "@/app/icons/Gift";
+import { OKX as IconOKX } from "@/app/icons/OKX";
+import { Backpack as IconBackpack } from "@/app/icons/Backpack";
+
 import { Button } from "@/components/ui/button";
 import {
   useAccountInfo,
@@ -26,7 +30,7 @@ import {
 import { Card, CardSize } from "../Basic/Card";
 import base58 from "bs58";
 import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, hasExtraWalletBonus, isInWalletCampaignTime } from "@/lib/utils";
 import {
   confirmTransaction,
   sendLegacyTransaction,
@@ -35,6 +39,7 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 import { Rules } from "./Rules";
+import { WalletList } from "@/app/wallet/wallet-list";
 
 let transactionHash = "";
 let currentToken = "";
@@ -60,6 +65,11 @@ export function CheckIn() {
   const [checkInDays, setCheckInDays] = useState(0);
 
   const [showRules, setShowRules] = useState(false);
+
+  const walletIcons: any = {
+    okx: <IconOKX className="w-full h-full" color="white" />,
+    backpack: <IconBackpack className="w-full h-full" color="white" />,
+  };
 
   const getPartition = () => {
     const partitionLength = totalDays / 3;
@@ -148,8 +158,14 @@ export function CheckIn() {
       if (data.checked) {
         setHasChecked(true);
         refetchCheckInInfo();
-        const rewards =
+        let rewards =
           Math.ceil((data.accumulative_days || 1) / (totalDays / 2)) || 1;
+        if (
+          isInWalletCampaignTime(networkId) &&
+          hasExtraWalletBonus(wallet, networkId)
+        ) {
+          rewards++;
+        }
         toast({
           title: '"Check-in" task completed.',
           description: (
@@ -166,6 +182,74 @@ export function CheckIn() {
       }
     },
   });
+
+  const computedMaxRewards = () => {
+    return isInWalletCampaignTime(networkId) &&
+      hasExtraWalletBonus(wallet, networkId)
+      ? maxRewardsAmount + 1
+      : maxRewardsAmount;
+  };
+
+  const computedRewardsByDays = () => {
+    const rewards = Math.ceil(checkInDays / (totalDays / 2)) || 1;
+    return isInWalletCampaignTime(networkId) &&
+      hasExtraWalletBonus(wallet, networkId)
+      ? rewards + 1
+      : rewards;
+  };
+
+  const ExtraBonusTip = ({ transparent, className }: any) =>
+    hasExtraWalletBonus(wallet, networkId) ? (
+      <div
+        className={cn(
+          "inline-flex flex-row items-center gap-1 md:gap-2",
+          transparent ? "opacity-30" : "",
+          className
+        )}
+      >
+        <div className={cn("inline-flex w-[14px] h-[14px]")}>
+          {
+            walletIcons[
+              WalletList.find(
+                (currentWallet: any) =>
+                  currentWallet.name === wallet?.adapter.name
+              )?.id
+            ]
+          }
+        </div>
+        <span className="text-white text-sm font-semibold font-manrope">
+          Bonus added
+        </span>
+      </div>
+    ) : (
+      <div
+        className={cn(
+          "inline-flex flex-row items-center gap-1 md:gap-2",
+          transparent ? "opacity-30" : "",
+          className
+        )}
+      >
+        <span className="text-white text-sm font-semibold font-manrope">
+          Extra bonus for:
+        </span>
+        <div className="inline-flex flex-row-reverse justify-center items-center gap-2">
+          {WalletList.filter(
+            (wallet: any) =>
+              wallet.hasExtraBonus &&
+              wallet.hasExtraBonus[networkId || "devnet"]
+          )
+            .map((wallet: any) => wallet.id)
+            .map((bonus: any, bonusIndex: number) => (
+              <div
+                className={cn("inline-flex w-[14px] h-[14px]")}
+                key={bonusIndex}
+              >
+                {walletIcons[bonus]}
+              </div>
+            ))}
+        </div>
+      </div>
+    );
 
   useEffect(() => {
     const checkInInfo = dataCheckInInfo?.data;
@@ -274,7 +358,7 @@ export function CheckIn() {
         {/* main */}
         <Card
           size={CardSize.Medium}
-          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-lg md:rounded-xl"
+          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-none md:rounded-xl"
           nameClassName="bg-[#000]"
         >
           <div className="flex flex-col gap-8 md:gap-16">
@@ -286,6 +370,7 @@ export function CheckIn() {
               </span>
               {checkInDays === 1 ? "day" : "days"}
             </p>
+
             {/* progress */}
             <div className="w-full">
               <div className="w-full h-[6px] md:h-3 bg-[#242424] rounded shadow-[0_3px_3px_0_rgba(0,0,0,0.25)] relative">
@@ -322,28 +407,34 @@ export function CheckIn() {
                 <li className="c">{totalDays} days</li>
               </ul>
             </div>
+
             {/* tools */}
-            <div className="flex flex-row items-center justify-between">
-              <p className="text-sm md:text-xl text-white font-orbitron font-semibold">
-                {
-                  wordings[
-                    checkInDays > 0
-                      ? Math.ceil(checkInDays / (totalDays / 2)) - 1
-                      : 0
-                  ]
-                }{" "}
-                days Rewards:{" "}
-                <span className="inline-flex items-center text-[#FBB042] font-orbitron">
-                  x{" "}
-                  {checkInDays > totalDays
-                    ? maxRewardsAmount
-                    : Math.ceil(checkInDays / (totalDays / 2)) || 1}{" "}
-                  <Gift
-                    color="#FBB042"
-                    className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px] md:mx-1"
-                  />
-                </span>
-              </p>
+            <div className="hidden md:flex flex-row items-center justify-between">
+              {/* left */}
+              <div className="flex flex-col gap-2 text-sm md:text-xl text-white font-orbitron font-semibold">
+                <p>
+                  {
+                    wordings[
+                      checkInDays > 0
+                        ? Math.ceil(checkInDays / (totalDays / 2)) - 1
+                        : 0
+                    ]
+                  }{" "}
+                  days Rewards:{" "}
+                  <span className="inline-flex items-center text-[#FBB042] font-orbitron">
+                    x{" "}
+                    {checkInDays > totalDays
+                      ? computedMaxRewards()
+                      : computedRewardsByDays()}{" "}
+                    <Gift
+                      color="#FBB042"
+                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px] md:mx-1"
+                    />
+                  </span>
+                </p>
+                {isInWalletCampaignTime(networkId) ? <ExtraBonusTip /> : null}
+              </div>
+              {/* right */}
               <Button
                 className={`hidden md:inline-flex w-[177px] h-12 text-white text-base font-semibold font-orbitron transition-colors duration-300 ${
                   hasChecked || isInMaintenance || isChekingIn
@@ -361,6 +452,27 @@ export function CheckIn() {
             </div>
           </div>
         </Card>
+
+        <div className="flex md:hidden flex-col gap-4 text-sm md:text-xl text-white font-orbitron font-semibold mt-4">
+          <p>
+            {
+              wordings[
+                checkInDays > 0
+                  ? Math.ceil(checkInDays / (totalDays / 2)) - 1
+                  : 0
+              ]
+            }{" "}
+            days Rewards:{" "}
+            <span className="inline-flex items-center text-[#FBB042] font-orbitron">
+              x{" "}
+              {checkInDays > totalDays
+                ? computedMaxRewards()
+                : computedRewardsByDays()}{" "}
+              <Gift color="#FBB042" className="w-4 h-4 mx-[2px] md:mx-1" />
+            </span>
+          </p>
+          {isInWalletCampaignTime(networkId) ? <ExtraBonusTip /> : null}
+        </div>
       </div>
 
       {/* mobile version tools */}
