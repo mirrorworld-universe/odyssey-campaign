@@ -9,12 +9,12 @@ export const fetchBasicInfo = async ({ address, source, networkId }: any) => {
     )}/auth/sonic/challenge?${new URLSearchParams({
       wallet: address,
       wallet_source: source,
-    })}`
-    // {
-    //   headers: {
-    //     "x-sign": crypto.createHash("sha256").update(message).digest("base64"),
-    //   },
-    // }
+    })}`,
+    {
+      headers: {
+        "x-sign": crypto.createHash("sha256").update(message).digest("base64"),
+      },
+    }
   );
   return response.json();
 };
