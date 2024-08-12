@@ -8,6 +8,7 @@ import { OKXWalletAdapter } from "./okx-adapter";
 
 import { OKX as IconOKX } from "@/app/icons/OKX";
 import { Backpack as IconBackpack } from "@/app/icons/Backpack";
+import { openPopup } from "@/lib/santinize";
 
 export const WalletList: any[] = [
   {
@@ -20,6 +21,15 @@ export const WalletList: any[] = [
     },
     adapter: new OKXWalletAdapter(),
     hide: false,
+    getDeepLink: () => {
+      const baseUrl = "https://www.okx.com/download?deeplink=";
+      const url = `${baseUrl}${encodeURIComponent(
+        `okx://wallet/dapp/url?dappUrl=${encodeURIComponent(
+          window.location.href
+        )}`
+      )}`;
+      openPopup(url, "_blank");
+    },
   },
   {
     id: "backpack",
@@ -39,6 +49,15 @@ export const WalletList: any[] = [
     adapter: new NightlyWalletAdapter(),
     hide: false,
   },
+  // {
+  //   id: "bitget",
+  //   name: "Bitget",
+  //   getDeepLink() {
+  //     const baseUrl = "https://bkcode.vip?action=dapp&url=";
+  //     const url = `${baseUrl}${window.location.href}`;
+  //     openPopup(url, "_blank");
+  //   },
+  // },
   {
     id: "phantom",
     name: "Phantom",
