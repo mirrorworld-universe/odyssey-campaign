@@ -115,7 +115,7 @@ export const isMobileViewport = () => {
 };
 
 export const isMobileDevice = () => {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const userAgent = navigator?.userAgent || "";
   return /android|iphone|ipad|ipod|blackberry|windows phone|opera mini|iemobile|mobile/i.test(
     userAgent
   );
