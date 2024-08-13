@@ -36,6 +36,7 @@ import {
   cn,
   isInMaintenanceTime,
   isInWalletCampaignTime,
+  isMobileDevice,
   isMobileViewport,
 } from "@/lib/utils";
 import {
@@ -258,6 +259,13 @@ export function WalletDialog({ text = "Connect", className }: any) {
     onClose();
   };
 
+  const handleInstallWallet = (currentWallet: any) => {
+    // detect if in wallet's explorer
+    if (isMobileDevice() && !(window as any)?.solana) {
+      currentWallet.getDeepLink && currentWallet.getDeepLink();
+    }
+  };
+
   useEffect(() => {
     if (isInMaintenanceTime(networkId)) {
       disconnect();
@@ -426,6 +434,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
                       )}
                       href={wallet.adapter.url}
                       target="_blank"
+                      onClick={() => handleInstallWallet(wallet)}
                     >
                       <span className="text-white text-sm md:text-base font-orbitron font-semibold md:font-bold">
                         Install
