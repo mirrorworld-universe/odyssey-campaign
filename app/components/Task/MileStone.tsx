@@ -51,6 +51,8 @@ export function MileStone() {
   const [showRules, setShowRules] = useState(false);
   const [currentStageKey, setCurrentStageKey] = useState("stage_1");
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
+  const [nextStageKey, setNextStageKey] = useState("stage_1");
+  const [nextStageIndex, setNextStageIndex] = useState(0);
 
   const { isInMaintenance } = useSystemInfo();
   const { address, token } = useAccountInfo();
@@ -115,12 +117,36 @@ export function MileStone() {
     },
   });
 
+  const findNextUnclaimedStageKey = (stages: any[]) => {
+    let lastClaimedStage = null;
+    for (const [key, value] of Object.entries(stages)) {
+      if (value.claimed) {
+        lastClaimedStage = key;
+      } else if (lastClaimedStage) {
+        return key;
+      }
+    }
+    return Object.keys(stages)[0];
+  };
+
+  const findNextUnclaimedStageIndex = (stages: any[]) => {
+    const keys = Object.keys(stages);
+    let lastIndex = 0;
+    keys.forEach((key: any, index: number) => {
+      if (stages[key].claimed) {
+        lastIndex = index;
+      }
+    });
+    return lastIndex + 1;
+  };
+
   useEffect(() => {
     const data = dataMilestoneDailyInfo?.data;
     if (data) {
       const { total_transactions, stage_info } = data;
       setTransactionAmount(total_transactions);
       setStageList(stage_info);
+      // current stage
       setCurrentStageKey(
         Object.keys(stage_info).filter((key) => stage_info[key].claimed)[0] ||
           "stage_1"
@@ -130,6 +156,9 @@ export function MileStone() {
           ? Object.keys(stage_info).findIndex((key) => stage_info[key].claimed)
           : 0
       );
+      // next stage
+      setNextStageKey(findNextUnclaimedStageKey(stage_info));
+      setNextStageIndex(findNextUnclaimedStageIndex(stage_info));
     }
   }, [dataMilestoneDailyInfo]);
 
@@ -335,7 +364,7 @@ export function MileStone() {
                           {stageList[stageKey].quantity}
                         </span>
                       ) : (
-                        <Check width={48} height={48} />
+                        <Check className="w-7 md:w-12 h-7 md:h-12 inline-flex" />
                       )}
                     </li>
                   )
@@ -386,7 +415,7 @@ export function MileStone() {
                       </p>
                     )
                   ) : isMobileViewport() ? (
-                    <div className="inline-flex flex-col">
+                    <div className="inline-flex flex-col" key={stageIndex}>
                       <p
                         key={stageIndex}
                         className="inline-flex flex-col items-center gap-1 text-xs md:text-xl font-orbitron font-semibold mt-5"
@@ -411,7 +440,10 @@ export function MileStone() {
                       ) : null}
                     </div>
                   ) : (
-                    <div className="inline-flex flex-col justify-center items-center gap-3">
+                    <div
+                      className="inline-flex flex-col justify-center items-center gap-3"
+                      key={stageIndex}
+                    >
                       <Button
                         key={stageIndex}
                         className={`w-[177px] h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300 ${
@@ -463,18 +495,19 @@ export function MileStone() {
         <Button
           className={cn(
             "w-4/6 h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300",
-            transactionAmount < stageList[currentStageKey]?.quantity ||
+            stageList[nextStageKey]?.claimed ||
+              transactionAmount < stageList[nextStageKey]?.quantity ||
               isInMaintenance
               ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
               : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
           )}
-          onClick={() => handleClaimGifts(currentStageKey, currentStageIndex)}
+          onClick={() => handleClaimGifts(nextStageKey, nextStageIndex)}
         >
           Claim x{" "}
           {isInWalletCampaignTime(networkId) &&
           hasExtraWalletBonus(wallet, networkId)
-            ? stageList[currentStageKey]?.rewards + 1
-            : stageList[currentStageKey]?.rewards}{" "}
+            ? stageList[nextStageKey]?.rewards + 1
+            : stageList[nextStageKey]?.rewards}{" "}
           <Gift color="#FFFFFF" className="mx-1" />
         </Button>
       </div>
