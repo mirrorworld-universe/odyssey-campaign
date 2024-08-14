@@ -27,7 +27,7 @@ export function MysteryNFT() {
   const nfts: any[] = [
     {
       id: "1",
-      image: "",
+      image: "/images/nft/1.png",
       name: "Sonic Cartridge Collection",
       isLimited: true,
       introduction:
@@ -38,7 +38,7 @@ export function MysteryNFT() {
     },
     {
       id: "2",
-      image: "",
+      image: "/images/nft/2.png",
       name: "Sonic Adventure Pass",
       isLimited: false,
       introduction:
@@ -92,6 +92,12 @@ export function MysteryNFT() {
     }
   };
 
+  const LimitedTag = () => (
+    <span className="inline-flex leading-4 text-[#FBB042] text-[10px] bg-[#2C251D] px-2 py-[2px]">
+      Limited
+    </span>
+  );
+
   return (
     <div className="flex flex-col w-full">
       {/* title */}
@@ -110,7 +116,7 @@ export function MysteryNFT() {
         <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
           <ul className="list-disc font-normal pl-6">
             <li className="">
-              Request test SOL first.{" "}
+              1. Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
                 href={`https://faucet.sonic.game/#/${
@@ -122,11 +128,17 @@ export function MysteryNFT() {
               </a>
             </li>
             <li className="">
-              Each NFT belongs to a different series, with varying rarity and
+              2. Each NFT belongs to a different series, with varying rarity and
               quantities.
             </li>
             <li className="">
-              The NFTs are free to mint; just click "Mint" to get started!
+              3. Click "Mint" to get started! After minting, check your wallet
+              for a random NFT from the current collection.
+            </li>
+            <li className="">
+              4. You can also click "Trade" to participate in secondary market
+              trading and earn more rewards! For more details, please check this
+              blog.
             </li>
           </ul>
         </Rules>
@@ -139,15 +151,16 @@ export function MysteryNFT() {
               size={CardSize.Medium}
               className="max-w-[1024px] w-full relative p-6 md:p-10 rounded-none border-[#27282D]"
             >
-              <div className="w-full flex flex-row items-center justify-between gap-10">
+              <div className="w-full flex flex-col xl:flex-row items-center justify-between gap-10">
                 {/* nft */}
                 <div className="nft flex flex-row gap-10">
-                  <div className="w-[200px] h-[112px] overflow-hidden">
-                    <img src="" alt="" />
+                  <div className="w-[200px] h-[112px] rounded overflow-hidden">
+                    <img src={nft.image} alt="" />
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="font-orbitron text-xl font-semibold text-white">
-                      {nft.name}
+                  <div className="flex flex-col gap-2 max-w-[452px]">
+                    <div className="flex flex-row items-center gap-2 font-orbitron text-xl font-semibold text-white">
+                      <span className="inline-flex">{nft.name}</span>{" "}
+                      {nft.isLimited ? <LimitedTag /> : null}
                     </div>
                     <p className="text-[#666] text-base font-manrope">
                       {nft.introduction}
@@ -161,9 +174,13 @@ export function MysteryNFT() {
                   </div>
                 </div>
                 {/* tools */}
-                <div className="flex gap-2">
-                  <Button>Mint</Button>
-                  <Button>Trade</Button>
+                <div className="w-full xl:w-auto flex gap-2">
+                  <Button className="w-1/2 xl:w-[102px] h-12 text-base text-white font-semibold font-orbitron rounded bg-[#0000FF]">
+                    Mint
+                  </Button>
+                  <Button className="w-1/2 xl:w-[102px] h-12 text-base text-white font-semibold font-orbitron border border-[#27282D] rounded bg-transparent">
+                    Trade
+                  </Button>
                 </div>
               </div>
             </Card>
