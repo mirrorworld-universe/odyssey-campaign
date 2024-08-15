@@ -1,28 +1,11 @@
 import { getNetworkUrl } from "@/lib/utils";
 
 // get limited collection info
-export const fetchLimitedCollectionInfo = async ({ networkId }: any) => {
+export const fetchCollectionInfo = async ({ token, networkId }: any) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
       networkId
     )}/nft-campaign/collection/info`,
-    {
-      method: "GET",
-    }
-  );
-  return response.json();
-};
-
-// get user limited collection mint status
-export const fetchLimitedCollectionUserMintStatus = async ({
-  token,
-  hash,
-  networkId,
-}: any) => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
-      networkId
-    )}/nft-campaign/mint/status`,
     {
       headers: {
         Authorization: token,
