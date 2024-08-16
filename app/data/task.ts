@@ -40,7 +40,7 @@ export const taskGroupList = [
         id: "mystery-nft",
         name: "Mystery NFT",
         description:
-          "Invite friends to Sonic Odyssey! Share the adventure and explore together in this thrilling journey.",
+          "Mint different NFT series and unlock potential rewards! Enhance your Odyssey adventure!",
         period: "24-Hour Period",
         reward: "Test SOL Needed",
         iconName: "cube",

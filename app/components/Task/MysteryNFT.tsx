@@ -136,7 +136,7 @@ export function MysteryNFT() {
         // @ts-ignore
         wallet?.adapter,
         tx,
-        "confirmed"
+        "processed"
       );
 
       if (!txid) {
@@ -144,8 +144,22 @@ export function MysteryNFT() {
       }
 
       transactionHash = txid;
+      console.log("txid", txid);
       await confirmTransaction(connection, transactionHash, "confirmed");
+
+      toast({
+        title: "Congratulations",
+        // type:'success',
+        description:
+          "Your mint was successful. Check your transaction link for details.",
+      });
     } catch (error) {
+      toast({
+        title: "Sorry",
+        // type:'fail',
+        description:
+          "Unfortunately, your mint was unsuccessful. Please try again later.",
+      });
       console.error("Transaction failed:", error);
     }
 
@@ -242,7 +256,7 @@ export function MysteryNFT() {
             <li className="">
               1. Request test SOL first.{" "}
               <a
-                className="text-[#25A3ED] hover:underline"
+                className="text-[#25A3ED] hover:text-[#00F]"
                 href={`https://faucet.sonic.game/#/${
                   networkId === "testnet" ? "?network=testnet" : ""
                 }`}
@@ -261,8 +275,15 @@ export function MysteryNFT() {
             </li>
             <li className="">
               4. You can also click "Trade" to participate in secondary market
-              trading and earn more rewards! For more details, please check this
-              blog.
+              trading and earn more rewards! For more details, please check this{" "}
+              <a
+                className="text-[#25A3ED] hover:text-[#00F]"
+                href="https://blog.sonic.game/"
+                target="_blank"
+              >
+                blog
+              </a>
+              .
             </li>
           </ul>
         </Rules>
@@ -280,7 +301,7 @@ export function MysteryNFT() {
             >
               <div className="w-full flex flex-col xl:flex-row items-center justify-between gap-10">
                 {/* nft */}
-                <div className="nft flex flex-row gap-10">
+                <div className="nft flex flex-row items-center gap-10">
                   <div className="w-[200px] h-[112px] rounded overflow-hidden">
                     <img src={nft.image} alt="" />
                   </div>
@@ -294,53 +315,68 @@ export function MysteryNFT() {
                         ? nft.introduction
                         : `${nft.introduction.substr(0, 90)}...`}{" "}
                       <span
-                        className="text-[#25A3ED] hover:underline cursor-pointer"
+                        className="text-[#25A3ED] hover:text-[#00F] cursor-pointer"
                         onClick={() => handleExpandIntroduction(nft)}
                       >
                         {nft.isExpanded ? "less" : "more"}
                       </span>
                     </p>
-                    <div className="flex flex-row gap-2 text-xs text-[#999]">
-                      <span className="font-orbitron">Minted Amount:</span>
-                      <p className="inline-flex flex-row items-center gap-[2px] font-manrope">
-                        <span>
-                          {loaded ? prettyNumber(nft.mintedAmount) : "-"}
+                    <div className="flex flex-row gap-12">
+                      <div className="flex flex-row gap-2 text-xs text-[#958d8d]">
+                        <span className="font-orbitron">Mint Price:</span>
+                        <span className="inline-flex flex-row items-center font-manrope">
+                          Free
                         </span>
-                        <span>/</span>
-                        <span>
-                          {loaded ? (
-                            nft.totalAmount > -1 ? (
-                              prettyNumber(nft.totalAmount)
+                      </div>
+                      <div className="flex flex-row gap-2 text-xs text-[#958d8d]">
+                        <span className="font-orbitron">Minted Amount:</span>
+                        <p className="inline-flex flex-row items-center gap-[2px] font-manrope">
+                          <span>
+                            {loaded ? prettyNumber(nft.mintedAmount) : "-"}
+                          </span>
+                          <span>/</span>
+                          <span>
+                            {loaded ? (
+                              nft.totalAmount > -1 ? (
+                                prettyNumber(nft.totalAmount)
+                              ) : (
+                                <Infinity className="w-4 h-4" color="#999999" />
+                              )
                             ) : (
-                              <Infinity className="w-4 h-4" color="#999999" />
-                            )
-                          ) : (
-                            "-"
-                          )}
-                        </span>
-                      </p>
+                              "-"
+                            )}
+                          </span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
                 {/* tools */}
                 <div className="w-full xl:w-auto flex gap-2">
-                  <TooltipProvider>
+                  {" "}
+                  <TooltipProvider delayDuration={0}>
                     <Tooltip>
-                      <Button
-                        className={cn(
-                          "w-1/2 xl:w-[102px] h-12 text-base text-white font-semibold font-orbitron rounded bg-[#0000FF] transition-all duration-300",
-                          nft.minted
-                            ? "bg-[#0000FF]/80 hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
-                            : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
-                        )}
-                        disabled={!nft.enable}
-                        onClick={nft.handleMint}
-                      >
-                        Mint
-                      </Button>
-                      <TooltipContent>
-                        <p>Add to library</p>
-                      </TooltipContent>
+                      <TooltipTrigger asChild>
+                        <Button
+                          className={cn(
+                            "w-1/2 xl:w-[102px] h-12 text-base text-white font-semibold font-orbitron rounded bg-[#0000FF] transition-all duration-300",
+                            nft.minted
+                              ? "bg-[#0000FF]/80 hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
+                              : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+                          )}
+                          disabled={!nft.enable}
+                          onClick={nft.handleMint}
+                        >
+                          {nft.minted ? "Minted" : "Mint"}
+                        </Button>
+                      </TooltipTrigger>
+                      {nft.isLimited ? (
+                        <TooltipContent className="bg-[#151519] border border-[#27282D] rounded p-4">
+                          <p className="text-[#999] text-xs">
+                            Each wallet address can only mint once.
+                          </p>
+                        </TooltipContent>
+                      ) : null}
                     </Tooltip>
                   </TooltipProvider>
                   <Button
