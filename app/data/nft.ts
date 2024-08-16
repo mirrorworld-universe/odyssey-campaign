@@ -17,11 +17,7 @@ export const fetchCollectionInfo = async ({ token, networkId }: any) => {
 };
 
 // limited collection build mint tx
-export const fetchLimitedCollectionTx = async ({
-  token,
-  hash,
-  networkId,
-}: any) => {
+export const fetchLimitedCollectionTx = async ({ token, networkId }: any) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
       networkId
@@ -37,11 +33,7 @@ export const fetchLimitedCollectionTx = async ({
 };
 
 // unlimited collection build mint tx
-export const fetchUnlimitedCollectionTx = async ({
-  token,
-  hash,
-  networkId,
-}: any) => {
+export const fetchUnlimitedCollectionTx = async ({ token, networkId }: any) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
       networkId

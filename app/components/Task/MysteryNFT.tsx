@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -13,23 +13,32 @@ import {
 
 import { Card, CardSize } from "@/app/components/Basic/Card";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
-import { fetchCollectionInfo } from "@/app/data/nft";
+import {
+  fetchCollectionInfo,
+  fetchLimitedCollectionTx,
+  fetchUnlimitedCollectionTx,
+} from "@/app/data/nft";
 import { trackClick } from "@/lib/track";
 import { Rules } from "./Rules";
 import { cn, prettyNumber } from "@/lib/utils";
 import { Infinity } from "@/app/icons/Infinity";
+import { Transaction } from "@solana/web3.js";
+import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 
+let transactionHash = "";
 let currentToken = "";
 
 export function MysteryNFT() {
   const { address, token } = useAccountInfo();
   const { toast } = useToast();
   const { networkId } = useNetworkInfo();
+  const { connection } = useConnection();
+  const { publicKey, wallet, signTransaction } = useWallet();
 
   const [loaded, setLoaded] = useState(false);
+  const [isMinting, setIsMinting] = useState(false);
   const [inviteUrl, setInviteUrl] = useState("");
-  const [referralAmount, setReferralAmount] = useState(0);
-  const [referralRewards, setReferralRewards] = useState(0);
 
   const [showRules, setShowRules] = useState(false);
 
@@ -42,13 +51,15 @@ export function MysteryNFT() {
       isExpanded: false,
       introduction:
         "The Sonic Cartridge is a limited-edition NFT collection that offers special bonus effects during the Odyssey. The NFTs in this series come in four different rarities: Common, Rare, Epic, and Legendary. Each rarity provides different reward effects.",
-      totalAmount: 1000,
+      totalAmount: 1,
       mintedAmount: 0,
       available: true,
       limit: 1,
       enable: false,
       minted: true,
-      handleMint: () => {},
+      handleMint: () => {
+        getLimitedCollectionTXHash.mutate();
+      },
       handleTrade: () => {},
     },
     {
@@ -65,7 +76,9 @@ export function MysteryNFT() {
       limit: 0,
       enable: false,
       minted: true,
-      handleMint: () => {},
+      handleMint: () => {
+        getUnlimitedCollectionTXHash.mutate();
+      },
       handleTrade: () => {},
     },
   ]);
@@ -79,6 +92,67 @@ export function MysteryNFT() {
     queryFn: () => fetchCollectionInfo({ token, networkId }),
     enabled: !!token,
   });
+
+  const getLimitedCollectionTXHash = useMutation({
+    mutationKey: ["buildLimitedCollectionTx", address],
+    mutationFn: () => fetchLimitedCollectionTx({ token, networkId }),
+    onSuccess({ data }) {
+      if (data?.hash) {
+        triggerTransaction({
+          transactionString: data.hash,
+          onFinish: () => {},
+        });
+      } else {
+        setIsMinting(false);
+      }
+    },
+  });
+
+  const getUnlimitedCollectionTXHash = useMutation({
+    mutationKey: ["buildUnlimitedCollectionTx", address],
+    mutationFn: () => fetchUnlimitedCollectionTx({ token, networkId }),
+    onSuccess({ data }) {
+      if (data?.hash) {
+        triggerTransaction({
+          transactionString: data.hash,
+          onFinish: () => {},
+        });
+      } else {
+        setIsMinting(false);
+      }
+    },
+  });
+
+  const triggerTransaction = async ({ transactionString, onFinish }: any) => {
+    if (!publicKey || !signTransaction) {
+      console.error("Wallet not connected");
+      return;
+    }
+
+    try {
+      const tx = Transaction.from(Buffer.from(transactionString, "base64"));
+      const { txid, slot } = await sendLegacyTransaction(
+        connection,
+        // @ts-ignore
+        wallet?.adapter,
+        tx,
+        "confirmed"
+      );
+
+      if (!txid) {
+        throw new Error("Could not retrieve transaction hash");
+      }
+
+      transactionHash = txid;
+      await confirmTransaction(connection, transactionHash, "confirmed");
+    } catch (error) {
+      console.error("Transaction failed:", error);
+    }
+
+    setIsMinting(false);
+
+    onFinish && onFinish();
+  };
 
   useEffect(() => {
     const collectionInfo = dataLimitedCollectionInfo?.data;
@@ -253,8 +327,14 @@ export function MysteryNFT() {
                   <TooltipProvider>
                     <Tooltip>
                       <Button
-                        className="w-1/2 xl:w-[102px] h-12 text-base text-white font-semibold font-orbitron rounded bg-[#0000FF]"
-                        disabled={!nft.enable || nft.minted}
+                        className={cn(
+                          "w-1/2 xl:w-[102px] h-12 text-base text-white font-semibold font-orbitron rounded bg-[#0000FF] transition-all duration-300",
+                          nft.minted
+                            ? "bg-[#0000FF]/80 hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
+                            : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+                        )}
+                        disabled={!nft.enable}
+                        onClick={nft.handleMint}
                       >
                         Mint
                       </Button>
@@ -264,8 +344,12 @@ export function MysteryNFT() {
                     </Tooltip>
                   </TooltipProvider>
                   <Button
-                    className="w-1/2 xl:w-[102px] h-12 text-base text-white font-semibold font-orbitron border border-[#27282D] rounded bg-transparent"
+                    className={cn(
+                      "w-1/2 xl:w-[102px] h-12 text-base font-semibold font-orbitron border rounded bg-transparent hover:bg-transparent transition-all duration-300",
+                      "border-[#27282D] hover:border-[#27282D]/80 active:border-[#27282D]/60 text-white hover:text-white/80 active:text-white/60"
+                    )}
                     disabled={!nft.enable}
+                    onClick={nft.handleTrade}
                   >
                     Trade
                   </Button>
