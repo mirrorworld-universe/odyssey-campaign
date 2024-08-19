@@ -25,8 +25,10 @@ import { Infinity } from "@/app/icons/Infinity";
 import { Transaction } from "@solana/web3.js";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { Loader2 } from "lucide-react";
 
 let transactionHash = "";
+let isMintingStatus = false;
 let currentToken = "";
 
 export function MysteryNFT() {
@@ -58,7 +60,11 @@ export function MysteryNFT() {
       enable: false,
       minted: true,
       handleMint: () => {
-        getLimitedCollectionTXHash.mutate();
+        if (!isMinting) {
+          isMintingStatus = true;
+          setIsMinting(isMintingStatus);
+          getLimitedCollectionTXHash.mutate();
+        }
       },
       handleTrade: () => {},
     },
@@ -77,7 +83,11 @@ export function MysteryNFT() {
       enable: false,
       minted: true,
       handleMint: () => {
-        getUnlimitedCollectionTXHash.mutate();
+        if (!isMintingStatus) {
+          isMintingStatus = true;
+          setIsMinting(isMintingStatus);
+          getUnlimitedCollectionTXHash.mutate();
+        }
       },
       handleTrade: () => {},
     },
@@ -100,10 +110,22 @@ export function MysteryNFT() {
       if (data?.hash) {
         triggerTransaction({
           transactionString: data.hash,
-          onFinish: () => {},
+          onFinish: () => {
+            const collections = [...NFTcollections];
+            collections.forEach((item: any) => {
+              if (item.isLimited) {
+                item.minted = true;
+              }
+            });
+            setNFTCollections(collections.reverse());
+
+            isMintingStatus = false;
+            setIsMinting(isMintingStatus);
+          },
         });
       } else {
-        setIsMinting(false);
+        isMintingStatus = false;
+        setIsMinting(isMintingStatus);
       }
     },
   });
@@ -115,10 +137,14 @@ export function MysteryNFT() {
       if (data?.hash) {
         triggerTransaction({
           transactionString: data.hash,
-          onFinish: () => {},
+          onFinish: () => {
+            isMintingStatus = false;
+            setIsMinting(isMintingStatus);
+          },
         });
       } else {
-        setIsMinting(false);
+        isMintingStatus = false;
+        setIsMinting(isMintingStatus);
       }
     },
   });
@@ -144,26 +170,23 @@ export function MysteryNFT() {
       }
 
       transactionHash = txid;
-      console.log("txid", txid);
       await confirmTransaction(connection, transactionHash, "confirmed");
 
       toast({
         title: "Congratulations",
         // type:'success',
-        description:
-          "Your mint was successful. Check your transaction link for details.",
+        description: `<div aria="success">Your mint was successful. Check your <a style="color:#25A3ED;" href="https://explorer.sonic.game/tx/${transactionHash}${
+          networkId === "testnet" ? "?cluster=testnet" : ""
+        }" target="_blank">transaction link</a> for details.</div>`,
       });
     } catch (error) {
       toast({
         title: "Sorry",
         // type:'fail',
-        description:
-          "Unfortunately, your mint was unsuccessful. Please try again later.",
+        description: `<div aria="fail">Unfortunately, your mint was unsuccessful. Please try again later.</div>`,
       });
       console.error("Transaction failed:", error);
     }
-
-    setIsMinting(false);
 
     onFinish && onFinish();
   };
@@ -232,10 +255,6 @@ export function MysteryNFT() {
     setNFTCollections(collections);
   };
 
-  const handleMintLimitedCollection = () => {};
-
-  const handleMintUnlimitedCollection = () => {};
-
   return (
     <div className="flex flex-col w-full">
       {/* title */}
@@ -302,10 +321,10 @@ export function MysteryNFT() {
               <div className="w-full flex flex-col xl:flex-row items-center justify-between gap-10">
                 {/* nft */}
                 <div className="nft flex flex-row items-center gap-10">
-                  <div className="w-[200px] h-[112px] rounded overflow-hidden">
+                  <div className="max-w-[200px] h-[112px] rounded overflow-hidden">
                     <img src={nft.image} alt="" />
                   </div>
-                  <div className="flex flex-col gap-2 max-w-[452px]">
+                  <div className="flex flex-col gap-2 max-w-auto xl:max-w-[452px]">
                     <div className="flex flex-row items-center gap-2 font-orbitron text-xl font-semibold text-white">
                       <span className="inline-flex">{nft.name}</span>{" "}
                       {nft.isLimited ? <LimitedTag /> : null}
@@ -359,15 +378,22 @@ export function MysteryNFT() {
                       <TooltipTrigger asChild>
                         <Button
                           className={cn(
-                            "w-1/2 xl:w-[102px] h-12 text-base text-white font-semibold font-orbitron rounded bg-[#0000FF] transition-all duration-300",
-                            nft.minted
+                            "inline-flex gap-1 w-1/2 xl:w-[102px] h-12 text-base text-white font-semibold font-orbitron rounded bg-[#0000FF] transition-all duration-300",
+                            nft.minted || isMinting
                               ? "bg-[#0000FF]/80 hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                               : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
                           )}
-                          disabled={!nft.enable}
+                          disabled={!nft.enable || isMinting}
                           onClick={nft.handleMint}
                         >
-                          {nft.minted ? "Minted" : "Mint"}
+                          <span>{nft.minted ? "Minted" : "Mint"}</span>
+                          {isMinting ? (
+                            <Loader2
+                              size={16}
+                              color="white"
+                              className={cn("animate-spin")}
+                            />
+                          ) : null}
                         </Button>
                       </TooltipTrigger>
                       {nft.isLimited ? (
