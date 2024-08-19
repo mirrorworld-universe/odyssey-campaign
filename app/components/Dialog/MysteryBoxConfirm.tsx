@@ -134,7 +134,7 @@ export function MysteryBoxConfirmDialog() {
       console.error("Transaction failed:", error);
       setIsOpeningMysterybox(false);
       toast({
-        description: "Transaction failed",
+        description: <div role="success">Transaction failed.</div>,
       });
     }
   };
@@ -153,7 +153,7 @@ export function MysteryBoxConfirmDialog() {
         toast({
           title: "Open Mystery Box",
           description: (
-            <p className="block">
+            <p role="success" className="block">
               You've received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
                 {data.amount} x ring{data.amount === 1 ? "" : "s"}
@@ -169,7 +169,9 @@ export function MysteryBoxConfirmDialog() {
     },
     onError: () => {
       toast({
-        description: "Oops! There's a little hiccup on server!",
+        description: (
+          <div role="fail">Oops! There's a little hiccup on server!</div>
+        ),
       });
     },
     onSettled: () => {

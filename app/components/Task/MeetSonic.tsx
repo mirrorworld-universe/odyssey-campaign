@@ -59,7 +59,7 @@ export function MeetSonic() {
     toast({
       title: '"Meet Sonic" task completed.',
       description: (
-        <p className="block">
+        <p role="success" className="block">
           You've received{" "}
           <span className="inline-flex items-center text-[#FBB042]">
             3 x mystery boxes
@@ -82,7 +82,7 @@ export function MeetSonic() {
     onSuccess: ({ data, code, message }) => {
       if (code !== 0) {
         toast({
-          description: message,
+          description: <div role="success">{message}</div>,
         });
       } else {
         const result = data?.following_result;
@@ -105,7 +105,7 @@ export function MeetSonic() {
     onSuccess: ({ data, code, message }) => {
       if (code !== 0) {
         toast({
-          description: message,
+          description: <div role="success">{message}</div>,
         });
       } else {
         const result = data?.following_result;
