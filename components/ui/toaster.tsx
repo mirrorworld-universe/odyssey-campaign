@@ -9,9 +9,16 @@ import {
   ToastViewport,
 } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 
 export function Toaster() {
   const { toasts } = useToast();
+
+  const typeClassName: any = {
+    success: "border-[#00FF94]",
+    warning: "border-[#FBB042]",
+    fail: "border-[#FF0000]",
+  };
 
   return (
     <ToastProvider>
@@ -20,7 +27,18 @@ export function Toaster() {
           <Toast
             key={id}
             {...props}
-            className="bg-[#1A1A1A] border-t-0 border-b-0 border-r-0 border-solid border-[#FBB042] border-l-4 md:border-l-5 p-4 md:p-5 md:pr-14"
+            className={cn(
+              "bg-[#1A1A1A] border-t-0 border-b-0 border-r-0 border-solid border-[#FBB042] border-l-4 md:border-l-5 p-4 md:p-5 md:pr-14 rounded-none",
+              (description?.toString() || "").indexOf('aria="success"') > 0
+                ? "border-[#00FF94]"
+                : "",
+              (description?.toString() || "").indexOf('aria="fail"') > 0
+                ? "border-[#FF0000]"
+                : "",
+              (description?.toString() || "").indexOf('aria="warning"') > 0
+                ? "border-[#FBB042]"
+                : ""
+            )}
             duration={3000}
           >
             <div className="grid gap-4 md:gap-1">
@@ -31,7 +49,13 @@ export function Toaster() {
               )}
               {description && (
                 <ToastDescription className="text-white/60 text-xs md:text-sm leading-none md:leading-normal">
-                  {description}
+                  {description.toString().indexOf("<") === 0 ? (
+                    <div
+                      dangerouslySetInnerHTML={{ __html: description }}
+                    ></div>
+                  ) : (
+                    <div>{description}</div>
+                  )}
                 </ToastDescription>
               )}
             </div>
