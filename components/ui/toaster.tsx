@@ -29,15 +29,7 @@ export function Toaster() {
             {...props}
             className={cn(
               "bg-[#1A1A1A] border-t-0 border-b-0 border-r-0 border-solid border-[#FBB042] border-l-4 md:border-l-5 p-4 md:p-5 md:pr-14 rounded-none",
-              (description?.toString() || "").indexOf('aria="success"') > 0
-                ? "border-[#00FF94]"
-                : "",
-              (description?.toString() || "").indexOf('aria="fail"') > 0
-                ? "border-[#FF0000]"
-                : "",
-              (description?.toString() || "").indexOf('aria="warning"') > 0
-                ? "border-[#FBB042]"
-                : ""
+              typeClassName[(description as any).props?.role || "success"]
             )}
             duration={3000}
           >
@@ -49,13 +41,7 @@ export function Toaster() {
               )}
               {description && (
                 <ToastDescription className="text-white/60 text-xs md:text-sm leading-none md:leading-normal">
-                  {description.toString().indexOf("<") === 0 ? (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: description }}
-                    ></div>
-                  ) : (
-                    <div>{description}</div>
-                  )}
+                  {description}
                 </ToastDescription>
               )}
             </div>

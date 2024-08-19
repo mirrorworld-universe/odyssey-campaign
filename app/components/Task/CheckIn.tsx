@@ -169,7 +169,7 @@ export function CheckIn() {
         toast({
           title: '"Check-in" task completed.',
           description: (
-            <p className="block">
+            <p role="success" className="block">
               You've received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
                 {rewards} x mystery {rewards === 1 ? "box" : "boxes"}

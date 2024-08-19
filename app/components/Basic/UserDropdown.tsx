@@ -59,7 +59,11 @@ export function UserDropdown() {
       await navigator.clipboard.writeText(address);
       toast({
         title: "Copy Successful",
-        description: "The user address has been copied successfully.",
+        description: (
+          <div role="success">
+            The user address has been copied successfully.
+          </div>
+        ),
       });
     } catch (err) {
       console.error("Failed to copy user address: ", err);

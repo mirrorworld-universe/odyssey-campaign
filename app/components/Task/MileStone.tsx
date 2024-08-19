@@ -102,7 +102,7 @@ export function MileStone() {
         toast({
           title: '"TX Milestone" task completed.',
           description: (
-            <p className="block">
+            <p role="success" className="block">
               You completed {stageList[currentStageKey].quantity} transactions
               milestone today and received{" "}
               <span className="inline-flex items-center text-[#FBB042]">

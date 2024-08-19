@@ -60,7 +60,14 @@ export function MysteryNFT() {
       enable: false,
       minted: true,
       handleMint: () => {
-        if (!isMinting) {
+        const currentCollection = NFTcollections.find(
+          (item: any) => item.isLimited
+        );
+        if (
+          currentCollection.enable &&
+          !currentCollection.minted &&
+          !isMinting
+        ) {
           isMintingStatus = true;
           setIsMinting(isMintingStatus);
           getLimitedCollectionTXHash.mutate();
@@ -83,7 +90,14 @@ export function MysteryNFT() {
       enable: false,
       minted: true,
       handleMint: () => {
-        if (!isMintingStatus) {
+        const currentCollection = NFTcollections.find(
+          (item: any) => !item.isLimited
+        );
+        if (
+          currentCollection.enable &&
+          !currentCollection.minted &&
+          !isMinting
+        ) {
           isMintingStatus = true;
           setIsMinting(isMintingStatus);
           getUnlimitedCollectionTXHash.mutate();
@@ -175,15 +189,31 @@ export function MysteryNFT() {
       toast({
         title: "Congratulations",
         // type:'success',
-        description: `<div aria="success">Your mint was successful. Check your <a style="color:#25A3ED;" href="https://explorer.sonic.game/tx/${transactionHash}${
-          networkId === "testnet" ? "?cluster=testnet" : ""
-        }" target="_blank">transaction link</a> for details.</div>`,
+        description: (
+          <div role="success">
+            Your mint was successful. Check your{" "}
+            <a
+              className="text-[#25A3ED]"
+              href={`https://explorer.sonic.game/tx/${transactionHash}${
+                networkId === "testnet" ? "?cluster=testnet" : ""
+              }`}
+              target="_blank"
+            >
+              transaction link
+            </a>{" "}
+            for details.
+          </div>
+        ),
       });
     } catch (error) {
       toast({
         title: "Sorry",
         // type:'fail',
-        description: `<div aria="fail">Unfortunately, your mint was unsuccessful. Please try again later.</div>`,
+        description: (
+          <div role="fail">
+            Unfortunately, your mint was unsuccessful. Please try again later.
+          </div>
+        ),
       });
       console.error("Transaction failed:", error);
     }
@@ -226,18 +256,7 @@ export function MysteryNFT() {
     }
   }, [token]);
 
-  const handleOpenNFTDetail = async () => {
-    try {
-      await navigator.clipboard.writeText(inviteUrl);
-      toast({
-        title: "Copy Successful",
-        description: "The invitation link has been copied successfully.",
-      });
-      trackClick({ text: "Referral" });
-    } catch (err) {
-      console.error("Failed to copy invitation url: ", err);
-    }
-  };
+  const handleOpenNFTDetail = async () => {};
 
   const LimitedTag = () => (
     <span className="inline-flex leading-4 text-[#FBB042] text-[10px] bg-[#2C251D] px-2 py-[2px]">
@@ -315,7 +334,7 @@ export function MysteryNFT() {
               size={CardSize.Medium}
               className={cn(
                 "max-w-[1024px] w-full relative p-6 md:p-10 rounded-none border-[#27282D] transition-opacity duration-300",
-                !nft.enable ? "opacity-30" : ""
+                nft.minted >= nft.total ? "opacity-30" : ""
               )}
             >
               <div className="w-full flex flex-col xl:flex-row items-center justify-between gap-10">
@@ -379,11 +398,11 @@ export function MysteryNFT() {
                         <Button
                           className={cn(
                             "inline-flex gap-1 w-1/2 xl:w-[102px] h-12 text-base text-white font-semibold font-orbitron rounded bg-[#0000FF] transition-all duration-300",
-                            nft.minted || isMinting
+                            !nft.enable || nft.minted || isMinting
                               ? "bg-[#0000FF]/80 hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                               : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
                           )}
-                          disabled={!nft.enable || isMinting}
+                          disabled={isMinting}
                           onClick={nft.handleMint}
                         >
                           <span>{nft.minted ? "Minted" : "Mint"}</span>
@@ -410,7 +429,7 @@ export function MysteryNFT() {
                       "w-1/2 xl:w-[102px] h-12 text-base font-semibold font-orbitron border rounded bg-transparent hover:bg-transparent transition-all duration-300",
                       "border-[#27282D] hover:border-[#27282D]/80 active:border-[#27282D]/60 text-white hover:text-white/80 active:text-white/60"
                     )}
-                    disabled={!nft.enable}
+                    disabled={nft.minted >= nft.total}
                     onClick={nft.handleTrade}
                   >
                     Trade
