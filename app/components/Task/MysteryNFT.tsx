@@ -1,6 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { Transaction } from "@solana/web3.js";
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -10,8 +13,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
+import { Go as IconGo } from "@/app/icons/Go";
+import { Infinity as IconInfinity } from "@/app/icons/Infinity";
 import { Card, CardSize } from "@/app/components/Basic/Card";
+import { Rules } from "@/app/components/Task/Rules";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import {
   fetchCollectionInfo,
@@ -19,13 +32,8 @@ import {
   fetchUnlimitedCollectionTx,
 } from "@/app/data/nft";
 import { trackClick } from "@/lib/track";
-import { Rules } from "./Rules";
 import { cn, prettyNumber } from "@/lib/utils";
-import { Infinity } from "@/app/icons/Infinity";
-import { Transaction } from "@solana/web3.js";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { Loader2 } from "lucide-react";
 
 let transactionHash = "";
 let isMintingStatus = false;
@@ -40,7 +48,7 @@ export function MysteryNFT() {
 
   const [loaded, setLoaded] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
-  const [inviteUrl, setInviteUrl] = useState("");
+  const [selectedCollection, setSelectedCollection] = useState<any>(null);
 
   const [showRules, setShowRules] = useState(false);
 
@@ -63,6 +71,7 @@ export function MysteryNFT() {
         const currentCollection = NFTcollections.find(
           (item: any) => item.isLimited
         );
+        setSelectedCollection(currentCollection);
         if (
           currentCollection.enable &&
           !currentCollection.minted &&
@@ -78,7 +87,7 @@ export function MysteryNFT() {
     {
       id: "2",
       image: "/images/nft/2.png",
-      name: "Sonic Adventure Pass",
+      name: "Sonic Odyssey Pass",
       isLimited: false,
       isExpanded: false,
       introduction:
@@ -93,6 +102,7 @@ export function MysteryNFT() {
         const currentCollection = NFTcollections.find(
           (item: any) => !item.isLimited
         );
+        setSelectedCollection(currentCollection);
         if (
           currentCollection.enable &&
           !currentCollection.minted &&
@@ -131,7 +141,7 @@ export function MysteryNFT() {
                 item.minted = true;
               }
             });
-            setNFTCollections(collections.reverse());
+            setNFTCollections(collections);
 
             isMintingStatus = false;
             setIsMinting(isMintingStatus);
@@ -222,6 +232,7 @@ export function MysteryNFT() {
   };
 
   useEffect(() => {
+    let isLimitedSoldOut = false;
     const collectionInfo = dataLimitedCollectionInfo?.data;
     if (collectionInfo) {
       const collections = [...NFTcollections];
@@ -231,9 +242,13 @@ export function MysteryNFT() {
             collectionInfo.limited_coll_info;
           item.totalAmount = total;
           item.mintedAmount = minted;
+          // limit amount to mint
           item.limit = mint_limit;
-          item.enable = enable_mint;
-          item.minted = mint_limit < 1;
+          // is collection enable to mint
+          item.enable = enable_mint && minted < total;
+          // is collection minted
+          item.minted = !enable_mint;
+          isLimitedSoldOut = minted >= total;
         } else {
           const { total, minted, mint_limit, enable_mint } =
             collectionInfo.unlimited_coll_info;
@@ -245,7 +260,11 @@ export function MysteryNFT() {
         }
       });
       setLoaded(true);
-      setNFTCollections(collections);
+      if (isLimitedSoldOut) {
+        setNFTCollections(collections.reverse());
+      } else {
+        setNFTCollections(collections);
+      }
     }
   }, [dataLimitedCollectionInfo]);
 
@@ -274,6 +293,18 @@ export function MysteryNFT() {
     setNFTCollections(collections);
   };
 
+  const handleSelectCollection = (collection: any) => {
+    if (
+      collection?.id === selectedCollection?.id ||
+      (collection.isLimited &&
+        collection.mintedAmount >= collection.totalAmount)
+    ) {
+      setSelectedCollection(null);
+    } else {
+      setSelectedCollection(collection);
+    }
+  };
+
   return (
     <div className="flex flex-col w-full">
       {/* title */}
@@ -292,7 +323,7 @@ export function MysteryNFT() {
         <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
           <ul className="list-disc font-normal pl-6">
             <li className="">
-              1. Request test SOL first.{" "}
+              Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:text-[#00F]"
                 href={`https://faucet.sonic.game/#/${
@@ -304,15 +335,15 @@ export function MysteryNFT() {
               </a>
             </li>
             <li className="">
-              2. Each NFT belongs to a different series, with varying rarity and
+              Each NFT belongs to a different series, with varying rarity and
               quantities.
             </li>
             <li className="">
-              3. Click "Mint" to get started! After minting, check your wallet
-              for a random NFT from the current collection.
+              Click "Mint" to get started! After minting, check your wallet for
+              a random NFT from the current collection.
             </li>
             <li className="">
-              4. You can also click "Trade" to participate in secondary market
+              You can also click "Trade" to participate in secondary market
               trading and earn more rewards! For more details, please check this{" "}
               <a
                 className="text-[#25A3ED] hover:text-[#00F]"
@@ -327,37 +358,50 @@ export function MysteryNFT() {
         </Rules>
 
         {/* nft list */}
-        <div className="flex flex-col gap-6 mt-20">
+        <div className="hidden md:flex flex-col gap-6 mt-20">
           {NFTcollections.map((nft: any, index: number) => (
             <Card
               key={index}
               size={CardSize.Medium}
               className={cn(
                 "max-w-[1024px] w-full relative p-6 md:p-10 rounded-none border-[#27282D] transition-opacity duration-300",
-                nft.minted >= nft.total ? "opacity-30" : ""
+                nft.isLimited && nft.mintedAmount >= nft.totalAmount
+                  ? "opacity-30"
+                  : ""
               )}
             >
               <div className="w-full flex flex-col xl:flex-row items-center justify-between gap-10">
-                {/* nft */}
+                {/* nft part */}
                 <div className="nft flex flex-row items-center gap-10">
+                  {/* cover */}
                   <div className="max-w-[200px] h-[112px] rounded overflow-hidden">
                     <img src={nft.image} alt="" />
                   </div>
-                  <div className="flex flex-col gap-2 max-w-auto xl:max-w-[452px]">
+                  {/* intro */}
+                  <div className="flex flex-col gap-2 max-w-auto xl:max-w-[450px]">
                     <div className="flex flex-row items-center gap-2 font-orbitron text-xl font-semibold text-white">
                       <span className="inline-flex">{nft.name}</span>{" "}
                       {nft.isLimited ? <LimitedTag /> : null}
                     </div>
                     <p className="text-[#666] text-base font-manrope">
-                      {nft.isExpanded
-                        ? nft.introduction
-                        : `${nft.introduction.substr(0, 90)}...`}{" "}
-                      <span
-                        className="text-[#25A3ED] hover:text-[#00F] cursor-pointer"
-                        onClick={() => handleExpandIntroduction(nft)}
-                      >
-                        {nft.isExpanded ? "less" : "more"}
-                      </span>
+                      {nft.introduction.substr(0, 95)}...
+                      <TooltipProvider delayDuration={0}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span
+                              className="text-[#25A3ED] hover:text-[#00F] cursor-pointer"
+                              onClick={() => handleExpandIntroduction(nft)}
+                            >
+                              more
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-[380px] bg-[#151519] border border-[#27282D] rounded p-4">
+                            <p className="text-[#999] text-xs">
+                              {nft.introduction}
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </p>
                     <div className="flex flex-row gap-12">
                       <div className="flex flex-row gap-2 text-xs text-[#958d8d]">
@@ -378,7 +422,10 @@ export function MysteryNFT() {
                               nft.totalAmount > -1 ? (
                                 prettyNumber(nft.totalAmount)
                               ) : (
-                                <Infinity className="w-4 h-4" color="#999999" />
+                                <IconInfinity
+                                  className="w-4 h-4"
+                                  color="#999999"
+                                />
                               )
                             ) : (
                               "-"
@@ -406,7 +453,7 @@ export function MysteryNFT() {
                           onClick={nft.handleMint}
                         >
                           <span>{nft.minted ? "Minted" : "Mint"}</span>
-                          {isMinting ? (
+                          {isMinting && selectedCollection?.id === nft.id ? (
                             <Loader2
                               size={16}
                               color="white"
@@ -429,7 +476,6 @@ export function MysteryNFT() {
                       "w-1/2 xl:w-[102px] h-12 text-base font-semibold font-orbitron border rounded bg-transparent hover:bg-transparent transition-all duration-300",
                       "border-[#27282D] hover:border-[#27282D]/80 active:border-[#27282D]/60 text-white hover:text-white/80 active:text-white/60"
                     )}
-                    disabled={nft.minted >= nft.total}
                     onClick={nft.handleTrade}
                   >
                     Trade
@@ -439,6 +485,96 @@ export function MysteryNFT() {
             </Card>
           ))}
         </div>
+
+        {/* nft list (mobile version) */}
+        <Carousel
+          opts={{
+            align: "start",
+          }}
+          className="flex md:hidden w-full max-w-full"
+        >
+          <CarouselContent className="">
+            {NFTcollections.map((nft: any, index: number) => (
+              <CarouselItem
+                key={index}
+                className="basis-[85%]"
+                onClick={() => handleSelectCollection(nft)}
+              >
+                <div className="">
+                  <Card
+                    className={cn(
+                      "w-full border-[#27282D] bg-[#000] rounded-none p-0",
+                      nft.enable ? "cursor-pointer" : "",
+                      nft.isLimited && nft.mintedAmount >= nft.totalAmount
+                        ? "opacity-30"
+                        : "",
+                      nft.id === selectedCollection?.id
+                        ? "border-[#FBB042]"
+                        : ""
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "flex flex-col"
+                        // "w-screen h-screen top-0 left-0 right-0 bottom-0 z-50"
+                      )}
+                    >
+                      {/* cover */}
+                      <div className="flex items-center w-full h-[175px] overflow-hidden">
+                        <img src={nft.image} alt="" className="h-auto w-full" />
+                      </div>
+                      {/* content */}
+                      <div className="flex flex-col p-4 pt-2">
+                        {/* name */}
+                        <div className="inline-flex gap-2 items-center text-white font-orbitron text-sm font-semibold">
+                          <span className="inline-flex">{nft.name}</span>{" "}
+                          {nft.isLimited ? <LimitedTag /> : null}
+                        </div>
+                        {/* intro */}
+                        <div className="text-xs text-[#666] line-clamp-3 mt-2">
+                          {nft.introduction}
+                        </div>
+                        {/* price */}
+                        <div className="flex flex-row items-center justify-between text-xs text-[#999] mt-4">
+                          <span className="font-orbitron font-semibold">
+                            Mint Price:
+                          </span>
+                          <span className="font-manrope">Free</span>
+                        </div>
+                        {/* amount */}
+                        <div className="flex flex-row items-center justify-between text-xs text-[#999] mt-2">
+                          <span className="font-orbitron font-semibold">
+                            Minted Amount:
+                          </span>
+                          <p className="inline-flex flex-row items-center gap-[2px] font-manrope">
+                            <span>
+                              {loaded ? prettyNumber(nft.mintedAmount) : "-"}
+                            </span>
+                            <span>/</span>
+                            <span>
+                              {loaded ? (
+                                nft.totalAmount > -1 ? (
+                                  prettyNumber(nft.totalAmount)
+                                ) : (
+                                  <IconInfinity
+                                    className="w-4 h-4"
+                                    color="#999999"
+                                  />
+                                )
+                              ) : (
+                                "-"
+                              )}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
       </div>
 
       {/* mobile version tools */}
@@ -452,10 +588,12 @@ export function MysteryNFT() {
           </span>
         </Button>
         <Button
-          className="w-4/6 h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
+          className="inline-flex gap-2 w-4/6 h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
           onClick={handleOpenNFTDetail}
+          disabled={!selectedCollection}
         >
-          Continue
+          <span>Continue</span>
+          <IconGo width={24} height={24} color="white" />
         </Button>
       </div>
     </div>
