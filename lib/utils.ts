@@ -114,6 +114,13 @@ export const isMobileViewport = () => {
   return viewportWidth <= 768;
 };
 
+export const isMobileDevice = () => {
+  const userAgent = navigator?.userAgent || "";
+  return /android|iphone|ipad|ipod|blackberry|windows phone|opera mini|iemobile|mobile/i.test(
+    userAgent
+  );
+};
+
 export const walletCampaignStartTime = "2024-07-30T11:00:00+08:00";
 export const walletCampaignEndTime = "2024-07-30T11:00:00+08:00";
 export const walletCampaignNetworks = ["devnet", "testnet"];

@@ -42,19 +42,21 @@ export function GameVenture() {
         time: "2024-06-27T21:00:00+08:00",
         available: true,
       },
-      // {
-      //   name: "Biu",
-      //   cover: "/images/games/c.jpg",
-      //   guide: "",
-      //   play: "",
-      // },
       {
         name: "JOGO JOGO",
-        cover: "/images/games/d.jpg",
+        cover: "/images/games/jogo.jpg",
         guide:
           "https://mirrorworldfun.notion.site/JOGOJOGO-Odyssey-Game-and-Task-Guide-f8b1e4d54bee4d318926964c9f87a4be",
         play: "https://app.jogojogo.game/register?code=SOSONIC",
         time: "2024-07-30T21:00:00+08:00",
+        available: true,
+      },
+      {
+        name: "Startup",
+        cover: "/images/games/startup.png",
+        guide: "https://playstartup.io/guide",
+        play: "https://playstartup.io/",
+        time: "2024-08-22T21:00:00+08:00",
         available: true,
       },
     ],
@@ -70,7 +72,7 @@ export function GameVenture() {
       },
       {
         name: "JOGO JOGO",
-        cover: "/images/games/d.jpg",
+        cover: "/images/games/jogo.jpg",
         guide:
           "https://mirrorworldfun.notion.site/JOGOJOGO-Odyssey-Game-and-Task-Guide-f8b1e4d54bee4d318926964c9f87a4be",
         play: "https://app.jogojogo.game/register?code=SOSONIC",
