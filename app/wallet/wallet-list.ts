@@ -79,7 +79,7 @@ export const setUpUrls: any = {
     devnet:
       "https://blog.sonic.game/sonic-origin-network-settings---okx-wallet",
     testnet:
-      "https://blog.sonic.game/sonic-origin-network-settings---okx-wallet",
+      "https://blog.sonic.game/sonic-frontier-network-settings---okx-wallet",
   },
   nightly: {
     devnet: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
