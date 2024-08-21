@@ -34,6 +34,7 @@ import {
 import { trackClick } from "@/lib/track";
 import { cn, prettyNumber } from "@/lib/utils";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
+import { Close } from "@/app/icons/Close";
 
 let transactionHash = "";
 let isMintingStatus = false;
@@ -48,6 +49,7 @@ export function MysteryNFT() {
 
   const [loaded, setLoaded] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
+  const [showNFTDetail, setShowNFTDetail] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState<any>(null);
 
   const [showRules, setShowRules] = useState(false);
@@ -275,7 +277,9 @@ export function MysteryNFT() {
     }
   }, [token]);
 
-  const handleOpenNFTDetail = async () => {};
+  const handleOpenNFTDetail = async () => {
+    setShowNFTDetail(true);
+  };
 
   const LimitedTag = () => (
     <span className="inline-flex leading-4 text-[#FBB042] text-[10px] bg-[#2C251D] px-2 py-[2px]">
@@ -303,6 +307,10 @@ export function MysteryNFT() {
     } else {
       setSelectedCollection(collection);
     }
+  };
+
+  const handleClosePanel = () => {
+    setShowNFTDetail(false);
   };
 
   return (
@@ -595,6 +603,103 @@ export function MysteryNFT() {
           <span>Continue</span>
           <IconGo width={24} height={24} color="white" />
         </Button>
+      </div>
+
+      {/* nft detail */}
+      <div
+        className={cn(
+          "flex flex-col bg-[#000] w-screen h-screen fixed top-0 left-0 right-0 bottom-0 z-30 transition-transform duration-300",
+          showNFTDetail ? "translate-y-0" : "-translate-y-full"
+        )}
+      >
+        {/* tool */}
+        <div className="flex justify-end items-center w-full h-14 p-4">
+          <span
+            className="cursor-pointer hover:opacity-80"
+            onClick={handleClosePanel}
+          >
+            <Close color="rgba(255, 255, 255, .3)" width={24} height={24} />
+          </span>
+        </div>
+        {/* cover */}
+        <div className="flex items-center w-full h-[175px] overflow-hidden">
+          <img
+            src={selectedCollection?.image}
+            alt=""
+            className="h-auto w-full"
+          />
+        </div>
+        {/* content */}
+        <div className="flex flex-col p-4">
+          {/* name */}
+          <div className="inline-flex gap-2 items-center text-white font-orbitron text-base font-semibold">
+            <span className="inline-flex">{selectedCollection?.name}</span>{" "}
+            {selectedCollection?.isLimited ? <LimitedTag /> : null}
+          </div>
+          {/* intro */}
+          <div className="text-sm text-[#666] line-clamp-3 mt-4">
+            {selectedCollection?.introduction}
+          </div>
+          {/* price */}
+          <div className="flex flex-row items-center justify-between text-sm text-[#999] mt-4">
+            <span className="font-orbitron font-semibold">Mint Price:</span>
+            <span className="font-manrope">Free</span>
+          </div>
+          {/* amount */}
+          <div className="flex flex-row items-center justify-between text-sm text-[#999] mt-2">
+            <span className="font-orbitron font-semibold">Minted Amount:</span>
+            <p className="inline-flex flex-row items-center gap-[2px] font-manrope">
+              <span>
+                {loaded ? prettyNumber(selectedCollection?.mintedAmount) : "-"}
+              </span>
+              <span>/</span>
+              <span>
+                {loaded ? (
+                  selectedCollection?.totalAmount > -1 ? (
+                    prettyNumber(selectedCollection?.totalAmount)
+                  ) : (
+                    <IconInfinity className="w-4 h-4" color="#999999" />
+                  )
+                ) : (
+                  "-"
+                )}
+              </span>
+            </p>
+          </div>
+          {selectedCollection?.isLimited ? (
+            <p className="text-[#FBB042] text-xs mt-2">
+              Each wallet address can only mint once.
+            </p>
+          ) : null}
+        </div>
+        {/* tools */}
+        <div className="flex md:hidden flex-row gap-4 fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+          <Button
+            className="w-1/2 h-12 border border-solid border-white/40 bg-transparent"
+            onClick={selectedCollection?.handleTrade}
+          >
+            <span className="text-white text-base font-bold font-orbitron">
+              Trade
+            </span>
+          </Button>
+          <Button
+            className={cn(
+              "inline-flex gap-1 w-1/2 h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300",
+              !selectedCollection?.enable ||
+                selectedCollection?.minted ||
+                isMinting
+                ? "bg-[#0000FF]/80 hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
+                : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+            )}
+            disabled={isMinting}
+            onClick={selectedCollection?.handleMint}
+          >
+            <span>Mint</span>
+            {isMinting ? (
+              <Loader2 size={16} color="white" className={cn("animate-spin")} />
+            ) : null}
+          </Button>
+        </div>
       </div>
     </div>
   );
