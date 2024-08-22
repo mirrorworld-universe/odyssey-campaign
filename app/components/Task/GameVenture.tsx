@@ -56,7 +56,7 @@ export function GameVenture() {
         cover: "/images/games/startup.png",
         guide: "https://playstartup.io/guide",
         play: "https://playstartup.io/",
-        time: "2024-08-22T21:00:00+08:00",
+        time: "2024-08-23T21:00:00+08:00",
         available: true,
       },
     ],
