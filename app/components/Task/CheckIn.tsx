@@ -30,7 +30,13 @@ import {
 import { Card, CardSize } from "../Basic/Card";
 import base58 from "bs58";
 import { Loader2 } from "lucide-react";
-import { cn, hasExtraWalletBonus, isInWalletCampaignTime } from "@/lib/utils";
+import {
+  cn,
+  hasExtraWalletBonus,
+  isInWalletCampaignTime,
+  walletCampaignEndTime,
+  walletCampaignStartTime,
+} from "@/lib/utils";
 import {
   confirmTransaction,
   sendLegacyTransaction,
@@ -40,6 +46,8 @@ import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 import { Rules } from "./Rules";
 import { WalletList } from "@/app/wallet/wallet-list";
+import { format } from "date-fns";
+import { UTCDate } from "@date-fns/utc";
 
 let transactionHash = "";
 let currentToken = "";
@@ -351,6 +359,12 @@ export function CheckIn() {
                   .
                 </li>
               </ul>
+              <li>
+                The duration for the extra bonus for OKX Wallet and Backpack
+                Wallet is from{" "}
+                {format(new UTCDate(walletCampaignStartTime), "PPP")} to{" "}
+                {format(new UTCDate(walletCampaignEndTime), "PPP")}
+              </li>
             </li>
           </ul>
         </Rules>

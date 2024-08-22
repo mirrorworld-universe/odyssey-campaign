@@ -26,9 +26,13 @@ import {
   isInWalletCampaignTime,
   hasExtraWalletBonus,
   isMobileViewport,
+  walletCampaignStartTime,
+  walletCampaignEndTime,
 } from "@/lib/utils";
 import { Rules } from "./Rules";
 import { WalletList } from "@/app/wallet/wallet-list";
+import { format } from "date-fns";
+import { UTCDate } from "@date-fns/utc";
 
 let currentToken = "";
 
@@ -304,6 +308,12 @@ export function MileStone() {
                   .
                 </li>
               </ul>
+            </li>
+            <li>
+              The duration for the extra bonus for OKX Wallet and Backpack
+              Wallet is from{" "}
+              {format(new UTCDate(walletCampaignStartTime), "PPP")} to{" "}
+              {format(new UTCDate(walletCampaignEndTime), "PPP")}
             </li>
           </ul>
         </Rules>

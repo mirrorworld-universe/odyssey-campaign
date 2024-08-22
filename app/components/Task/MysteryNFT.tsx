@@ -93,7 +93,7 @@ export function MysteryNFT() {
       isLimited: false,
       isExpanded: false,
       introduction:
-        "The Sonic Adventure Pass is an unlimited NFT series commemorating user participation in Sonic Odyssey. It represents user adventures and achievements within the community and holds significant value.",
+        "The Sonic Odyssey Pass is an unlimited NFT series commemorating user participation in Sonic Odyssey. It represents user adventures and achievements within the community and holds significant value.",
       totalAmount: -1,
       mintedAmount: 0,
       available: true,
