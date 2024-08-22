@@ -65,24 +65,40 @@ export function WhitelistDialog() {
           </AlertDialogTitle>
           <AlertDialogDescription className="text-[#717171] text-base text-center mt-4">
             {isInWhitelist ? (
+              // <p>
+              //   You're whitelisted! Check out this{" "}
+              //   <a
+              //     className="text-[#25A3ED] hover:underline"
+              //     href="https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide"
+              //     target="_blank"
+              //   >
+              //     guide
+              //   </a>{" "}
+              //   to get started. Please share your feedback with our{" "}
+              //   <a
+              //     className="text-[#25A3ED] hover:underline"
+              //     href="https://discord.com/channels/878219562351484948/1263097331750928535"
+              //     target="_blank"
+              //   >
+              //     community
+              //   </a>
+              //   . Thank you!
+              // </p>
+
               <p>
-                You're whitelisted! Check out this{" "}
+                You have completed the wallet setup. Start your journey now! If
+                you have any questions, feel free to check out our{" "}
                 <a
                   className="text-[#25A3ED] hover:underline"
-                  href="https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide"
-                  target="_blank"
+                  href="/task#how-to-play"
                 >
-                  guide
+                  beginner's guide
                 </a>{" "}
-                to get started. Please share your feedback with our{" "}
-                <a
-                  className="text-[#25A3ED] hover:underline"
-                  href="https://discord.com/channels/878219562351484948/1263097331750928535"
-                  target="_blank"
-                >
-                  community
+                and{" "}
+                <a className="text-[#25A3ED] hover:underline" href="/task#faq">
+                  FAQs
                 </a>
-                . Thank you!
+                .
               </p>
             ) : (
               <p>
