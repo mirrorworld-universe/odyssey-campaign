@@ -31,6 +31,7 @@ export default function AppWalletProvider({
   const defaultRpc = (
     networks.find((network: any) => network.id === networkId) || networks[0]
   ).rpc;
+  const [showWalletProvider, setShowWalletProvider] = useState(false);
   const [network, setNetwork] = useState(defaultRpc);
   // const network = WalletAdapterNetwork.Devnet;
 
@@ -47,6 +48,11 @@ export default function AppWalletProvider({
 
   useEffect(() => {
     setNetwork(defaultRpc);
+
+    // set compatibility with OKX
+    setTimeout(() => {
+      setShowWalletProvider(true);
+    }, 1200);
   });
 
   const wallets = useMemo(
@@ -66,12 +72,14 @@ export default function AppWalletProvider({
       //   wsEndpoint: "wss://ws-proxy-staging-api.mirrorworld.fun",
       // }}
     >
-      <WalletProvider
-        wallets={wallets}
-        autoConnect={!isInMaintenanceTime(networkId)}
-      >
-        <WalletModalProvider>{children}</WalletModalProvider>
-      </WalletProvider>
+      {showWalletProvider && (
+        <WalletProvider
+          wallets={wallets}
+          autoConnect={!isInMaintenanceTime(networkId)}
+        >
+          <WalletModalProvider>{children}</WalletModalProvider>
+        </WalletProvider>
+      )}
     </ConnectionProvider>
   );
 }
