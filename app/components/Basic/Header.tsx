@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { hasCookie } from "cookies-next";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { format, formatDistance } from "date-fns";
 import { UTCDate } from "@date-fns/utc";
@@ -85,6 +86,7 @@ export const menu: any[] = [
 
 export function Header() {
   const pathname = usePathname();
+  const hasFrontieCookie = hasCookie("experiment-cookie-frontier");
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
   const { isOpen, onOpen, setSwitching } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
@@ -231,12 +233,19 @@ export function Header() {
             </div>
 
             {/* switch network */}
-            <div className="w-full md:w-auto p-4 md:p-0">
-              <NetworkSwitch />
-            </div>
+            {!hasFrontieCookie && (
+              <div className="w-full md:w-auto p-4 md:p-0">
+                <NetworkSwitch />
+              </div>
+            )}
 
             {/* spliter */}
-            <i className="hidden md:inline-flex h-4 w-[1px] border-r border-solid border-white/20 md:mx-6 2xl:mx-8"></i>
+            <i
+              className={cn(
+                "hidden md:inline-flex h-4 w-[1px] border-solid border-white/20 md:mx-6 2xl:mx-8",
+                !hasFrontieCookie ? "border-r" : "border-none"
+              )}
+            ></i>
 
             <div className="w-full md:w-auto flex flex-col md:flex-row items-start md:items-center md:gap-6 2xl:gap-8">
               {menu.map((menuItem, menuIndex) => (
