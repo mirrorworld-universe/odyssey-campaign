@@ -233,7 +233,7 @@ export function Header() {
             </div>
 
             {/* switch network */}
-            {!hasFrontieCookie && (
+            {(!hasFrontieCookie || networkId === "testnet") && (
               <div className="w-full md:w-auto p-4 md:p-0">
                 <NetworkSwitch />
               </div>
@@ -243,7 +243,9 @@ export function Header() {
             <i
               className={cn(
                 "hidden md:inline-flex h-4 w-[1px] border-solid border-white/20 md:mx-6 2xl:mx-8",
-                !hasFrontieCookie ? "border-r" : "border-none"
+                !hasFrontieCookie || networkId === "testnet"
+                  ? "border-r"
+                  : "border-none"
               )}
             ></i>
 
