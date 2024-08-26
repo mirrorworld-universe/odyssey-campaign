@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { hasCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { format, formatDistance } from "date-fns";
 import { UTCDate } from "@date-fns/utc";
@@ -86,7 +86,7 @@ export const menu: any[] = [
 
 export function Header() {
   const pathname = usePathname();
-  const hasFrontieCookie = hasCookie("experiment-cookie-frontier");
+  const networkCookie = getCookie("experiment-cookie-frontier");
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
   const { isOpen, onOpen, setSwitching } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
@@ -99,7 +99,7 @@ export function Header() {
     onClose: onCloseNotificationBar,
   } = useNotificationBar();
   const { lotterySeason } = useLotteryInfo();
-  const { networkId } = useNetworkInfo();
+  const { networkId, visitedNetworkId, setVisitedNetworkId } = useNetworkInfo();
 
   const [bannerMessage, setBannerMessage] = useState<any>({});
   const [showMenu, setShowMenu] = useState(false);
@@ -186,6 +186,9 @@ export function Header() {
       setInMaintenance(false);
       onCloseNotificationBar();
     }
+    if (!visitedNetworkId) {
+      setVisitedNetworkId(networkId);
+    }
   }, [networkId]);
 
   return (
@@ -233,7 +236,8 @@ export function Header() {
             </div>
 
             {/* switch network */}
-            {(!hasFrontieCookie || networkId === "testnet") && (
+            {(visitedNetworkId === "testnet" ||
+              networkCookie === "frontier") && (
               <div className="w-full md:w-auto p-4 md:p-0">
                 <NetworkSwitch />
               </div>
@@ -243,7 +247,7 @@ export function Header() {
             <i
               className={cn(
                 "hidden md:inline-flex h-4 w-[1px] border-solid border-white/20 md:mx-6 2xl:mx-8",
-                !hasFrontieCookie || networkId === "testnet"
+                visitedNetworkId === "testnet" || networkCookie === "frontier"
                   ? "border-r"
                   : "border-none"
               )}
