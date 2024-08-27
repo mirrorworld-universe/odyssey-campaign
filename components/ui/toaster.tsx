@@ -9,9 +9,16 @@ import {
   ToastViewport,
 } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 
 export function Toaster() {
   const { toasts } = useToast();
+
+  const typeClassName: any = {
+    success: "border-[#00FF94]",
+    warning: "border-[#FBB042]",
+    fail: "border-[#FF0000]",
+  };
 
   return (
     <ToastProvider>
@@ -20,7 +27,10 @@ export function Toaster() {
           <Toast
             key={id}
             {...props}
-            className="bg-[#1A1A1A] border-t-0 border-b-0 border-r-0 border-solid border-[#FBB042] border-l-4 md:border-l-5 p-4 md:p-5 md:pr-14"
+            className={cn(
+              "bg-[#1A1A1A] border-t-0 border-b-0 border-r-0 border-solid border-[#FBB042] border-l-4 md:border-l-5 p-4 md:p-5 md:pr-14 rounded-none",
+              typeClassName[(description as any).props?.role || "success"]
+            )}
             duration={3000}
           >
             <div className="grid gap-4 md:gap-1">

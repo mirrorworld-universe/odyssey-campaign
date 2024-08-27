@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { getCookie } from "cookies-next";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { format, formatDistance } from "date-fns";
 import { UTCDate } from "@date-fns/utc";
@@ -43,7 +44,7 @@ import { getLotteryBanner } from "@/app/data/lottery";
 import { Trophy } from "@/app/icons/Trophy";
 import { Menu as IconMenu } from "@/app/icons/Menu";
 import { Close as IconClose } from "@/app/icons/Close";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { NetworkSwitch } from "./NetworkSwitch";
 import { useWhitelistModal } from "@/app/store/tutorials";
 import { networks } from "@/app/data/config";
@@ -83,8 +84,14 @@ export const menu: any[] = [
   },
 ];
 
+const NETWORK_COOKIE_NAME = "experiment-cookie-frontier";
+
 export function Header() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const networkCookieSearch = searchParams.get("experiment");
+  const networkCookie = getCookie(NETWORK_COOKIE_NAME);
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
   const { isOpen, onOpen, setSwitching } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
@@ -97,7 +104,7 @@ export function Header() {
     onClose: onCloseNotificationBar,
   } = useNotificationBar();
   const { lotterySeason } = useLotteryInfo();
-  const { networkId } = useNetworkInfo();
+  const { networkId, visitedNetworkId, setVisitedNetworkId } = useNetworkInfo();
 
   const [bannerMessage, setBannerMessage] = useState<any>({});
   const [showMenu, setShowMenu] = useState(false);
@@ -184,6 +191,9 @@ export function Header() {
       setInMaintenance(false);
       onCloseNotificationBar();
     }
+    if (!visitedNetworkId) {
+      setVisitedNetworkId(networkId);
+    }
   }, [networkId]);
 
   return (
@@ -231,12 +241,25 @@ export function Header() {
             </div>
 
             {/* switch network */}
-            <div className="w-full md:w-auto p-4 md:p-0">
-              <NetworkSwitch />
-            </div>
+            {(visitedNetworkId === "testnet" ||
+              networkCookieSearch === NETWORK_COOKIE_NAME ||
+              networkCookie === "frontier") && (
+              <div className="w-full md:w-auto p-4 md:p-0">
+                <NetworkSwitch />
+              </div>
+            )}
 
             {/* spliter */}
-            <i className="hidden md:inline-flex h-4 w-[1px] border-r border-solid border-white/20 md:mx-6 2xl:mx-8"></i>
+            <i
+              className={cn(
+                "hidden md:inline-flex h-4 w-[1px] border-solid border-white/20 md:mx-6 2xl:mx-8",
+                visitedNetworkId === "testnet" ||
+                  networkCookieSearch === NETWORK_COOKIE_NAME ||
+                  networkCookie === "frontier"
+                  ? "border-r"
+                  : "border-none"
+              )}
+            ></i>
 
             <div className="w-full md:w-auto flex flex-col md:flex-row items-start md:items-center md:gap-6 2xl:gap-8">
               {menu.map((menuItem, menuIndex) => (

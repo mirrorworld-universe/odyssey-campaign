@@ -116,7 +116,7 @@ export function MysteryBoxRecordDialog() {
         toast({
           title: "Open Mystery Box",
           description: (
-            <p className="block">
+            <p role="success" className="block">
               You've received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
                 {data.amount} x ring{data.amount === 1 ? "" : "s"}
