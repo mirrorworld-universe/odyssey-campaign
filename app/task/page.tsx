@@ -14,6 +14,7 @@ import { Controller } from "@/app/icons/Controller";
 import { Go as IconGo } from "@/app/icons/Go";
 import { OKX as IconOKX } from "@/app/icons/OKX";
 import { Backpack as IconBackpack } from "@/app/icons/Backpack";
+import { Cube } from "@/app/icons/Cube";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardSize } from "../components/Basic/Card";
@@ -33,37 +34,43 @@ import { useAccountInfo, useNetworkInfo } from "../store/account";
 const icons: any = {
   twitter: (
     <Twitter
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
       color="#313131"
     />
   ),
   calendar: (
     <Calendar
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
       color="#313131"
     />
   ),
   chip: (
     <Chip
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
       color="#313131"
     />
   ),
   recommand: (
     <Recommand
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
       color="#313131"
     />
   ),
   diversity: (
     <Diversity
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
       color="#313131"
     />
   ),
   game: (
     <Controller
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px]"
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
+      color="#313131"
+    />
+  ),
+  cube: (
+    <Cube
+      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-0"
       color="#313131"
     />
   ),
@@ -298,7 +305,7 @@ const TaskCenter: NextPage = () => {
                     </div>
                     <div
                       className={cn(
-                        "origin-center rotate-12 opacity-50 absolute -bottom-6 md:-bottom-4 right-0 md:right-0 transition-all duration-300",
+                        "opacity-50 absolute -bottom-6 md:-bottom-4 right-0 md:right-0 transition-all duration-300",
                         task.available[networkId || "devnet"] &&
                           isSupportSonic(wallet?.adapter.name)
                           ? "group-hover/task:-right-14"

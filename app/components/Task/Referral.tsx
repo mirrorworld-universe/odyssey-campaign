@@ -59,7 +59,11 @@ export function Referral() {
       await navigator.clipboard.writeText(inviteUrl);
       toast({
         title: "Copy Successful",
-        description: "The invitation link has been copied successfully.",
+        description: (
+          <div role="success">
+            The invitation link has been copied successfully.
+          </div>
+        ),
       });
       trackClick({ text: "Referral" });
     } catch (err) {

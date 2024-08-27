@@ -128,7 +128,7 @@ export function TaskNavigator({ taskId, className }: any) {
         )}
       >
         <img
-          className="w-8 h-8 md:w-6 md:h-6 group-hover:opacity-80 transition-opacity duration-300"
+          className="w-8 h-8 md:w-6 md:h-6 group-hover:opacity-80 transition-opacity duration-300 filter grayscale"
           src="/images/arrow-back.svg"
           alt=""
         />
