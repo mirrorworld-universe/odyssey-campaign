@@ -85,7 +85,7 @@ export function GameVenture() {
         cover: "/images/games/zeebit.png",
         guide: "https://zeebit.gitbook.io/zeebit-sonic",
         play: "https://dev.zeebit.io/",
-        time: "2024-08-27T10:00:00+08:00",
+        time: "2024-08-27T18:00:00+08:00",
         available: true,
       },
     ],
