@@ -21,7 +21,7 @@ import { useFAQModal } from "@/app/store/tutorials";
 export function FAQDialog() {
   const { isOpen, onOpen, onClose } = useFAQModal();
 
-  const faqList = [
+  const faqList: any[] = [
     {
       title: "What is Sonic?",
       content:
@@ -41,6 +41,11 @@ export function FAQDialog() {
       title: "How can I obtain a Ring Mystery Box and Sonic Ring?",
       content:
         "Complete various tasks to earn Ring Mystery Boxes. By opening a Ring Mystery Box, you can receive between 1 to 5 rings.",
+    },
+    {
+      title: "What is Sonic Odyssey Pass and Sonic Cartridge?",
+      content:
+        "The <strong>Sonic Odyssey Pass</strong> is an essential, unlimited NFT series marking your participation in Sonic Odyssey. The <strong>Sonic Cartridge</strong> is a limited-edition NFT collection offering powerful bonuses.",
     },
   ];
 
@@ -69,7 +74,11 @@ export function FAQDialog() {
                 {faq.title}
               </AccordionTrigger>
               <AccordionContent className="text-white/60 text-sm md:text-base pr-[72px]">
-                {faq.content}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: faq.content,
+                  }}
+                ></div>
               </AccordionContent>
             </AccordionItem>
           ))}

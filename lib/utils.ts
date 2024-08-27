@@ -121,8 +121,8 @@ export const isMobileDevice = () => {
   );
 };
 
-export const walletCampaignStartTime = "2024-07-30T11:00:00+08:00";
-export const walletCampaignEndTime = "2024-07-30T11:00:00+08:00";
+export const walletCampaignStartTime = "2024-08-30T10:00:00+08:00";
+export const walletCampaignEndTime = "2024-09-29T10:00:00+08:00";
 export const walletCampaignNetworks = ["devnet", "testnet"];
 
 export const isInWalletCampaignTime = (networkId = "devnet") => {

@@ -9,6 +9,7 @@ import { taskGroupList } from "../../data/task";
 import { cn } from "@/lib/utils";
 import { useNotificationBar } from "@/app/store/account";
 import { TaskNavigator } from "@/app/components/Basic/TaskNavigator";
+import { MysteryNFT } from "@/app/components/Task/MysteryNFT";
 
 const tasks = taskGroupList.map((item) => item.list).flat();
 
@@ -33,6 +34,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     ["milestone"]: <MileStone />,
     ["referral"]: <Referral />,
     ["game-venture"]: <GameVenture />,
+    ["mystery-nft"]: <MysteryNFT />,
   };
 
   const Content = ({ className }: any) => (
