@@ -44,7 +44,7 @@ import { getLotteryBanner } from "@/app/data/lottery";
 import { Trophy } from "@/app/icons/Trophy";
 import { Menu as IconMenu } from "@/app/icons/Menu";
 import { Close as IconClose } from "@/app/icons/Close";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { NetworkSwitch } from "./NetworkSwitch";
 import { useWhitelistModal } from "@/app/store/tutorials";
 import { networks } from "@/app/data/config";
@@ -84,9 +84,14 @@ export const menu: any[] = [
   },
 ];
 
+const NETWORK_COOKIE_NAME = "experiment-cookie-frontier";
+
 export function Header() {
   const pathname = usePathname();
-  const networkCookie = getCookie("experiment-cookie-frontier");
+  const searchParams = useSearchParams();
+
+  const networkCookieSearch = searchParams.get("experiment");
+  const networkCookie = getCookie(NETWORK_COOKIE_NAME);
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
   const { isOpen, onOpen, setSwitching } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
@@ -237,6 +242,7 @@ export function Header() {
 
             {/* switch network */}
             {(visitedNetworkId === "testnet" ||
+              networkCookieSearch === NETWORK_COOKIE_NAME ||
               networkCookie === "frontier") && (
               <div className="w-full md:w-auto p-4 md:p-0">
                 <NetworkSwitch />
@@ -247,7 +253,9 @@ export function Header() {
             <i
               className={cn(
                 "hidden md:inline-flex h-4 w-[1px] border-solid border-white/20 md:mx-6 2xl:mx-8",
-                visitedNetworkId === "testnet" || networkCookie === "frontier"
+                visitedNetworkId === "testnet" ||
+                  networkCookieSearch === NETWORK_COOKIE_NAME ||
+                  networkCookie === "frontier"
                   ? "border-r"
                   : "border-none"
               )}
