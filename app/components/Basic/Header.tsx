@@ -32,6 +32,7 @@ import {
 import {
   cn,
   isInMaintenanceTime,
+  isInWalletCampaignTime,
   isMobileViewport,
   maintenanceEndTime,
   maintenanceNetworks,
@@ -367,6 +368,33 @@ export function Header() {
                 addSuffix: true,
               })}
               !
+            </span>
+          </div>
+        </NotificationBar>
+      )}
+
+      {/* news notification bar */}
+      {isInWalletCampaignTime(networkId) && (
+        <NotificationBar className="bg-[#00063C] min-h-12 h-auto px-3">
+          <div className="w-full inline-flex justify-center gap-2 text-base text-[#48BBFF] font-semibold py-3">
+            <Speaker
+              width={24}
+              height={24}
+              color="#48BBFF"
+              className="min-w-6 min-h-6"
+            />
+            <span className="inline-flex w-full max-w-[718px] whitespace-nowrap overflow-hidden">
+              <div className="pl-[100%] animate-marquee">
+                {`Sonic<>OKX Web3 Campaign is live now! Check`}{" "}
+                <a
+                  href="https://www.okx.com/web3/campaigns/sonicadventures"
+                  target="_blank"
+                  className="underline"
+                >
+                  here
+                </a>
+                .
+              </div>
             </span>
           </div>
         </NotificationBar>
