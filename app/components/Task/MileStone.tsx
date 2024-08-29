@@ -6,6 +6,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Gift } from "@/app/icons/Gift";
 import { Check } from "@/app/icons/Check";
 import { OKX as IconOKX } from "@/app/icons/OKX";
+import { OKXTransparent as IconOKXTransparent } from "@/app/icons/OKXTransparent";
 import { Backpack as IconBackpack } from "@/app/icons/Backpack";
 
 import { Button } from "@/components/ui/button";
@@ -37,7 +38,7 @@ import { UTCDate } from "@date-fns/utc";
 let currentToken = "";
 
 const walletIcons: any = {
-  okx: <IconOKX className="w-full h-full" color="white" />,
+  okx: <IconOKXTransparent className="w-full h-full" color="white" />,
   backpack: <IconBackpack className="w-full h-full" color="white" />,
 };
 

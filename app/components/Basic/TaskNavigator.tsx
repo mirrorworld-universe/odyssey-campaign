@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
+import { UTCDate } from "@date-fns/utc";
 
 import { taskGroupList } from "@/app/data/task";
 import { useNetworkInfo, useNotificationBar } from "@/app/store/account";
@@ -8,7 +10,6 @@ import { cn, isMobileViewport } from "@/lib/utils";
 import { useLotteryBar } from "@/app/store/lottery";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Arrow } from "@/app/icons/Arrow";
-import { useState } from "react";
 
 export function TaskNavigator({ taskId, className }: any) {
   let tasks = taskGroupList.map((item) => item.list).flat();
@@ -27,6 +28,15 @@ export function TaskNavigator({ taskId, className }: any) {
     useLotteryBar();
   const { isOpen: isOpenNotificationBar, onOpen: onOpenNotificationBar } =
     useNotificationBar();
+
+  const hasTaskStarted = (startTime = "") => {
+    if (!startTime) {
+      return true;
+    }
+    const now = new UTCDate();
+    const startShowTime = new UTCDate(startTime);
+    return now >= startShowTime;
+  };
 
   const handleExpandMenu = (id: string) => {
     if (id === taskId) {
@@ -137,20 +147,22 @@ export function TaskNavigator({ taskId, className }: any) {
         </span>
       </Link>
 
-      {tasks.map((task, taskIndex) => (
-        <div
-          key={taskIndex}
-          className={cn(
-            "w-full h-14 md:h-auto relative md:pb-[50%] transition-all duration-300",
-            !isExpand ? "h-auto" : "",
-            task.id === taskId ? "h-14" : ""
-          )}
-        >
-          <div className="absolute inset-0">
-            <NavigatorItem task={task} taskIndex={taskIndex} />
+      {tasks
+        .filter((task) => hasTaskStarted(task.startTime))
+        .map((task, taskIndex) => (
+          <div
+            key={taskIndex}
+            className={cn(
+              "w-full h-14 md:h-auto relative md:pb-[50%] transition-all duration-300",
+              !isExpand ? "h-auto" : "",
+              task.id === taskId ? "h-14" : ""
+            )}
+          >
+            <div className="absolute inset-0">
+              <NavigatorItem task={task} taskIndex={taskIndex} />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 }
