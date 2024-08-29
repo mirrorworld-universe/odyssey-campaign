@@ -382,7 +382,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
           {walletList
             .filter(
               (wallet: any) =>
-                !wallet.network || (wallet.network && wallet.network[networkId])
+                !wallet.network ||
+                (wallet.network && wallet.network[networkId || "devnet"])
             )
             .map(
               (wallet: any) =>
@@ -453,7 +454,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
           {walletList
             .filter(
               (wallet: any) =>
-                !wallet.network || (wallet.network && wallet.network[networkId])
+                !wallet.network ||
+                (wallet.network && wallet.network[networkId || "devnet"])
             )
             .some((currentWallet: any) => currentWallet.hide) && (
             <li

@@ -86,7 +86,7 @@ export function MysteryNFT() {
       },
       handleTrade: () => {
         window.open(
-          "https://www.okx.com/web3/marketplace/nft/asset/sonic-devnet/sonic-cartridge-collection",
+          "https://www.okx.com/web3/marketplace/nft/collection/sonic-devnet/sonic-cartridge-collection",
           "_blank"
         );
       },
@@ -122,7 +122,7 @@ export function MysteryNFT() {
       },
       handleTrade: () => {
         window.open(
-          "https://www.okx.com/web3/marketplace/nft/asset/sonic-devnet/sonic-odyssey-pass",
+          "https://www.okx.com/web3/marketplace/nft/collection/sonic-devnet/sonic-odyssey-pass",
           "_blank"
         );
       },
