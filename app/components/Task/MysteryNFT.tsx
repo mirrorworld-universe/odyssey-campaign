@@ -362,7 +362,7 @@ export function MysteryNFT() {
             </li>
             <li className="">
               You can also click "Trade" to participate in secondary market
-              trading and earn more rewards! For more details, please check this{" "}
+              trading and earn more rings! For more details, please check this{" "}
               <a
                 className="text-[#25A3ED] hover:text-[#00F]"
                 href="https://blog.sonic.game/"
