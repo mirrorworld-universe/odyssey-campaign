@@ -360,8 +360,7 @@ export function CheckIn() {
                   .
                 </li>
               </ul>
-              {isInWalletCampaignTime(networkId) &&
-              hasExtraWalletBonus(wallet, networkId) ? (
+              {isInWalletCampaignTime(networkId) ? (
                 <li>
                   The duration for the extra bonus for OKX Wallet and Backpack
                   Wallet is from{" "}
