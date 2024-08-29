@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect } from "react";
 import { NextPage } from "next";
-import { useWallet } from "@solana/wallet-adapter-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { UTCDate } from "@date-fns/utc";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 import { Chip } from "@/app/icons/Chip";
+import { Cube } from "@/app/icons/Cube";
 import { Twitter } from "@/app/icons/Twitter";
 import { Calendar } from "@/app/icons/Calendar";
 import { Recommand } from "@/app/icons/Recommand";
@@ -14,22 +16,22 @@ import { Controller } from "@/app/icons/Controller";
 import { Go as IconGo } from "@/app/icons/Go";
 import { OKX as IconOKX } from "@/app/icons/OKX";
 import { Backpack as IconBackpack } from "@/app/icons/Backpack";
-import { Cube } from "@/app/icons/Cube";
-
-import { Button } from "@/components/ui/button";
-import { Card, CardSize } from "../components/Basic/Card";
-import { FAQDialog } from "../components/Dialog/FAQ";
-import { HowToPlayDialog } from "../components/Dialog/HowToPlay";
-
-import { taskGroupList } from "../data/task";
-import { useTaskInfo } from "../store/task";
-import { WalletList, isSupportSonic } from "../wallet/wallet-list";
-import { useFAQModal, useHowToPlayModal } from "../store/tutorials";
 
 import { cn, isInWalletCampaignTime } from "@/lib/utils";
 import { trackClick } from "@/lib/track";
-import { Footer } from "../components/Basic/Footer";
-import { useAccountInfo, useNetworkInfo } from "../store/account";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardSize } from "@/app/components/Basic/Card";
+import { FAQDialog } from "@/app/components/Dialog/FAQ";
+import { HowToPlayDialog } from "@/app/components/Dialog/HowToPlay";
+import { Footer } from "@/app/components/Basic/Footer";
+
+import { taskGroupList } from "@/app/data/task";
+import { useTaskInfo } from "@/app/store/task";
+import { useFAQModal, useHowToPlayModal } from "@/app/store/tutorials";
+import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
+
+import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 
 const icons: any = {
   twitter: (
@@ -170,6 +172,15 @@ const TaskCenter: NextPage = () => {
     </div>
   );
 
+  const hasTaskStarted = (startTime: string) => {
+    if (!startTime) {
+      return true;
+    }
+    const now = new UTCDate();
+    const startShowTime = new UTCDate(startTime);
+    return now >= startShowTime;
+  };
+
   const MainContent = () => (
     <div className="w-full max-w-[1464px] mt-2 mb-2 md:mt-20 md:mb-20 px-4 py-4 md:px-0 md:py-0">
       <div className="w-full flex flex-col gap-8 md:gap-24">
@@ -182,88 +193,51 @@ const TaskCenter: NextPage = () => {
             nameClassName="text-xs md:text-[32px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-2 md:left-7 -top-2"
           >
             <div className="flex flex-wrap flex-row gap-4 md:gap-10">
-              {taskGroup.list.map((task: any, taskIndex: number) => (
-                <Link
-                  href={
-                    task.available[networkId || "devnet"] &&
-                    isSupportSonic(wallet?.adapter.name)
-                      ? `/task/${task.id}`
-                      : "#"
-                  }
-                  className={cn(
-                    "group/task w-full md:max-w-[663px]",
-                    task.available[networkId || "devnet"] &&
+              {taskGroup.list
+                .filter((task: any) => hasTaskStarted(task.startTime))
+                .map((task: any, taskIndex: number) => (
+                  <Link
+                    href={
+                      task.available[networkId || "devnet"] &&
                       isSupportSonic(wallet?.adapter.name)
-                      ? "opacity-100 cursor-pointer"
-                      : "opacity-30 cursor-not-allowed"
-                  )}
-                  key={taskIndex}
-                >
-                  <div
+                        ? `/task/${task.id}`
+                        : "#"
+                    }
                     className={cn(
-                      "bg-[#1E1E1E] w-full h-auto md:h-[263px] px-4 py-4 md:px-8 md:py-8 rounded md:rounded-md transition-colors duration-300 overflow-hidden relative",
+                      "group/task w-full md:max-w-[663px]",
                       task.available[networkId || "devnet"] &&
                         isSupportSonic(wallet?.adapter.name)
-                        ? "group-hover/task:bg-[#181818]"
-                        : ""
+                        ? "opacity-100 cursor-pointer"
+                        : "opacity-30 cursor-not-allowed"
                     )}
+                    key={taskIndex}
                   >
-                    {/* task name */}
-                    <h5 className="flex flex-row gap-2 items-center text-white/70 text-base md:text-5xl font-semibold font-orbitron">
-                      {task.name}
-                      <IconGo
-                        width={20}
-                        height={20}
-                        color="rgba(255,255,255,0.7)"
-                        className="inline-block md:hidden"
-                      />
-                    </h5>
+                    <div
+                      className={cn(
+                        "bg-[#1E1E1E] w-full h-auto md:h-[263px] px-4 py-4 md:px-8 md:py-8 rounded md:rounded-md transition-colors duration-300 overflow-hidden relative",
+                        task.available[networkId || "devnet"] &&
+                          isSupportSonic(wallet?.adapter.name)
+                          ? "group-hover/task:bg-[#181818]"
+                          : ""
+                      )}
+                    >
+                      {/* task name */}
+                      <h5 className="flex flex-row gap-2 items-center text-white/70 text-base md:text-5xl font-semibold font-orbitron">
+                        {task.name}
+                        <IconGo
+                          width={20}
+                          height={20}
+                          color="rgba(255,255,255,0.7)"
+                          className="inline-block md:hidden"
+                        />
+                      </h5>
 
-                    {/* description */}
-                    <p className="hidden md:flex text-white/60 text-base font-normal w-[420px] mt-5">
-                      {task.description}
-                    </p>
-
-                    {/* bonus tag */}
-                    {isInWalletCampaignTime(networkId) &&
-                    task.bonus &&
-                    WalletList.filter(
-                      (wallet: any) =>
-                        wallet.hasExtraBonus &&
-                        wallet.hasExtraBonus[networkId || "devnet"]
-                    )?.length ? (
-                      <p className="hidden md:inline-flex items-center gap-2 bg-[#2C251D] px-2 py-[2px] mt-4">
-                        <span className="text-[#FBB042] text-[10px] font-normal font-orbitron">
-                          Extra Bonus:
-                        </span>
-                        <span className="inline-flex flex-row-reverse items-center gap-2">
-                          {WalletList.filter(
-                            (wallet: any) =>
-                              wallet.hasExtraBonus &&
-                              wallet.hasExtraBonus[networkId || "devnet"]
-                          )
-                            .map((wallet: any) => wallet.id)
-                            .map((bonus: any) => (
-                              <div className="w-3 h-3">
-                                {walletIcons[bonus]}
-                              </div>
-                            ))}
-                        </span>
+                      {/* description */}
+                      <p className="hidden md:flex text-white/60 text-base font-normal w-[420px] mt-5">
+                        {task.description}
                       </p>
-                    ) : null}
 
-                    <div className="flex flex-row gap-2 md:hidden mt-4">
-                      {/* period */}
-                      <div className="text-[10px] text-[#25A3ED] bg-[#212b32] rounded-[2px] px-1 py-[2px]">
-                        {task.period}
-                      </div>
-                      {/* reward */}
-                      {task.reward ? (
-                        <div className="text-[10px] text-[#FBB042] bg-[#332d23] rounded-[2px] px-1 py-[2px]">
-                          {task.reward}
-                        </div>
-                      ) : null}
-                      {/* bonus */}
+                      {/* bonus tag */}
                       {isInWalletCampaignTime(networkId) &&
                       task.bonus &&
                       WalletList.filter(
@@ -271,11 +245,11 @@ const TaskCenter: NextPage = () => {
                           wallet.hasExtraBonus &&
                           wallet.hasExtraBonus[networkId || "devnet"]
                       )?.length ? (
-                        <div className="inline-flex flex-row justify-center items-center gap-[2px] text-[10px] text-[#FBB042] bg-[#2C251D] rounded-[2px] px-1 py-[2px]">
-                          <span className="text-[#FBB042] text-[10px] font-normal">
-                            Extra Bonus:{""}
+                        <p className="hidden md:inline-flex items-center gap-2 bg-[#2C251D] px-2 py-[2px] mt-4">
+                          <span className="text-[#FBB042] text-[10px] font-normal font-orbitron">
+                            Extra Bonus:
                           </span>
-                          <span className="inline-flex flex-row-reverse items-center justify-center gap-[2px]">
+                          <span className="inline-flex flex-row-reverse items-center gap-2">
                             {WalletList.filter(
                               (wallet: any) =>
                                 wallet.hasExtraBonus &&
@@ -283,40 +257,79 @@ const TaskCenter: NextPage = () => {
                             )
                               .map((wallet: any) => wallet.id)
                               .map((bonus: any) => (
-                                <div className="w-2 h-2">
+                                <div className="w-3 h-3">
                                   {walletIcons[bonus]}
                                 </div>
                               ))}
                           </span>
-                        </div>
+                        </p>
                       ) : null}
-                    </div>
-                    <div className="hidden md:flex flex-row justify-start items-center w-full absolute left-0 bottom-0">
-                      <div className="w-[174px] h-10 bg-cover bg-no-repeat bg-[url('/images/period-background.png')]">
-                        <span className="inline-flex justify-center items-center w-[150px] h-full text-white text-sm font-bold font-orbitron">
+
+                      <div className="flex flex-row gap-2 md:hidden mt-4">
+                        {/* period */}
+                        <div className="text-[10px] text-[#25A3ED] bg-[#212b32] rounded-[2px] px-1 py-[2px]">
                           {task.period}
-                        </span>
-                      </div>
-                      {task.reward ? (
-                        <div className="text-[#FBB042] text-sm font-orbitron ml-1">
-                          {task.reward}
                         </div>
-                      ) : null}
+                        {/* reward */}
+                        {task.reward ? (
+                          <div className="text-[10px] text-[#FBB042] bg-[#332d23] rounded-[2px] px-1 py-[2px]">
+                            {task.reward}
+                          </div>
+                        ) : null}
+                        {/* bonus */}
+                        {isInWalletCampaignTime(networkId) &&
+                        task.bonus &&
+                        WalletList.filter(
+                          (wallet: any) =>
+                            wallet.hasExtraBonus &&
+                            wallet.hasExtraBonus[networkId || "devnet"]
+                        )?.length ? (
+                          <div className="inline-flex flex-row justify-center items-center gap-[2px] text-[10px] text-[#FBB042] bg-[#2C251D] rounded-[2px] px-1 py-[2px]">
+                            <span className="text-[#FBB042] text-[10px] font-normal">
+                              Extra Bonus:{""}
+                            </span>
+                            <span className="inline-flex flex-row-reverse items-center justify-center gap-[2px]">
+                              {WalletList.filter(
+                                (wallet: any) =>
+                                  wallet.hasExtraBonus &&
+                                  wallet.hasExtraBonus[networkId || "devnet"]
+                              )
+                                .map((wallet: any) => wallet.id)
+                                .map((bonus: any) => (
+                                  <div className="w-2 h-2">
+                                    {walletIcons[bonus]}
+                                  </div>
+                                ))}
+                            </span>
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="hidden md:flex flex-row justify-start items-center w-full absolute left-0 bottom-0">
+                        <div className="w-[174px] h-10 bg-cover bg-no-repeat bg-[url('/images/period-background.png')]">
+                          <span className="inline-flex justify-center items-center w-[150px] h-full text-white text-sm font-bold font-orbitron">
+                            {task.period}
+                          </span>
+                        </div>
+                        {task.reward ? (
+                          <div className="text-[#FBB042] text-sm font-orbitron ml-1">
+                            {task.reward}
+                          </div>
+                        ) : null}
+                      </div>
+                      <div
+                        className={cn(
+                          "opacity-50 absolute -bottom-6 md:-bottom-4 right-0 md:right-0 transition-all duration-300",
+                          task.available[networkId || "devnet"] &&
+                            isSupportSonic(wallet?.adapter.name)
+                            ? "group-hover/task:-right-14"
+                            : ""
+                        )}
+                      >
+                        {icons[task.iconName]}
+                      </div>
                     </div>
-                    <div
-                      className={cn(
-                        "opacity-50 absolute -bottom-6 md:-bottom-4 right-0 md:right-0 transition-all duration-300",
-                        task.available[networkId || "devnet"] &&
-                          isSupportSonic(wallet?.adapter.name)
-                          ? "group-hover/task:-right-14"
-                          : ""
-                      )}
-                    >
-                      {icons[task.iconName]}
-                    </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
             </div>
           </Card>
         ))}

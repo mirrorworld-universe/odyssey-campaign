@@ -1,4 +1,4 @@
-import { getNetworkUrl } from "@/lib/utils";
+import { getNetworkUrl, walletCampaignStartTime } from "@/lib/utils";
 
 export const taskGroupList = [
   {
@@ -36,19 +36,20 @@ export const taskGroupList = [
           testnet: true,
         },
       },
-      // {
-      //   id: "mystery-nft",
-      //   name: "Mystery NFT",
-      //   description:
-      //     "Mint different NFT series and unlock potential rewards! Enhance your Odyssey adventure!",
-      //   period: "24-Hour Period",
-      //   reward: "Test SOL Needed",
-      //   iconName: "cube",
-      //   available: {
-      //     devnet: true,
-      //     testnet: false,
-      //   },
-      // },
+      {
+        id: "mystery-nft",
+        name: "Mystery NFT",
+        description:
+          "Mint different NFT series and unlock potential rewards! Enhance your Odyssey adventure!",
+        period: "24-Hour Period",
+        reward: "Test SOL Needed",
+        iconName: "cube",
+        available: {
+          devnet: true,
+          testnet: false,
+        },
+        startTime: walletCampaignStartTime,
+      },
       {
         id: "milestone",
         name: "TX Milestone",

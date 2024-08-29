@@ -18,7 +18,7 @@ export function NotificationBar({ children, className }: any) {
       onAnimationEnd={handleAnimationEnd}
     >
       {children ? (
-        <div className="flex flex-row justify-center items-center gap-1 text-center">
+        <div className="w-full flex flex-row justify-center items-center gap-1 text-center">
           {children}
         </div>
       ) : null}

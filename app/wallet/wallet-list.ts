@@ -5,9 +5,8 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import { BackpackWalletAdapter } from "./backpack-adapter";
 import { OKXWalletAdapter } from "./okx-adapter";
+import { GateWalletAdapter } from "./gate-adapter";
 
-import { OKX as IconOKX } from "@/app/icons/OKX";
-import { Backpack as IconBackpack } from "@/app/icons/Backpack";
 import { openPopup } from "@/lib/santinize";
 
 export const WalletList: any[] = [
@@ -47,6 +46,13 @@ export const WalletList: any[] = [
     name: "Nightly",
     isSupportSonic: true,
     adapter: new NightlyWalletAdapter(),
+    hide: false,
+  },
+  {
+    id: "gate",
+    name: "Gate Wallet",
+    isSupportSonic: true,
+    adapter: new GateWalletAdapter(),
     hide: false,
   },
   // {
