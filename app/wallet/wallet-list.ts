@@ -53,6 +53,10 @@ export const WalletList: any[] = [
     name: "Gate Wallet",
     isSupportSonic: true,
     adapter: new GateWalletAdapter(),
+    network: {
+      devnet: true,
+      testnet: false,
+    },
     hide: false,
   },
   // {
@@ -96,6 +100,12 @@ export const setUpUrls: any = {
     devnet: "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
     testnet:
       "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet",
+  },
+  ["gate wallet"]: {
+    devnet:
+      "https://blog.sonic.game/sonic-origin-network-settings---gate-wallet",
+    testnet:
+      "https://blog.sonic.game/sonic-frontier-network-settings---gate-wallet",
   },
 };
 

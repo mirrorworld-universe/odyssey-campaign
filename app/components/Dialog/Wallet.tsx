@@ -379,72 +379,83 @@ export function WalletDialog({ text = "Connect", className }: any) {
         </DialogHeader>
 
         <ul className="flex gap-8 flex-col w-full mt-12 md:mt-8">
-          {walletList.map(
-            (wallet: any) =>
-              !wallet.hide && (
-                <li
-                  key={wallet.adapter?.name}
-                  //onClick={() => select(wallet.adapter?.name)}
-                  className="h-10 flex items-center w-full justify-between"
-                >
-                  <div
-                    className="flex items-center cursor-pointer hover:opacity-80 transition-all"
-                    onClick={() => handleWalletSelect(wallet)}
+          {walletList
+            .filter(
+              (wallet: any) =>
+                !wallet.network || (wallet.network && wallet.network[networkId])
+            )
+            .map(
+              (wallet: any) =>
+                !wallet.hide && (
+                  <li
+                    key={wallet.adapter?.name}
+                    //onClick={() => select(wallet.adapter?.name)}
+                    className="h-10 flex items-center w-full justify-between"
                   >
-                    <img
-                      src={wallet.adapter?.icon}
-                      alt={wallet.adapter?.name}
-                      className="w-6 h-6 mr-3"
-                    />
-                    <span className="text-sm md:text-base text-white font-semibold font-orbitron mr-2 md:mr-3">
-                      {wallet.adapter?.name}
-                    </span>
-                    {isInWalletCampaignTime(networkId) ? (
-                      wallet.hasExtraBonus &&
-                      wallet.hasExtraBonus[networkId || "devnet"] ? (
-                        <ExtraBonusTag />
-                      ) : null
-                    ) : wallet.isSupportSonic ? (
-                      <SupportSonicTag />
-                    ) : null}
-                  </div>
-
-                  {wallet.adapter.readyState === WalletReadyState.Installed ? (
                     <div
-                      className={cn(
-                        "inline-flex items-center justify-center min-w-[98px] md:min-w-[136px] h-8 md:h-10 text-center rounded border-none cursor-pointer px-4 py-2.5 transition-all",
-                        "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
-                      )}
+                      className="flex items-center cursor-pointer hover:opacity-80 transition-all"
                       onClick={() => handleWalletSelect(wallet)}
                     >
-                      <span className="text-white text-sm md:text-base font-orbitron font-semibold md:font-bold">
-                        {isSwitching
-                          ? wallet.adapter?.name ===
-                            currentWallet?.adapter?.name
-                            ? "Reconnect"
-                            : "Connect"
-                          : "Connect"}
+                      <img
+                        src={wallet.adapter?.icon}
+                        alt={wallet.adapter?.name}
+                        className="w-6 h-6 mr-3"
+                      />
+                      <span className="text-sm md:text-base text-white font-semibold font-orbitron mr-2 md:mr-3">
+                        {wallet.adapter?.name}
                       </span>
+                      {isInWalletCampaignTime(networkId) ? (
+                        wallet.hasExtraBonus &&
+                        wallet.hasExtraBonus[networkId || "devnet"] ? (
+                          <ExtraBonusTag />
+                        ) : null
+                      ) : wallet.isSupportSonic ? (
+                        <SupportSonicTag />
+                      ) : null}
                     </div>
-                  ) : (
-                    <a
-                      className={cn(
-                        "inline-flex items-center justify-center min-w-[98px] md:min-w-[136px] h-8 md:h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
-                        "border-[#27282D] hover:border-white/80"
-                      )}
-                      href={wallet.adapter.url}
-                      target="_blank"
-                      onClick={() => handleInstallWallet(wallet)}
-                    >
-                      <span className="text-white text-sm md:text-base font-orbitron font-semibold md:font-bold">
-                        Install
-                      </span>
-                    </a>
-                  )}
-                </li>
-              )
-          )}
-          {walletList.some((currentWallet: any) => currentWallet.hide) && (
+
+                    {wallet.adapter.readyState ===
+                    WalletReadyState.Installed ? (
+                      <div
+                        className={cn(
+                          "inline-flex items-center justify-center min-w-[98px] md:min-w-[136px] h-8 md:h-10 text-center rounded border-none cursor-pointer px-4 py-2.5 transition-all",
+                          "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
+                        )}
+                        onClick={() => handleWalletSelect(wallet)}
+                      >
+                        <span className="text-white text-sm md:text-base font-orbitron font-semibold md:font-bold">
+                          {isSwitching
+                            ? wallet.adapter?.name ===
+                              currentWallet?.adapter?.name
+                              ? "Reconnect"
+                              : "Connect"
+                            : "Connect"}
+                        </span>
+                      </div>
+                    ) : (
+                      <a
+                        className={cn(
+                          "inline-flex items-center justify-center min-w-[98px] md:min-w-[136px] h-8 md:h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
+                          "border-[#27282D] hover:border-white/80"
+                        )}
+                        href={wallet.adapter.url}
+                        target="_blank"
+                        onClick={() => handleInstallWallet(wallet)}
+                      >
+                        <span className="text-white text-sm md:text-base font-orbitron font-semibold md:font-bold">
+                          Install
+                        </span>
+                      </a>
+                    )}
+                  </li>
+                )
+            )}
+          {walletList
+            .filter(
+              (wallet: any) =>
+                !wallet.network || (wallet.network && wallet.network[networkId])
+            )
+            .some((currentWallet: any) => currentWallet.hide) && (
             <li
               className="flex w-full justify-center cursor-pointer hover:opacity-80"
               onClick={handleShowMoreWallet}
