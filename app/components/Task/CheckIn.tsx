@@ -13,6 +13,7 @@ import {
 
 import { Gift } from "@/app/icons/Gift";
 import { OKX as IconOKX } from "@/app/icons/OKX";
+import { OKXTransparent as IconOKXTransparent } from "@/app/icons/OKXTransparent";
 import { Backpack as IconBackpack } from "@/app/icons/Backpack";
 
 import { Button } from "@/components/ui/button";
@@ -75,7 +76,7 @@ export function CheckIn() {
   const [showRules, setShowRules] = useState(false);
 
   const walletIcons: any = {
-    okx: <IconOKX className="w-full h-full" color="white" />,
+    okx: <IconOKXTransparent className="w-full h-full" color="white" />,
     backpack: <IconBackpack className="w-full h-full" color="white" />,
   };
 
