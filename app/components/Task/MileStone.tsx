@@ -310,12 +310,14 @@ export function MileStone() {
                 </li>
               </ul>
             </li>
-            <li>
-              The duration for the extra bonus for OKX Wallet and Backpack
-              Wallet is from{" "}
-              {format(new UTCDate(walletCampaignStartTime), "PPP")} to{" "}
-              {format(new UTCDate(walletCampaignEndTime), "PPP")}
-            </li>
+            {isInWalletCampaignTime(networkId) ? (
+              <li>
+                The duration for the extra bonus for OKX Wallet and Backpack
+                Wallet is from{" "}
+                {format(new UTCDate(walletCampaignStartTime), "PPP")} to{" "}
+                {format(new UTCDate(walletCampaignEndTime), "PPP")}
+              </li>
+            ) : null}
           </ul>
         </Rules>
 
