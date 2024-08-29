@@ -365,7 +365,7 @@ export function MysteryNFT() {
               trading and earn more rings! For more details, please check this{" "}
               <a
                 className="text-[#25A3ED] hover:text-[#00F]"
-                href="https://blog.sonic.game/"
+                href="https://blog.sonic.game/sonic-okx-web3-campaign-guide"
                 target="_blank"
               >
                 blog
