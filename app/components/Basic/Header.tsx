@@ -383,8 +383,8 @@ export function Header() {
               color="#48BBFF"
               className="min-w-6 min-h-6"
             />
-            <span className="inline-flex w-full max-w-[718px] whitespace-nowrap overflow-hidden">
-              <div className="pl-[100%] animate-marquee">
+            <span className="inline-flex whitespace-nowrap overflow-hidden">
+              <div className="">
                 {`Sonic<>OKX Web3 Campaign is live now! Check`}{" "}
                 <a
                   href="https://www.okx.com/web3/campaigns/sonicadventures"
