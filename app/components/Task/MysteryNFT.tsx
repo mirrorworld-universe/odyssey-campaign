@@ -297,6 +297,17 @@ export function MysteryNFT() {
     </span>
   );
 
+  const SoldoutTag = ({ className }: any) => (
+    <span
+      className={cn(
+        "inline-flex leading-4 font-orbitron text-[#FFFFFF] text-[10px] bg-[#333333] px-2 py-[2px]",
+        className
+      )}
+    >
+      Sold Out
+    </span>
+  );
+
   const handleExpandIntroduction = (nft: any) => {
     const collections = [...NFTcollections];
     collections.forEach((item: any) => {
@@ -382,18 +393,29 @@ export function MysteryNFT() {
               key={index}
               size={CardSize.Medium}
               className={cn(
-                "max-w-[1024px] w-full relative p-6 md:p-10 rounded-none border-[#27282D] transition-opacity duration-300",
-                nft.isLimited && nft.mintedAmount >= nft.totalAmount
-                  ? "opacity-30"
-                  : ""
+                "max-w-[1024px] w-full relative p-6 md:p-10 rounded-none border-[#27282D] transition-opacity duration-300"
+                // nft.isLimited && nft.mintedAmount >= nft.totalAmount
+                //   ? "opacity-30"
+                //   : ""
               )}
             >
               <div className="w-full flex flex-col xl:flex-row items-center justify-between gap-10">
                 {/* nft part */}
                 <div className="nft flex flex-row items-center gap-10">
                   {/* cover */}
-                  <div className="max-w-[200px] h-[112px] rounded overflow-hidden">
-                    <img src={nft.image} alt="" />
+                  <div className="max-w-[200px] h-[112px] rounded overflow-hidden relative">
+                    <img
+                      src={nft.image}
+                      alt=""
+                      className={
+                        nft.isLimited && nft.mintedAmount >= nft.totalAmount
+                          ? "opacity-30"
+                          : "opacity-100"
+                      }
+                    />
+                    {nft.isLimited && nft.mintedAmount >= nft.totalAmount ? (
+                      <SoldoutTag className="rounded-bl rounded-tr absolute top-0 right-0" />
+                    ) : null}
                   </div>
                   {/* intro */}
                   <div className="flex flex-col gap-2 max-w-auto xl:max-w-[450px]">
@@ -538,8 +560,12 @@ export function MysteryNFT() {
                       )}
                     >
                       {/* cover */}
-                      <div className="flex items-center w-full h-[175px] overflow-hidden">
+                      <div className="flex items-center w-full h-[175px] overflow-hidden relative">
                         <img src={nft.image} alt="" className="h-auto w-full" />
+                        {nft.isLimited &&
+                        nft.mintedAmount >= nft.totalAmount ? (
+                          <SoldoutTag className="absolute top-0 right-0" />
+                        ) : null}
                       </div>
                       {/* content */}
                       <div className="flex flex-col p-4 pt-2">
