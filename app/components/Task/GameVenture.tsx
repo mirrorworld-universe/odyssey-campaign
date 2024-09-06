@@ -88,6 +88,14 @@ export function GameVenture() {
         time: "2024-08-27T18:00:00+08:00",
         available: true,
       },
+      {
+        name: "Startup",
+        cover: "/images/games/startup.png",
+        guide: "https://playstartup.io/guide",
+        play: "https://playstartup.io/",
+        time: "2024-09-06T21:00:00+08:00",
+        available: true,
+      },
     ],
   };
 
