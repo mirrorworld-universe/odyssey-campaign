@@ -185,6 +185,17 @@ const TaskCenter: NextPage = () => {
     return now >= startShowTime;
   };
 
+  const OkxSeasonTag = () => (
+    <p className="hidden md:inline-flex items-center gap-2 bg-[#2C251D] px-2 py-[2px] mt-4">
+      <span className="text-[#FBB042] text-[10px] font-normal font-orbitron">
+        OKX Season:
+      </span>
+      <div className="inline-flex flex-row-reverse items-center gap-2">
+        <div className="w-3 h-3">{walletIcons.okx}</div>
+      </div>
+    </p>
+  );
+
   const MainContent = () => (
     <div className="w-full max-w-[1464px] mt-2 mb-2 md:mt-20 md:mb-20 px-4 py-4 md:px-0 md:py-0">
       <div className="w-full flex flex-col gap-8 md:gap-24">
@@ -272,14 +283,7 @@ const TaskCenter: NextPage = () => {
                       {/* okx season tag */}
                       {task.id === "ring-lottery" &&
                       isInLotteryCampaignTime(networkId) ? (
-                        <p className="hidden md:inline-flex items-center gap-2 bg-[#2C251D] px-2 py-[2px] mt-4">
-                          <span className="text-[#FBB042] text-[10px] font-normal font-orbitron">
-                            OKX Season:
-                          </span>
-                          <div className="inline-flex flex-row-reverse items-center gap-2">
-                            <div className="w-3 h-3">{walletIcons.okx}</div>
-                          </div>
-                        </p>
+                        <OkxSeasonTag />
                       ) : null}
 
                       <div className="flex flex-row gap-2 md:hidden mt-4">
@@ -287,12 +291,14 @@ const TaskCenter: NextPage = () => {
                         <div className="text-[10px] text-[#25A3ED] bg-[#212b32] rounded-[2px] px-1 py-[2px]">
                           {task.period}
                         </div>
+
                         {/* reward */}
                         {task.reward ? (
                           <div className="text-[10px] text-[#FBB042] bg-[#332d23] rounded-[2px] px-1 py-[2px]">
                             {task.reward}
                           </div>
                         ) : null}
+
                         {/* bonus */}
                         {isInWalletCampaignTime(networkId) &&
                         task.bonus &&
@@ -317,6 +323,19 @@ const TaskCenter: NextPage = () => {
                                     {walletIcons[bonus]}
                                   </div>
                                 ))}
+                            </span>
+                          </div>
+                        ) : null}
+
+                        {/* okx season tag */}
+                        {task.id === "ring-lottery" &&
+                        isInLotteryCampaignTime(networkId) ? (
+                          <div className="inline-flex flex-row justify-center items-center gap-[2px] text-[10px] text-[#FBB042] bg-[#2C251D] rounded-[2px] px-1 py-[2px]">
+                            <span className="text-[#FBB042] text-[10px] font-normal">
+                              OKX Season:{""}
+                            </span>
+                            <span className="inline-flex flex-row-reverse items-center justify-center gap-[2px]">
+                              <div className="w-2 h-2">{walletIcons.okx}</div>
                             </span>
                           </div>
                         ) : null}
