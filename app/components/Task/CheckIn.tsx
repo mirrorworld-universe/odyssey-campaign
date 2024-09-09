@@ -318,7 +318,8 @@ export function CheckIn() {
               receive the corresponding reward.
             </li>
             <li className="">
-              If you miss a day, the reward count will reset and start over.
+              If you miss a day, the reward count will reset and start over. The
+              check-in time is updated starting at 0:00 UTC.
             </li>
             <li className="">
               Rewards Detail:
