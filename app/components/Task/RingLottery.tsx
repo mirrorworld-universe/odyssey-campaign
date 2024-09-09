@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useWallet } from "@solana/wallet-adapter-react";
 import {
   cn,
+  isInLotteryCampaignTime,
   isInMaintenanceTime,
   isMobileViewport,
   prettyNumber,
@@ -54,6 +56,8 @@ export function RingLottery() {
   const maxDrawAmount = 5;
   const maxMintAmount = 1512000;
   const scrollAreaRef = useRef<any>(null);
+
+  const { wallet } = useWallet();
 
   const [mintedRingAmount, setMintedRingAmount] = useState(0);
   const [totalRingAmount, setTotalRingAmount] = useState(maxMintAmount);
@@ -307,11 +311,20 @@ export function RingLottery() {
         </div>
 
         <Button
-          disabled={season === 0 || season > 1}
+          disabled={
+            season === 0 ||
+            season > 1 ||
+            (isInLotteryCampaignTime(networkId) &&
+              wallet?.adapter.name.toLowerCase() !== "okx wallet")
+          }
           onClick={handleDrawLottery}
           className="h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300 mt-5 md:mt-0"
         >
-          Draw
+          {!isInLotteryCampaignTime(networkId) ||
+          (isInLotteryCampaignTime(networkId) &&
+            wallet?.adapter.name.toLowerCase() === "okx wallet")
+            ? "Draw"
+            : "OKX Wallet Needed"}
         </Button>
       </div>
     </div>
@@ -322,10 +335,14 @@ export function RingLottery() {
       {/* title */}
       <h1 className="flex text-white font-orbitron font-semibold text-2xl md:text-[64px] gap-6">
         <span className="hidden md:inline">Ring Lottery</span>
-        {season > 0 ? (
-          // <span className="text-white/50 md:text-white/20">Season {season}</span>
-          <span className="text-white/50 md:text-white/20">Season 1</span>
-        ) : null}
+        <span className="text-white/50 md:text-white/20">
+          {" "}
+          {isInLotteryCampaignTime(networkId)
+            ? "OKX Season"
+            : season > 0
+            ? "Season 1"
+            : `Season ${season}`}
+        </span>
       </h1>
 
       {/* line */}

@@ -17,7 +17,11 @@ import { Go as IconGo } from "@/app/icons/Go";
 import { OKX as IconOKX } from "@/app/icons/OKX";
 import { Backpack as IconBackpack } from "@/app/icons/Backpack";
 
-import { cn, isInWalletCampaignTime } from "@/lib/utils";
+import {
+  cn,
+  isInLotteryCampaignTime,
+  isInWalletCampaignTime,
+} from "@/lib/utils";
 import { trackClick } from "@/lib/track";
 
 import { Button } from "@/components/ui/button";
@@ -262,6 +266,19 @@ const TaskCenter: NextPage = () => {
                                 </div>
                               ))}
                           </span>
+                        </p>
+                      ) : null}
+
+                      {/* okx season tag */}
+                      {task.id === "ring-lottery" &&
+                      isInLotteryCampaignTime(networkId) ? (
+                        <p className="hidden md:inline-flex items-center gap-2 bg-[#2C251D] px-2 py-[2px] mt-4">
+                          <span className="text-[#FBB042] text-[10px] font-normal font-orbitron">
+                            OKX Season:
+                          </span>
+                          <div className="inline-flex flex-row-reverse items-center gap-2">
+                            <div className="w-3 h-3">{walletIcons.okx}</div>
+                          </div>
                         </p>
                       ) : null}
 
