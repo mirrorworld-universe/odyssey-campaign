@@ -148,15 +148,15 @@ export const hasExtraWalletBonus = (
   );
 };
 
-export const lotteryCampaignStartTime = "2024-08-30T10:00:00+08:00";
-export const lotteryCampaignEndTime = "2024-09-29T10:00:00+08:00";
+export const lotteryCampaignStartTime = "2024-09-12T10:00:00+08:00";
+export const lotteryCampaignEndTime = "2024-10-30T10:00:00+08:00";
 export const lotteryCampaignNetworks = ["devnet"];
 
 export const isInLotteryCampaignTime = (networkId = "devnet") => {
-  const isWalletCampaignNetwork =
-    walletCampaignNetworks.indexOf(networkId) > -1;
+  const isLotteryCampaignNetwork =
+    lotteryCampaignNetworks.indexOf(networkId) > -1;
   const now = new UTCDate();
-  const startTime = new UTCDate(walletCampaignStartTime);
-  const endTime = new UTCDate(walletCampaignEndTime);
-  return now >= startTime && now <= endTime && isWalletCampaignNetwork;
+  const startTime = new UTCDate(lotteryCampaignStartTime);
+  const endTime = new UTCDate(lotteryCampaignEndTime);
+  return now >= startTime && now <= endTime && isLotteryCampaignNetwork;
 };
