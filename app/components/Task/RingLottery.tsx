@@ -333,9 +333,9 @@ export function RingLottery() {
   return (
     <div className="flex flex-col w-full pb-20 md:pb-0">
       {/* title */}
-      <h1 className="flex text-white font-orbitron font-semibold text-2xl md:text-[64px] gap-6">
-        <span className="hidden md:inline">Ring Lottery</span>
-        <span className="text-white/50 md:text-white/20">
+      <h1 className="flex text-white font-orbitron font-semibold text-2xl md:text-[58px] 2xl:text-[64px] gap-6">
+        <span className="hidden md:inline text-nowrap">Ring Lottery</span>
+        <span className="text-white/50 md:text-white/20 text-nowrap">
           {" "}
           {isInLotteryCampaignTime(networkId)
             ? "OKX Season"
@@ -388,44 +388,73 @@ export function RingLottery() {
             </li>
             <li className="">
               Rewards Detail:
-              <ul className="list-item pl-2">
-                <li className="">
-                  a. Block winner:{" "}
-                  <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
-                    1 x{" "}
-                    <Ring
-                      color="#FBB042"
-                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
-                    />{" "}
-                    Ring
-                  </span>
-                  .
-                </li>
-                <li>
-                  b. Season's first winners:{" "}
-                  <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
-                    {prettyNumber(100000)} x{" "}
-                    <Ring
-                      color="#FBB042"
-                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
-                    />{" "}
-                    Rings each
-                  </span>
-                  .
-                </li>
-                <li>
-                  c. For every 10,000 winners:{" "}
-                  <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
-                    {prettyNumber(10000)} x{" "}
-                    <Ring
-                      color="#FBB042"
-                      className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
-                    />{" "}
-                    Rings
-                  </span>
-                  .
-                </li>
-              </ul>
+              {isInLotteryCampaignTime(networkId) ? (
+                <ul className="list-item pl-2">
+                  <li className="">
+                    a. Block winner:{" "}
+                    <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
+                      1 x{" "}
+                      <Ring
+                        color="#FBB042"
+                        className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                      />{" "}
+                      Ring
+                    </span>
+                    .
+                  </li>
+                  <li>
+                    b. For every 10,000 winners:{" "}
+                    <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
+                      {prettyNumber(1000)} x{" "}
+                      <Ring
+                        color="#FBB042"
+                        className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                      />{" "}
+                      Rings
+                    </span>
+                    .
+                  </li>
+                </ul>
+              ) : (
+                <ul className="list-item pl-2">
+                  <li className="">
+                    a. Block winner:{" "}
+                    <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
+                      1 x{" "}
+                      <Ring
+                        color="#FBB042"
+                        className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                      />{" "}
+                      Ring
+                    </span>
+                    .
+                  </li>
+                  <li>
+                    b. Season's first winners:{" "}
+                    <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
+                      {prettyNumber(100000)} x{" "}
+                      <Ring
+                        color="#FBB042"
+                        className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                      />{" "}
+                      Rings each
+                    </span>
+                    .
+                  </li>
+                  <li>
+                    c. For every 10,000 winners:{" "}
+                    <span className="inline-flex flex-row justify-center items-center text-[#FBB042]">
+                      {prettyNumber(10000)} x{" "}
+                      <Ring
+                        color="#FBB042"
+                        className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                      />{" "}
+                      Rings
+                    </span>
+                    .
+                  </li>
+                </ul>
+              )}
             </li>
           </ul>
         </Rules>

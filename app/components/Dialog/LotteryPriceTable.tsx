@@ -14,10 +14,29 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useLotteryInfo, useLotteryPriceTableModal } from "@/app/store/lottery";
 import { Button } from "@/components/ui/button";
+import { isInLotteryCampaignTime } from "@/lib/utils";
+import { useNetworkInfo } from "@/app/store/account";
 
 export function LotteryPriceTableDialog() {
   const { isOpen, onOpen, onClose } = useLotteryPriceTableModal();
   const { lotterySeason } = useLotteryInfo();
+  const { networkId } = useNetworkInfo();
+
+  // season 1
+  const priceTableSeasonOKX = [
+    {
+      range: "1-432,000",
+      price: 0,
+    },
+    {
+      range: "432,001~864,000",
+      price: 0.01,
+    },
+    {
+      range: "864,001~1,000,000",
+      price: 0.02,
+    },
+  ];
 
   const priceTables = [
     // season 1
@@ -77,10 +96,16 @@ export function LotteryPriceTableDialog() {
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="w-[468px] bg-[#1A1A1A] border-none px-8 py-8">
         <AlertDialogHeader className="">
-          <AlertDialogTitle className="flex flex-row justify-start items-center gap-3 text-white text-[32px] font-semibold font-orbitron">
-            <span>Price Table</span>{" "}
+          <AlertDialogTitle className="flex flex-row justify-start items-center gap-3 text-white text-[28px] font-semibold font-orbitron">
+            <span className="text-nowrap">Price Table</span>{" "}
             {/* <span className="text-white/20">Season {lotterySeason || 1}</span> */}
-            <span className="text-white/20">Season 1</span>
+            <span className="text-white/20 text-nowrap">
+              {isInLotteryCampaignTime(networkId)
+                ? "OKX Season"
+                : lotterySeason > 0
+                ? "Season 1"
+                : `Season ${lotterySeason || 1}`}
+            </span>
           </AlertDialogTitle>
         </AlertDialogHeader>
 
@@ -89,7 +114,10 @@ export function LotteryPriceTableDialog() {
             <div>Rings Range</div>
             <div>Lottery Price (Test SOL)</div>
           </div>
-          {priceTables[(lotterySeason || 1) - 1].map((table) => (
+          {(isInLotteryCampaignTime(networkId)
+            ? priceTableSeasonOKX
+            : priceTables[(lotterySeason || 1) - 1]
+          ).map((table) => (
             <div className="flex flex-row justify-between text-white">
               <div>{table.range}</div>
               <div>{table.price}</div>
