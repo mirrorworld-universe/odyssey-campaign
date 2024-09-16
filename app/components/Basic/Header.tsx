@@ -332,7 +332,7 @@ export function Header() {
                 for understanding.
               </div> */}
               {/* maintenance */}
-              <div className="pl-[100%] animate-marquee">
+              {/* <div className="pl-[100%] animate-marquee">
                 Important Update: Sonic{" "}
                 {getNetworkNamesById(maintenanceNetworks).join(" & ")} will
                 undergo maintenance on{" "}
@@ -340,6 +340,14 @@ export function Header() {
                 {format(new UTCDate(maintenanceStartTime), "h a")} UTC. Some
                 tasks and on-chain interactions will be paused. Thank you for
                 understanding.
+              </div> */}
+              <div className="pl-[100%] animate-marquee">
+                Sonic Devnet upgrade in progress due to upcoming{" "}
+                <a href="https://www.nodpad.ai/" className="underline mx-1">
+                  Node Sale
+                </a>
+                traffic. Expected completion until the raffle sale concludes.
+                Some tasks will be temporarily unavailable.
               </div>
             </span>
           </div>
@@ -374,7 +382,7 @@ export function Header() {
       )}
 
       {/* news notification bar */}
-      {isInWalletCampaignTime(networkId) && (
+      {/* {isInWalletCampaignTime(networkId) && (
         <NotificationBar className="bg-[#00063C] min-h-12 h-auto px-3">
           <div className="w-full inline-flex justify-center gap-2 text-base text-[#48BBFF] font-semibold py-3">
             <Speaker
@@ -398,7 +406,7 @@ export function Header() {
             </span>
           </div>
         </NotificationBar>
-      )}
+      )} */}
     </nav>
   );
 }
