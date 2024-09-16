@@ -346,7 +346,7 @@ export function Header() {
                 <a href="https://www.nodpad.ai/" className="underline mx-1">
                   Node Sale
                 </a>
-                traffic. Expected completion until the raffle sale concludes.
+                traffic. Expected to be completed by the end of the raffle sale.
                 Some tasks will be temporarily unavailable.
               </div>
             </span>
