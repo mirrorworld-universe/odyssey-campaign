@@ -111,7 +111,7 @@ export default function Home() {
         autoPlay
         muted
         playsInline
-        className="w-full h-full mix-blend-screen bg-black"
+        className="w-full h-full mix-blend-screen"
       >
         <source src="/get-started.webm" type="video/webm" />
       </video>
