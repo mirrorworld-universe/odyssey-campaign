@@ -59,6 +59,14 @@ export function GameVenture() {
         time: "2024-08-23T18:00:00+08:00",
         available: true,
       },
+      {
+        name: "Rage Effect",
+        cover: "/images/games/rage.png",
+        guide: "https://www.okx.com/zh-hans/web3/campaigns/sonicadventures",
+        play: "https://app.galxe.com/quest/akm5d3TjpuWayDn9TEPLso/GCEwytxpJ1",
+        time: "2024-09-16T21:00:00+08:00",
+        available: true,
+      },
     ],
 
     testnet: [
