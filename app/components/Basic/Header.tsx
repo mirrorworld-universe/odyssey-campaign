@@ -292,7 +292,7 @@ export function Header() {
           {!publicKey ? (
             <Button
               className={cn(
-                "min-w-[90px] h-8 md:min-w-[200px] md:h-12 justify-center items-center bg-[#0000FF] font-orbitron font-bold text-white text-sm md:text-base transition-all duration-300",
+                "min-w-[90px] h-8 xl:min-w-[200px] md:10 xl:h-12 justify-center items-center bg-[#0000FF] font-orbitron font-bold text-white text-sm md:text-sm xl:text-base transition-all duration-300",
                 isInMaintenance
                   ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                   : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
