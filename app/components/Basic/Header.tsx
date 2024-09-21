@@ -15,7 +15,7 @@ import {
   useNetworkInfo,
   useNotificationBar,
   useSystemInfo,
-  useWalletModal,
+  useWalletModal
 } from "../../store/account";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
@@ -27,7 +27,7 @@ import {
   trackClick,
   trackCriteoWalletClick,
   trackCriteoWalletTransactionClick,
-  trackLinkClick,
+  trackLinkClick
 } from "@/lib/track";
 import {
   cn,
@@ -36,7 +36,7 @@ import {
   isMobileViewport,
   maintenanceEndTime,
   maintenanceNetworks,
-  maintenanceStartTime,
+  maintenanceStartTime
 } from "@/lib/utils";
 import { Speaker } from "@/app/icons/Speaker";
 import { useEffect, useState } from "react";
@@ -55,34 +55,34 @@ export const menu: any[] = [
     name: "Task Center",
     link: {
       devnet: "/task",
-      testnet: "/task",
+      testnet: "/task"
     },
-    target: "_self",
+    target: "_self"
   },
   {
     name: "Faucet",
     link: {
       devnet: "https://faucet.sonic.game/#/",
-      testnet: "https://faucet.sonic.game/#/?network=testnet",
+      testnet: "https://faucet.sonic.game/#/?network=testnet"
     },
-    target: "_blank",
+    target: "_blank"
   },
   {
     name: "Odyssey Guide",
     link: {
       devnet: "https://blog.sonic.game/sonic-testnet-odyssey-guide",
-      testnet: "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide",
+      testnet: "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide"
     },
-    target: "_blank",
+    target: "_blank"
   },
   {
     name: "About Sonic",
     link: {
       devnet: "https://sonic.game/",
-      testnet: "https://sonic.game/",
+      testnet: "https://sonic.game/"
     },
-    target: "_blank",
-  },
+    target: "_blank"
+  }
 ];
 
 const NETWORK_COOKIE_NAME = "experiment-cookie-frontier";
@@ -102,7 +102,7 @@ export function Header() {
   const {
     isOpen: isOpenNotificationBar,
     onOpen: onOpenNotificationBar,
-    onClose: onCloseNotificationBar,
+    onClose: onCloseNotificationBar
   } = useNotificationBar();
   const { lotterySeason } = useLotteryInfo();
   const { networkId, visitedNetworkId, setVisitedNetworkId } = useNetworkInfo();
@@ -177,7 +177,7 @@ export function Header() {
       trackActionEvent("pageLoad", {
         page_name,
         entry_time: new Date(),
-        entry_page,
+        entry_page
       });
     } catch (e) {
       console.log(e);
@@ -198,18 +198,18 @@ export function Header() {
   }, [networkId]);
 
   return (
-    <nav className="flex flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
+    <nav className="flex md:min-w-[1100px] flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
       <div className="h-16 md:h-20 flex items-center justify-between p-4 md:px-10 md:py-4 bg-[#111111] w-full transition-all duration-300">
         {/* left */}
-        <div className="flex items-center gap-3 md:gap-6 2xl:gap-8">
+        <div className="flex items-center gap-3 md:gap-2 xl:gap-8">
           {/* logo */}
           <Link href="/" className="inline-flex flex-row items-center gap-2">
             <img
               alt="Sonic Logo"
-              className="min-w-7 md:min-w-8 w-7 md:w-6 2xl:w-8 h-auto"
+              className="min-w-7 w-7 md:w-4 xl:w-8 h-auto"
               src="/sonic.png"
             />
-            <span className="hidden md:inline text-white text-[22px] font-bold font-orbitron tracking-widest">
+            <span className="hidden md:inline text-white text-[22px] md:text-base xl:text-[22px] font-bold font-orbitron tracking-widest">
               SONIC
             </span>
           </Link>
@@ -262,7 +262,7 @@ export function Header() {
               )}
             ></i>
 
-            <div className="w-full md:w-auto flex flex-col md:flex-row items-start md:items-center md:gap-6 2xl:gap-8">
+            <div className="w-full md:w-auto flex flex-col md:flex-row items-start md:items-center md:gap-4 xl:gap-8">
               {menu.map((menuItem, menuIndex) => (
                 <Link
                   className={cn(
@@ -284,7 +284,7 @@ export function Header() {
         </div>
 
         {/* right */}
-        <div className="gap-6 md:gap-8 flex items-center">
+        <div className="gap-6 xl:gap-8 md:gap-2 flex items-center">
           {address && token ? <RingPopover /> : null}
 
           {address && token ? <Notification /> : null}
@@ -373,7 +373,7 @@ export function Header() {
               </a>{" "}
               about{" "}
               {formatDistance(new Date(bannerMessage.date), new UTCDate(), {
-                addSuffix: true,
+                addSuffix: true
               })}
               !
             </span>

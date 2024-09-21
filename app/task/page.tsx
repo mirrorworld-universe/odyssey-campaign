@@ -20,7 +20,7 @@ import { Backpack as IconBackpack } from "@/app/icons/Backpack";
 import {
   cn,
   isInLotteryCampaignTime,
-  isInWalletCampaignTime,
+  isInWalletCampaignTime
 } from "@/lib/utils";
 import { trackClick } from "@/lib/track";
 
@@ -36,6 +36,7 @@ import { useFAQModal, useHowToPlayModal } from "@/app/store/tutorials";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 
 import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
+import clsx from "clsx";
 
 const icons: any = {
   twitter: (
@@ -79,12 +80,12 @@ const icons: any = {
       className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-0"
       color="#313131"
     />
-  ),
+  )
 };
 
 const walletIcons: any = {
   okx: <IconOKX className="w-full h-full" color="#FBB042" />,
-  backpack: <IconBackpack className="w-full h-full" color="#FBB042" />,
+  backpack: <IconBackpack className="w-full h-full" color="#FBB042" />
 };
 
 const TaskCenter: NextPage = () => {
@@ -96,12 +97,12 @@ const TaskCenter: NextPage = () => {
   const {
     isOpen: isOpenHowToPlayDialog,
     onOpen: onOpenHowToPlayDialog,
-    onClose: onCloseHowToPlayDialog,
+    onClose: onCloseHowToPlayDialog
   } = useHowToPlayModal();
   const {
     isOpen: isOpenFAQDialog,
     onOpen: onOpenFAQDialog,
-    onClose: onCloseFAQDialog,
+    onClose: onCloseFAQDialog
   } = useFAQModal();
 
   const handleStartTask = () => {
@@ -136,17 +137,17 @@ const TaskCenter: NextPage = () => {
   }, []);
 
   const Header = () => (
-    <div className="bg-[#000] w-full md:h-[411px] flex justify-center overflow-hidden relative px-4 py-4 md:py-24">
+    <div className="bg-[#000] w-full flex justify-center overflow-hidden relative px-4 py-4 xl:py-24 md:py-16">
       <img
         src="/images/fingerprint.png"
         alt=""
         className="w-[1610px] h-[1638px] absolute -top-80 -right-80"
       />
       <div className="w-full max-w-[1464px] relative">
-        <h2 className="text-white font-orbitron text-2xl md:text-5xl font-semibold">
+        <h2 className="text-white font-orbitron text-2xl md:text-3xl xl:text-5xl font-semibold">
           Odyssey Task Center
         </h2>
-        <p className="text-white/60 md:text-white text-sm md:text-xl font-normal mt-4 md:mt-5">
+        <p className="text-white/60 md:text-white text-sm md:text-lg xl:text-xl font-normal mt-4 md:mt-5">
           Embark on your Odyssey by completing various tasks! Earn more rings
           along the way!{" "}
           <span
@@ -158,9 +159,13 @@ const TaskCenter: NextPage = () => {
         </p>
 
         {/* tools */}
-        <div className="bg-[#000] flex flex-row-reverse md:flex-row gap-3 md:gap-6 mt-16 fixed md:relative bottom-0 left-0 right-0 z-10 px-4 py-5 md:px-0 md:py-0">
+        <div
+          className={clsx(
+            "bg-[#000] transition-all font-orbitron flex flex-row-reverse md:flex-row gap-3 md:gap-6 mt-16 fixed md:relative bottom-0 left-0 right-0 z-10 px-4 py-5 md:px-0 md:py-0"
+          )}
+        >
           <Button
-            className="text-white text-base font-bold font-orbitron w-full md:w-[230px] h-12 transition-all duration-300 bg-[#0000FF] hover:bg-[#000C79] active:bg-[#000C79]/50"
+            className="text-white text-base font-bold w-full md:w-[230px] h-12 duration-300 bg-[#0000FF] hover:bg-[#000C79] active:bg-[#000C79]/50"
             onClick={handleStartTask}
           >
             Start My Task
@@ -197,17 +202,17 @@ const TaskCenter: NextPage = () => {
   );
 
   const MainContent = () => (
-    <div className="w-full max-w-[1464px] mt-2 mb-2 md:mt-20 md:mb-20 px-4 py-4 md:px-0 md:py-0">
-      <div className="w-full flex flex-col gap-8 md:gap-24">
+    <div className="w-full max-w-[1464px] mt-2 mb-2 md:my-8 xl:my-20 px-4 py-4 md:p-0">
+      <div className="w-full flex flex-col gap-8 md:gap-10 xl:gap-24">
         {taskGroupList.map((taskGroup: any, taskGroupIndex: number) => (
           <Card
             key={taskGroupIndex}
             size={CardSize.Default}
             name={taskGroup.name}
-            className="w-full relative px-4 py-4 md:px-12 md:py-12 rounded md:rounded-xl"
+            className="w-full relative px-4 py-4 md:p-8 xl:p-12 rounded md:rounded-xl"
             nameClassName="text-xs md:text-[32px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-2 md:left-7 -top-2"
           >
-            <div className="flex flex-wrap flex-row gap-4 md:gap-10">
+            <div className="flex flex-wrap flex-row gap-4 md:gap-8 xl:gap-10">
               {taskGroup.list
                 .filter((task: any) => hasTaskStarted(task.startTime))
                 .map((task: any, taskIndex: number) => (
@@ -229,7 +234,7 @@ const TaskCenter: NextPage = () => {
                   >
                     <div
                       className={cn(
-                        "bg-[#1E1E1E] w-full h-auto md:h-[263px] px-4 py-4 md:px-8 md:py-8 rounded md:rounded-md transition-colors duration-300 overflow-hidden relative",
+                        "bg-[#1E1E1E] w-full h-auto md:h-56 xl:h-[263px] px-4 py-4 xl:px-8 xl:py-8 rounded md:rounded-md transition-colors duration-300 overflow-hidden relative",
                         task.available[networkId || "devnet"] &&
                           isSupportSonic(wallet?.adapter.name)
                           ? "group-hover/task:bg-[#181818]"
@@ -237,7 +242,7 @@ const TaskCenter: NextPage = () => {
                       )}
                     >
                       {/* task name */}
-                      <h5 className="flex flex-row gap-2 items-center text-white/70 text-base md:text-5xl font-semibold font-orbitron">
+                      <h5 className="flex flex-row gap-2 items-center text-white/70 text-base md:text-3xl xl:text-5xl font-semibold font-orbitron">
                         {task.name}
                         <IconGo
                           width={20}

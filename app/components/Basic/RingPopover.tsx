@@ -5,7 +5,7 @@ import { Loader2, ChevronLeft } from "lucide-react";
 import {
   Popover,
   PopoverTrigger,
-  PopoverContent,
+  PopoverContent
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Ring } from "../../icons/Ring";
@@ -16,13 +16,13 @@ import { cn, prettyNumber } from "@/lib/utils";
 import {
   useAccountInfo,
   useNetworkInfo,
-  useSystemInfo,
+  useSystemInfo
 } from "../../store/account";
 import { getMysteryboxHistory } from "../../data/reward";
 import {
   useMysteryBoxInfo,
   useMysteryBoxConfirmModal,
-  useMysteryBoxRecordModal,
+  useMysteryBoxRecordModal
 } from "../../store/task";
 import { isSupportSonic } from "../../wallet/wallet-list";
 import { getUserRewardInfo } from "../../data/account";
@@ -41,19 +41,19 @@ export default function RingPopover() {
     useMysteryBoxInfo();
   const {
     isOpen: isOpenMysteryboxConfirmModal,
-    onOpen: onOpenMysteryboxConfirmModal,
+    onOpen: onOpenMysteryboxConfirmModal
   } = useMysteryBoxConfirmModal();
   const {
     isOpen: isOpenMysteryboxRecordModal,
-    onOpen: onOpenMysteryboxRecordModal,
+    onOpen: onOpenMysteryboxRecordModal
   } = useMysteryBoxRecordModal();
   const {
     isOpen: isOpenDrawLotteryRecordModal,
-    onOpen: onOpenDrawLotteryRecordModal,
+    onOpen: onOpenDrawLotteryRecordModal
   } = useDrawRecordModal();
   const {
     isOpen: isOpenDrawLotteryResultModal,
-    onOpen: onOpenDrawLotteryResultModal,
+    onOpen: onOpenDrawLotteryResultModal
   } = useDrawResultModal();
 
   const [isOpeningMysterybox, setIsOpeningMysterybox] = useState(false);
@@ -68,21 +68,21 @@ export default function RingPopover() {
   const {
     data: dataRewardsInfo,
     isLoading: loadingRewardsInfo,
-    refetch: refetchRewardsInfo,
+    refetch: refetchRewardsInfo
   } = useQuery({
     queryKey: ["queryUserRewardsInfo", address],
     queryFn: () => getUserRewardInfo({ token, networkId }),
-    enabled: !!address && !!token,
+    enabled: !!address && !!token
   });
 
   const {
     data: dataMysteryBoxHistory,
     isLoading: loadingMysteryBoxHistory,
-    refetch: refetchRewardsHistory,
+    refetch: refetchRewardsHistory
   } = useQuery({
     queryKey: ["queryMysteryBoxHistory", address],
     queryFn: () => getMysteryboxHistory({ token, networkId }),
-    enabled: !!address && !!token,
+    enabled: !!address && !!token
   });
 
   const handleOpenMysterybox = () => {
@@ -386,7 +386,7 @@ export default function RingPopover() {
       <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
         <PopoverTrigger>
           <div
-            className="flex flex-row items-center gap-2 cursor-pointer"
+            className="flex flex-row items-center gap-2 md:gap-1 xl:gap-2 cursor-pointer"
             onClick={() => setShowPanel(true)}
           >
             <Ring width={24} height={24} color="#FBB042" />

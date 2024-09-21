@@ -5,7 +5,7 @@ import { networks as networkList } from "@/app/data/config";
 import {
   useAccountInfo,
   useNetworkInfo,
-  useWalletModal,
+  useWalletModal
 } from "@/app/store/account";
 import { cn } from "@/lib/utils";
 import { useSwitchNetworkModal } from "@/app/store/tutorials";
@@ -39,7 +39,7 @@ export function NetworkSwitch({ className }: any) {
       setNetworks(
         networks.map((item: any) => ({
           ...item,
-          active: item.id === network.id,
+          active: item.id === network.id
         }))
       );
     }
