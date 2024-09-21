@@ -7,7 +7,7 @@ import {
   isInLotteryCampaignTime,
   isInMaintenanceTime,
   isMobileViewport,
-  prettyNumber,
+  prettyNumber
 } from "@/lib/utils";
 import { Arrow } from "@/app/icons/Arrow";
 import { Gift } from "@/app/icons/Gift";
@@ -20,20 +20,20 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 import { trackClick } from "@/lib/track";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import {
   formatAddress,
   useAccountInfo,
-  useNetworkInfo,
+  useNetworkInfo
 } from "@/app/store/account";
 import {
   getLotteryDrawPrice,
   getLotteryMintedAmount,
-  getLotteryWinnerBoard,
+  getLotteryWinnerBoard
 } from "@/app/data/lottery";
 import { DrawConfirmDialog } from "../Dialog/DrawConfirm";
 import { DrawRecordDialog } from "../Dialog/DrawRecord";
@@ -41,7 +41,7 @@ import { DrawResultDialog } from "../Dialog/DrawResult";
 import {
   useDrawConfirmModal,
   useLotteryInfo,
-  useLotteryPriceTableModal,
+  useLotteryPriceTableModal
 } from "@/app/store/lottery";
 import { taskGroupList } from "@/app/data/task";
 import { LotteryPriceTableDialog } from "../Dialog/LotteryPriceTable";
@@ -72,13 +72,13 @@ export function RingLottery() {
     lotteryDrawPrice,
     setLotteryDrawPrice,
     setLotteryDrawAmount,
-    setLotterySeason,
+    setLotterySeason
   } = useLotteryInfo();
 
   const {
     isOpen: isOpenDrawConfirmModal,
     onOpen: onOpenDrawConfirmModal,
-    onClose: onCloseDrawConfirmModal,
+    onClose: onCloseDrawConfirmModal
   } = useDrawConfirmModal();
 
   const { onOpen: onOpenLotteryPriceTableModal } = useLotteryPriceTableModal();
@@ -88,31 +88,31 @@ export function RingLottery() {
     token,
     reset,
     hasNews,
-    setNews: hasNotification,
+    setNews: hasNotification
   } = useAccountInfo();
 
   const { data: dataMintedRingAmount, refetch: refetchMintedRingAmount } =
     useQuery({
       queryKey: ["queryMintedRingAmount", address],
       queryFn: () => getLotteryMintedAmount({ token, networkId }),
-      enabled: !!address && !!token,
+      enabled: !!address && !!token
     });
 
   const {
     data: dataWinnerBoard,
     isLoading: isLoadingWinnerBoard,
-    refetch: refetchWinnerBoard,
+    refetch: refetchWinnerBoard
   } = useQuery({
     queryKey: ["queryWinnerBoard", address],
     queryFn: () =>
       getLotteryWinnerBoard({ token, page: winnerBoardPage, networkId }),
-    enabled: !!address && !!token,
+    enabled: !!address && !!token
   });
 
   const { data: dataDrawPrice, refetch: refetchDrawPrice } = useQuery({
     queryKey: ["queryDrawPrice", address],
     queryFn: () => getLotteryDrawPrice({ token, networkId }),
-    enabled: !!address && !!token,
+    enabled: !!address && !!token
   });
 
   const handleSetLotteryDrawAmount = (drawAmount: string) => {
@@ -188,7 +188,7 @@ export function RingLottery() {
       {/* rows */}
       <ScrollArea
         ref={scrollAreaRef}
-        className="max-h-[180px] md:max-h-[280px] overflow-y-auto"
+        className="h-[180px] md:h-[280px] pr-2.5"
         onScroll={handleScrollWinnerBoard}
       >
         <div className="flex flex-col gap-5">
