@@ -198,7 +198,7 @@ export function Header() {
   }, [networkId]);
 
   return (
-    <nav className="flex md:min-w-[1100px] flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
+    <nav className="flex flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
       <div className="h-16 md:h-20 flex items-center justify-between p-4 md:px-10 md:py-4 bg-[#111111] w-full transition-all duration-300">
         {/* left */}
         <div className="flex items-center gap-3 md:gap-2 xl:gap-8">
