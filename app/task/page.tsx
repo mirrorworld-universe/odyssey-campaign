@@ -137,7 +137,7 @@ const TaskCenter: NextPage = () => {
   }, []);
 
   const Header = () => (
-    <div className="bg-[#000] w-full flex justify-center overflow-hidden relative px-4 py-4 xl:py-24 md:py-16">
+    <div className="bg-[#000] w-full flex justify-center overflow-hidden relative px-4 xl:px-10 py-4 xl:py-24 md:py-16">
       <img
         src="/images/fingerprint.png"
         alt=""
@@ -202,7 +202,7 @@ const TaskCenter: NextPage = () => {
   );
 
   const MainContent = () => (
-    <div className="w-full max-w-[1464px] mt-2 mb-2 md:my-8 xl:my-20 px-4 py-4 md:py-0 xl:px-10">
+    <div className="w-full max-w-[1544px] mt-2 mb-2 md:my-8 xl:my-20 px-4 py-4 md:py-0 xl:px-10">
       <div className="w-full flex flex-col gap-8 md:gap-10 xl:gap-24">
         {taskGroupList.map((taskGroup: any, taskGroupIndex: number) => (
           <Card
