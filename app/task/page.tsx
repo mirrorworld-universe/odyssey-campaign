@@ -77,7 +77,7 @@ const icons: any = {
   ),
   cube: (
     <Cube
-      className="size-[140px] md:size-56 xl:size-[250px] origin-center rotate-12"
+      className="size-[120px] md:size-56 xl:size-[270px] origin-center rotate-12"
       color="#313131"
     />
   )
