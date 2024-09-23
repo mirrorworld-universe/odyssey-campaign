@@ -386,7 +386,7 @@ export default function RingPopover() {
       <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
         <PopoverTrigger>
           <div
-            className="flex flex-row items-center gap-2 md:gap-1 xl:gap-2 cursor-pointer"
+            className="flex flex-row items-center gap-2 cursor-pointer"
             onClick={() => setShowPanel(true)}
           >
             <Ring width={24} height={24} color="#FBB042" />

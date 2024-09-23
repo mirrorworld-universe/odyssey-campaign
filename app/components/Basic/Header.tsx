@@ -199,17 +199,17 @@ export function Header() {
 
   return (
     <nav className="flex flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
-      <div className="h-16 md:h-20 flex items-center justify-between p-4 md:px-10 md:py-4 bg-[#111111] w-full transition-all duration-300">
+      <div className="h-16 md:h-20 flex items-center justify-between p-4 md:px-4 xl:px-10 md:py-4 bg-[#111111] w-full transition-all duration-300">
         {/* left */}
         <div className="flex items-center gap-3 md:gap-2 xl:gap-8">
           {/* logo */}
           <Link href="/" className="inline-flex flex-row items-center gap-2">
             <img
               alt="Sonic Logo"
-              className="min-w-7 w-7 md:w-4 xl:w-8 h-auto"
+              className="min-w-7 w-7 xl:w-8 h-auto"
               src="/sonic.png"
             />
-            <span className="hidden md:inline text-white text-[22px] md:text-base xl:text-[22px] font-bold font-orbitron tracking-widest">
+            <span className="hidden md:inline text-white text-[22px] font-bold font-orbitron tracking-widest">
               SONIC
             </span>
           </Link>
@@ -262,7 +262,7 @@ export function Header() {
               )}
             ></i>
 
-            <div className="w-full md:w-auto flex flex-col md:flex-row items-start md:items-center md:gap-4 xl:gap-8">
+            <div className="w-full md:w-auto flex flex-col md:flex-row items-start md:items-center md:gap-6 xl:gap-8">
               {menu.map((menuItem, menuIndex) => (
                 <Link
                   className={cn(
@@ -284,7 +284,7 @@ export function Header() {
         </div>
 
         {/* right */}
-        <div className="gap-6 xl:gap-8 md:gap-2 flex items-center">
+        <div className="gap-6 xl:gap-8 flex items-center">
           {address && token ? <RingPopover /> : null}
 
           {address && token ? <Notification /> : null}

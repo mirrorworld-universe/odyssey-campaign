@@ -41,43 +41,43 @@ import clsx from "clsx";
 const icons: any = {
   twitter: (
     <Twitter
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
+      className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-12"
       color="#313131"
     />
   ),
   calendar: (
     <Calendar
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
+      className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-12"
       color="#313131"
     />
   ),
   chip: (
     <Chip
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
+      className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-12"
       color="#313131"
     />
   ),
   recommand: (
     <Recommand
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
+      className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-12"
       color="#313131"
     />
   ),
   diversity: (
     <Diversity
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
+      className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-12"
       color="#313131"
     />
   ),
   game: (
     <Controller
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-12"
+      className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-12"
       color="#313131"
     />
   ),
   cube: (
     <Cube
-      className="w-[120px] h-[120px] md:w-[250px] md:h-[250px] origin-center rotate-0"
+      className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-0"
       color="#313131"
     />
   )
@@ -202,7 +202,7 @@ const TaskCenter: NextPage = () => {
   );
 
   const MainContent = () => (
-    <div className="w-full max-w-[1464px] mt-2 mb-2 md:my-8 xl:my-20 px-4 py-4 md:p-0">
+    <div className="w-full max-w-[1464px] mt-2 mb-2 md:my-8 xl:my-20 px-4 py-4 md:py-0 xl:px-10">
       <div className="w-full flex flex-col gap-8 md:gap-10 xl:gap-24">
         {taskGroupList.map((taskGroup: any, taskGroupIndex: number) => (
           <Card
@@ -212,7 +212,7 @@ const TaskCenter: NextPage = () => {
             className="w-full relative px-4 py-4 md:p-8 xl:p-12 rounded md:rounded-xl"
             nameClassName="text-xs md:text-[32px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-2 md:left-7 -top-2"
           >
-            <div className="flex flex-wrap flex-row gap-4 md:gap-8 xl:gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 flex-row gap-4 md:gap-8 xl:gap-10">
               {taskGroup.list
                 .filter((task: any) => hasTaskStarted(task.startTime))
                 .map((task: any, taskIndex: number) => (
@@ -253,7 +253,7 @@ const TaskCenter: NextPage = () => {
                       </h5>
 
                       {/* description */}
-                      <p className="hidden md:flex text-white/60 text-base font-normal w-[420px] mt-5">
+                      <p className="hidden relative z-10 md:flex text-white/60 text-base font-normal w-[420px] mt-5">
                         {task.description}
                       </p>
 
@@ -291,7 +291,7 @@ const TaskCenter: NextPage = () => {
                         <OkxSeasonTag />
                       ) : null}
 
-                      <div className="flex flex-row gap-2 md:hidden mt-4">
+                      <div className="flex relative z-[1] flex-row gap-2 md:hidden mt-4">
                         {/* period */}
                         <div className="text-[10px] text-[#25A3ED] bg-[#212b32] rounded-[2px] px-1 py-[2px]">
                           {task.period}
@@ -359,7 +359,7 @@ const TaskCenter: NextPage = () => {
                       </div>
                       <div
                         className={cn(
-                          "opacity-50 absolute -bottom-6 md:-bottom-4 right-0 md:right-0 transition-all duration-300",
+                          "opacity-50 z-0  absolute -bottom-6 md:-bottom-4 right-0 md:right-0 transition-all duration-300",
                           task.available[networkId || "devnet"] &&
                             isSupportSonic(wallet?.adapter.name)
                             ? "group-hover/task:-right-14"
