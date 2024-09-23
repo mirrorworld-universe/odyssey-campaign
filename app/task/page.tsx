@@ -77,7 +77,7 @@ const icons: any = {
   ),
   cube: (
     <Cube
-      className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-0"
+      className="size-[140px] md:size-56 xl:size-[250px] origin-center rotate-12"
       color="#313131"
     />
   )
@@ -277,7 +277,7 @@ const TaskCenter: NextPage = () => {
                             )
                               .map((wallet: any) => wallet.id)
                               .map((bonus: any) => (
-                                <div className="w-3 h-3">
+                                <div className="w-3 h-3" key={bonus}>
                                   {walletIcons[bonus]}
                                 </div>
                               ))}
@@ -324,7 +324,7 @@ const TaskCenter: NextPage = () => {
                               )
                                 .map((wallet: any) => wallet.id)
                                 .map((bonus: any) => (
-                                  <div className="w-2 h-2">
+                                  <div className="w-2 h-2" key={bonus}>
                                     {walletIcons[bonus]}
                                   </div>
                                 ))}
