@@ -20,7 +20,7 @@ export function Footer() {
       icon: <Twitter width={24} height={24} color="white" />,
       handler: () => {
         trackClick({ text: "Follow on X" });
-      },
+      }
     },
     {
       name: "discord",
@@ -28,8 +28,8 @@ export function Footer() {
       icon: <Discord width={24} height={24} color="white" />,
       handler: () => {
         trackClick({ text: "Join DC" });
-      },
-    },
+      }
+    }
   ];
 
   return (
@@ -40,7 +40,7 @@ export function Footer() {
         className="w-[1610px] h-[1638px] absolute -bottom-80 -right-80"
       />
 
-      <div className="w-full flex flex-col max-w-[1464px] mx-auto relative">
+      <div className="w-full flex flex-col max-w-[1540px] md:px-4 xl:px-10 mx-auto relative">
         {/* Mobile version Copyright */}
         <div className="flex md:hidden flex-col md:flex-row md:justify-between md:items-center gap-14 w-full">
           <div className="flex space-x-3 justify-start items-center">

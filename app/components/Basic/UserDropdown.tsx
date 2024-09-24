@@ -7,7 +7,7 @@ import { toast } from "@/components/ui/use-toast";
 import {
   Popover,
   PopoverTrigger,
-  PopoverContent,
+  PopoverContent
 } from "@/components/ui/popover";
 import {
   formatAddress,
@@ -15,7 +15,7 @@ import {
   useAccountInfo,
   useNetworkInfo,
   useSystemInfo,
-  useWalletModal,
+  useWalletModal
 } from "../../store/account";
 import { fetchLogout } from "../../data/account";
 import { WalletList, setUpUrls } from "@/app/wallet/wallet-list";
@@ -42,7 +42,7 @@ export function UserDropdown() {
     onSuccess: () => {
       setSwitching(false);
       reset();
-    },
+    }
   });
 
   const handleClickOpenMyWallet = () => {
@@ -63,7 +63,7 @@ export function UserDropdown() {
           <div role="success">
             The user address has been copied successfully.
           </div>
-        ),
+        )
       });
     } catch (err) {
       console.error("Failed to copy user address: ", err);
@@ -222,16 +222,16 @@ export function UserDropdown() {
       <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
         <PopoverTrigger>
           <div
-            className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-3 py-2 md:px-4 2xl:px-5 md:py-2 2xl:py-[10px] rounded cursor-pointer transition-all duration-300"
+            className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-3 py-2 md:px-2 2xl:px-5 md:py-2 2xl:py-[10px] rounded cursor-pointer transition-all duration-300"
             onClick={handleClickOpenMyWallet}
             title={publicKey?.toBase58()}
           >
             <img
               src="/images/wallet.svg"
               alt=""
-              className="w-5 h-5 2xl:w-6 2xl:h-6"
+              className="w-5 h-5 md:size-4 2xl:w-6 2xl:h-6"
             />
-            <span className="text-white font-semibold font-orbitron text-sm 2xl:text-base">
+            <span className="text-white font-semibold font-orbitron text-sm md:text-xs xl:text-base">
               {formatAddress(publicKey?.toBase58(), isMobileViewport() ? 2 : 4)}
             </span>
           </div>
