@@ -206,7 +206,11 @@ export function MysteryNFT() {
           onFinish: () => {
             const collections = [...NFTcollections];
             collections.forEach((item: any) => {
-              if (item.id === 1 && item.isLimited) {
+              if (
+                item.id === 1 &&
+                item.isLimited &&
+                item.status === "success"
+              ) {
                 item.minted = true;
               }
             });
@@ -258,7 +262,11 @@ export function MysteryNFT() {
           onFinish: () => {
             const collections = [...NFTcollections];
             collections.forEach((item: any) => {
-              if (item.id === "lowlife" && item.isLimited) {
+              if (
+                item.id === "lowlife" &&
+                item.isLimited &&
+                item.status === "success"
+              ) {
                 item.minted = true;
               }
             });
@@ -317,6 +325,7 @@ export function MysteryNFT() {
           </div>
         ),
       });
+      onFinish && onFinish({ status: "success" });
     } catch (error) {
       toast({
         title: "Sorry",
@@ -328,9 +337,8 @@ export function MysteryNFT() {
         ),
       });
       console.error("Transaction failed:", error);
+      onFinish && onFinish({ status: "fail" });
     }
-
-    onFinish && onFinish();
   };
 
   useEffect(() => {
