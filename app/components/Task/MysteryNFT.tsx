@@ -76,7 +76,7 @@ export function MysteryNFT() {
       minted: true,
       handleMint: () => {
         const currentCollection = NFTcollections.find(
-          (item: any) => !item.isLimited
+          (item: any) => item.id === "lowlife"
         );
         setSelectedCollection(currentCollection);
         if (
@@ -112,7 +112,7 @@ export function MysteryNFT() {
       minted: true,
       handleMint: () => {
         const currentCollection = NFTcollections.find(
-          (item: any) => item.isLimited
+          (item: any) => item.id === 1
         );
         setSelectedCollection(currentCollection);
         if (
@@ -148,7 +148,7 @@ export function MysteryNFT() {
       minted: true,
       handleMint: () => {
         const currentCollection = NFTcollections.find(
-          (item: any) => !item.isLimited
+          (item: any) => item.id === 2
         );
         setSelectedCollection(currentCollection);
         if (
