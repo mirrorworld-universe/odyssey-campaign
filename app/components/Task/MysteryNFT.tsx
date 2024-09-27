@@ -187,7 +187,12 @@ export function MysteryNFT() {
   } = useQuery({
     queryKey: ["queryThirdPartyCollectionInfo", address],
     queryFn: () =>
-      fetchThirdPartyCollectionInfo({ token, wallet: address, networkId }),
+      fetchThirdPartyCollectionInfo({
+        name: "lowlife",
+        wallet: address,
+        token,
+        networkId,
+      }),
     enabled: !!token,
   });
 
@@ -239,7 +244,13 @@ export function MysteryNFT() {
 
   const getThirdPartyCollectionTXHash = useMutation({
     mutationKey: ["buildThirdPartyCollectionTx", address],
-    mutationFn: () => fetchThirdPartyCollectionTx({ token, networkId }),
+    mutationFn: () =>
+      fetchThirdPartyCollectionTx({
+        name: "lowlife",
+        wallet: address,
+        token,
+        networkId,
+      }),
     onSuccess({ data }) {
       if (data?.hash) {
         triggerTransaction({
