@@ -56,6 +56,44 @@ export function MysteryNFT() {
 
   const [NFTcollections, setNFTCollections] = useState<any>([
     {
+      id: "3",
+      image:
+        "https://2qdyvazekpxbfz4exewelpidbev44ooyvulymuftequ5yaor3csq.akrd.net/1AeKgyRT7hLnhLksRb0DCSvOOditF4ZQsyQp3AHR2KU",
+      name: "LLF SuperSonic Badge",
+      isLimited: true,
+      isSmallImage: true,
+      isExpanded: false,
+      introduction:
+        "Lowlife Forms SuperSonic Badge. For the LLF pioneers and the Sonic OGs. For the web3 gamers that want the best of all worlds. This testnet NFT will give access to the mainnet Badge which will unlock unique in-game and out-of-game benefits.",
+      totalAmount: 6000,
+      mintedAmount: 0,
+      available: true,
+      limit: 0,
+      enable: false,
+      minted: true,
+      handleMint: () => {
+        const currentCollection = NFTcollections.find(
+          (item: any) => !item.isLimited
+        );
+        setSelectedCollection(currentCollection);
+        if (
+          currentCollection.enable &&
+          !currentCollection.minted &&
+          !isMinting
+        ) {
+          isMintingStatus = true;
+          setIsMinting(isMintingStatus);
+          getUnlimitedCollectionTXHash.mutate();
+        }
+      },
+      handleTrade: () => {
+        window.open(
+          "https://www.okx.com/web3/marketplace/nft/collection/sonic-devnet/sonic-odyssey-pass",
+          "_blank"
+        );
+      },
+    },
+    {
       id: "1",
       image: "/images/nft/1.png",
       name: "Sonic Cartridge Collection",
@@ -403,15 +441,22 @@ export function MysteryNFT() {
                 {/* nft part */}
                 <div className="nft flex flex-row items-center gap-10">
                   {/* cover */}
-                  <div className="max-w-[200px] h-[112px] rounded overflow-hidden relative">
+                  <div
+                    className={cn(
+                      "flex justify-center w-[200px] h-[112px] rounded overflow-hidden relative"
+                      // nft.isSmallImage ? "w-[200px]" : ""
+                    )}
+                  >
                     <img
                       src={nft.image}
                       alt=""
-                      className={
+                      className={cn(
+                        "max-w-none",
+                        nft.isSmallImage ? "h-full w-auto" : "h-auto",
                         nft.isLimited && nft.mintedAmount >= nft.totalAmount
                           ? "opacity-30"
                           : "opacity-100"
-                      }
+                      )}
                     />
                     {nft.isLimited && nft.mintedAmount >= nft.totalAmount ? (
                       <SoldoutTag className="rounded-bl rounded-tr absolute top-0 right-0" />
@@ -560,8 +605,14 @@ export function MysteryNFT() {
                       )}
                     >
                       {/* cover */}
-                      <div className="flex items-center w-full h-[175px] overflow-hidden relative">
-                        <img src={nft.image} alt="" className="h-auto w-full" />
+                      <div className="flex items-center justify-center w-full h-[175px] overflow-hidden relative">
+                        <img
+                          src={nft.image}
+                          alt=""
+                          className={cn(
+                            nft.isSmallImage ? "h-full w-auto" : "h-auto w-full"
+                          )}
+                        />
                         {nft.isLimited &&
                         nft.mintedAmount >= nft.totalAmount ? (
                           <SoldoutTag className="absolute top-0 right-0" />
