@@ -74,6 +74,8 @@ export const fetchThirdPartyCollectionInfo = async ({
 
 // third-party collection build mint tx
 export const fetchThirdPartyCollectionTx = async ({
+  name = "lowlife",
+  wallet,
   token,
   networkId,
 }: any) => {
@@ -84,8 +86,13 @@ export const fetchThirdPartyCollectionTx = async ({
     {
       headers: {
         Authorization: token,
+        "content-type": "application/json",
       },
-      method: "GET",
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        wallet,
+      }),
     }
   );
   return response.json();
