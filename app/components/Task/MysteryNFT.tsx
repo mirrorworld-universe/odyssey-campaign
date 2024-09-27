@@ -452,7 +452,7 @@ export function MysteryNFT() {
                       alt=""
                       className={cn(
                         "max-w-none",
-                        nft.isSmallImage ? "h-full w-auto" : "h-auto",
+                        nft.isSmallImage ? "h-full w-auto" : "h-auto w-full",
                         nft.isLimited && nft.mintedAmount >= nft.totalAmount
                           ? "opacity-30"
                           : "opacity-100"
