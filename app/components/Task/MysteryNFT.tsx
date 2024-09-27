@@ -30,6 +30,8 @@ import {
   fetchCollectionInfo,
   fetchLimitedCollectionTx,
   fetchUnlimitedCollectionTx,
+  fetchThirdPartyCollectionInfo,
+  fetchThirdPartyCollectionTx,
 } from "@/app/data/nft";
 import { trackClick } from "@/lib/track";
 import { cn, prettyNumber } from "@/lib/utils";
@@ -56,7 +58,8 @@ export function MysteryNFT() {
 
   const [NFTcollections, setNFTCollections] = useState<any>([
     {
-      id: "3",
+      id: "lowlife",
+      isThirdParty: true,
       image:
         "https://2qdyvazekpxbfz4exewelpidbev44ooyvulymuftequ5yaor3csq.akrd.net/1AeKgyRT7hLnhLksRb0DCSvOOditF4ZQsyQp3AHR2KU",
       name: "LLF SuperSonic Badge",
@@ -65,10 +68,10 @@ export function MysteryNFT() {
       isExpanded: false,
       introduction:
         "Lowlife Forms SuperSonic Badge. For the LLF pioneers and the Sonic OGs. For the web3 gamers that want the best of all worlds. This testnet NFT will give access to the mainnet Badge which will unlock unique in-game and out-of-game benefits.",
-      totalAmount: 6000,
+      totalAmount: 1,
       mintedAmount: 0,
       available: true,
-      limit: 0,
+      limit: 1,
       enable: false,
       minted: true,
       handleMint: () => {
@@ -83,18 +86,18 @@ export function MysteryNFT() {
         ) {
           isMintingStatus = true;
           setIsMinting(isMintingStatus);
-          getUnlimitedCollectionTXHash.mutate();
+          getThirdPartyCollectionTXHash.mutate();
         }
       },
-      handleTrade: () => {
-        window.open(
-          "https://www.okx.com/web3/marketplace/nft/collection/sonic-devnet/sonic-odyssey-pass",
-          "_blank"
-        );
-      },
+      // handleTrade: () => {
+      //   window.open(
+      //     "https://www.okx.com/web3/marketplace/nft/collection/sonic-devnet/sonic-odyssey-pass",
+      //     "_blank"
+      //   );
+      // },
     },
     {
-      id: "1",
+      id: 1,
       image: "/images/nft/1.png",
       name: "Sonic Cartridge Collection",
       isLimited: true,
@@ -130,7 +133,7 @@ export function MysteryNFT() {
       },
     },
     {
-      id: "2",
+      id: 2,
       image: "/images/nft/2.png",
       name: "Sonic Odyssey Pass",
       isLimited: false,
@@ -177,6 +180,17 @@ export function MysteryNFT() {
     enabled: !!token,
   });
 
+  const {
+    data: dataThirdPartyCollectionInfo,
+    isLoading: loadingThirdPartyCollectionInfo,
+    refetch: refetchThirdPartyCollectionInfo,
+  } = useQuery({
+    queryKey: ["queryThirdPartyCollectionInfo", address],
+    queryFn: () =>
+      fetchThirdPartyCollectionInfo({ token, wallet: address, networkId }),
+    enabled: !!token,
+  });
+
   const getLimitedCollectionTXHash = useMutation({
     mutationKey: ["buildLimitedCollectionTx", address],
     mutationFn: () => fetchLimitedCollectionTx({ token, networkId }),
@@ -187,7 +201,7 @@ export function MysteryNFT() {
           onFinish: () => {
             const collections = [...NFTcollections];
             collections.forEach((item: any) => {
-              if (item.isLimited) {
+              if (item.id === 1 && item.isLimited) {
                 item.minted = true;
               }
             });
@@ -212,6 +226,33 @@ export function MysteryNFT() {
         triggerTransaction({
           transactionString: data.hash,
           onFinish: () => {
+            isMintingStatus = false;
+            setIsMinting(isMintingStatus);
+          },
+        });
+      } else {
+        isMintingStatus = false;
+        setIsMinting(isMintingStatus);
+      }
+    },
+  });
+
+  const getThirdPartyCollectionTXHash = useMutation({
+    mutationKey: ["buildThirdPartyCollectionTx", address],
+    mutationFn: () => fetchThirdPartyCollectionTx({ token, networkId }),
+    onSuccess({ data }) {
+      if (data?.hash) {
+        triggerTransaction({
+          transactionString: data.hash,
+          onFinish: () => {
+            const collections = [...NFTcollections];
+            collections.forEach((item: any) => {
+              if (item.id === "lowlife" && item.isLimited) {
+                item.minted = true;
+              }
+            });
+            setNFTCollections(collections);
+
             isMintingStatus = false;
             setIsMinting(isMintingStatus);
           },
@@ -287,9 +328,52 @@ export function MysteryNFT() {
     if (collectionInfo) {
       const collections = [...NFTcollections];
       collections.forEach((item: any) => {
-        if (item.isLimited) {
-          const { total, minted, mint_limit, enable_mint } =
-            collectionInfo.limited_coll_info;
+        if (!item.isThirdParty) {
+          if (item.isLimited) {
+            const { total, minted, mint_limit, enable_mint } =
+              collectionInfo.limited_coll_info;
+            item.totalAmount = total;
+            item.mintedAmount = minted;
+            // limit amount to mint
+            item.limit = mint_limit;
+            // is collection enable to mint
+            item.enable = enable_mint && minted < total;
+            // is collection minted
+            item.minted = !enable_mint;
+            isLimitedSoldOut = minted >= total;
+          } else {
+            const { total, minted, mint_limit, enable_mint } =
+              collectionInfo.unlimited_coll_info;
+            item.totalAmount = total > 1 ? total : -1;
+            item.mintedAmount = minted;
+            item.limit = mint_limit;
+            item.enable = enable_mint;
+            item.minted = false;
+          }
+        }
+      });
+      setLoaded(true);
+      if (isLimitedSoldOut) {
+        let index = collections.findIndex((item) => item.id === 1);
+        if (index !== -1) {
+          let [item] = collections.splice(index, 1);
+          collections.push(item);
+        }
+        setNFTCollections(collections);
+      } else {
+        setNFTCollections(collections);
+      }
+    }
+  }, [dataLimitedCollectionInfo]);
+
+  useEffect(() => {
+    let isLimitedSoldOut = false;
+    const collectionInfo = dataThirdPartyCollectionInfo?.data;
+    if (collectionInfo) {
+      const collections = [...NFTcollections];
+      collections.forEach((item: any) => {
+        if (item.id === "lowlife") {
+          const { total, minted, mint_limit, enable_mint } = collectionInfo;
           item.totalAmount = total;
           item.mintedAmount = minted;
           // limit amount to mint
@@ -299,24 +383,21 @@ export function MysteryNFT() {
           // is collection minted
           item.minted = !enable_mint;
           isLimitedSoldOut = minted >= total;
-        } else {
-          const { total, minted, mint_limit, enable_mint } =
-            collectionInfo.unlimited_coll_info;
-          item.totalAmount = total > 1 ? total : -1;
-          item.mintedAmount = minted;
-          item.limit = mint_limit;
-          item.enable = enable_mint;
-          item.minted = false;
         }
       });
       setLoaded(true);
       if (isLimitedSoldOut) {
-        setNFTCollections(collections.reverse());
+        let index = collections.findIndex((item) => item.id === "lowlife");
+        if (index !== -1) {
+          let [item] = collections.splice(index, 1);
+          collections.push(item);
+        }
+        setNFTCollections(collections);
       } else {
         setNFTCollections(collections);
       }
     }
-  }, [dataLimitedCollectionInfo]);
+  }, [dataThirdPartyCollectionInfo]);
 
   useEffect(() => {
     if (token && token !== currentToken) {
@@ -560,6 +641,7 @@ export function MysteryNFT() {
                       "w-1/2 xl:w-[102px] h-12 text-base font-semibold font-orbitron border rounded bg-transparent hover:bg-transparent transition-all duration-300",
                       "border-[#27282D] hover:border-[#27282D]/80 active:border-[#27282D]/60 text-white hover:text-white/80 active:text-white/60"
                     )}
+                    disabled={!nft.handleTrade}
                     onClick={nft.handleTrade}
                   >
                     Trade
