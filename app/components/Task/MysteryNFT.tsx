@@ -443,19 +443,18 @@ export function MysteryNFT() {
                   {/* cover */}
                   <div
                     className={cn(
-                      "flex justify-center w-[200px] h-[112px] rounded overflow-hidden relative"
-                      // nft.isSmallImage ? "w-[200px]" : ""
+                      "max-w-[200px] h-[112px] rounded overflow-hidden relative",
+                      nft.isSmallImage ? "w-full flex justify-center" : ""
                     )}
                   >
                     <img
                       src={nft.image}
                       alt=""
                       className={cn(
-                        "max-w-none",
-                        nft.isSmallImage ? "h-full w-auto" : "h-auto w-full",
                         nft.isLimited && nft.mintedAmount >= nft.totalAmount
                           ? "opacity-30"
-                          : "opacity-100"
+                          : "opacity-100",
+                        nft.isSmallImage ? "max-w-none h-full w-auto" : ""
                       )}
                     />
                     {nft.isLimited && nft.mintedAmount >= nft.totalAmount ? (
