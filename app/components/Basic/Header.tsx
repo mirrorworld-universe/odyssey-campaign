@@ -15,7 +15,7 @@ import {
   useNetworkInfo,
   useNotificationBar,
   useSystemInfo,
-  useWalletModal
+  useWalletModal,
 } from "../../store/account";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
@@ -27,7 +27,7 @@ import {
   trackClick,
   trackCriteoWalletClick,
   trackCriteoWalletTransactionClick,
-  trackLinkClick
+  trackLinkClick,
 } from "@/lib/track";
 import {
   cn,
@@ -36,7 +36,7 @@ import {
   isMobileViewport,
   maintenanceEndTime,
   maintenanceNetworks,
-  maintenanceStartTime
+  maintenanceStartTime,
 } from "@/lib/utils";
 import { Speaker } from "@/app/icons/Speaker";
 import { useEffect, useState } from "react";
@@ -55,34 +55,34 @@ export const menu: any[] = [
     name: "Task Center",
     link: {
       devnet: "/task",
-      testnet: "/task"
+      testnet: "/task",
     },
-    target: "_self"
+    target: "_self",
   },
   {
     name: "Faucet",
     link: {
       devnet: "https://faucet.sonic.game/#/",
-      testnet: "https://faucet.sonic.game/#/?network=testnet"
+      testnet: "https://faucet.sonic.game/#/?network=testnet",
     },
-    target: "_blank"
+    target: "_blank",
   },
   {
     name: "Odyssey Guide",
     link: {
       devnet: "https://blog.sonic.game/sonic-testnet-odyssey-guide",
-      testnet: "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide"
+      testnet: "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide",
     },
-    target: "_blank"
+    target: "_blank",
   },
   {
     name: "About Sonic",
     link: {
       devnet: "https://sonic.game/",
-      testnet: "https://sonic.game/"
+      testnet: "https://sonic.game/",
     },
-    target: "_blank"
-  }
+    target: "_blank",
+  },
 ];
 
 const NETWORK_COOKIE_NAME = "experiment-cookie-frontier";
@@ -102,7 +102,7 @@ export function Header() {
   const {
     isOpen: isOpenNotificationBar,
     onOpen: onOpenNotificationBar,
-    onClose: onCloseNotificationBar
+    onClose: onCloseNotificationBar,
   } = useNotificationBar();
   const { lotterySeason } = useLotteryInfo();
   const { networkId, visitedNetworkId, setVisitedNetworkId } = useNetworkInfo();
@@ -177,7 +177,7 @@ export function Header() {
       trackActionEvent("pageLoad", {
         page_name,
         entry_time: new Date(),
-        entry_page
+        entry_page,
       });
     } catch (e) {
       console.log(e);
@@ -332,7 +332,7 @@ export function Header() {
                 for understanding.
               </div> */}
               {/* maintenance */}
-              {/* <div className="pl-[100%] animate-marquee">
+              <div className="pl-[100%] animate-marquee">
                 Important Update: Sonic{" "}
                 {getNetworkNamesById(maintenanceNetworks).join(" & ")} will
                 undergo maintenance on{" "}
@@ -340,15 +340,15 @@ export function Header() {
                 {format(new UTCDate(maintenanceStartTime), "h a")} UTC. Some
                 tasks and on-chain interactions will be paused. Thank you for
                 understanding.
-              </div> */}
-              <div className="pl-[100%] animate-marquee">
+              </div>
+              {/* <div className="pl-[100%] animate-marquee">
                 Sonic Devnet upgrade in progress due to upcoming{" "}
                 <a href="https://www.nodpad.ai/" className="underline mx-1">
                   Node Sale
                 </a>
                 traffic. Expected to be completed by the end of the raffle sale.
                 Some tasks will be temporarily unavailable.
-              </div>
+              </div> */}
             </span>
           </div>
         </NotificationBar>
@@ -373,7 +373,7 @@ export function Header() {
               </a>{" "}
               about{" "}
               {formatDistance(new Date(bannerMessage.date), new UTCDate(), {
-                addSuffix: true
+                addSuffix: true,
               })}
               !
             </span>
