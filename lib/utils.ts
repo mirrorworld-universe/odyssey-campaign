@@ -87,7 +87,7 @@ export const getNetworkUrl = (networkId: any) => {
 };
 
 export const maintenanceStartTime = "2024-10-08T15:00:00+08:00";
-export const maintenanceEndTime = "2024-10-09T15:00:00+08:00";
+export const maintenanceEndTime = "2024-10-09T21:00:00+08:00";
 export const maintenanceNetworks = ["devnet"];
 export const showInAdcance = false;
 
