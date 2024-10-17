@@ -10,17 +10,18 @@ import { cn } from "@/lib/utils";
 import { useNotificationBar } from "@/app/store/account";
 import { TaskNavigator } from "@/app/components/Basic/TaskNavigator";
 import { MysteryNFT } from "@/app/components/Task/MysteryNFT";
+import { PlayOnSonicContent } from "@/app/components/Task/SonicXContent";
 
 const tasks = taskGroupList.map((item) => item.list).flat();
 
 export async function generateMetadata({
-  params,
+  params
 }: {
   params: { slug: string };
 }) {
   const taskId = params.slug;
   return {
-    title: `${tasks.find((task) => task.id === taskId)?.name} - Sonic Odyssey`,
+    title: `${tasks.find((task) => task.id === taskId)?.name} - Sonic Odyssey`
   };
 }
 
@@ -35,6 +36,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     ["referral"]: <Referral />,
     ["game-venture"]: <GameVenture />,
     ["mystery-nft"]: <MysteryNFT />,
+    ["play-on-sonicx"]: <PlayOnSonicContent />
   };
 
   const Content = ({ className }: any) => (

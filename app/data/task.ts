@@ -14,10 +14,23 @@ export const taskGroupList = [
         iconName: "twitter",
         available: {
           devnet: true,
-          testnet: false,
-        },
+          testnet: false
+        }
       },
-    ],
+      {
+        id: "play-on-sonicx",
+        name: "Play on SonicX",
+        description:
+          "Sign up for your first Sonic X wallet and play on Sonic X to earn more rewards!",
+        period: "24-Hour Period",
+        reward: "",
+        iconName: "sonicX",
+        available: {
+          devnet: true,
+          testnet: true
+        }
+      }
+    ]
   },
   {
     name: "Everyday",
@@ -33,8 +46,8 @@ export const taskGroupList = [
         bonus: true,
         available: {
           devnet: true,
-          testnet: true,
-        },
+          testnet: true
+        }
       },
       {
         id: "mystery-nft",
@@ -46,9 +59,9 @@ export const taskGroupList = [
         iconName: "cube",
         available: {
           devnet: true,
-          testnet: false,
+          testnet: false
         },
-        startTime: walletCampaignStartTime,
+        startTime: walletCampaignStartTime
       },
       {
         id: "milestone",
@@ -61,8 +74,8 @@ export const taskGroupList = [
         bonus: true,
         available: {
           devnet: true,
-          testnet: true,
-        },
+          testnet: true
+        }
       },
       {
         id: "referral",
@@ -74,8 +87,8 @@ export const taskGroupList = [
         iconName: "diversity",
         available: {
           devnet: true,
-          testnet: false,
-        },
+          testnet: false
+        }
       },
       {
         id: "ring-lottery",
@@ -87,11 +100,11 @@ export const taskGroupList = [
         iconName: "chip",
         available: {
           devnet: true,
-          testnet: false,
+          testnet: false
         },
-        showPeriod: true,
-      },
-    ],
+        showPeriod: true
+      }
+    ]
   },
   {
     name: "Sonic Ecosystem",
@@ -106,11 +119,11 @@ export const taskGroupList = [
         iconName: "game",
         available: {
           devnet: true,
-          testnet: true,
-        },
-      },
-    ],
-  },
+          testnet: true
+        }
+      }
+    ]
+  }
 ];
 
 export const fetchFollowingStatus = async ({ token, networkId }: any) => {
@@ -120,9 +133,9 @@ export const fetchFollowingStatus = async ({ token, networkId }: any) => {
     )}/user/social/status`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
     }
   );
   return response.json();
@@ -135,13 +148,13 @@ export const fetchFollowTwitter = async ({ state, code, networkId }: any) => {
     )}/user/social/follow/twitter`,
     {
       headers: {
-        "content-type": "application/json",
+        "content-type": "application/json"
       },
       method: "POST",
       body: JSON.stringify({
         state,
-        code,
-      }),
+        code
+      })
     }
   );
   return response.json();
@@ -154,13 +167,13 @@ export const fetchFollowDiscord = async ({ state, code, networkId }: any) => {
     )}/user/social/follow/discord`,
     {
       headers: {
-        "content-type": "application/json",
+        "content-type": "application/json"
       },
       method: "POST",
       body: JSON.stringify({
         state,
-        code,
-      }),
+        code
+      })
     }
   );
   return response.json();
@@ -173,9 +186,9 @@ export const fetchCheckinStatus = async ({ token, networkId }: any) => {
     )}/user/check-in/status`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
     }
   );
   return response.json();
@@ -188,9 +201,9 @@ export const fetchCheckinTransaction = async ({ token, networkId }: any) => {
     )}/user/check-in/transaction`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
     }
   );
   return response.json();
@@ -204,12 +217,25 @@ export const fetchFinishCheckin = async ({ token, hash, networkId }: any) => {
     {
       headers: {
         Authorization: token,
-        "content-type": "application/json",
+        "content-type": "application/json"
       },
       method: "POST",
       body: JSON.stringify({
-        hash,
-      }),
+        hash
+      })
+    }
+  );
+  return response.json();
+};
+export const fetchSonicXUrl = async ({ token }: any) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}/user/sonicX/status`,
+    {
+      headers: {
+        Authorization: token,
+        "content-type": "application/json"
+      },
+      method: "GET"
     }
   );
   return response.json();
