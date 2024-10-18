@@ -7,6 +7,7 @@ import { trackClick } from "@/lib/track";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Rules } from "./Rules";
+import { useQuery } from "@tanstack/react-query";
 
 export function SonicXContent() {
   const { address, token } = useAccountInfo();
@@ -14,14 +15,19 @@ export function SonicXContent() {
 
   const [showRules, setShowRules] = useState(false);
 
+  const { data: res } = useQuery({
+    queryKey: ["sonicXUrl"],
+    queryFn: () => fetchSonicXUrl({ token }),
+    enabled: !!token
+  });
+
   const handleLaunchSonicX = async () => {
     if (!address) {
       onOpen();
       return;
     }
     trackClick({ text: "play on sonicx" });
-    const res = await fetchSonicXUrl({ token });
-    if (res.code === 0) {
+    if (res?.code === 0) {
       window.open(res.data.sonicX_url, "_blank");
     }
   };
@@ -73,6 +79,7 @@ export function SonicXContent() {
 
           <div className="hidden md:block h-[100px] w-px bg-[#27282D]"></div>
           <Button
+            disabled={res?.data?.finished}
             className={cn(
               "h-12 w-[177px] px-4 flex items-center justify-center text-base/[20px] font-bold font-orbitron bg-[#0000FF]",
               "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60",
@@ -96,6 +103,7 @@ export function SonicXContent() {
           </span>
         </Button>
         <Button
+          disabled={res?.data?.finished}
           onClick={handleLaunchSonicX}
           className="w-4/6 h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
         >
