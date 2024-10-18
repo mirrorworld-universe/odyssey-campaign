@@ -38,6 +38,7 @@ import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import clsx from "clsx";
 import { SonicX } from "../icons/SonicX";
+import { Tiktok } from "../icons/TIktok";
 
 const icons: any = {
   twitter: (
@@ -49,6 +50,12 @@ const icons: any = {
   calendar: (
     <Calendar
       className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-12"
+      color="#313131"
+    />
+  ),
+  tiktok: (
+    <Tiktok
+      className="size-[120px] md:size-56 xl:size-[250px] origin-center"
       color="#313131"
     />
   ),
