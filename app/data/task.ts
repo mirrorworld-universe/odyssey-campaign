@@ -27,7 +27,7 @@ export const taskGroupList = [
         iconName: "sonicX",
         available: {
           devnet: true,
-          testnet: true
+          testnet: false
         }
       }
     ]
