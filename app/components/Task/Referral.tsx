@@ -27,11 +27,11 @@ export function Referral() {
   const {
     data: dataReferralInfo,
     isLoading: loadingReferralInfo,
-    refetch: refetchReferralInfo,
+    refetch: refetchReferralInfo
   } = useQuery({
     queryKey: ["queryReferralInfo", address],
     queryFn: () => getReferralInfo({ token, networkId }),
-    enabled: !!token,
+    enabled: !!token
   });
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export function Referral() {
           <div role="success">
             The invitation link has been copied successfully.
           </div>
-        ),
+        )
       });
       trackClick({ text: "Referral" });
     } catch (err) {
