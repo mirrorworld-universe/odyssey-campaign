@@ -54,7 +54,7 @@ const icons: any = {
   ),
   sonicX: (
     <SonicX
-      className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-12"
+      className="size-[120px] md:size-56 xl:size-[250px] origin-center"
       color="#313131"
     />
   ),
