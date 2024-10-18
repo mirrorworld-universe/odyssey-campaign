@@ -1,19 +1,16 @@
 "use client";
-import { useState } from "react";
-
-import { Card, CardSize } from "@/app/components/Basic/Card";
+import { fetchSonicXUrl } from "@/app/data/task";
 import { Gift } from "@/app/icons/Gift";
 import { useAccountInfo, useWalletModal } from "@/app/store/account";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-
 import { trackClick } from "@/lib/track";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 import { Rules } from "./Rules";
-import { fetchSonicXUrl } from "@/app/data/task";
 
-export function PlayOnSonicContent() {
-  const { onOpen } = useWalletModal();
+export function SonicXContent() {
   const { address, token } = useAccountInfo();
+  const { onOpen } = useWalletModal();
 
   const [showRules, setShowRules] = useState(false);
 
@@ -28,16 +25,6 @@ export function PlayOnSonicContent() {
       window.open(res.data.sonicX_url, "_blank");
     }
   };
-
-  const socialMediaList = [
-    {
-      id: "play-on-sonicx",
-      name: "Launch SonicX",
-      link: "https://twitter.com/SonicSVM",
-      description: `Click "Launch Now" to visit the platform and create your new wallet easily. Start managing your digital assets today!`,
-      buttonText: "Launch Now"
-    }
-  ];
 
   return (
     <div className="flex flex-col w-full">
@@ -73,53 +60,46 @@ export function PlayOnSonicContent() {
             </li>
           </ul>
         </Rules>
+        <div className="border-0 md:border border-[#27282D] md:p-10 md:mt-20 flex items-center gap-10 xl:gap-20 max-w-[1024px]">
+          <div className="flex flex-col gap-3 md:gap-4 max-w-[607px]">
+            <div className="text-white text-lg md:text-xl font-semibold font-orbitron">
+              Launch SonicX
+            </div>
+            <div className="text-[#666] text-sm xl:text-base/[1.75] font-normal">
+              Click "Launch Now" to visit the platform and create your new
+              wallet easily. Start managing your digital assets today!
+            </div>
+          </div>
 
-        {/* main */}
-        <Card
-          size={CardSize.Medium}
-          className="max-w-[1024px] md:mt-20 p-6 rounded-lg md:p-10 md:rounded-xl"
-          nameClassName="bg-[#000]"
-        >
-          <ul className="list-disc font-normal leading-relaxed md:pl-6">
-            {socialMediaList.map((socialMedia, socialMediaIndex) => (
-              <li
-                className={`flex flex-col xl:flex-row items-start xl:items-center w-full`}
-                key={socialMediaIndex}
-              >
-                <div className="flex flex-col pr-20 xl:border-r xl:border-solid xl:border-white/10">
-                  <h5 className="text-sm md:text-xl text-white font-semibold font-orbitron">
-                    {socialMedia.name}
-                  </h5>
-                  <p className="w-full text-xs md:text-base text-white/50 font-normal mt-2 md:mt-4">
-                    {socialMedia.description}
-                  </p>
-                </div>
-                <Button
-                  className={cn(
-                    "inline-flex justify-center items-center w-[148px] md:w-[178px] md:h-12 rounded gap-2 px-4 py-2 md:py-[10px] bg-[#0000FF] transition-all duration-300 mt-5 md:mt-10 xl:mt-0 xl:ml-20",
-                    "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
-                  )}
-                  onClick={handleLaunchSonicX}
-                >
-                  <span className="text-white font-orbitron text-sm md:text-base font-semibold">
-                    {address ? socialMedia.buttonText : "Connect Wallet"}
-                  </span>
-                </Button>
-              </li>
-            ))}
-          </ul>
-        </Card>
+          <div className="hidden md:block h-[100px] w-px bg-[#27282D]"></div>
+          <Button
+            className={cn(
+              "h-12 w-[177px] px-4 flex items-center justify-center text-base/[20px] font-bold font-orbitron bg-[#0000FF]",
+              "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60",
+              "md:block hidden"
+            )}
+            onClick={handleLaunchSonicX}
+          >
+            {address ? "Launch Now" : "Connect Wallet"}
+          </Button>
+        </div>
       </div>
 
       {/* mobile version tools */}
-      <div className="flex md:hidden flex-row fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+      <div className="flex md:hidden flex-row gap-4 fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
         <Button
-          className="w-full h-12 border border-solid border-white/40 bg-transparent"
+          className="w-2/6 h-12 border border-solid border-white/40 bg-transparent"
           onClick={() => setShowRules(true)}
         >
           <span className="text-white text-base font-bold font-orbitron">
             Rules
           </span>
+        </Button>
+        <Button
+          onClick={handleLaunchSonicX}
+          className="w-4/6 h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
+        >
+          {address ? "Launch SonicX" : "Connect Wallet"}
         </Button>
       </div>
     </div>

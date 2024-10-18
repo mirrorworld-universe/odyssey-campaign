@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { useNotificationBar } from "@/app/store/account";
 import { TaskNavigator } from "@/app/components/Basic/TaskNavigator";
 import { MysteryNFT } from "@/app/components/Task/MysteryNFT";
-import { PlayOnSonicContent } from "@/app/components/Task/SonicXContent";
+import { SonicXContent } from "@/app/components/Task/SonicXContent";
 
 const tasks = taskGroupList.map((item) => item.list).flat();
 
@@ -36,7 +36,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     ["referral"]: <Referral />,
     ["game-venture"]: <GameVenture />,
     ["mystery-nft"]: <MysteryNFT />,
-    ["play-on-sonicx"]: <PlayOnSonicContent />
+    ["play-on-sonicx"]: <SonicXContent />
   };
 
   const Content = ({ className }: any) => (
