@@ -70,8 +70,7 @@ export function SonicXContent() {
               Launch SonicX
             </div>
             <div className="text-[#666] text-sm xl:text-base/[1.75] font-normal">
-              Click "Launch Now" to visit the platform and create your new
-              wallet easily. Start managing your digital assets today!
+              Click "Launch Now" to visit Sonic X and unlock more rewards!
             </div>
           </div>
 
