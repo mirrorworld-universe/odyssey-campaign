@@ -29,20 +29,20 @@ export const taskGroupList = [
           devnet: true,
           testnet: false
         }
-      },
-      {
-        id: "follow-on-tiktok",
-        name: "Follow on TikTok",
-        description:
-          "Follow @SonicSVM on TikTok for the newest updating from sonic.",
-        period: "24-Hour Period",
-        reward: "",
-        iconName: "tiktok",
-        available: {
-          devnet: true,
-          testnet: false
-        }
       }
+      // {
+      //   id: "follow-on-tiktok",
+      //   name: "Follow on TikTok",
+      //   description:
+      //     "Follow @SonicSVM on TikTok for the newest updating from sonic.",
+      //   period: "24-Hour Period",
+      //   reward: "",
+      //   iconName: "tiktok",
+      //   available: {
+      //     devnet: true,
+      //     testnet: false
+      //   }
+      // }
     ]
   },
   {
