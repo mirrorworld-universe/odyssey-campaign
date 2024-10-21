@@ -99,9 +99,9 @@ export function TiktokContent() {
       </div>
 
       {/* mobile version tools */}
-      <div className="flex md:hidden flex-row gap-4 fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
+      <div className="flex md:hidden flex-row gap-3 fixed bottom-0 right-0 left-0 m-auto bg-[#000] py-5 px-4">
         <Button
-          className="w-2/6 h-12 border border-solid border-white/40 bg-transparent"
+          className="w-20 h-12 border border-solid border-white/40 bg-transparent"
           onClick={() => setShowRules(true)}
         >
           <span className="text-white text-base font-bold font-orbitron">
@@ -110,7 +110,7 @@ export function TiktokContent() {
         </Button>
         <Button
           onClick={handleLaunchSonicX}
-          className="w-4/6 h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
+          className="grow h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
         >
           {address ? (
             <div className="gap-2 flex items-center">
