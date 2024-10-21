@@ -49,7 +49,7 @@ export function SonicXContent() {
         {/* rules */}
         <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
           <ul className="w-full list-disc font-normal pl-6">
-            <li>Visit SonicX to sign up your first sonicX wallet.</li>
+            <li>Visit Sonic X and log in via your TikTok.</li>
             <li>
               Earn{" "}
               <span className="inline-flex items-center text-[#FBB042]">
@@ -60,7 +60,7 @@ export function SonicXContent() {
                 />{" "}
                 Ring Mystery Boxes
               </span>{" "}
-              automatically after you created.
+              automatically after you log in.
             </li>
           </ul>
         </Rules>
