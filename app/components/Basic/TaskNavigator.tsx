@@ -47,11 +47,18 @@ export function TaskNavigator({ taskId, className }: any) {
   const NavigatorItem = ({ task, taskIndex, className }: any) => {
     const LinkContent = () => (
       <>
-        <img
-          className="w-full h-auto md:h-full object-cover"
-          src={`/images/${task.id}.png`}
-          alt=""
-        />
+        <picture className="w-full h-auto md:h-full object-cover">
+          <source
+            media="(max-width: 768px)"
+            srcSet={`/images/${task.id}-m.png`}
+          />
+          <img
+            className="w-full h-auto md:h-full object-cover"
+            src={`/images/${task.id}.png`}
+            alt=""
+          />
+        </picture>
+
         <div
           className={cn(
             `w-full h-full absolute top-0 left-0 background-highlight opacity-0 transition-opacity duration-300 rotate-180 md:rotate-0`,

@@ -55,7 +55,7 @@ const icons: any = {
   ),
   tiktok: (
     <Tiktok
-      className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-12"
+      className="size-[120px] md:size-[250px] xl:size-[300px] origin-center rotate-12 translate-y-8"
       color="#313131"
     />
   ),
