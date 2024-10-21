@@ -1,5 +1,4 @@
 "use client";
-import { fetchSonicXUrl } from "@/app/data/task";
 import { Gift } from "@/app/icons/Gift";
 import { useAccountInfo, useWalletModal } from "@/app/store/account";
 import { Button } from "@/components/ui/button";

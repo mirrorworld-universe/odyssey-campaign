@@ -48,7 +48,7 @@ export function TaskNavigator({ taskId, className }: any) {
     const LinkContent = () => (
       <>
         <img
-          className="w-full h-auto md:h-full absolute top-0 left-0  "
+          className="w-full h-auto md:h-full object-cover"
           src={`/images/${task.id}.png`}
           alt=""
         />
@@ -73,7 +73,9 @@ export function TaskNavigator({ taskId, className }: any) {
               {task.period}
             </span>
           ) : null}
-          <span className="inline-flex items-center">{task.name}</span>
+          <span className="inline-flex items-center font-extrabold">
+            {task.name}
+          </span>
         </span>
         {task.id === taskId ? (
           <Arrow
