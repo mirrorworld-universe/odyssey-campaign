@@ -70,7 +70,8 @@ export function SonicXContent() {
               Launch SonicX
             </div>
             <div className="text-[#666] text-sm xl:text-base/[1.75] font-normal">
-              Click "Launch Now" to visit Sonic X and unlock more rewards!
+              Click "Launch Now" to dive into the games on Sonic X! Experience
+              thrilling gameplay and unlock more rewards today!
             </div>
           </div>
 
