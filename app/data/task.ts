@@ -21,7 +21,7 @@ export const taskGroupList = [
         id: "play-on-sonicx",
         name: "Play on SonicX",
         description:
-          "Sign up for your first Sonic X wallet and play on Sonic X to earn more rewards!",
+          "Sign up for your first Sonic X wallet and play on SonicX to earn more rewards!",
         period: "24-Hour Period",
         reward: "",
         iconName: "sonicX",
