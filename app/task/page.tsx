@@ -37,6 +37,8 @@ import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 
 import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import clsx from "clsx";
+import { SonicX } from "../icons/SonicX";
+import { Tiktok } from "../icons/TIktok";
 
 const icons: any = {
   twitter: (
@@ -48,6 +50,18 @@ const icons: any = {
   calendar: (
     <Calendar
       className="size-[120px] md:size-56 xl:size-[250px] origin-center rotate-12"
+      color="#313131"
+    />
+  ),
+  tiktok: (
+    <Tiktok
+      className="size-[120px] md:size-[250px] xl:size-[320px] origin-center rotate-12 md:translate-y-8 -translate-y-2"
+      color="#313131"
+    />
+  ),
+  sonicX: (
+    <SonicX
+      className="size-[120px] md:size-56 xl:size-[250px] origin-center"
       color="#313131"
     />
   ),
@@ -209,7 +223,7 @@ const TaskCenter: NextPage = () => {
             key={taskGroupIndex}
             size={CardSize.Default}
             name={taskGroup.name}
-            className="w-full relative px-4 py-4 md:p-8 xl:p-12 rounded md:rounded-xl"
+            className="w-full relative px-4 py-4 md:p-8 xl:p-12 !rounded-none md:rounded-xl"
             nameClassName="text-xs md:text-[32px] bg-[#000] md:bg-[#111] px-1 md:px-4 left-2 md:left-7 -top-2"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 flex-row gap-4 md:gap-8 xl:gap-10">
@@ -234,7 +248,7 @@ const TaskCenter: NextPage = () => {
                   >
                     <div
                       className={cn(
-                        "bg-[#1E1E1E] w-full h-auto md:h-56 xl:h-[263px] px-4 py-4 xl:px-8 xl:py-8 rounded md:rounded-md transition-colors duration-300 overflow-hidden relative",
+                        "bg-[#1E1E1E] w-full h-auto md:h-56 xl:h-[263px] px-4 py-4 xl:px-8 xl:py-8 rounded transition-colors duration-300 overflow-hidden relative",
                         task.available[networkId || "devnet"] &&
                           isSupportSonic(wallet?.adapter.name)
                           ? "group-hover/task:bg-[#181818]"
