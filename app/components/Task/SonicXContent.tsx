@@ -74,7 +74,7 @@ export function SonicXContent() {
             </div>
           </div>
 
-          <div className="hidden md:block h-[100px] w-px bg-[#27282D]"></div>
+          <div className="hidden ml-auto md:block h-[100px] w-px bg-[#27282D]"></div>
           <Button
             disabled={res?.data?.finished}
             className={cn(
