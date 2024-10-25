@@ -48,7 +48,7 @@ export function FAQDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="text-primary p-8 flex flex-col gap-8 max-w-[640px]">
-        <div className="text-headline5">FAQs</div>
+        <div className="text-headline5 font-orbitron">FAQs</div>
         <Accordion
           type="single"
           collapsible
@@ -59,7 +59,7 @@ export function FAQDialog() {
             <AccordionItem
               key={faqIndex}
               value={`item-${faqIndex + 1}`}
-              className="border-line p-8 gap-2 flex flex-col"
+              className="border-line p-8 gap-2 flex flex-col first:border-t"
             >
               <AccordionTrigger className="text-title2 font-orbitron p-0 aria-expanded:text-[#FBB042] transition-colors">
                 {faq.title}
