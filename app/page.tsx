@@ -11,7 +11,7 @@ import {
   useAccountInfo,
   useNetworkInfo,
   useSystemInfo,
-  useWalletModal,
+  useWalletModal
 } from "./store/account";
 import { inviteUser } from "./data/account";
 import { loadHomePageStatics, openWalletStatics } from "@/lib/analytics";
@@ -35,8 +35,8 @@ export default function Home() {
       inviteUser({
         token,
         code: invitationCode,
-        networkId,
-      }),
+        networkId
+      })
   });
 
   useEffect(() => {

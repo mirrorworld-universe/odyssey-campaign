@@ -33,6 +33,27 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    /* BG Color */
+    --bg1: #000;
+    --bg-popup: #151519;
+    --bg-tag: #2c251d;
+    --bg-mask: #020414;
+
+    /* Text Color */
+    --primary: #fff;
+    --secondary: #999;
+    --tertary: #666;
+    --disable: #333;
+    --link: #25a3ed;
+
+    /* Other Color */
+    --icon: #4d4d4d;
+    --line: #27282d;
+    --primary-blue: #00f;
+    --gold-yellow: #fbb042;
+    --error: #f00;
+    --success: #00ff94;
   }
 
   .dark {

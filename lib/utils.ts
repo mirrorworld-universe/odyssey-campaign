@@ -12,13 +12,13 @@ const DIALOGUE_FEATURES = {
   status: "no",
   menubar: "no",
   scrollbars: "yes",
-  resizable: "yes",
+  resizable: "yes"
 };
 
 const DEFAULT_SIZE = {
   width: 500,
   height: 434,
-  top: 224,
+  top: 224
 };
 
 export function cn(...inputs: ClassValue[]) {
@@ -53,7 +53,7 @@ export const openDialoguePopup = (
 ) => {
   const targetSize = {
     ...DEFAULT_SIZE,
-    ...(size || {}),
+    ...(size || {})
   };
 
   const { width } = targetSize;
@@ -81,7 +81,7 @@ export const getNetworkUrl = (networkId: any) => {
   const currentNetwork = networks.find(
     (item: any) => item.id === networkId
   ) || {
-    url: "",
+    url: ""
   };
   return currentNetwork.url;
 };
