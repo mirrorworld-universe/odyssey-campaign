@@ -15,7 +15,9 @@ export default function MainContent() {
             {taskGroup.list.map((task, taskIndex) => (
               <div key={taskIndex} className="p-4 bg-[#1E1E1E] rounded">
                 <div className="flex flex-col gap-2 max-w-[224px]">
-                  <div className="text-title1 text-secondary">{task.name}</div>
+                  <div className="text-title1 text-secondary font-orbitron">
+                    {task.name}
+                  </div>
                   <div className="text-body4 text-tertary">
                     {task.description}
                   </div>

@@ -34,12 +34,6 @@ export function Footer() {
 
   return (
     <footer className="flex flex-col items-center justify-center gap-4 md:gap-8 bg-sonic-nav w-full md:!py-14 lg:!py-24 px-4 md:p-0 relative overflow-hidden pb-[88px] md:pb-0 mt-[72px] md:mt-0">
-      {/* <img
-        src="/images/fingerprint.png"
-        alt=""
-        className="w-[1610px] h-[1638px] absolute -bottom-80 -right-80"
-      /> */}
-
       <div className="w-full flex flex-col max-w-[1540px] md:px-4 xl:px-10 mx-auto relative">
         {/* Mobile version Copyright */}
         <div className="flex md:hidden flex-col md:flex-row md:justify-between md:items-center gap-14 w-full">

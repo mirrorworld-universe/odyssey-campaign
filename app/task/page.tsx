@@ -1,46 +1,34 @@
 "use client";
-import React, { useEffect } from "react";
-import { NextPage } from "next";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { UTCDate } from "@date-fns/utc";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { NextPage } from "next";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-import { Chip } from "@/app/icons/Chip";
-import { Cube } from "@/app/icons/Cube";
-import { Twitter } from "@/app/icons/Twitter";
-import { Calendar } from "@/app/icons/Calendar";
-import { Recommand } from "@/app/icons/Recommand";
-import { Diversity } from "@/app/icons/Diversity";
-import { Controller } from "@/app/icons/Controller";
-import { Go as IconGo } from "@/app/icons/Go";
-import { OKX as IconOKX } from "@/app/icons/OKX";
 import { Backpack as IconBackpack } from "@/app/icons/Backpack";
+import { Calendar } from "@/app/icons/Calendar";
+import { Chip } from "@/app/icons/Chip";
+import { Controller } from "@/app/icons/Controller";
+import { Cube } from "@/app/icons/Cube";
+import { Diversity } from "@/app/icons/Diversity";
+import { OKX as IconOKX } from "@/app/icons/OKX";
+import { Recommand } from "@/app/icons/Recommand";
+import { Twitter } from "@/app/icons/Twitter";
 
-import {
-  cn,
-  isInLotteryCampaignTime,
-  isInWalletCampaignTime
-} from "@/lib/utils";
 import { trackClick } from "@/lib/track";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardSize } from "@/app/components/Basic/Card";
+import { Footer } from "@/app/components/Basic/Footer";
 import { FAQDialog } from "@/app/components/Dialog/FAQ";
 import { HowToPlayDialog } from "@/app/components/Dialog/HowToPlay";
-import { Footer } from "@/app/components/Basic/Footer";
 
-import { taskGroupList } from "@/app/data/task";
-import { useTaskInfo } from "@/app/store/task";
-import { useFAQModal, useHowToPlayModal } from "@/app/store/tutorials";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
+import { useTaskInfo } from "@/app/store/task";
+import { useHowToPlayModal } from "@/app/store/tutorials";
 
-import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
-import clsx from "clsx";
 import { SonicX } from "../icons/SonicX";
 import { Tiktok } from "../icons/TIktok";
-import MainContent from "./components/MainContent";
 import Banner from "./components/Banner";
+import MainContent from "./components/MainContent";
 
 const icons: any = {
   twitter: (
@@ -115,11 +103,6 @@ const TaskCenter: NextPage = () => {
     onOpen: onOpenHowToPlayDialog,
     onClose: onCloseHowToPlayDialog
   } = useHowToPlayModal();
-  const {
-    isOpen: isOpenFAQDialog,
-    onOpen: onOpenFAQDialog,
-    onClose: onCloseFAQDialog
-  } = useFAQModal();
 
   const handleStartTask = () => {
     if (!token) {
@@ -138,17 +121,10 @@ const TaskCenter: NextPage = () => {
     trackClick({ text: "How to play?" });
   };
 
-  const handleOpenFAQDialog = () => {
-    onOpenFAQDialog();
-  };
-
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
     if (hash && hash === "how-to-play") {
       onOpenHowToPlayDialog();
-    }
-    if (hash && hash === "faq") {
-      onOpenFAQDialog();
     }
   }, []);
 
