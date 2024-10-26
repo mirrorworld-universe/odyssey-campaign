@@ -30,6 +30,7 @@ import { Tiktok } from "../icons/TIktok";
 import Banner from "./components/Banner";
 import MainContent from "./components/MainContent";
 import { SetUpSonicNetworkDialog } from "../components/Dialog/SetUpSonicNetwork";
+import SeasonTwo from "../components/Dialog/SeasonTwo";
 
 const icons: any = {
   twitter: (
@@ -140,7 +141,8 @@ const TaskCenter: NextPage = () => {
 
   return (
     <>
-      <main className="bg-[#111] flex flex-col gap-12 text-primary">
+      <main className="md:bg-[#111] flex flex-col md:gap-12 text-primary">
+        <SeasonTwo />
         <Banner />
         <MainContent />
         <HowToPlayDialog />

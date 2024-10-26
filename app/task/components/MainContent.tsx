@@ -5,8 +5,8 @@ export default function MainContent() {
   return (
     <div
       className={cn(
-        "max-w-view mx-auto px-4 w-full pb-12",
-        "flex flex-col gap-12"
+        "max-w-view mx-auto px-4 w-full md:pb-12",
+        "flex flex-col gap-8 md:gap-12"
       )}
     >
       {taskGroupList.map((taskGroup, index) => (

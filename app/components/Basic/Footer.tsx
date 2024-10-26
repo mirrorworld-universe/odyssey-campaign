@@ -30,61 +30,65 @@ const socialMedias = [
 ];
 
 export function Footer() {
-  const year = new Date().getFullYear();
-  const { networkId } = useNetworkInfo();
-
   return (
     <div className="max-w-view w-full mx-auto pt-20 px-4 md:pt-12 pb-14 md:pb-6 text-primary">
       <PcFooter />
+      <MobileFooter />
+    </div>
+  );
+}
 
-      <div className="flex flex-col gap-14 md:hidden">
-        <div className="flex items-center gap-3">
-          <SonicLogo />
-          <div className="w-px h-5 bg-[#27282D]"></div>
-          <p className="text-title3 font-orbitron">WWW.SONIC.GAME</p>
-        </div>
+function MobileFooter() {
+  const year = new Date().getFullYear();
+  const { networkId } = useNetworkInfo();
+  return (
+    <div className="flex flex-col gap-14 md:hidden">
+      <div className="flex items-center gap-3">
+        <SonicLogo />
+        <div className="w-px h-5 bg-line"></div>
+        <p className="text-title3 font-orbitron">WWW.SONIC.GAME</p>
+      </div>
 
-        <div className="flex flex-col gap-3">
-          <div className="text-ten font-medium text-[#717171]">Links</div>
-          <div className="flex flex-col gap-4">
-            {menu.map((item, index) => (
-              <div className="flex justify-between items-center">
-                <Link
-                  className="text-title3/[1.2] font-orbitron text-primary"
-                  href={item.link[networkId || "devnet"]}
-                  key={index}
-                >
-                  {item.name}
-                </Link>
-                <ArrowLogo />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-3">
-          <div className="text-ten font-medium text-[#717171]">Socials</div>
-          <div className="flex items-center gap-3">
-            {socialMedias.map((item, index) => (
+      <div className="flex flex-col gap-3">
+        <div className="text-ten font-medium text-[#717171]">Links</div>
+        <div className="flex flex-col gap-4">
+          {menu.map((item, index) => (
+            <div className="flex justify-between items-center">
               <Link
-                className="size-10 rounded-md bg-white/20 flex justify-center items-center"
-                href={item.link}
+                className="text-title3/[1.2] font-orbitron text-primary"
+                href={item.link[networkId || "devnet"]}
                 key={index}
-                onClick={item.handler}
               >
-                {item.icon}
+                {item.name}
               </Link>
-            ))}
-          </div>
+              <ArrowLogo />
+            </div>
+          ))}
         </div>
+      </div>
 
-        <div className="border-t border-white/20 pt-8 flex items-center gap-2 text-body4 text-tertary">
-          <p>© Copyright {year} Sonic</p>
-          <div className="w-px h-2.5 bg-line" />
-          <Link href={"/terms-of-use"}>Term of Use</Link>
-          <div className="w-px h-2.5 bg-line" />
-          <Link href={"/private-policy"}>Privacy Policy</Link>
+      <div className="flex flex-col gap-3">
+        <div className="text-ten font-medium text-[#717171]">Socials</div>
+        <div className="flex items-center gap-3">
+          {socialMedias.map((item, index) => (
+            <Link
+              className="size-10 rounded-md bg-white/20 flex justify-center items-center"
+              href={item.link}
+              key={index}
+              onClick={item.handler}
+            >
+              {item.icon}
+            </Link>
+          ))}
         </div>
+      </div>
+
+      <div className="border-t border-white/20 pt-8 flex items-center gap-2 text-body4 text-tertary">
+        <p>© Copyright {year} Sonic</p>
+        <div className="w-px h-2.5 bg-line" />
+        <Link href={"/terms-of-use"}>Term of Use</Link>
+        <div className="w-px h-2.5 bg-line" />
+        <Link href={"/private-policy"}>Privacy Policy</Link>
       </div>
     </div>
   );
@@ -98,7 +102,7 @@ function PcFooter() {
       <div className="flex justify-between">
         <div className="flex items-center gap-4">
           <SonicLogo />
-          <div className="w-px h-5 bg-[#27282D]"></div>
+          <div className="w-px h-5 bg-line"></div>
           <p className="text-title3 font-orbitron">WWW.SONIC.GAME</p>
         </div>
         <div className="flex items-center gap-10">
@@ -119,7 +123,7 @@ function PcFooter() {
       <div className="flex justify-between items-center">
         <div className={cn("flex items-center gap-4 text-body2 text-tertary")}>
           <p>© Copyright {year} Sonic</p>
-          <div className="w-px h-2.5 bg-[#27282D]" />
+          <div className="w-px h-2.5 bg-line" />
           <Link
             href={"/terms-of-use"}
             className="hover:text-primary transition-colors"
