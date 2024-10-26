@@ -35,25 +35,25 @@
     --radius: 0.5rem;
 
     /* BG Color */
-    --bg1: #000;
-    --bg-popup: #151519;
-    --bg-tag: #2c251d;
-    --bg-mask: #020414;
+    --bg1: 0 0% 0%;
+    --bg-popup: 240 9% 9%;
+    --bg-tag: 32 21% 14%;
+    --bg-mask: 0 0% 0%;
 
     /* Text Color */
-    --primary: #fff;
-    --secondary: #999;
-    --tertary: #666;
-    --disable: #333;
-    --link: #25a3ed;
+    --primary: 0 0% 100%;
+    --secondary: 0 0% 60%;
+    --tertary: 0 0% 40%;
+    --disable: 0 0% 20%;
+    --link: 202 84% 53%;
 
     /* Other Color */
-    --icon: #4d4d4d;
-    --line: #27282d;
-    --primary-blue: #00f;
-    --gold-yellow: #fbb042;
-    --error: #f00;
-    --success: #00ff94;
+    --icon: 0 0% 30%;
+    --line: 240 3% 16%;
+    --primary-blue: 240 100% 50%;
+    --gold-yellow: 38 96% 62%;
+    --error: 0 100% 50%;
+    --success: 156 100% 50%;
   }
 
   .dark {

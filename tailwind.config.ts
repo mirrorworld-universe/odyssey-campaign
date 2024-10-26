@@ -69,27 +69,29 @@ const config = {
           foreground: "hsl(var(--card-foreground))"
         },
         primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "hsl(var(--primary-foreground))"
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+          blue: "hsl(var(--primary-blue))"
         },
         secondary: {
-          DEFAULT: "var(--secondary)",
+          DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))"
         },
-        bg1: "var(--bg1)",
-        "bg-popup": "var(--bg-popup)",
-        "bg-tag": "var(--bg-tag)",
-        "bg-mask": "var(--bg-mask)",
-        tertary: "var(--tertary)",
-        disable: "var(--disable)",
-        link: "var(--link)",
+        bg: {
+          bg1: "hsl(var(--bg1))",
+          popup: "hsl(var(--bg-popup))",
+          tag: "hsl(var(--bg-tag))",
+          mask: "hsl(var(--bg-mask))"
+        },
+        tertary: "hsl(var(--tertary))",
+        disable: "hsl(var(--disable))",
+        link: "hsl(var(--link))",
 
-        icon: "var(--icon)",
-        line: "var(--line)",
-        "primary-blue": "var(--primary-blue)",
-        "gold-yellow": "var(--gold-yellow)",
-        error: "var(--error)",
-        success: "var(--success)"
+        icon: "hsl(var(--icon))",
+        line: "hsl(var(--line))",
+        "gold-yellow": "hsl(var(--gold-yellow))",
+        error: "hsl(var(--error))",
+        success: "hsl(var(--success))"
       },
       borderRadius: {
         lg: "var(--radius)",

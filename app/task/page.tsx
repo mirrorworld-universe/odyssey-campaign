@@ -29,6 +29,7 @@ import { SonicX } from "../icons/SonicX";
 import { Tiktok } from "../icons/TIktok";
 import Banner from "./components/Banner";
 import MainContent from "./components/MainContent";
+import { SetUpSonicNetworkDialog } from "../components/Dialog/SetUpSonicNetwork";
 
 const icons: any = {
   twitter: (
@@ -140,6 +141,7 @@ const TaskCenter: NextPage = () => {
   return (
     <>
       <main className="bg-[#111] flex flex-col gap-12 text-primary">
+        <SetUpSonicNetworkDialog />
         <Banner />
         <MainContent />
         <HowToPlayDialog />

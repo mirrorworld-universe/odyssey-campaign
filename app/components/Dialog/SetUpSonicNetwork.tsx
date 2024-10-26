@@ -1,29 +1,21 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useWallet } from "@solana/wallet-adapter-react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Ring } from "@/app/icons/Ring";
-import { useMysteryBoxInfo, useMysteryBoxResultModal } from "@/app/store/task";
+import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import {
   useSetUpFinishModal,
   useSetUpNetworkModal,
   useSetupInfo,
-  useWhitelistModal,
+  useWhitelistModal
 } from "@/app/store/tutorials";
-import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
-import { networks } from "@/app/data/config";
 import { setUpUrls } from "@/app/wallet/wallet-list";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export function SetUpSonicNetworkDialog() {
   const { publicKey, wallet, signTransaction } = useWallet();
@@ -34,12 +26,12 @@ export function SetUpSonicNetworkDialog() {
   const {
     isOpen: isOpenSetUpFinishWalletDialog,
     onOpen: onOpenSetUpFinishWalletDialog,
-    onClose: onCloseSetUpFinishWalletDialog,
+    onClose: onCloseSetUpFinishWalletDialog
   } = useSetUpFinishModal();
   const {
     isOpen: isOpenWhitelistDialog,
     onOpen: onOpenWhitelistDialog,
-    onClose: onCloseWhitelistDialog,
+    onClose: onCloseWhitelistDialog
   } = useWhitelistModal();
 
   const handleConfirmInTestnet = () => {
@@ -50,7 +42,7 @@ export function SetUpSonicNetworkDialog() {
   const handleConfirm = () => {
     setStatus({
       ...status,
-      [address]: "done",
+      [address]: "done"
     });
     onOpenSetUpFinishWalletDialog();
     onClose();

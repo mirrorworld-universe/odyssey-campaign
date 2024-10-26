@@ -26,7 +26,7 @@ const manrope = Manrope({
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-manrope"
 });
 
 const orbitron = Orbitron({
@@ -34,7 +34,7 @@ const orbitron = Orbitron({
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-orbitron",
+  variable: "--font-orbitron"
 });
 
 export const metadata: Metadata = {
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     title: "Sonic Odyssey",
     description:
       "Join the Sonic Odyssey Testnet Campaign. Earn Your Ring Rewards!",
-    images: ["https://odyssey.sonic.game/seo-banner.png"],
+    images: ["https://odyssey.sonic.game/seo-banner.png"]
   },
 
   twitter: {
@@ -55,8 +55,8 @@ export const metadata: Metadata = {
     description:
       "Join the Sonic Odyssey Testnet Campaign. Earn Your Ring Rewards!",
     creator: "@SonicSVM",
-    images: ["https://odyssey.sonic.game/seo-banner.png"],
-  },
+    images: ["https://odyssey.sonic.game/seo-banner.png"]
+  }
 };
 
 export const viewport: Viewport = {
@@ -64,11 +64,11 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  userScalable: false,
+  userScalable: false
 };
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -131,7 +131,7 @@ window.criteo_q.push(
             {/* wallet dialog */}
             <WalletDialog />
             <MoreWalletDialog />
-            <SetUpSonicNetworkDialog />
+
             <SetUpFinishDialog />
             <WhitelistDialog />
             <SwitchNetworkDialog />
