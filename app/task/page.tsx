@@ -141,7 +141,6 @@ const TaskCenter: NextPage = () => {
   return (
     <>
       <main className="bg-[#111] flex flex-col gap-12 text-primary">
-        <SetUpSonicNetworkDialog />
         <Banner />
         <MainContent />
         <HowToPlayDialog />

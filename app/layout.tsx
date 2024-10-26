@@ -131,7 +131,7 @@ window.criteo_q.push(
             {/* wallet dialog */}
             <WalletDialog />
             <MoreWalletDialog />
-
+            <SetUpSonicNetworkDialog />
             <SetUpFinishDialog />
             <WhitelistDialog />
             <SwitchNetworkDialog />

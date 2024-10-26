@@ -4,8 +4,8 @@ import ReactGA from "react-ga4";
 
 ReactGA.initialize("G-F5K4V1NH2M", {
   gaOptions: {
-    page_variant: "2.0",
-  },
+    page_variant: "2.0"
+  }
 });
 
 // if (canUseDOM()) {
@@ -30,7 +30,7 @@ export function trackClick({ text }: any) {
       page_name,
       click_time: new Date(),
       entry_page,
-      click_button: text,
+      click_button: text
     });
 
     // Track TikTok Pixel
@@ -82,7 +82,7 @@ export function trackCriteoWalletTransactionClick() {
       {
         event: "trackTransaction",
         id: Date.now().toString(),
-        item: [{ id: "conncectview", price: "1", quantity: "1" }],
+        item: [{ id: "conncectview", price: "1", quantity: "1" }]
       }
     );
   } catch (e) {
@@ -105,7 +105,7 @@ export function trackLinkClick(event: MouseEvent<HTMLAnchorElement>) {
       entry_page,
       click_link: href,
       click_module,
-      click_button: text,
+      click_button: text
     });
 
     // void ttq.track('buttonClick', {
@@ -134,7 +134,7 @@ export function trackRegenerate(event: any) {
       page_name,
       click_time: new Date(),
       entry_page,
-      click_button: click_module || text,
+      click_button: click_module || text
     });
   } catch (e) {
     console.error(e);

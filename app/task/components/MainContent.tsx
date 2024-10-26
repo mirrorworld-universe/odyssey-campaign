@@ -4,7 +4,10 @@ import { cn } from "@/lib/utils";
 export default function MainContent() {
   return (
     <div
-      className={cn("max-w-view mx-auto px-4 w-full", "flex flex-col gap-12")}
+      className={cn(
+        "max-w-view mx-auto px-4 w-full pb-12",
+        "flex flex-col gap-12"
+      )}
     >
       {taskGroupList.map((taskGroup, index) => (
         <div className="md:p-10 p-4 border border-line relative" key={index}>

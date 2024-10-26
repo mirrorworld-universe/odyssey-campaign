@@ -4,247 +4,180 @@ import { menu } from "./Header";
 
 import { Twitter } from "@/app/icons/Twitter";
 import { Discord } from "@/app/icons/Discord";
-import { Go as IconGo } from "@/app/icons/Go";
 
 import { trackClick } from "@/lib/track";
 import { useNetworkInfo } from "@/app/store/account";
+import SonicLogo from "./SonicLogo";
+import { cn } from "@/lib/utils";
+
+const socialMedias = [
+  {
+    name: "twitter",
+    link: "https://x.com/SonicSVM",
+    icon: <Twitter width={24} height={24} color="white" />,
+    handler: () => {
+      trackClick({ text: "Follow on X" });
+    }
+  },
+  {
+    name: "discord",
+    link: "https://discord.com/invite/joinmirrorworld",
+    icon: <Discord width={24} height={24} color="white" />,
+    handler: () => {
+      trackClick({ text: "Join DC" });
+    }
+  }
+];
 
 export function Footer() {
   const year = new Date().getFullYear();
   const { networkId } = useNetworkInfo();
 
-  const socialMedias = [
-    {
-      name: "twitter",
-      link: "https://x.com/SonicSVM",
-      icon: <Twitter width={24} height={24} color="white" />,
-      handler: () => {
-        trackClick({ text: "Follow on X" });
-      }
-    },
-    {
-      name: "discord",
-      link: "https://discord.com/invite/joinmirrorworld",
-      icon: <Discord width={24} height={24} color="white" />,
-      handler: () => {
-        trackClick({ text: "Join DC" });
-      }
-    }
-  ];
-
   return (
-    <footer className="flex flex-col items-center justify-center gap-4 md:gap-8 bg-sonic-nav w-full md:!py-14 lg:!py-24 px-4 md:p-0 relative overflow-hidden pb-[88px] md:pb-0 mt-[72px] md:mt-0">
-      <div className="w-full flex flex-col max-w-[1540px] md:px-4 xl:px-10 mx-auto relative">
-        {/* Mobile version Copyright */}
-        <div className="flex md:hidden flex-col md:flex-row md:justify-between md:items-center gap-14 w-full">
-          <div className="flex space-x-3 justify-start items-center">
-            <Link href="/" className="inline-flex flex-row items-center gap-2">
-              <img
-                alt="Sonic Logo"
-                className="w-6 md:w-10 h-auto"
-                src="/sonic.png"
-              />
-              <span className="text-white text-base font-bold font-orbitron tracking-widest">
-                SONIC
-              </span>
-            </Link>
-            <a
-              className="text-white text-sm font-semibold font-orbitron border-l border-solid border-white/30 h-[21px] ml-4 pl-4 hover:underline"
-              href="https://www.sonic.game/"
-              target="_blank"
-            >
-              www.sonic.game
-            </a>
-          </div>
+    <div className="max-w-view w-full mx-auto pt-20 px-4 md:pt-12 pb-14 md:pb-6 text-primary">
+      <PcFooter />
 
-          {/* Links */}
-          <div className="flex flex-col md:flex-row gap-3 w-full md:ml-auto md:w-fit">
-            <div className="text-[10px] text-[#717171]">Links</div>
-            <div className="flex flex-col gap-6">
-              {menu.map((menuItem, menuIndex) => (
+      <div className="flex flex-col gap-14 md:hidden">
+        <div className="flex items-center gap-3">
+          <SonicLogo />
+          <div className="w-px h-5 bg-[#27282D]"></div>
+          <p className="text-title3 font-orbitron">WWW.SONIC.GAME</p>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <div className="text-ten font-medium text-[#717171]">Links</div>
+          <div className="flex flex-col gap-4">
+            {menu.map((item, index) => (
+              <div className="flex justify-between items-center">
                 <Link
-                  className="flex justify-between"
-                  href={menuItem.link[networkId || "devnet"]}
-                  target={menuItem.target}
-                  key={menuIndex}
+                  className="text-title3/[1.2] font-orbitron text-primary"
+                  href={item.link[networkId || "devnet"]}
+                  key={index}
                 >
-                  <span className="text-base gap-12 text-white font-semibold font-orbitron transition-colors">
-                    {menuItem.name}
-                  </span>
-                  <IconGo
-                    width={24}
-                    height={24}
-                    color="#717171"
-                    className="inline-block"
-                  />
+                  {item.name}
                 </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Commnuity */}
-          <div className="flex flex-col gap-3 w-full">
-            <div className="text-[10px] text-[#717171]">Community</div>
-            <div className="flex gap-4 items-center justify-start">
-              {socialMedias.map((media: any, mediaIndex: number) => (
-                <a
-                  key={mediaIndex}
-                  href={media.link}
-                  target="_blank"
-                  className="flex justify-center items-center opacity-100 hover:opacity-80 outline-none focus:outline-none text-white bg-white/20 rounded-md p-2 transition-opacity"
-                >
-                  {media.icon}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div
-            className="w-full flex flex-col gap-8 items-center md:hidden pb-6"
-            data-mobile-copyright
-          >
-            <div className="relative w-full">
-              <div
-                className="absolute inset-0 flex items-center"
-                aria-hidden="true"
-              >
-                <div className="w-full border-t border-white/20" />
+                <ArrowLogo />
               </div>
-            </div>
-
-            <p className="w-full flex flex-row items-center justify-start gap-2 font-sub text-xs opacity-60">
-              <span className="text-white/60">
-                <a
-                  className="hover:underline"
-                  href="/copyright-policy"
-                  target="_blank"
-                >
-                  © Copyright
-                </a>{" "}
-                {year} Sonic
-              </span>
-              <i className="w-[1px] h-[9px] border-l border-white/20"></i>
-              <a
-                className="text-white/60 font-semibold hover:underline"
-                href="/terms-of-use"
-                target="_blank"
-              >
-                Terms of Use
-              </a>
-              <i className="w-[1px] h-[9px] border-l border-white/20"></i>
-              <a
-                className="text-white/60 font-semibold hover:underline"
-                href="/private-policy"
-                target="_blank"
-              >
-                Privacy Policy
-              </a>
-            </p>
+            ))}
           </div>
         </div>
 
-        {/* Desktop version Copyright */}
-        <div
-          data-desktop-copyright
-          className="w-full hidden md:flex flex-col items-center"
-        >
-          <div className="w-full flex justify-between items-center">
-            {/* logo */}
-            <div className="flex space-x-3 justify-start items-center">
-              <Link href="/" className="inline-flex flex-row items-center gap-">
-                <img
-                  alt="Sonic Logo"
-                  className="w-6 md:w-10 h-auto"
-                  src="/sonic.png"
-                />
-                <span className="text-white text-[28px] font-bold font-orbitron tracking-widest">
-                  SONIC
-                </span>
+        <div className="flex flex-col gap-3">
+          <div className="text-ten font-medium text-[#717171]">Socials</div>
+          <div className="flex items-center gap-3">
+            {socialMedias.map((item, index) => (
+              <Link
+                className="size-10 rounded-md bg-white/20 flex justify-center items-center"
+                href={item.link}
+                key={index}
+                onClick={item.handler}
+              >
+                {item.icon}
               </Link>
-              <a
-                className="text-white text-sm font-semibold font-orbitron border-l border-solid border-[#27282D] h-[21px] ml-4 pl-4 hover:underline"
-                href="https://www.sonic.game/"
-                target="_blank"
-              >
-                www.sonic.game
-              </a>
-            </div>
-
-            {/* Links */}
-            <div className="flex flex-col md:flex-row gap-3 w-full md:ml-auto md:w-fit">
-              <div className="flex flex-row gap-10">
-                {menu.map((menuItem, menuIndex) => (
-                  <Link
-                    className="flex justify-between"
-                    href={menuItem.link[networkId || "devnet"]}
-                    target={menuItem.target}
-                    key={menuIndex}
-                  >
-                    <span className="text-base gap-12 text-[#666666] font-semibold font-orbitron transition-colors">
-                      {menuItem.name}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
+        </div>
 
-          <div className="relative w-full py-10">
-            <div
-              className="absolute inset-0 flex items-center"
-              aria-hidden="true"
-            >
-              <div className="w-full border-t border-white/20" />
-            </div>
-          </div>
-
-          <div className="font-sub text-sonic-disabled text-xs flex justify-between items-center w-full">
-            <p className="flex flex-row items-center gap-4 text-[#8F8F8F] opacity-60">
-              <span className="text-white/60 text-sm">
-                <a
-                  className="hover:underline"
-                  href="/copyright-policy"
-                  target="_blank"
-                >
-                  © Copyright
-                </a>{" "}
-                {year} Sonic
-              </span>
-              <i className="inline-block w-[1px] h-[11px] bg-white/20"></i>
-              <a
-                className="text-white/60 text-sm font-semibold hover:underline"
-                href="/terms-of-use"
-                target="_blank"
-              >
-                Terms of Use
-              </a>
-              <i className="inline-block w-[1px] h-[11px] bg-white/20"></i>
-              <a
-                className="text-white/60 text-sm font-semibold hover:underline"
-                href="/private-policy"
-                target="_blank"
-              >
-                Privacy Policy
-              </a>
-            </p>
-
-            {/* Desktop Socials */}
-            <div className="flex gap-4 items-center justify-start">
-              {socialMedias.map((media: any, mediaIndex: number) => (
-                <a
-                  onClick={media.handler}
-                  key={mediaIndex}
-                  href={media.link}
-                  target="_blank"
-                  className="flex justify-center items-center opacity-100 hover:opacity-80 outline-none focus:outline-none text-white bg-white/20 rounded-md p-2 transition-opacity"
-                >
-                  {media.icon}
-                </a>
-              ))}
-            </div>
-          </div>
+        <div className="border-t border-white/20 pt-8 flex items-center gap-2 text-body4 text-tertary">
+          <p>© Copyright {year} Sonic</p>
+          <div className="w-px h-2.5 bg-line" />
+          <Link href={"/terms-of-use"}>Term of Use</Link>
+          <div className="w-px h-2.5 bg-line" />
+          <Link href={"/private-policy"}>Privacy Policy</Link>
         </div>
       </div>
-    </footer>
+    </div>
+  );
+}
+
+function PcFooter() {
+  const year = new Date().getFullYear();
+  const { networkId } = useNetworkInfo();
+  return (
+    <div className="hidden md:flex flex-col gap-8">
+      <div className="flex justify-between">
+        <div className="flex items-center gap-4">
+          <SonicLogo />
+          <div className="w-px h-5 bg-[#27282D]"></div>
+          <p className="text-title3 font-orbitron">WWW.SONIC.GAME</p>
+        </div>
+        <div className="flex items-center gap-10">
+          {menu.map((item, index) => (
+            <Link
+              className="text-title3 font-orbitron text-tertary hover:text-primary transition-colors"
+              href={item.link[networkId || "devnet"]}
+              key={index}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      <div className="h-px w-full bg-line" />
+
+      <div className="flex justify-between items-center">
+        <div className={cn("flex items-center gap-4 text-body2 text-tertary")}>
+          <p>© Copyright {year} Sonic</p>
+          <div className="w-px h-2.5 bg-[#27282D]" />
+          <Link
+            href={"/terms-of-use"}
+            className="hover:text-primary transition-colors"
+          >
+            Term of Use
+          </Link>
+          <div className="w-px h-2.5 bg-line" />
+          <Link
+            href={"/private-policy"}
+            className="hover:text-primary transition-colors"
+          >
+            Privacy Policy
+          </Link>
+        </div>
+
+        <div className="flex items-center gap-4">
+          {socialMedias.map((item, index) => (
+            <Link
+              className="size-10 flex items-center justify-center rounded-md bg-white/20 hover:bg-white/40 transition-colors"
+              href={item.link}
+              key={index}
+              onClick={item.handler}
+            >
+              {item.icon}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ArrowLogo() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="25"
+      height="24"
+      viewBox="0 0 25 24"
+      fill="none"
+    >
+      <mask
+        id="mask0_569_29568"
+        style={{ maskType: "alpha" }}
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="25"
+        height="24"
+      >
+        <rect x="0.5" width="24" height="24" fill="#D9D9D9" />
+      </mask>
+      <g mask="url(#mask0_569_29568)">
+        <path
+          d="M14.501 18L13.101 16.55L16.651 13H4.50098V11H16.651L13.101 7.45L14.501 6L20.501 12L14.501 18Z"
+          fill="#717171"
+        />
+      </g>
+    </svg>
   );
 }

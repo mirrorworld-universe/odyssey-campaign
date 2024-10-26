@@ -2,7 +2,7 @@ export function Discord({
   width = 20,
   height = 20,
   color = "white",
-  className = "",
+  className = ""
 }) {
   return (
     <svg
