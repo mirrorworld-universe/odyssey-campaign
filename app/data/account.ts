@@ -8,12 +8,12 @@ export const fetchBasicInfo = async ({ address, source, networkId }: any) => {
       networkId
     )}/auth/sonic/challenge?${new URLSearchParams({
       wallet: address,
-      wallet_source: source,
+      wallet_source: source
     })}`,
     {
       headers: {
-        "x-sign": crypto.createHash("sha256").update(message).digest("base64"),
-      },
+        "x-sign": crypto.createHash("sha256").update(message).digest("base64")
+      }
     }
   );
   return response.json();
@@ -23,7 +23,7 @@ export const fetchAuthorize = async ({
   address,
   address_encoded,
   signature,
-  networkId,
+  networkId
 }: any) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
@@ -31,14 +31,14 @@ export const fetchAuthorize = async ({
     )}/auth/sonic/authorize`,
     {
       headers: {
-        "content-type": "application/json",
+        "content-type": "application/json"
       },
       method: "POST",
       body: JSON.stringify({
         address,
         address_encoded,
-        signature,
-      }),
+        signature
+      })
     }
   );
   return response.json();
@@ -51,9 +51,9 @@ export const fetchLogout = async ({ token, networkId }: any) => {
     )}/auth/logout`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
     }
   );
   return response.json();
@@ -66,9 +66,9 @@ export const getUserRewardInfo = async ({ token, networkId }: any) => {
     )}/user/rewards/info`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
     }
   );
   return response.json();
@@ -81,9 +81,9 @@ export const getNotificationRecords = async ({ token, networkId }: any) => {
     )}/user/rewards/history`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
     }
   );
   return response.json();
@@ -97,12 +97,12 @@ export const inviteUser = async ({ token, code, networkId }: any) => {
     {
       headers: {
         Authorization: token,
-        "content-type": "application/json",
+        "content-type": "application/json"
       },
       method: "POST",
       body: JSON.stringify({
-        invitation_code: code,
-      }),
+        invitation_code: code
+      })
     }
   );
   return response.json();
@@ -115,9 +115,9 @@ export const getReferralInfo = async ({ token, networkId }: any) => {
     )}/user/referral/info`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
     }
   );
   return response.json();

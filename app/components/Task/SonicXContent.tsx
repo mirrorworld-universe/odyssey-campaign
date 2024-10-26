@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Rules } from "./Rules";
 import { useQuery } from "@tanstack/react-query";
+import { http } from "@/lib/http";
 
 export function SonicXContent() {
   const { address, token } = useAccountInfo();
@@ -17,7 +18,7 @@ export function SonicXContent() {
 
   const { data: res } = useQuery({
     queryKey: ["sonicXUrl"],
-    queryFn: () => fetchSonicXUrl({ token }),
+    queryFn: () => http.get("/user/sonicX/status"),
     enabled: !!token
   });
 

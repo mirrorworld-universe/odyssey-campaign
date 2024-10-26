@@ -5,22 +5,22 @@ export const openWalletStatics = () => {
       {
         content_id: "0001",
         content_type: "Sonic",
-        content_name: "ClickButton",
-      },
+        content_name: "ClickButton"
+      }
     ],
     value: "1",
-    currency: "USD",
+    currency: "USD"
   });
   ttq?.track("CompleteRegistration", {
     contents: [
       {
         content_id: "0002",
         content_type: "Sonic001",
-        content_name: "CompleteRegistration_001",
-      },
+        content_name: "CompleteRegistration_001"
+      }
     ],
     value: "1",
-    currency: "USD",
+    currency: "USD"
   });
 
   let criteo_q = (window as any).criteo_q;
@@ -56,7 +56,7 @@ export const connectWalletStatics = () => {
     {
       event: "trackTransaction",
       id: Date.now().toString(),
-      item: [{ id: "conncectview", price: "1", quantity: "1" }],
+      item: [{ id: "conncectview", price: "1", quantity: "1" }]
     }
   );
 };

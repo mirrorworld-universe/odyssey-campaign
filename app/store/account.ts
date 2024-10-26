@@ -8,9 +8,9 @@ export const useSystemInfo = create<{
   isInMaintenance: false,
   setInMaintenance: (isInMaintenance: boolean) => {
     set({
-      isInMaintenance,
+      isInMaintenance
     });
-  },
+  }
 }));
 
 export const useNetworkInfo = create(
@@ -25,17 +25,17 @@ export const useNetworkInfo = create(
       visitedNetworkId: get()?.visitedNetworkId,
       setNetworkId: (networkId: string) => {
         set({
-          networkId,
+          networkId
         });
       },
       setVisitedNetworkId: (visitedNetworkId: string) => {
         set({
-          visitedNetworkId,
+          visitedNetworkId
         });
-      },
+      }
     }),
     {
-      name: "sonic-network-info",
+      name: "sonic-network-info"
     }
   )
 );
@@ -48,14 +48,14 @@ export const useNotificationBar = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));
 
 export const useWalletModal = create<{
@@ -68,21 +68,21 @@ export const useWalletModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
   },
 
   isSwitching: false,
   setSwitching: (isSwitching: boolean) => {
     set({
-      isSwitching,
+      isSwitching
     });
-  },
+  }
 }));
 
 export const useAccountInfo = create(
@@ -103,35 +103,35 @@ export const useAccountInfo = create(
       address: get()?.address,
       setAddress: (address: string) => {
         set({
-          address,
+          address
         });
       },
 
       token: get()?.token,
       setToken: (token: string) => {
         set({
-          token,
+          token
         });
       },
 
       signature: get()?.signature,
       setSignature: (signature: string) => {
         set({
-          signature,
+          signature
         });
       },
 
       hasNews: get()?.hasNews,
       setNews: (hasNews: boolean) => {
         set({
-          hasNews,
+          hasNews
         });
       },
 
       isInWhitelist: get()?.isInWhitelist,
       setIsInWhitelist: (isInWhitelist: boolean) => {
         set({
-          isInWhitelist,
+          isInWhitelist
         });
       },
 
@@ -140,12 +140,12 @@ export const useAccountInfo = create(
           address: undefined,
           token: undefined,
           hasNews: false,
-          isInWhitelist: false,
+          isInWhitelist: false
         });
-      },
+      }
     }),
     {
-      name: "sonic-account-info",
+      name: "sonic-account-info"
     }
   )
 );

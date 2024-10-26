@@ -20,19 +20,13 @@ export const networks: any[] = [
     type: "Devnet",
     name: "Origin",
     url: "",
-    rpc: "https://devnet.sonic.game",
+    rpc: "https://devnet.sonic.game"
   },
   {
     id: "testnet",
     type: "Testnet",
     name: "Frontier",
     url: "/testnet",
-    rpc: "https://api.testnet.sonic.game",
-  },
-  // {
-  //   id: "mainnet",
-  //   url: "/mainnet",
-  //   name: "Mainnet",
-  //   rpc: "https://mainnet.sonic.game",
-  // },
+    rpc: "https://api.testnet.sonic.game"
+  }
 ];
