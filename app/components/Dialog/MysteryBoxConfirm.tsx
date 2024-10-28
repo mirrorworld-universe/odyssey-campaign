@@ -175,7 +175,7 @@ export function MysteryBoxConfirmDialog() {
   });
 
   return (
-    <AlertDialog open={true} onOpenChange={onClose}>
+    <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="px-6 md:p-0 md:max-w-[360px] w-full text-primary">
         <div className="flex-v bg-bg-popup justify-center gap-6 md:gap-8 p-6 text-center">
           <div className="flex-center gap-3 text-headline1 md:text-headline0 font-orbitron mt-4">
