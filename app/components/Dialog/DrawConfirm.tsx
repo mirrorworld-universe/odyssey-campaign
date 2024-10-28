@@ -9,7 +9,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
+  AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Trophy } from "@/app/icons/Trophy";
@@ -17,7 +17,7 @@ import { useMysteryBoxInfo, useMysteryBoxResultModal } from "@/app/store/task";
 import {
   useDrawConfirmModal,
   useDrawRecordModal,
-  useLotteryInfo,
+  useLotteryInfo
 } from "@/app/store/lottery";
 import { Casino } from "@/app/icons/Casino";
 
@@ -27,7 +27,7 @@ export function DrawConfirmDialog() {
   const {
     isOpen: isOpenRecordModal,
     onOpen: onOpenRecordModal,
-    onClose: onCloseRecordModal,
+    onClose: onCloseRecordModal
   } = useDrawRecordModal();
 
   const handleConfirm = () => {

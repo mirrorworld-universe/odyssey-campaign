@@ -2,7 +2,7 @@ export function Gift({
   width = 20,
   height = 21,
   color = "white",
-  className = "",
+  className = ""
 }) {
   return (
     <svg
@@ -17,7 +17,7 @@ export function Gift({
         <mask
           id="maskXgift"
           style={{
-            maskType: "alpha",
+            maskType: "alpha"
           }}
           maskUnits="userSpaceOnUse"
           x="0"

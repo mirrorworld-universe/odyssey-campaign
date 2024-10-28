@@ -1,27 +1,41 @@
 "use client";
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Transaction } from "@solana/web3.js";
-import { useMutation } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 import { toast } from "@/components/ui/use-toast";
 
-import { getMysteryboxTx, openMysterybox } from "@/app/data/reward";
+import { Input } from "@/components/ui/input";
 import { Gift } from "@/app/icons/Gift";
 import { Ring } from "@/app/icons/Ring";
-import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import {
   useMysteryBoxConfirmModal,
   useMysteryBoxInfo,
   useMysteryBoxRecordModal,
   useMysteryBoxResultModal
 } from "@/app/store/task";
-import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { cn } from "@/lib/utils";
-import InfoLogo from "@/app/logos/InfoLogo";
+import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
+import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
+import {
+  getMysteryboxHistory,
+  getMysteryboxTx,
+  openMysterybox
+} from "@/app/data/reward";
 
 let txHash = "";
 
@@ -175,78 +189,93 @@ export function MysteryBoxConfirmDialog() {
   });
 
   return (
-    <AlertDialog open={true} onOpenChange={onClose}>
-      <AlertDialogContent className="px-6 md:p-0 md:max-w-[360px] w-full text-primary">
-        <div className="flex-v bg-bg-popup justify-center gap-6 md:gap-8 p-6 text-center">
-          <div className="flex-center gap-3 text-headline1 md:text-headline0 font-orbitron mt-4">
-            <Gift color="#FBB042" className="size-14 md:size-16" />
-            <span>X</span>
-            {openGroup.find((group) => group.active)?.amount}
-          </div>
-
-          <div className="flex-v gap-4">
-            <h2 className="text-headline5 md:text-headline4 font-orbitron">
-              {" "}
-              Open Mystery Box
-            </h2>
-            <p className="text-body3 text-tertary">
-              Please select the number of Mystery Box you would like to open.
+    <AlertDialog open={isOpen} onOpenChange={onClose}>
+      <AlertDialogContent className="max-w-[calc(100%_-_32px)] w-full md:w-[467px] bg-[#1A1A1A] border-none p-6 md:p-8">
+        <AlertDialogHeader className="">
+          <AlertDialogTitle className="flex flex-col justify-center items-center text-white text-[32px] font-orbitron">
+            <p className="flex flex-row gap-3 text-white text-[40px] md:text-5xl font-semibold font-orbitron">
+              <Gift color="#FBB042" className="w-14 md:w-16 h-14 md:h-16" />x{" "}
+              {openGroup.find((group) => group.active)?.amount}
             </p>
-          </div>
+            <span className="text-white text-2xl font-semibold font-orbitron mt-5 md:mt-8">
+              Open Mystery Box
+            </span>
+          </AlertDialogTitle>
+          {mysteryBoxAmount > 1 ? (
+            <AlertDialogDescription className="text-[#717171] text-sm md:text-base text-center mt-4">
+              Please select the number of Mystery Box you would like to open.
+            </AlertDialogDescription>
+          ) : null}
+        </AlertDialogHeader>
 
-          <div className="flex-v gap-4">
-            {/* options */}
-            {openGroup.map((group, groupIndex) => (
+        {/* options */}
+        <div className="flex flex-col gap-4 mt-10 md:mt-12">
+          {openGroup.map((group, groupIndex) => (
+            <div
+              key={groupIndex}
+              className={cn(
+                "group flex flex-row justify-between text-base rounded border border-solid px-5 py-4 cursor-pointer hover:border-[#FBB042] transition-colors",
+                group.active
+                  ? "border-[#FBB042] bg-[#FBB042]/10"
+                  : "border-white/50 bg-transparent"
+              )}
+              onClick={() => handleOptionChanged(group)}
+            >
+              <span className={group.active ? "text-[#FBB042]" : "text-white"}>
+                {group.text}
+              </span>
               <div
-                key={groupIndex}
-                onClick={() => handleOptionChanged(group)}
                 className={cn(
-                  "px-5 h-14 border rounded flex justify-between items-center text-title2 cursor-pointer hover:border-gold-yellow transition-colors",
-                  group.active
-                    ? "border-gold-yellow bg-gold-yellow/10"
-                    : "border-line"
+                  "inline-flex flex-row items-center gap-[2px] font-orbitron",
+                  group.active ? "text-[#FBB042]" : "text-white"
                 )}
               >
-                <p className={cn(group.active && "text-gold-yellow")}>
-                  {group.text}
-                </p>
-                <div className="flex-center gap-0.5 font-orbitron">
-                  {group.amount} x{" "}
-                  <Gift
-                    color={group.active ? "#FBB042" : "#FFFFFF"}
-                    className="size-5"
-                  />
-                </div>
+                {group.amount} x{" "}
+                <Gift
+                  width={20}
+                  height={20}
+                  color={group.active ? "#FBB042" : "#FFFFFF"}
+                />
               </div>
-            ))}
-            {/* options end */}
-            {/* tip */}
-            {openGroup.find((group) => group.active)?.amount > 1 ? (
-              <div className="text-title3 text-gold-yellow text-left flex gap-2">
-                <InfoLogo className="size-5 shrink-0" />
-                You need to sign in your wallet {mysteryBoxAmount} times to
-                unlock all mystery box rewards.
-              </div>
-            ) : null}
-            {/* tip end */}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          <div className="flex-v gap-2 text-title2 font-orbitron mt-2 md:mt-auto">
-            <Button
-              disabled={isOpeningMysterybox}
-              onClick={handleConfirm}
-              variant="primary"
-              size={"lg"}
-            >
-              {isOpeningMysterybox ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : null}
-              Open
-            </Button>
-            <Button onClick={onClose} variant="cancel" size={"lg"}>
-              Cancel
-            </Button>
-          </div>
+        {/* tip */}
+        {openGroup.find((group) => group.active)?.amount > 1 ? (
+          <p className="flex flex-row gap-2 mt-4">
+            <img className="w-5 h-5 mt-[2px]" src="/images/icons/report.svg" />
+            <span className="text-[#FBB042] text-sm md:text-base">
+              You need to sign {mysteryBoxAmount} times in your wallet to unlock
+              all mystery box rewards.
+            </span>
+          </p>
+        ) : null}
+
+        {/* buttons */}
+        <div className="flex flex-col gap-4 mt-10 md:mt-12">
+          <Button
+            disabled={isOpeningMysterybox}
+            className={cn(
+              "transition-all duration-300  cursor-pointer",
+              isOpeningMysterybox
+                ? "bg-[#0000FF] hover:bg-[#0000FF]/80 opacity-60"
+                : "bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60"
+            )}
+            onClick={handleConfirm}
+          >
+            {isOpeningMysterybox && (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            <span className="text-white text-sm font-orbitron">Open</span>
+          </Button>
+
+          <Button
+            className="w-full h-12 bg-transparent hover:bg-transparent text-white/50 font-orbitron hover:opacity-80 active:opacity-50 transition-colors duration-300"
+            onClick={onClose}
+          >
+            Cancel
+          </Button>
         </div>
       </AlertDialogContent>
     </AlertDialog>
