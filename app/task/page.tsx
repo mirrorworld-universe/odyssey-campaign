@@ -25,12 +25,11 @@ import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import { useTaskInfo } from "@/app/store/task";
 import { useHowToPlayModal } from "@/app/store/tutorials";
 
+import SeasonTwo from "../components/Dialog/SeasonTwo";
 import { SonicX } from "../icons/SonicX";
 import { Tiktok } from "../icons/TIktok";
 import Banner from "./components/Banner";
 import MainContent from "./components/MainContent";
-import { SetUpSonicNetworkDialog } from "../components/Dialog/SetUpSonicNetwork";
-import SeasonTwo from "../components/Dialog/SeasonTwo";
 
 const icons: any = {
   twitter: (
@@ -122,13 +121,6 @@ const TaskCenter: NextPage = () => {
     onOpenHowToPlayDialog();
     trackClick({ text: "How to play?" });
   };
-
-  useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-    if (hash && hash === "how-to-play") {
-      onOpenHowToPlayDialog();
-    }
-  }, []);
 
   const hasTaskStarted = (startTime: string) => {
     if (!startTime) {

@@ -1,5 +1,5 @@
 "use client";
-import { useFAQModal } from "@/app/store/tutorials";
+import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
 import {
   Accordion,
   AccordionContent,
@@ -9,8 +9,7 @@ import {
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export function FAQDialog() {
-  const { isOpen, onClose } = useFAQModal();
-
+  const { modalHash, closeModal } = useModalHash();
   const faqList: any[] = [
     {
       title: "What is Sonic?",
@@ -46,7 +45,7 @@ export function FAQDialog() {
   ];
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={modalHash === MODAL_HASH_MAP.faq} onOpenChange={closeModal}>
       <DialogContent className="text-primary p-8 flex flex-col gap-8 max-w-[640px]">
         <div className="text-headline5 font-orbitron">FAQs</div>
         <Accordion

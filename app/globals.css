@@ -51,6 +51,7 @@
     --icon: 0 0% 30%;
     --line: 240 3% 16%;
     --primary-blue: 240 100% 50%;
+    --primary-blue-hover: 234 100% 24%;
     --gold-yellow: 38 96% 62%;
     --error: 0 100% 50%;
     --success: 156 100% 50%;
@@ -98,6 +99,7 @@
 
 html {
   overflow-y: scroll;
+  @apply text-primary;
 }
 
 ::-webkit-scrollbar {

@@ -1,42 +1,22 @@
 "use client";
+import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
-import {
-  useSetUpFinishModal,
-  useSetUpNetworkModal,
-  useSetupInfo,
-  useWhitelistModal
-} from "@/app/store/tutorials";
-import { setUpUrls } from "@/app/wallet/wallet-list";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle
-} from "@/components/ui/alert-dialog";
+import { useSetupInfo, useWhitelistModal } from "@/app/store/tutorials";
+import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 export function SetUpSonicNetworkDialog() {
-  const { publicKey, wallet, signTransaction } = useWallet();
+  const { wallet } = useWallet();
   const { address } = useAccountInfo();
-  const { isOpen, onOpen, onClose } = useSetUpNetworkModal();
   const { status, setStatus } = useSetupInfo();
   const { networkId } = useNetworkInfo();
-  const {
-    isOpen: isOpenSetUpFinishWalletDialog,
-    onOpen: onOpenSetUpFinishWalletDialog,
-    onClose: onCloseSetUpFinishWalletDialog
-  } = useSetUpFinishModal();
-  const {
-    isOpen: isOpenWhitelistDialog,
-    onOpen: onOpenWhitelistDialog,
-    onClose: onCloseWhitelistDialog
-  } = useWhitelistModal();
+  const { onOpen: onOpenWhitelistDialog } = useWhitelistModal();
+  const { openModal, modalHash, closeModal } = useModalHash();
 
   const handleConfirmInTestnet = () => {
     onOpenWhitelistDialog();
-    onClose();
+    closeModal();
   };
 
   const handleConfirm = () => {
@@ -44,79 +24,56 @@ export function SetUpSonicNetworkDialog() {
       ...status,
       [address]: "done"
     });
-    onOpenSetUpFinishWalletDialog();
-    onClose();
+    openModal(MODAL_HASH_MAP.setUpFinish);
   };
 
-  const StageTag = () => (
-    <div className="text-[#fbb042] text-[10px] bg-[#fbb0421a] px-1 py-[2px]">
-      Stage 2
-    </div>
-  );
-
   return (
-    <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="flex flex-col max-w-full w-full md:w-[470px] max-h-full h-full md:h-auto bg-[#1A1A1A] border-none p-4 md:p-8 items-start">
-        <AlertDialogHeader className="">
-          <p className="block md:hidden text-white/50 text-sm uppercase font-orbitron font-semibold text-left pb-4">
-            Connect Wallet
-          </p>
-          <AlertDialogTitle className="mt-4 md:mt-0 flex flex-row gap-2 justify-start items-center text-white text-[32px]">
-            <span className="text-white text-2xl md:text-[32px] font-semibold font-orbitron">
-              Set Up Network
+    <AlertDialog
+      open={modalHash === MODAL_HASH_MAP.setUpSonicNetwork}
+      onOpenChange={closeModal}
+    >
+      <AlertDialogContent className="px-10 md:p-0 text-primary">
+        <div className="p-6 md:p-8 bg-bg-popup flex flex-col gap-6 md:gap-8 w-full max-w-[520px]">
+          <div className="flex flex-col gap-2 md:gap-3">
+            <h1 className="text-headline5 font-orbitron">
+              Set Up Sonic Network
+            </h1>
+            <p className="text-body3 text-tertary">
+              Set up Sonic network for your {wallet?.adapter.name} wallet
+            </p>
+          </div>
+
+          <div className="flex items-center justify-center gap-8 md:gap-14 py-6">
+            <img
+              src="/images/icons/sonic-white.png"
+              alt=""
+              className="size-10 md:size-12"
+            />
+            <span className="inline-flex flex-row justify-between items-center size-10 md:size-12">
+              <i className="inline-block size-2 bg-white/30 rounded-full animate-loading-before"></i>
+              <i className="inline-block size-2 bg-white/30 rounded-full animate-loading"></i>
+              <i className="inline-block size-2 bg-white/30 rounded-full animate-loading-after"></i>
             </span>
-            {networkId === "testnet" ? <StageTag /> : null}
-          </AlertDialogTitle>
-          <AlertDialogDescription className="hidden md:static text-white/60 text-base text-left mt-4">
-            Set up Sonic {networkId === "testnet" ? "Frontier" : "Origin"}{" "}
-            network for your {wallet?.adapter.name} wallet
-          </AlertDialogDescription>
-        </AlertDialogHeader>
+            <img
+              src={wallet?.adapter.icon}
+              alt=""
+              className="size-10 md:size-12"
+            />
+          </div>
 
-        <div className="w-full flex flex-row items-center justify-center gap-14 mt-[96px] md:mt-12">
-          <img
-            src="/images/icons/sonic-white.png"
-            alt=""
-            className="w-12 h-12"
-          />
-          <span className="inline-flex flex-row justify-between items-center w-11 h-11">
-            <i className="inline-block w-[8px] h-[8px] bg-[#5f5f5f] rounded-[50%] animate-loading-before"></i>
-            <i className="inline-block w-[8px] h-[8px] bg-[#5f5f5f] rounded-[50%] animate-loading"></i>
-            <i className="inline-block w-[8px] h-[8px] bg-[#5f5f5f] rounded-[50%] animate-loading-after"></i>
-          </span>
-          <img src={wallet?.adapter.icon} alt="" className="w-12 h-12" />
-        </div>
-
-        <div className="flex flex-col gap-12 mt-[96px] md:mt-12">
-          <ul className="flex flex-col gap-6 list-decimal text-white text-lg font-semibold pl-[18px]">
-            <li className="s">
-              Open this network{" "}
-              <a
-                href={
-                  setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]
-                    ? setUpUrls[
-                        wallet?.adapter.name.toLowerCase() || "nightly"
-                      ][networkId || "devnet"]
-                    : "https://blog.sonic.game/sonic-network-settings---nightly-wallet"
-                }
-                target="_blank"
-                className="text-[#25A3ED] hover:underline underline-offset-2"
-              >
-                settings doc
-              </a>
-            </li>
-            <li>
-              Setup {networkId === "testnet" ? "Frontier" : "Origin"} network
-            </li>
-            <li>Continue to the next step</li>
-          </ul>
-        </div>
-        <div className="flex flex-col md:w-full gap-12 mt-12 fixed md:static left-4 right-4 bottom-4">
+          <div className="flex flex-col gap-6 text-title2">
+            <p>
+              1. Open this network{" "}
+              <span className="text-link cursor-pointer">settings doc</span>
+            </p>
+            <p>2. Setup [Origin] network</p>
+            <p>3. Continue to next step</p>
+          </div>
           <Button
-            className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
-            onClick={
-              networkId === "testnet" ? handleConfirmInTestnet : handleConfirm
-            }
+            className="mt-2 md:mt-auto"
+            onClick={handleConfirm}
+            variant={"primary"}
+            size={"lg"}
           >
             Continue
           </Button>

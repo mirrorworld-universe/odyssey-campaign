@@ -1,28 +1,30 @@
-import { Copy } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Gift } from "@/app/icons/Gift";
 import { Ring } from "@/app/icons/Ring";
-import { useHowToPlayModal } from "@/app/store/tutorials";
 import { useNetworkInfo } from "@/app/store/account";
+import { useHowToPlayModal } from "@/app/store/tutorials";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle
+} from "@/components/ui/dialog";
+import { useHash } from "react-use";
 
 export function HowToPlayDialog() {
   const { isOpen, onOpen, onClose } = useHowToPlayModal();
+  const [hash, setHash] = useHash();
   const { networkId } = useNetworkInfo();
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog
+      open={hash === "#/modal/how-to-play"}
+      onOpenChange={(open) => {
+        if (!open) {
+          setHash("");
+        }
+      }}
+    >
       <DialogContent className="flex flex-col max-w-full w-full md:w-[813px] max-h-full h-full md:h-[643px] bg-[#1A1A1A] border-none p-4 md:p-8">
         <DialogHeader className="text-left space-y-0">
           <DialogTitle className="text-white text-2xl md:text-[32px] font-orbitron">

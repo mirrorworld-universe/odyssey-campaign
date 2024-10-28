@@ -110,6 +110,23 @@ export function Header() {
   const [bannerMessage, setBannerMessage] = useState<any>({});
   const [showMenu, setShowMenu] = useState(false);
 
+  // const { data: dataWinnerBanner } = useQuery({
+  //   queryKey: ["queryLotteryBanner", address],
+  //   queryFn: () => getLotteryBanner({ token, networkId }),
+  //   enabled: !!address && !!token,
+  //   refetchInterval: 30 * 60 * 1000,
+  // });
+
+  // useEffect(() => {
+  //   if (publicKey) {
+  //     (async function getBalanceEvery10Seconds() {
+  //       const newBalance = await connection.getBalance(publicKey);
+  //       setBalance(newBalance / LAMPORTS_PER_SOL);
+  //       setTimeout(getBalanceEvery10Seconds, 10000);
+  //     })();
+  //   }
+  // }, [publicKey, connection, balance]);
+
   const handleClickOpenWallet = (event: any) => {
     if (isInMaintenance) {
       return;
@@ -144,6 +161,13 @@ export function Header() {
 
     return names;
   };
+
+  // useEffect(() => {
+  //   if (dataWinnerBanner?.data?.wallet) {
+  //     setBannerMessage(dataWinnerBanner.data);
+  //     onOpenLotteryBar();
+  //   }
+  // }, [dataWinnerBanner]);
 
   useEffect(() => {
     try {

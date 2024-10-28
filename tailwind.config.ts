@@ -71,7 +71,8 @@ const config = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          blue: "hsl(var(--primary-blue))"
+          blue: "hsl(var(--primary-blue))",
+          "blue-hover": "hsl(var(--primary-blue-hover))"
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

@@ -1,33 +1,36 @@
 "use client";
-import { useWelcomeModal } from "@/app/store/tutorials";
+import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
 import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { trackClick } from "@/lib/track";
 import { useLocalStorage, useMount } from "react-use";
 
 export function WelcomeDialog() {
-  const { isOpen, onOpen, onClose } = useWelcomeModal();
   const [welcome, setWelcome] = useLocalStorage("sonic-welcome");
+  const { openModal, modalHash, closeModal } = useModalHash();
 
   useMount(() => {
     if (!welcome) {
-      onOpen();
+      openModal(MODAL_HASH_MAP.welcome);
     }
   });
 
   const handleConfirm = () => {
-    onClose();
+    closeModal();
     setWelcome("1");
     // ga4
     trackClick({ text: "Get Started Dialog" });
   };
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={onClose}>
+    <AlertDialog
+      open={modalHash === MODAL_HASH_MAP.welcome}
+      onOpenChange={closeModal}
+    >
       <AlertDialogContent className="px-4 md:p-0 max-w-[520px]">
-        <div className="p-6 md:p-8 flex flex-col gap-10 md:gap-8 text-primary bg-bg-popup rounded-xl md:rounded-none">
-          <div className="flex flex-col gap-3">
-            <p className="md:text-headline5 text-headline4 font-orbitron">
+        <div className="p-6 md:p-8 flex flex-col gap-6 md:gap-8 text-primary bg-bg-popup">
+          <div className="flex flex-col gap-2 md:gap-3">
+            <p className="text-headline5 font-orbitron">
               Welcome to Sonic Odyssey Campaign!
             </p>
             <p className="text-body3 text-tertary">
@@ -40,7 +43,7 @@ export function WelcomeDialog() {
             <p>3. Collect rings</p>
           </div>
           <Button
-            className="!text-title2 font-orbitron"
+            className="!text-title2 font-orbitron mt-2 md:mt-auto"
             variant={"primary"}
             size={"lg"}
             onClick={handleConfirm}

@@ -15,7 +15,6 @@ import {
 import { useTaskInfo } from "@/app/store/task";
 import {
   useMoreWalletModal,
-  useSetUpNetworkModal,
   useSetupInfo,
   useWhitelistModal
 } from "@/app/store/tutorials";
@@ -45,6 +44,7 @@ import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { encodeBase64 } from "tweetnacl-util";
+import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
 
 let lastAddress = "";
 let currentSignature = "";
@@ -93,11 +93,6 @@ export function WalletDialog({ text = "Connect", className }: any) {
     onOpen: onOpenMoreWalletDialog,
     onClose: onCloseMoreWalletDialog
   } = useMoreWalletModal();
-  const {
-    isOpen: isOpenSetUpNetworkWalletDialog,
-    onOpen: onOpenSetUpNetworkWalletDialog,
-    onClose: onCloseSetUpNetworkWalletDialog
-  } = useSetUpNetworkModal();
   const {
     isOpen: isOpenWhitelistDialog,
     onOpen: onOpenWhitelistDialog,
@@ -229,7 +224,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
       // testnet
       if (networkId === "testnet") {
         if (isWhitelist) {
-          onOpenSetUpNetworkWalletDialog();
+          openModalDirectly(MODAL_HASH_MAP.setUpSonicNetwork);
         } else {
           onOpenWhitelistDialog();
           if (!isSwitching) {
@@ -241,7 +236,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
       // devnet
       else {
         if (!status || !status[address]) {
-          onOpenSetUpNetworkWalletDialog();
+          openModalDirectly(MODAL_HASH_MAP.setUpSonicNetwork);
         }
       }
     } else {
