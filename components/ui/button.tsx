@@ -18,7 +18,8 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "",
-        primary: "bg-primary-blue hover:bg-primary-blue-hover"
+        primary: "bg-primary-blue hover:bg-primary-blue-hover",
+        cancel: "text-tertary hover:text-primary"
       },
       size: {
         default: "h-10 px-4 py-2",

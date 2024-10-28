@@ -49,7 +49,8 @@ export const MODAL_HASH_MAP = {
   welcome: "#/modal/welcome",
   setUpSonicNetwork: "#/modal/setUpSonicNetwork",
   setUpFinish: "#/modal/setUpFinish",
-  faq: "#/modal/faq"
+  faq: "#/modal/faq",
+  switchNetwork: "#/modal/switchNetwork"
 } as const;
 
 export type ModalHashValues =

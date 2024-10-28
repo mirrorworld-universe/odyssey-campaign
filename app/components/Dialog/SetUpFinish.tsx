@@ -49,12 +49,7 @@ export function SetUpFinishDialog() {
             <Button onClick={handleConfirm} variant={"primary"} size={"lg"}>
               Task Center
             </Button>
-            <Button
-              onClick={closeModal}
-              variant={"link"}
-              size={"lg"}
-              className="text-tertary"
-            >
+            <Button onClick={closeModal} variant={"cancel"} size={"lg"}>
               Cancel
             </Button>
           </div>

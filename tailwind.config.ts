@@ -219,6 +219,15 @@ const config = {
         ".background-highlight": {
           background:
             "linear-gradient(80deg, #000 -8.56%, rgba(0, 0, 0, 0.00) 100%), linear-gradient(76deg, rgba(251, 176, 66, 0.00) 0%, rgba(251, 176, 66, 0.70) 165.97%), transparent 0px -38.301px / 112.36% 125.941% no-repeat"
+        },
+        ".flex-v": {
+          display: "flex",
+          flexDirection: "column"
+        },
+        ".flex-center": {
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
         }
       };
 
