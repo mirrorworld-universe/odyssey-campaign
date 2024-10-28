@@ -50,6 +50,7 @@ export const MODAL_HASH_MAP = {
   setUpSonicNetwork: "#/modal/setUpSonicNetwork",
   setUpFinish: "#/modal/setUpFinish",
   faq: "#/modal/faq",
+  howToPlay: "#/modal/howToPlay",
   switchNetwork: "#/modal/switchNetwork"
 } as const;
 

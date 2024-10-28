@@ -14,7 +14,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
+  AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,7 @@ import { useMysteryBoxInfo, useMysteryBoxRecordModal } from "@/app/store/task";
 import {
   getMysteryboxHistory,
   getMysteryboxTx,
-  openMysterybox,
+  openMysterybox
 } from "@/app/data/reward";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { Card, CardSize } from "../Basic/Card";
@@ -36,7 +36,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 let txHash = "";
 let currentRecord: any = {
   link: "",
-  quantity: 0,
+  quantity: 0
 };
 let boxRecords: any[] = [];
 
@@ -100,7 +100,7 @@ export function MysteryBoxRecordDialog() {
     useQuery({
       queryKey: ["queryMysteryBoxHistory", address],
       queryFn: () => getMysteryboxHistory({ token }),
-      enabled: !!address && !!token,
+      enabled: !!address && !!token
     });
 
   const mutationOpenMysteryBox = useMutation({
@@ -109,7 +109,7 @@ export function MysteryBoxRecordDialog() {
       openMysterybox({
         token,
         hash: txHash,
-        networkId,
+        networkId
       }),
     onSuccess({ data, status }) {
       if (data.success) {
@@ -124,19 +124,19 @@ export function MysteryBoxRecordDialog() {
               </span>
               . Collect more rings in the Sonic Odyssey!
             </p>
-          ),
+          )
         });
         boxRecords[boxRecords.length - 1] = {
           loaded: true,
           quantity: data.amount,
           link: `https://explorer.sonic.game/tx/${txHash}${
             networkId === "testnet" ? "?cluster=testnet" : ""
-          }`,
+          }`
         };
         setMysteryBoxRecords([...boxRecords]);
         openMysteryBoxes();
       }
-    },
+    }
   });
 
   const mutationBuildTx = useMutation({
@@ -145,7 +145,7 @@ export function MysteryBoxRecordDialog() {
     onSuccess: async ({ data }) => {
       const transactionString = data.hash;
       triggerTransaction(transactionString);
-    },
+    }
   });
 
   const openMysteryBoxes = () => {

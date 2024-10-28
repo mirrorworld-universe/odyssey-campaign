@@ -1,5 +1,8 @@
 "use client";
-import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
+import useModalHash, {
+  MODAL_HASH_MAP,
+  openModalDirectly
+} from "@/app/hooks/useModalHash";
 import { CheckLogo } from "@/app/logos/CheckLogo";
 import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
@@ -30,14 +33,14 @@ export function SetUpFinishDialog() {
               You have completed the wallet setup. Start your journey now! If
               you have any questions, feel free to check out our{" "}
               <a
-                href="/task#faq"
+                onClick={() => openModalDirectly(MODAL_HASH_MAP.howToPlay)}
                 className="text-link cursor-pointer hover:text-primary-blue"
               >
                 beginner's guide
               </a>{" "}
               and{" "}
               <a
-                href="/task#how-to-play"
+                onClick={() => openModalDirectly(MODAL_HASH_MAP.faq)}
                 className="text-link cursor-pointer hover:text-primary-blue"
               >
                 FAQs

@@ -1,4 +1,5 @@
 import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
+import { Button } from "@/components/ui/button";
 
 export default function Banner() {
   return (
@@ -8,6 +9,7 @@ export default function Banner() {
           <div className="font-orbitron text-headline3">
             Odyssey Task Center
           </div>
+
           <p className="text-body3 text-tertary">
             Embark on your Odyssey by completing various tasks! Earn more rings
             along the way! If you have any questions, feel free to check out the
@@ -20,6 +22,13 @@ export default function Banner() {
             .
           </p>
         </div>
+        <Button
+          onClick={() => openModalDirectly(MODAL_HASH_MAP.howToPlay)}
+          className="text-title3 font-orbitron mt-8 px-6"
+          variant={"outline"}
+        >
+          How to Play?
+        </Button>
       </div>
     </div>
   );
