@@ -23,13 +23,13 @@ import { HowToPlayDialog } from "@/app/components/Dialog/HowToPlay";
 
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import { useTaskInfo } from "@/app/store/task";
-import { useHowToPlayModal } from "@/app/store/tutorials";
 
 import SeasonTwo from "../components/Dialog/SeasonTwo";
 import { SonicX } from "../icons/SonicX";
 import { Tiktok } from "../icons/TIktok";
 import Banner from "./components/Banner";
 import MainContent from "./components/MainContent";
+import { MODAL_HASH_MAP, openModalDirectly } from "../hooks/useModalHash";
 
 const icons: any = {
   twitter: (
@@ -99,11 +99,6 @@ const TaskCenter: NextPage = () => {
   const { address, status, setStatus } = useTaskInfo();
   const { wallet } = useWallet();
   const { networkId } = useNetworkInfo();
-  const {
-    isOpen: isOpenHowToPlayDialog,
-    onOpen: onOpenHowToPlayDialog,
-    onClose: onCloseHowToPlayDialog
-  } = useHowToPlayModal();
 
   const handleStartTask = () => {
     if (!token) {
@@ -115,11 +110,6 @@ const TaskCenter: NextPage = () => {
         ? "/task/check-in"
         : "/task/meet-sonic"
     );
-  };
-
-  const handleOpenHowToPlayDialog = () => {
-    onOpenHowToPlayDialog();
-    trackClick({ text: "How to play?" });
   };
 
   const hasTaskStarted = (startTime: string) => {

@@ -1,7 +1,12 @@
 import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
 import { Button } from "@/components/ui/button";
+import { trackClick } from "@/lib/track";
 
 export default function Banner() {
+  const handleOpenHowToPlayDialog = () => {
+    openModalDirectly(MODAL_HASH_MAP.howToPlay);
+    trackClick({ text: "How to play?" });
+  };
   return (
     <div className="bg-black text-primary">
       <div className="max-w-view w-full mx-auto px-4 py-16">
@@ -23,7 +28,7 @@ export default function Banner() {
           </p>
         </div>
         <Button
-          onClick={() => openModalDirectly(MODAL_HASH_MAP.howToPlay)}
+          onClick={() => handleOpenHowToPlayDialog()}
           className="text-title3 font-orbitron mt-8 px-6"
           variant={"outline"}
         >

@@ -21,7 +21,7 @@ import {
 } from "@/app/store/task";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { cn } from "@/lib/utils";
-import InfoLogo from "@/app/logos/InfoLogo";
+import { InfoLogo } from "@/app/logos/InfoLogo";
 
 let txHash = "";
 

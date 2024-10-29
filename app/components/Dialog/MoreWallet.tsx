@@ -1,5 +1,5 @@
 "use client";
-import InfoILogo from "@/app/logos/InfoILogo";
+import { InfoILogo } from "@/app/logos/InfoILogo";
 import { useWalletModal } from "@/app/store/account";
 import { useMoreWalletModal } from "@/app/store/tutorials";
 import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";

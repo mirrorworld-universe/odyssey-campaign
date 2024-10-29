@@ -2,7 +2,7 @@
 
 import { fetchLogout } from "@/app/data/account";
 import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
-import SwitchLogo from "@/app/logos/SwitchLogo";
+import { SwitchLogo } from "@/app/logos/SwitchLogo";
 import {
   useAccountInfo,
   useNetworkInfo,

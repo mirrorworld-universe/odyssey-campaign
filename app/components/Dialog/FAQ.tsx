@@ -1,5 +1,6 @@
 "use client";
 import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
+import { ArrowBackLogo } from "@/app/logos/ArrowBackLogo";
 import {
   Accordion,
   AccordionContent,
@@ -53,19 +54,7 @@ export function FAQDialog() {
         className="text-primary p-0 h-full flex-v md:h-auto max-w-[640px]"
       >
         <div className="h-14 md:hidden flex items-center bg-black px-4">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            onClick={closeModal}
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M15.9749 2L17.7499 3.775L9.52488 12L17.7499 20.225L15.9749 22L5.97488 12L15.9749 2Z"
-              fill="#4D4D4D"
-            />
-          </svg>
+          <ArrowBackLogo onClick={closeModal} />
         </div>
         <div className="flex flex-col gap-6 md:gap-8 p-4 md:p-8 bg-black md:bg-transparent grow">
           <div className="text-headline5 font-orbitron">FAQs</div>
@@ -81,8 +70,8 @@ export function FAQDialog() {
                 value={`item-${faqIndex + 1}`}
                 className="border-line px-4 py-6 md:p-8 gap-2 flex flex-col first:border-t"
               >
-                <AccordionTrigger className="text-title2 text-left font-orbitron p-0 aria-expanded:text-[#FBB042] transition-colors">
-                  {faq.title}
+                <AccordionTrigger className="text-title2 text-left font-orbitron p-0 text-icon aria-expanded:text-gold-yellow transition-colors">
+                  <span className="text-primary">{faq.title}</span>
                 </AccordionTrigger>
                 <AccordionContent
                   className={cn("!text-body3 text-secondary p-0")}

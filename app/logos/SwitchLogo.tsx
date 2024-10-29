@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
+import { SVGProps } from "react";
 
-export default function SwitchLogo({ className }: { className: string }) {
+export function SwitchLogo({ className, ...props }: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,6 +10,7 @@ export default function SwitchLogo({ className }: { className: string }) {
       viewBox="0 0 64 64"
       fill="none"
       className={cn("text-[#FBD314]", className)}
+      {...props}
     >
       <g mask="url(#mask0_664_57452)">
         <path
