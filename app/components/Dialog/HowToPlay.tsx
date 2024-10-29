@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/accordion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useMemo } from "react";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export function HowToPlayDialog() {
   const { modalHash, closeModal } = useModalHash();
@@ -40,48 +42,129 @@ export function HowToPlayDialog() {
         className="max-w-[640px] p-0 w-full h-full md:h-auto text-primary"
       >
         <PcHowToPlay guideUrl={guideUrl} faucetUrl={faucetUrl} />
-
-        <div className="md:hidden bg-black">
-          <div className="h-14 px-4 flex items-center">
-            <ArrowBackLogo />
-          </div>
-          <div className="p-4">
-            <div className="space-y-2">
-              <h1 className="text-headline5 font-orbitron">How to Play ?</h1>
-              <p className="text-body3 text-tertary">
-                Ensure you successfully switch the network in your wallet to
-                Sonic. Check{" "}
-                <a href={guideUrl} className="text-link">
-                  guides
-                </a>
-                .
-              </p>
-            </div>
-            <Accordion
-              type="single"
-              collapsible
-              className="w-full"
-              defaultValue="item-1"
-            >
-              <AccordionItem
-                value={`item-1`}
-                className="border-line px-4 py-6 gap-2 flex flex-col first:border-t"
-              >
-                <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
-                  <div className="text-left space-y-1">
-                    <h4 className="text-title4 text-gold-yellow">Step 1</h4>
-                    <h2 className="text-title2 text-white">Request Test SOL</h2>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent
-                  className={cn("!text-body3 text-secondary p-0")}
-                ></AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
-        </div>
+        <MobileHowToPlay guideUrl={guideUrl} faucetUrl={faucetUrl} />
       </DialogContent>
     </Dialog>
+  );
+}
+
+function MobileHowToPlay({
+  guideUrl,
+  faucetUrl
+}: {
+  guideUrl: string;
+  faucetUrl: string;
+}) {
+  const { closeModal } = useModalHash();
+  const router = useRouter();
+
+  return (
+    <div className="md:hidden bg-black">
+      <div className="h-14 px-4 flex items-center">
+        <ArrowBackLogo onClick={closeModal} />
+      </div>
+      <div className="p-4 space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-headline5 font-orbitron">How to Play ?</h1>
+          <p className="text-body3 text-tertary">
+            Ensure you successfully switch the network in your wallet to Sonic.
+            Check{" "}
+            <a href={guideUrl} className="text-link">
+              guides
+            </a>
+            .
+          </p>
+        </div>
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full"
+          defaultValue="item-1"
+        >
+          <AccordionItem
+            value={`item-1`}
+            className="border-line px-4 py-6 gap-2 flex flex-col first:border-t"
+          >
+            <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
+              <div className="text-left space-y-1">
+                <h4 className="text-title4 text-gold-yellow">Step 1</h4>
+                <h2 className="text-title2 text-white">Request Test SOL</h2>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className={cn("!text-body3 text-secondary p-0")}>
+              <div className="flex-v gap-6">
+                On Sonic, you need test SOL for gas. Ensure your wallet has
+                enough test SOL to transact. Click faucet link or use the faucet
+                in the navigation bar to claim.
+                <Button
+                  className="text-title3 text-white font-orbitron"
+                  variant={"primary"}
+                  size={"sm"}
+                  onClick={() => {
+                    window.open(faucetUrl, "_blank");
+                  }}
+                >
+                  Faucet
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem
+            value={`item-2`}
+            className="border-line px-4 py-6 gap-2 flex flex-col first:border-t"
+          >
+            <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
+              <div className="text-left space-y-1">
+                <h4 className="text-title4 text-gold-yellow">Step 2</h4>
+                <h2 className="text-title2 text-white flex gap-1 items-center">
+                  Earn Mystery Box
+                  <GiftLogo className="size-[18px] text-gold-yellow" />
+                </h2>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className={cn("!text-body3 text-secondary p-0")}>
+              <div className="flex-v gap-6">
+                In the task center , complete tasks to receive corresponding
+                mystery boxes.
+                <Button
+                  className="text-title3 text-white font-orbitron"
+                  variant={"primary"}
+                  size={"sm"}
+                  onClick={() => {
+                    router.push("/task");
+                    closeModal();
+                  }}
+                >
+                  Task Center
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem
+            value={`item-2`}
+            className="border-line px-4 py-6 gap-2 flex flex-col first:border-t"
+          >
+            <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
+              <div className="text-left space-y-1">
+                <h4 className="text-title4 text-gold-yellow">Step 3</h4>
+                <h2 className="text-title2 text-white flex gap-1 items-center">
+                  Claim Rings
+                  <RingLogo className="size-[18px] text-gold-yellow" />
+                </h2>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className={cn("!text-body3 text-secondary p-0")}>
+              <div className="flex-v gap-6">
+                In the task center , complete tasks to receive corresponding
+                mystery boxes.
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
+    </div>
   );
 }
 
@@ -93,7 +176,6 @@ function PcHowToPlay({
   faucetUrl: string;
 }) {
   const { closeModal } = useModalHash();
-  const { networkId } = useNetworkInfo();
 
   return (
     <div className="hidden md:flex-v bg-bg-popup p-8">
