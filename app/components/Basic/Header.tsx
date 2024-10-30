@@ -49,6 +49,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { NetworkSwitch } from "./NetworkSwitch";
 import { useWhitelistModal } from "@/app/store/tutorials";
 import { networks } from "@/app/data/config";
+import { useBreakpoint } from "@/app/hooks";
 
 export const menu: any[] = [
   {
@@ -92,6 +93,7 @@ export function Header() {
   const searchParams = useSearchParams();
 
   const networkCookieSearch = searchParams.get("experiment");
+  const isMobile = useBreakpoint() === "mobile";
   const networkCookie = getCookie(NETWORK_COOKIE_NAME);
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
   const { isOpen, onOpen, setSwitching } = useWalletModal();
@@ -199,16 +201,12 @@ export function Header() {
 
   return (
     <nav className="flex flex-col w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
-      <div className="h-16 md:h-20 flex items-center justify-between p-4 md:px-4 xl:px-10 md:py-4 bg-[#111111] w-full transition-all duration-300">
+      <div className="h-16 md:h-20 flex items-center justify-between p-4 md:px-4 xl:px-10 md:py-4 bg-black w-full transition-all duration-300">
         {/* left */}
-        <div className="flex items-center gap-3 md:gap-2 xl:gap-8">
+        <div className="flex items-center gap-3 md:gap-8">
           {/* logo */}
           <Link href="/" className="inline-flex flex-row items-center gap-2">
-            <img
-              alt="Sonic Logo"
-              className="min-w-7 w-7 xl:w-8 h-auto"
-              src="/sonic.png"
-            />
+            <img alt="Sonic Logo" className="size-8 min-w-8" src="/sonic.png" />
             <span className="hidden md:inline text-white text-[22px] font-bold font-orbitron tracking-widest">
               SONIC
             </span>
@@ -216,7 +214,7 @@ export function Header() {
 
           {/* menu */}
           <span
-            className="w-full inline-flex md:hidden cursor-pointer"
+            className="size-8 inline-flex md:hidden cursor-pointer"
             onClick={() => setShowMenu(true)}
           >
             <IconMenu color="white" />
@@ -251,7 +249,8 @@ export function Header() {
             )}
 
             {/* spliter */}
-            <i
+            <div className="w-px h-4 bg-white/20 hidden md:block"></div>
+            {/* <i
               className={cn(
                 "hidden md:inline-flex h-4 w-[1px] border-solid border-white/20 md:mx-6 2xl:mx-8",
                 visitedNetworkId === "testnet" ||
@@ -260,13 +259,13 @@ export function Header() {
                   ? "border-r"
                   : "border-none"
               )}
-            ></i>
+            ></i> */}
 
-            <div className="w-full md:w-auto flex flex-col md:flex-row items-start md:items-center md:gap-6 xl:gap-8">
+            <div className="w-full md:w-auto flex flex-col md:flex-row items-start md:items-center gap-8">
               {menu.map((menuItem, menuIndex) => (
                 <Link
                   className={cn(
-                    "gap-12 text-sm 2xl:text-base text-white hover:text-[#FBB042] font-semibold font-orbitron transition-colors px-4 py-5 md:px-0 md:py-0",
+                    "gap-12 text-title3 hover:text-gold-yellow text-primary font-orbitron transition-colors px-4 py-5 md:px-0 md:py-0",
                     pathname.startsWith("/task") && menuItem.link === "/task"
                       ? "text-[#FBB042]"
                       : ""
@@ -284,7 +283,7 @@ export function Header() {
         </div>
 
         {/* right */}
-        <div className="gap-6 xl:gap-8 flex items-center">
+        <div className="gap-6 md:gap-10 flex items-center">
           {address && token ? <RingPopover /> : null}
 
           {address && token ? <Notification /> : null}
@@ -292,11 +291,13 @@ export function Header() {
           {!publicKey ? (
             <Button
               className={cn(
-                "min-w-[90px] h-8 xl:min-w-[200px] md:10 xl:h-12 justify-center items-center bg-[#0000FF] font-orbitron font-bold text-white text-sm md:text-sm xl:text-base transition-all duration-300",
+                "font-orbitron text-title3 text-primary",
                 isInMaintenance
                   ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                   : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
               )}
+              variant={"primary"}
+              size={isMobile ? "sm" : "md"}
               onClick={handleClickOpenWallet}
             >
               {connecting ? "Connecting..." : "Connect Wallet"}

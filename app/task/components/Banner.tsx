@@ -9,12 +9,11 @@ export default function Banner() {
   };
   return (
     <div className="bg-black text-primary">
-      <div className="max-w-view w-full mx-auto px-4 py-16">
+      <div className="max-w-view w-full mx-auto px-4 h-[300px] flex items-center">
         <div className="flex flex-col gap-4 max-w-[486px]">
           <div className="font-orbitron text-headline3">
             Odyssey Task Center
           </div>
-
           <p className="text-body3 text-tertary">
             Embark on your Odyssey by completing various tasks! Earn more rings
             along the way! If you have any questions, feel free to check out the
@@ -26,14 +25,16 @@ export default function Banner() {
             </span>
             .
           </p>
+          <Button
+            onClick={() => handleOpenHowToPlayDialog()}
+            className="text-title3 font-orbitron mt-4 px-6 w-fit"
+            variant={"outline"}
+          >
+            How to Play?
+          </Button>
         </div>
-        <Button
-          onClick={() => handleOpenHowToPlayDialog()}
-          className="text-title3 font-orbitron mt-8 px-6"
-          variant={"outline"}
-        >
-          How to Play?
-        </Button>
+
+        <div></div>
       </div>
     </div>
   );

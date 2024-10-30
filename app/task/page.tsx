@@ -29,7 +29,6 @@ import { SonicX } from "../icons/SonicX";
 import { Tiktok } from "../icons/TIktok";
 import Banner from "./components/Banner";
 import MainContent from "./components/MainContent";
-import { MODAL_HASH_MAP, openModalDirectly } from "../hooks/useModalHash";
 
 const icons: any = {
   twitter: (

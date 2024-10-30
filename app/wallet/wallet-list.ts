@@ -1,7 +1,7 @@
 import {
   PhantomWalletAdapter,
   NightlyWalletAdapter,
-  SolflareWalletAdapter,
+  SolflareWalletAdapter
 } from "@solana/wallet-adapter-wallets";
 import { BackpackWalletAdapter } from "./backpack-adapter";
 import { OKXWalletAdapter } from "./okx-adapter";
@@ -16,7 +16,7 @@ export const WalletList: any[] = [
     isSupportSonic: true,
     hasExtraBonus: {
       devnet: true,
-      testnet: false,
+      testnet: false
     },
     adapter: new OKXWalletAdapter(),
     hide: false,
@@ -28,7 +28,7 @@ export const WalletList: any[] = [
         )}`
       )}`;
       openPopup(url, "_blank");
-    },
+    }
   },
   {
     id: "backpack",
@@ -36,17 +36,17 @@ export const WalletList: any[] = [
     isSupportSonic: true,
     hasExtraBonus: {
       devnet: true,
-      testnet: false,
+      testnet: false
     },
     adapter: new BackpackWalletAdapter(),
-    hide: false,
+    hide: false
   },
   {
     id: "nightly",
     name: "Nightly",
     isSupportSonic: true,
     adapter: new NightlyWalletAdapter(),
-    hide: false,
+    hide: false
   },
   {
     id: "gate",
@@ -55,9 +55,9 @@ export const WalletList: any[] = [
     adapter: new GateWalletAdapter(),
     network: {
       devnet: true,
-      testnet: false,
+      testnet: false
     },
-    hide: false,
+    hide: false
   },
   // {
   //   id: "bitget",
@@ -73,15 +73,15 @@ export const WalletList: any[] = [
     name: "Phantom",
     isSupportSonic: false,
     adapter: new PhantomWalletAdapter(),
-    hide: true,
+    hide: true
   },
   {
     id: "solflare",
     name: "Solflare",
     isSupportSonic: false,
     adapter: new SolflareWalletAdapter(),
-    hide: true,
-  },
+    hide: true
+  }
 ];
 
 export const setUpUrls: any = {
@@ -89,24 +89,24 @@ export const setUpUrls: any = {
     devnet:
       "https://blog.sonic.game/sonic-origin-network-settings---okx-wallet",
     testnet:
-      "https://blog.sonic.game/sonic-frontier-network-settings---okx-wallet",
+      "https://blog.sonic.game/sonic-frontier-network-settings---okx-wallet"
   },
   nightly: {
     devnet: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
     testnet:
-      "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet",
+      "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet"
   },
   backpack: {
     devnet: "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
     testnet:
-      "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet",
+      "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet"
   },
   ["gate wallet"]: {
     devnet:
       "https://blog.sonic.game/sonic-origin-network-settings---gate-wallet",
     testnet:
-      "https://blog.sonic.game/sonic-frontier-network-settings---gate-wallet",
-  },
+      "https://blog.sonic.game/sonic-frontier-network-settings---gate-wallet"
+  }
 };
 
 export const isSupportSonic = (walletName: string | undefined) => {
@@ -115,5 +115,5 @@ export const isSupportSonic = (walletName: string | undefined) => {
   }
   return WalletList.find(
     (wallet: any) => wallet.name.toLowerCase() === walletName.toLowerCase()
-  ).isSupportSonic;
+  )?.isSupportSonic;
 };

@@ -21,7 +21,7 @@ export const useNetworkInfo = create(
     setVisitedNetworkId: (networkId: string) => void;
   }>(
     (set, get) => ({
-      networkId: get()?.networkId,
+      networkId: get()?.networkId || "devnet",
       visitedNetworkId: get()?.visitedNetworkId,
       setNetworkId: (networkId: string) => {
         set({

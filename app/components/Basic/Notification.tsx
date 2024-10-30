@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from "@/components/ui/popover";
 import { useQuery } from "@tanstack/react-query";
 import { getNotificationRecords } from "../../data/account";
@@ -24,7 +24,7 @@ export default function Notification({ data }: any) {
     setToken,
     reset,
     hasNews,
-    setNews: hasNotification,
+    setNews: hasNotification
   } = useAccountInfo();
   const { networkId } = useNetworkInfo();
 
@@ -35,12 +35,12 @@ export default function Notification({ data }: any) {
   const {
     data: dataNotificationRecords,
     isLoading: loadingNotificationRecords,
-    refetch: refetchNotificationRecords,
+    refetch: refetchNotificationRecords
   } = useQuery({
     queryKey: ["queryUserNotificationRecords", address],
     queryFn: () => getNotificationRecords({ token, networkId }),
     enabled: !!address && !!token,
-    refetchInterval: 10 * 1000,
+    refetchInterval: 10 * 1000
   });
 
   useEffect(() => {
@@ -84,10 +84,10 @@ export default function Notification({ data }: any) {
 
   const NotificationIcon = () => (
     <div
-      className="w-6 h-6 cursor-pointer relative"
+      className="size-6 cursor-pointer relative"
       onClick={handleToggleShowPanel}
     >
-      <img className="w-6 h-6" src="/images/notifications.png" alt="" />
+      <img className="size-6" src="/images/notifications.png" alt="" />
       {hasNews && (
         <span className="flex h-3 w-3 absolute top-0 right-0">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FBB042]/80 opacity-75"></span>
@@ -109,10 +109,10 @@ export default function Notification({ data }: any) {
         {list.map((item: any, index: number) => (
           <div
             key={index}
-            className="flex flex-col gap-3 md:gap-1 px-4 py-4 md:py-3 text-xs bg-[#1A1A1A] hover:bg-white/5 transition-opacity"
+            className="flex-v gap-1 py-3 px-4 md:px-6 hover:bg-line"
           >
-            <p className="text-white">{item.text}</p>
-            <span className="text-white/50">{item.date}</span>
+            <p className="text-title4 text-primary">{item.text}</p>
+            <span className="text-tertary text-body4">{item.date}</span>
           </div>
         ))}
       </>
@@ -120,12 +120,15 @@ export default function Notification({ data }: any) {
   };
 
   const NotificationPanel = ({ className, showHeader }: any) => (
-    <div className={cn("bg-[#1A1A1A] w-[360px] py-2 rounded-md", className)}>
+    <div
+      className={cn(
+        "bg-bg-popup md:max-w-[320px] pt-1 w-full pb-4 md:pb-1",
+        className
+      )}
+    >
       {showHeader ? (
-        <p className="flex justify-between items-center px-4 py-5">
-          <span className="text-white/50 text-sm font-orbitron font-semibold">
-            Notification
-          </span>
+        <p className="flex text-title2 text-tertary justify-between items-center px-4 h-14 font-orbitron">
+          Notification
           <span
             className="cursor-pointer hover:opacity-80"
             onClick={handleClosePanel}

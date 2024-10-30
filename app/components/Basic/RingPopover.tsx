@@ -155,13 +155,13 @@ export default function RingPopover() {
   const RingPanel = ({ className, showHeader }: any) => (
     <div
       className={cn(
-        "flex flex-col bg-[#1A1A1A] w-full rounded-md pointer-events-auto",
+        "flex flex-col bg-bg-popup w-full pointer-events-auto pb-4",
         className
       )}
     >
       {showHeader ? (
-        <p className="flex justify-between items-center px-4 py-5">
-          <span className="text-white/50 text-sm font-orbitron font-semibold">
+        <p className="flex justify-between items-center px-4 h-14">
+          <span className="text-title3 font-orbitron text-tertary px-1">
             Current Balance
           </span>
           <span
@@ -177,8 +177,8 @@ export default function RingPopover() {
         className={cn(
           "block w-full overflow-hidden relative",
           historyList.length
-            ? "min-h-[283px] md:min-h-[286px]"
-            : "min-h-[150px] md:min-h-[166px]",
+            ? "min-h-[283px] md:min-h-[248px]"
+            : "min-h-[150px] md:min-h-[150px]",
           className
         )}
       >
@@ -191,11 +191,12 @@ export default function RingPopover() {
           )}
         >
           {/* balance */}
-          <div className="flex flex-col px-4 pb-6 pt-2 md:py-6">
+          <div className="flex flex-col px-4 md:px-6 pb-4 pt-4 md:pt-5">
             <Card
               name="Current Balance"
-              nameClassName="bg-[#1B1B1B] hidden md:block"
+              nameClassName="bg-bg-popup text-title3 text-primary"
               size={CardSize.Small}
+              className="border-line rounded-none"
             >
               <div className="flex flex-row justify-between">
                 <div className="flex items-center">
@@ -232,7 +233,7 @@ export default function RingPopover() {
                 isInMaintenance
               }
               className={cn(
-                "bg-[#0000FF] transition-all duration-300 mt-5",
+                "bg-[#0000FF] transition-all duration-300 mt-4",
                 !canOpenMysteryBox ||
                   !isSupportSonic(wallet?.adapter.name) ||
                   isInMaintenance
@@ -271,32 +272,34 @@ export default function RingPopover() {
           {historyList.length ? (
             <div
               className={cn(
-                "flex flex-col px-4 py-4 md:py-2 font-orbitron border-t border-solid border-white/10"
+                "flex flex-col px-4 md:px-6 py-4 md:py-2 font-orbitron border-t border-solid border-line"
               )}
             >
-              <div className="flex flex-row items-center justify-between">
-                <div className="text-white text-sm py-2">Claim History</div>
+              <div className="flex flex-row items-center justify-between py-2">
+                <div className="text-title3 text-primary font-orbitron">
+                  Claim History
+                </div>
                 <div
-                  className="text-[#25A3ED] text-[10px] hover:underline cursor-pointer"
+                  className="text-link text-ten hover:text-primary-blue cursor-pointer"
                   onClick={handleLoadMoreClaimHistory}
                 >
                   Load More
                 </div>
               </div>
-              <div className="flex flex-col w-full max-h-[180px]">
+              <div className="flex flex-col w-full max-h-[180px] gap-2">
                 {historyList
                   .slice(0, 2)
                   .map((history: any, historyIndex: number) => (
                     <div
                       key={historyIndex}
-                      className="flex flex-row justify-between text-white/50 text-xs py-2"
+                      className="flex flex-row justify-between text-title4 text-tertary"
                     >
                       <div className="flex items-center">
                         Claimed x 1{" "}
                         <Gift
                           width={12}
                           height={12}
-                          color="rgba(255,255,255,.5)"
+                          color="#666"
                           className="mx-[2px]"
                         />
                       </div>
@@ -320,60 +323,61 @@ export default function RingPopover() {
         {historyList.length ? (
           <div
             className={cn(
-              "w-full h-full flex flex-col py-2 transition-transform duration-300 absolute",
+              "w-full h-full flex flex-col py-4 transition-transform duration-300 absolute",
               showClaimHistory
                 ? "translate-x-0"
                 : "translate-x-full md:translate-x-[320px]"
             )}
           >
-            <div className="flex justify-center px-4 relative">
+            <div className="flex justify-center px-4 md:px-6 relative pb-2">
               <ChevronLeft
                 size={24}
                 color="rgba(255, 255, 255, .3)"
-                className="cursor-pointer absolute top-0 bottom-0 left-2 m-auto"
+                className="cursor-pointer absolute top-0 bottom-0 left-4 m-auto"
                 onClick={handleBackClaimHistory}
               />
-              <div className="text-white text-sm font-orbitron py-2">
+              <div className="text-title3 font-orbitron text-primary">
                 Claim History
               </div>
             </div>
             <ScrollArea className="flex flex-col w-full h-full overflow-y-auto">
-              {historyList.map((history: any, historyIndex: number) => (
-                <div
-                  key={historyIndex}
-                  className={cn(
-                    "border-solid border-white/5 px-4 py-2",
-                    historyIndex > 0 ? "border-t" : ""
-                  )}
-                >
+              {[...historyList, ...historyList].map(
+                (history: any, historyIndex: number) => (
                   <div
                     key={historyIndex}
-                    className="flex flex-row justify-between text-white text-xs font-orbitron"
+                    className={cn(
+                      "border-solid border-line px-4 md:px-6 flex flex-col justify-center h-[62px] border-b last:border-b-0"
+                    )}
                   >
-                    <div className="flex items-center">
-                      Claimed x 1{" "}
-                      <Gift
-                        width={12}
-                        height={12}
-                        color="white"
-                        className="mx-[2px]"
-                      />
+                    <div
+                      key={historyIndex}
+                      className="flex flex-row justify-between text-white text-xs font-orbitron"
+                    >
+                      <div className="flex items-center">
+                        Claimed x 1{" "}
+                        <Gift
+                          width={12}
+                          height={12}
+                          color="white"
+                          className="mx-[2px]"
+                        />
+                      </div>
+                      <div className="flex items-center">
+                        + {history.quantity}{" "}
+                        <Ring
+                          width={12}
+                          height={12}
+                          color="#FBB042"
+                          className="mx-[2px]"
+                        />
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                      + {history.quantity}{" "}
-                      <Ring
-                        width={12}
-                        height={12}
-                        color="#FBB042"
-                        className="mx-[2px]"
-                      />
+                    <div className="text-white/50 text-[10px] mt-1">
+                      {history.date}
                     </div>
                   </div>
-                  <div className="text-white/50 text-[10px] mt-1">
-                    {history.date}
-                  </div>
-                </div>
-              ))}
+                )
+              )}
             </ScrollArea>
           </div>
         ) : null}
@@ -404,7 +408,7 @@ export default function RingPopover() {
             />
           </div>
         </PopoverTrigger>
-        <PopoverContent className="hidden md:flex max-w-full w-full md:w-[320px] bg-[#1B1B1B] border-none rounded-2 px-0 py-0 mt-5">
+        <PopoverContent className="hidden md:flex max-w-full w-full md:w-[320px] bg-bg-popup border-none p-0 mt-5">
           <RingPanel />
         </PopoverContent>
       </Popover>

@@ -58,6 +58,25 @@ export default function Home() {
 
   return (
     <main className="grow flex flex-col text-primary">
+      <video
+        className="object-cover mix-blend-screen -z-10 absolute top-0 left-0 w-full h-full"
+        preload="auto"
+        loop
+        autoPlay
+        muted
+        playsInline
+      >
+        <source
+          src="/videos/index-pc.mp4"
+          type="video/mp4"
+          media="(min-width: 768px)"
+        />
+        <source
+          src="/videos/index-h5.mp4"
+          type="video/mp4"
+          media="(max-width: 767px)"
+        />
+      </video>
       <div className="max-w-view px-4 w-full mx-auto flex flex-col justify-center items-center gap-6 grow">
         <div className="flex gap-3 md:gap-4 justify-center items-center mt-auto md:mt-0">
           <img

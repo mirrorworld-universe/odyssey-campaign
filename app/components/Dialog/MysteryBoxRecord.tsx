@@ -195,7 +195,7 @@ export function MysteryBoxRecordDialog() {
   }, [mysteryBoxRecords]);
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={onClose}>
+    <AlertDialog open={false} onOpenChange={onClose}>
       <AlertDialogContent className="max-w-[calc(100%_-_32px)] w-full md:w-[440px] bg-[#1A1A1A] border-none p-6 md:p-8">
         <AlertDialogHeader className="">
           {mysteryBoxRecords.every((record) => record.loaded === true) ? (
