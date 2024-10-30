@@ -6,6 +6,7 @@ import {
 import { BackpackWalletAdapter } from "./backpack-adapter";
 import { OKXWalletAdapter } from "./okx-adapter";
 import { GateWalletAdapter } from "./gate-adapter";
+import { BybitWalletAdapter } from "./bybit-adapter";
 
 import { openPopup } from "@/lib/santinize";
 
@@ -56,6 +57,17 @@ export const WalletList: any[] = [
     network: {
       devnet: true,
       testnet: false,
+    },
+    hide: false,
+  },
+  {
+    id: "bybit",
+    name: "Bybit Wallet",
+    isSupportSonic: true,
+    adapter: new BybitWalletAdapter(),
+    network: {
+      devnet: false,
+      testnet: true,
     },
     hide: false,
   },
