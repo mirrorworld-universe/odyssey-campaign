@@ -21,7 +21,7 @@ export const useTaskInfo = create(
       address: get()?.address,
       setAddress: (address: string) => {
         set({
-          address,
+          address
         });
       },
 
@@ -30,20 +30,20 @@ export const useTaskInfo = create(
         set({
           status: {
             [get()?.address]: {
-              [taskId]: status,
-            },
-          },
+              [taskId]: status
+            }
+          }
         });
       },
 
       reset: () => {
         set({
-          address: undefined,
+          address: undefined
         });
-      },
+      }
     }),
     {
-      name: "sonic-task-info",
+      name: "sonic-task-info"
     }
   )
 );
@@ -62,32 +62,32 @@ export const useMysteryBoxInfo = create(
       mysteryBoxAmount: get()?.mysteryBoxAmount,
       setMysteryBoxAmount: (mysteryBoxAmount: number) => {
         set({
-          mysteryBoxAmount,
+          mysteryBoxAmount
         });
       },
 
       mysteryBoxRewardsAmount: get()?.mysteryBoxRewardsAmount,
       setMysteryBoxRewardsAmount: (mysteryBoxRewardsAmount: number) => {
         set({
-          mysteryBoxRewardsAmount,
+          mysteryBoxRewardsAmount
         });
       },
 
       mysteryBoxOpenAmount: get()?.mysteryBoxOpenAmount,
       setMysteryBoxOpenAmount: (mysteryBoxOpenAmount: number) => {
         set({
-          mysteryBoxOpenAmount,
+          mysteryBoxOpenAmount
         });
       },
 
       reset: () => {
         set({
-          mysteryBoxAmount: 0,
+          mysteryBoxAmount: 0
         });
-      },
+      }
     }),
     {
-      name: "sonic-mysterybox-info",
+      name: "sonic-mysterybox-info"
     }
   )
 );
@@ -100,14 +100,14 @@ export const useMysteryBoxConfirmModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));
 
 export const useMysteryBoxRecordModal = create<{
@@ -118,14 +118,14 @@ export const useMysteryBoxRecordModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));
 
 export const useMysteryBoxResultModal = create<{
@@ -136,12 +136,12 @@ export const useMysteryBoxResultModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));

@@ -8,7 +8,7 @@ export function MeetSonicLogo(props: React.SVGProps<SVGSVGElement>) {
       viewBox="0 0 151 151"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn("text-[#313131] size-full", props.className)}
+      className={cn("text-[#313131] size-full opacity-50", props.className)}
       {...props}
     >
       <path

@@ -31,7 +31,7 @@ export const taskGroupList = [
         id: "milestone",
         name: "TX Milestone",
         description:
-          "Interact with Sonic through any form of transaction to earn increasing rewards based on your level of engagement!",
+          "Earn bigger rewards by engaging with Sonic through any transaction!",
         period: "24-Hour Period",
         reward: "",
         iconName: "recommand",
@@ -79,7 +79,7 @@ export const taskGroupList = [
         id: "mystery-nft",
         name: "Mystery NFT",
         description:
-          "Mint different NFT series and unlock potential rewards! Enhance your Odyssey adventure!",
+          "Invite friends to Sonic Odyssey! Share the thrill and explore together!",
         period: "24-Hour Period",
         reward: "Test SOL Needed",
         iconName: "cube",
@@ -141,7 +141,7 @@ export const taskGroupList = [
         id: "referral",
         name: "Referral",
         description:
-          "Invite friends to Sonic Odyssey! Share the adventure and explore together in this thrilling journey.",
+          "Invite friends to Sonic Odyssey and explore the adventure together!",
         period: "24-Hour Period",
         reward: "",
         iconName: "diversity",

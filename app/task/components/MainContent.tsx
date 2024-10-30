@@ -54,7 +54,7 @@ export default function MainContent() {
                   <div
                     className={cn(
                       "absolute transition-all duration-300  rotate-[15deg] z-0",
-                      "-top-3 md:top-4 right-0 md:right-4 group-hover/task:-right-4 md:group-hover/task:-right-9 size-[120px] md:size-[150px]"
+                      "-top-3 md:top-4 right-0 md:-right-8 group-hover/task:-right-4 md:group-hover/task:-right-12 size-[120px] md:size-[150px]"
                     )}
                   >
                     {task.icon}
