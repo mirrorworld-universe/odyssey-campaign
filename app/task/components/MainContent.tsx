@@ -24,8 +24,8 @@ export default function MainContent() {
           </div>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(324px,1fr))] md:gap-10 gap-5">
             {taskGroup.list
-              .filter((task: any) => hasTaskStarted(task.startTime))
-              .map((task: any, taskIndex: number) => (
+              .filter((task) => hasTaskStarted(task.startTime))
+              .map((task, taskIndex: number) => (
                 <Link
                   href={getTaskUrl(task, wallet?.adapter.name, networkId)}
                   key={taskIndex}
@@ -49,6 +49,14 @@ export default function MainContent() {
                     <div className="hidden md:block text-body4 text-tertary">
                       {task.description}
                     </div>
+                    {task.extraBonus && task.extraBonus.length > 0 ? (
+                      <div className="md:flex hidden items-center gap-2 text-caption1 text-gold-yellow font-orbitron">
+                        Extra Bonus:
+                        {task.extraBonus?.map((extraBonus: any) => (
+                          <div key={extraBonus.id}>{extraBonus.icon}</div>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
                   <HourPeriod period={task.period} reward={task.reward} />
                   <div
@@ -68,7 +76,7 @@ export default function MainContent() {
   );
 }
 
-const hasTaskStarted = (startTime: string) => {
+const hasTaskStarted = (startTime?: string) => {
   if (!startTime) {
     return true;
   }

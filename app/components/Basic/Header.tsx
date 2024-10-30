@@ -1,25 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import { getCookie } from "cookies-next";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { format, formatDistance } from "date-fns";
 import { UTCDate } from "@date-fns/utc";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { getCookie } from "cookies-next";
+import { format, formatDistance } from "date-fns";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import Notification from "./Notification";
-import {
-  formatAddress,
-  useAccountInfo,
-  useNetworkInfo,
-  useNotificationBar,
-  useSystemInfo,
-  useWalletModal
-} from "../../store/account";
-import RingPopover from "./RingPopover";
-import { UserDropdown } from "./UserDropdown";
-import { NotificationBar } from "./NotificationBar";
+import { networks } from "@/app/data/config";
+import { useBreakpoint } from "@/app/hooks";
+import { Close as IconClose } from "@/app/icons/Close";
+import { Menu as IconMenu } from "@/app/icons/Menu";
+import { Speaker } from "@/app/icons/Speaker";
+import { Trophy } from "@/app/icons/Trophy";
 import { useLotteryBar, useLotteryInfo } from "@/app/store/lottery";
 import { openWalletStatics } from "@/lib/analytics";
 import {
@@ -32,24 +26,24 @@ import {
 import {
   cn,
   isInMaintenanceTime,
-  isInWalletCampaignTime,
-  isMobileViewport,
-  maintenanceEndTime,
   maintenanceNetworks,
   maintenanceStartTime
 } from "@/lib/utils";
-import { Speaker } from "@/app/icons/Speaker";
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getLotteryBanner } from "@/app/data/lottery";
-import { Trophy } from "@/app/icons/Trophy";
-import { Menu as IconMenu } from "@/app/icons/Menu";
-import { Close as IconClose } from "@/app/icons/Close";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import {
+  formatAddress,
+  useAccountInfo,
+  useNetworkInfo,
+  useNotificationBar,
+  useSystemInfo,
+  useWalletModal
+} from "../../store/account";
 import { NetworkSwitch } from "./NetworkSwitch";
-import { useWhitelistModal } from "@/app/store/tutorials";
-import { networks } from "@/app/data/config";
-import { useBreakpoint } from "@/app/hooks";
+import Notification from "./Notification";
+import { NotificationBar } from "./NotificationBar";
+import RingPopover from "./RingPopover";
+import { UserDropdown } from "./UserDropdown";
 
 export const menu: any[] = [
   {

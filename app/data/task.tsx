@@ -7,8 +7,10 @@ import { MysteryNftLogo } from "../logos/MysteryNftLogo";
 import { ReferralLogo } from "../logos/ReferralLogo";
 import { MeetSonicLogo } from "../logos/MeetSonicLogo";
 import { PlayOnSonicxLogo } from "../logos/PlayOnSonicxLogo";
+import { BybitLogo } from "../logos/BybitLogo";
+import { TaskGroup } from "@/app/types/task";
 
-export const taskGroupList = [
+export const taskGroupList: TaskGroup[] = [
   {
     name: "Basic Tasks",
     list: [
@@ -22,6 +24,12 @@ export const taskGroupList = [
         iconName: "calendar",
         icon: <CheckInLogo />,
         bonus: true,
+        extraBonus: [
+          {
+            id: "Bybit",
+            icon: <BybitLogo />
+          }
+        ],
         available: {
           devnet: true,
           testnet: true
@@ -37,6 +45,12 @@ export const taskGroupList = [
         iconName: "recommand",
         icon: <MileStoneLogo />,
         bonus: true,
+        extraBonus: [
+          {
+            id: "Bybit",
+            icon: <BybitLogo />
+          }
+        ],
         available: {
           devnet: true,
           testnet: true

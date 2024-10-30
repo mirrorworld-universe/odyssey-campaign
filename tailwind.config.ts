@@ -40,7 +40,9 @@ const config = {
         headline2: ["32px", { fontWeight: 800, lineHeight: "1.37" }],
         headline3: ["28px", { fontWeight: 800, lineHeight: "1.42" }],
         headline4: ["24px", { fontWeight: 800, lineHeight: "1.41" }],
-        headline5: ["20px", { fontWeight: 800, lineHeight: "1.4" }]
+        headline5: ["20px", { fontWeight: 800, lineHeight: "1.4" }],
+
+        caption1: ["10px", { fontWeight: 400, lineHeight: "1.6" }]
       },
       colors: {
         border: "hsl(var(--border))",

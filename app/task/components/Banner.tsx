@@ -11,6 +11,13 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
 
+const slides = [
+  {
+    src: "/images/banner/banner-1.png",
+    href: "/task/play-on-sonicx"
+  }
+];
+
 export default function Banner() {
   const handleOpenHowToPlayDialog = () => {
     openModalDirectly(MODAL_HASH_MAP.howToPlay);
@@ -18,128 +25,56 @@ export default function Banner() {
   };
   return (
     <div className="w-full bg-black relative">
-      <div className="text-primary relative max-w-[1440px] w-full mx-auto">
-        <div className="max-w-view w-full mx-auto px-4 h-[164px] md:h-[300px] flex flex-col md:flex-row justify-center md:justify-start items-center relative z-10">
-          {/* left part */}
-          <div className="flex flex-col gap-1.5 md:gap-4 max-w-[486px]">
-            <div className="font-orbitron text-headline5 md:text-headline3">
-              Odyssey Task Center
-            </div>
-            <p className="text-body3 text-primary md:text-tertary">
-              Embark on your Odyssey by completing various tasks! Earn more
-              rings along the way! If you have any questions, feel free to check
-              out the
-              <span
-                className="text-link cursor-pointer"
-                onClick={() => openModalDirectly(MODAL_HASH_MAP.faq)}
-              >
-                {` `}FAQs
-              </span>
-              .
-            </p>
+      <div className="text-primary max-w-view w-full mx-auto px-4 h-[164px] md:h-[300px] flex flex-col md:flex-row justify-center md:justify-start md:items-center relative z-10">
+        {/* left part */}
+        <div className="flex flex-col gap-1.5 md:gap-4 max-w-[486px]">
+          <div className="font-orbitron text-headline5 md:text-headline3">
+            Odyssey Task Center
+          </div>
+          <p className="text-body3 text-primary md:text-tertary">
+            Embark on your Odyssey by completing various tasks! Earn more rings
+            along the way! If you have any questions, feel free to check out the
+            <span
+              className="text-link cursor-pointer"
+              onClick={() => openModalDirectly(MODAL_HASH_MAP.faq)}
+            >
+              {` `}FAQs
+            </span>
+            .
+          </p>
 
+          <Button
+            onClick={() => handleOpenHowToPlayDialog()}
+            className="text-title3 font-orbitron mt-4 px-6 w-fit hidden md:block"
+            variant={"outline"}
+          >
+            How to Play?
+          </Button>
+          <div className="fixed bottom-0 left-0 w-full p-4 z-20 bg-black md:hidden">
             <Button
               onClick={() => handleOpenHowToPlayDialog()}
-              className="text-title3 font-orbitron mt-4 px-6 w-fit hidden md:block"
+              className="text-title3 font-orbitron px-6 w-full"
               variant={"outline"}
             >
               How to Play?
             </Button>
-            <div className="fixed bottom-0 left-0 w-full p-4 z-20 bg-black md:hidden">
-              <Button
-                onClick={() => handleOpenHowToPlayDialog()}
-                className="text-title3 font-orbitron px-6 w-full"
-                variant={"outline"}
-              >
-                How to Play?
-              </Button>
-            </div>
-          </div>
-          {/* pc carousel */}
-          <div className="h-full grow hidden md:flex justify-end items-center">
-            <Carousel
-              style={{
-                boxShadow: "0px 0px 12px 0px rgba(37, 163, 237, 0.80)"
-              }}
-              className="flex justify-end max-w-[558px] w-full"
-              plugins={[Autoplay({ delay: 3000 })]}
-            >
-              <CarouselContent>
-                {Array.from({ length: 1 }).map((_, index) => (
-                  <CarouselItem
-                    key={index}
-                    className="flex items-center basis-full cursor-pointer group/banner"
-                  >
-                    <div className="size-full relative">
-                      <img
-                        className="size-full"
-                        src="/images/banner/banner-1.png"
-                        alt=""
-                      />
-                      <Link
-                        href={"/"}
-                        className={cn(
-                          "flex-center absolute inset-0 rounded border border-link z-10 bg-black/70",
-                          "text-headline4 font-orbitron gap-1 group-hover/banner:opacity-100 opacity-0 transition-opacity duration-300"
-                        )}
-                      >
-                        <PlayLogo />
-                        Start Now
-                      </Link>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              {/* <CarouselPagination
-                className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-2"
-                activeDotClassName="bg-primary"
-              /> */}
-            </Carousel>
           </div>
         </div>
-        {/* mobile carousel */}
-        <div className="flex justify-end items-center relative z-30 mb-10 md:hidden">
-          <Carousel
-            style={{
-              boxShadow: "0px 0px 12px 0px rgba(37, 163, 237, 0.80)"
-            }}
-            className="flex justify-end max-w-[558px] w-full"
-            plugins={[Autoplay({ delay: 3000 })]}
-          >
-            <CarouselContent>
-              {Array.from({ length: 1 }).map((_, index) => (
-                <CarouselItem
-                  key={index}
-                  className="flex items-center basis-full cursor-pointer group/banner"
-                >
-                  <div className="size-full relative">
-                    <img
-                      className="size-full"
-                      src="/images/banner/banner-1.png"
-                      alt=""
-                    />
-                    <Link
-                      href={"/"}
-                      className={cn(
-                        "flex-center absolute inset-0 rounded border border-link z-10 bg-black/70",
-                        "text-headline4 font-orbitron gap-1 group-hover/banner:opacity-100 opacity-0 transition-opacity duration-300"
-                      )}
-                    >
-                      <PlayLogo />
-                      Start Now
-                    </Link>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            {/* <CarouselPagination
-                className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-2"
-                activeDotClassName="bg-primary"
-              /> */}
-          </Carousel>
+        {/* pc carousel */}
+        <div className="h-full grow hidden md:flex justify-end items-center">
+          <Slider />
         </div>
       </div>
-      {/* right part */}
+      {/* mobile carousel */}
+      <div
+        className={cn(
+          "flex w-full relative z-30 md:hidden",
+          slides.length > 1 ? "mb-16" : "mb-10"
+        )}
+      >
+        <Slider />
+      </div>
+      {/* banner background */}
       <div
         style={{
           backgroundImage: `url("/images/banner/banner-bg.png"), linear-gradient(83deg, rgba(0, 0, 0, 0.6) 11.45%, #25a3ed 128.94%)`,
@@ -148,6 +83,51 @@ export default function Banner() {
         className="h-[164px] md:h-full absolute top-0 right-0 max-w-[912px] w-full z-0 bg-black bg-cover md:bg-contain bg-no-repeat"
       />
     </div>
+  );
+}
+
+function Slider() {
+  return (
+    <Carousel
+      style={{
+        boxShadow: "0px 0px 12px 0px rgba(37, 163, 237, 0.80)"
+      }}
+      className="md:flex md:justify-end md:max-w-[558px] md:w-full"
+      plugins={[Autoplay({ delay: 3000 })]}
+    >
+      <CarouselContent>
+        {Array.from({ length: 1 }).map((_, index) => (
+          <CarouselItem
+            key={index}
+            className="flex items-center basis-full cursor-pointer group/banner"
+          >
+            <div className="size-full relative">
+              <img
+                className="size-full"
+                src="/images/banner/banner-1.png"
+                alt=""
+              />
+              <Link
+                href={"/task/play-on-sonicx"}
+                className={cn(
+                  "flex-center absolute inset-0 rounded border border-link z-10 bg-black/70",
+                  "text-headline4 font-orbitron gap-1 group-hover/banner:opacity-100 opacity-0 transition-opacity duration-300"
+                )}
+              >
+                <PlayLogo />
+                Start Now
+              </Link>
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      {slides.length > 1 && (
+        <CarouselPagination
+          className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-2"
+          activeDotClassName="bg-primary"
+        />
+      )}
+    </Carousel>
   );
 }
 
