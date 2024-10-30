@@ -63,7 +63,7 @@ export const WalletList: any[] = [
   {
     id: "bybit",
     name: "Bybit Wallet",
-    isSupportSonic: true,
+    isSupportSonic: false,
     adapter: new BybitWalletAdapter(),
     network: {
       devnet: false,
