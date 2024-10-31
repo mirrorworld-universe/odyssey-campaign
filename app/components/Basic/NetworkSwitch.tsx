@@ -44,6 +44,9 @@ export function NetworkSwitch({ className }: any) {
           active: item.id === network.id
         }))
       );
+      if (network.id !== "testnetv1") {
+        openModalDirectly(MODAL_HASH_MAP.seasonTwo);
+      }
     }
   };
 

@@ -12,6 +12,7 @@ import { useAccountInfo, useNetworkInfo } from "../../store/account";
 import { trackClick } from "@/lib/track";
 import { cn } from "@/lib/utils";
 import { Close } from "@/app/icons/Close";
+import { EmptyLogo } from "@/app/logos/EmptyLogo";
 
 const maxAmount = 5;
 
@@ -98,8 +99,9 @@ export default function Notification({ data }: any) {
   );
 
   const NotificationEmptyStatus = () => (
-    <div className="w-full text-center text-xs text-white py-8">
-      No messages
+    <div className="flex-center flex-col md:flex-row gap-2 text-title3 font-orbitron text-disable py-[120px] md:py-8">
+      <EmptyLogo />
+      <span>No messages</span>
     </div>
   );
 

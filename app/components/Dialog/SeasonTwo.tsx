@@ -1,11 +1,19 @@
 "use client";
 
+import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
+import { useNetworkInfo } from "@/app/store/account";
 import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { create } from "zustand";
 
 export default function SeasonTwo() {
-  const { isOpen, onClose } = useSeasonTwoModal();
+  const { closeModal, modalHash } = useModalHash();
+  const { setNetworkId } = useNetworkInfo();
+
+  const handleSwitchNetwork = () => {
+    setNetworkId("testnetv1");
+    closeModal();
+  };
+
   const data = [
     {
       title: "Season 1 Summary & Next Steps",
@@ -13,8 +21,13 @@ export default function SeasonTwo() {
         <>
           The Sonic Odyssey Season 1 - Tasks on Origin and Frontier V0 have
           officially ended! Please switch to{" "}
-          <span className="text-link">Frontier V1</span> to begin the new season
-          and start earning your rewards!
+          <span
+            className="text-link cursor-pointer hover:text-primary-blue"
+            onClick={handleSwitchNetwork}
+          >
+            Frontier V1
+          </span>{" "}
+          to begin the new season and start earning your rewards!
         </>
       ]
     },
@@ -41,7 +54,10 @@ export default function SeasonTwo() {
     }
   ];
   return (
-    <AlertDialog open={isOpen} onOpenChange={onClose}>
+    <AlertDialog
+      open={modalHash === MODAL_HASH_MAP.seasonTwo}
+      onOpenChange={closeModal}
+    >
       <AlertDialogContent className="max-w-[640px] w-full text-primary px-6 md:p-0">
         <div className="p-6 md:p-8 flex flex-col gap-6 md:gap-8 bg-bg-popup">
           {data.map((item, index) => (
@@ -61,7 +77,7 @@ export default function SeasonTwo() {
           ))}
 
           <Button
-            onClick={onClose}
+            onClick={closeModal}
             variant={"primary"}
             size={"lg"}
             className="font-orbitron mt-2 md:mt-auto text-title2"
@@ -73,13 +89,3 @@ export default function SeasonTwo() {
     </AlertDialog>
   );
 }
-
-export const useSeasonTwoModal = create<{
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-}>((set) => ({
-  isOpen: false,
-  onOpen: () => set({ isOpen: true }),
-  onClose: () => set({ isOpen: false })
-}));

@@ -51,7 +51,8 @@ export const MODAL_HASH_MAP = {
   setUpFinish: "#/modal/setUpFinish",
   faq: "#/modal/faq",
   howToPlay: "#/modal/howToPlay",
-  switchNetwork: "#/modal/switchNetwork"
+  switchNetwork: "#/modal/switchNetwork",
+  seasonTwo: "#/modal/seasonTwo"
 } as const;
 
 export type ModalHashValues =
