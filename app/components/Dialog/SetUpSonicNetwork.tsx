@@ -1,10 +1,13 @@
 "use client";
+import { networks } from "@/app/data/config";
 import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import { useSetupInfo, useWhitelistModal } from "@/app/store/tutorials";
+import { setUpUrls } from "@/app/wallet/wallet-list";
 import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { useMemo } from "react";
 
 export function SetUpSonicNetworkDialog() {
   const { wallet } = useWallet();
@@ -13,6 +16,8 @@ export function SetUpSonicNetworkDialog() {
   const { networkId } = useNetworkInfo();
   const { onOpen: onOpenWhitelistDialog } = useWhitelistModal();
   const { openModal, modalHash, closeModal } = useModalHash();
+
+  const currentNetwork = networks.find((network) => network.id === networkId);
 
   const handleConfirmInTestnet = () => {
     onOpenWhitelistDialog();
@@ -26,6 +31,16 @@ export function SetUpSonicNetworkDialog() {
     });
     openModal(MODAL_HASH_MAP.setUpFinish);
   };
+
+  const setUpUrl = useMemo(() => {
+    const walletName = wallet?.adapter.name.toLowerCase() || "nightly";
+    const network = networkId || "devnet";
+
+    return (
+      setUpUrls[walletName]?.[network] ||
+      "https://blog.sonic.game/sonic-network-settings---nightly-wallet"
+    );
+  }, [wallet?.adapter.name, networkId]);
 
   return (
     <AlertDialog
@@ -64,14 +79,22 @@ export function SetUpSonicNetworkDialog() {
           <div className="flex flex-col gap-6 text-title2">
             <p>
               1. Open this network{" "}
-              <span className="text-link cursor-pointer">settings doc</span>
+              <a
+                href={setUpUrl}
+                target="_blank"
+                className="text-link cursor-pointer"
+              >
+                settings doc
+              </a>
             </p>
-            <p>2. Setup [Origin] network</p>
+            <p>2. Setup {currentNetwork?.name} network</p>
             <p>3. Continue to next step</p>
           </div>
           <Button
             className="mt-2 md:mt-auto"
-            onClick={handleConfirm}
+            onClick={
+              networkId === "testnet" ? handleConfirmInTestnet : handleConfirm
+            }
             variant={"primary"}
             size={"lg"}
           >

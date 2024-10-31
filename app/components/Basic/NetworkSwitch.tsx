@@ -64,8 +64,9 @@ export function NetworkSwitch({ className }: any) {
       <Popover open={isOpen} onOpenChange={toggleOpen}>
         <PopoverTrigger className="h-16 w-full md:w-fit px-4 md:px-0 border-b md:border-b-0 border-line">
           <div className="flex items-center gap-1">
-            <div className="flex-center size-5">
-              <span className="size-2.5 rounded-full bg-link"></span>
+            <div className="flex-center size-5 relative">
+              <span className="animate-ping absolute inline-flex size-2 rounded-full bg-link opacity-75"></span>
+              <span className="size-1.5 rounded-full bg-link"></span>
             </div>
             <h3 className="text-title3 text-link font-orbitron w-fit">
               {networks.find((network: any) => network.id === networkId)?.name}

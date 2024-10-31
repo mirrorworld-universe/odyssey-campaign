@@ -200,7 +200,7 @@ export function Header() {
 
   return (
     <div className="bg-black w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
-      <nav className="flex max-w-[1440px] mx-auto flex-col w-full">
+      <nav className="flex mx-auto flex-col w-full">
         <div className="h-16 md:h-20 flex items-center justify-between p-4 md:px-10 md:py-4 bg-black w-full transition-all duration-300">
           {/* left */}
           <div className="flex items-center gap-3 md:gap-8">
