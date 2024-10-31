@@ -1,4 +1,4 @@
-interface Network {
+export interface Network {
   id: string;
   type: "Devnet" | "Testnet"; // Using literal types since these seem to be the only options
   name: string;
@@ -29,3 +29,8 @@ export const networks: Network[] = [
     rpc: "https://devnet.sonic.game"
   }
 ];
+
+export const networkMap = networks.reduce((acc, network) => {
+  acc[network.id] = network;
+  return acc;
+}, {} as Record<string, Network>);

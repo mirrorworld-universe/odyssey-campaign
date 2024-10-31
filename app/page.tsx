@@ -107,12 +107,12 @@ export default function Home() {
           playsInline
         >
           <source
-            src="/videos/index-pc.mp4"
+            src="https://storage.sonic.game/odyssey/frontend/video/index-pc.mp4"
             type="video/mp4"
             media="(min-width: 768px)"
           />
           <source
-            src="/videos/index-h5.mp4"
+            src="https://storage.sonic.game/odyssey/frontend/video/index-h5.mp4"
             type="video/mp4"
             media="(max-width: 767px)"
           />

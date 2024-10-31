@@ -10,6 +10,9 @@ import { trackClick } from "@/lib/track";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
+import { useNetworkInfo } from "@/app/store/account";
+import { useMemo } from "react";
+import { useSwitchNetwork } from "@/app/hooks";
 
 const slides = [
   {
@@ -19,10 +22,23 @@ const slides = [
 ];
 
 export default function Banner() {
-  const handleOpenHowToPlayDialog = () => {
-    openModalDirectly(MODAL_HASH_MAP.howToPlay);
-    trackClick({ text: "How to play?" });
+  const { networkId } = useNetworkInfo();
+
+  const { handleSwitchNetwork } = useSwitchNetwork();
+
+  const isSeasonTwo = networkId === "testnetv1";
+
+  useMemo(() => {}, [networkId]);
+
+  const handleOnClick = () => {
+    if (isSeasonTwo) {
+      openModalDirectly(MODAL_HASH_MAP.howToPlay);
+      trackClick({ text: "How to play?" });
+    } else {
+      openModalDirectly(MODAL_HASH_MAP.seasonTwo);
+    }
   };
+
   return (
     <div className="w-full bg-black relative">
       <div className="text-primary max-w-view w-full mx-auto px-4 h-[164px] md:h-[300px] flex flex-col md:flex-row justify-center md:justify-start md:items-center relative z-10">
@@ -31,24 +47,41 @@ export default function Banner() {
           <div className="font-orbitron text-headline5 md:text-headline3">
             Odyssey Task Center
           </div>
-          <p className="text-body3 text-primary md:text-tertary">
-            Embark on your Odyssey by completing various tasks! Earn more rings
-            along the way! If you have any questions, feel free to check out the
-            <span
-              className="text-link cursor-pointer"
-              onClick={() => openModalDirectly(MODAL_HASH_MAP.faq)}
-            >
-              {` `}FAQs
-            </span>
-            .
+          <p className="text-title3 text-primary md:text-tertary">
+            {isSeasonTwo ? (
+              <>
+                Embark on your Odyssey by completing various tasks! Earn more
+                rings along the way! If you have any questions, feel free to
+                check out the
+                <span
+                  className="text-link cursor-pointer"
+                  onClick={() => openModalDirectly(MODAL_HASH_MAP.faq)}
+                >
+                  {` `}FAQs
+                </span>
+                .
+              </>
+            ) : (
+              <>
+                Season 1 on Origin has officially ended! Switch over now to join
+                the latest tasks on{" "}
+                <span
+                  onClick={() => handleSwitchNetwork("testnetv1")}
+                  className="text-link cursor-pointer hover:text-primary-blue"
+                >
+                  Frontier V1
+                </span>
+                !
+              </>
+            )}
           </p>
           {/* pc how to play button */}
           <Button
-            onClick={() => handleOpenHowToPlayDialog()}
+            onClick={handleOnClick}
             className="text-title3 font-orbitron mt-4 px-6 w-fit hidden md:block"
             variant={"outline"}
           >
-            How to Play?
+            {isSeasonTwo ? "How to Play?" : "Season 2 Guides"}
           </Button>
         </div>
         {/* pc carousel */}
@@ -77,11 +110,11 @@ export default function Banner() {
       {/* mobile how to play button */}
       <div className="fixed bottom-0 left-0 w-full p-4 z-20 bg-black md:hidden">
         <Button
-          onClick={() => handleOpenHowToPlayDialog()}
+          onClick={handleOnClick}
           className="text-title3 font-orbitron px-6 w-full"
           variant={"outline"}
         >
-          How to Play?
+          {isSeasonTwo ? "How to Play?" : "Season 2 Guides"}
         </Button>
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { fetchLogout } from "@/app/data/account";
-import { networks } from "@/app/data/config";
+import { networkMap } from "@/app/data/config";
 import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
 import { SwitchLogo } from "@/app/logos/SwitchLogo";
 import {
@@ -17,19 +17,11 @@ import { useRouter } from "next/navigation";
 
 export function SwitchNetworkDialog() {
   const router = useRouter();
-  const { disconnect } = useWallet();
+  const { disconnect, connected } = useWallet();
   const { onOpen: onOpenWalletModal, setSwitching } = useWalletModal();
   const { token, reset } = useAccountInfo();
   const { networkId, setNetworkId, switchTo } = useNetworkInfo();
   const { closeModal, modalHash } = useModalHash();
-
-  const switchToNetwork = networks.find(
-    (network: any) => network.id === switchTo
-  );
-
-  const currentNetwork = networks.find(
-    (network: any) => network.id === networkId
-  );
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => fetchLogout({ token, networkId }),
@@ -46,6 +38,16 @@ export function SwitchNetworkDialog() {
     }
   });
 
+  const handleClick = () => {
+    if (connected) {
+      mutate();
+    } else {
+      setNetworkId(switchTo);
+      closeModal();
+      onOpenWalletModal();
+    }
+  };
+
   return (
     <AlertDialog
       open={modalHash === MODAL_HASH_MAP.switchNetwork}
@@ -56,24 +58,24 @@ export function SwitchNetworkDialog() {
           <SwitchLogo className="size-[54px] md:size-16 mt-4" />
           <div className="flex-v gap-4">
             <h2 className="text-headline5 md:text-headline4 font-orbitron">
-              Switching to {switchToNetwork?.name}
+              Switching to {networkMap[switchTo]?.name}
             </h2>
             <p className="text-body3 text-tertary">
-              You're currently on the {currentNetwork?.name} network. To
+              You're currently on the {networkMap[networkId]?.name} network. To
               participate in tasks, you'll need to switch to the latest{" "}
-              {switchToNetwork?.name} network, which requires re-logging into
-              your wallet.
+              {networkMap[switchTo]?.name} network, which requires re-logging
+              into your wallet.
             </p>
           </div>
 
           <div className="flex-v gap-2 w-full text-title2 font-orbitron mt-2 md:mt-auto">
             <Button
-              onClick={() => mutate()}
+              onClick={handleClick}
               disabled={isPending}
               variant={"primary"}
               size={"lg"}
             >
-              Log out
+              {connected ? "Log out" : "Continue"}
             </Button>
             <Button onClick={closeModal} variant={"cancel"} size={"lg"}>
               Cancel

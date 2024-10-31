@@ -257,7 +257,7 @@ export function Header() {
                 {menu.map((menuItem, menuIndex) => (
                   <Link
                     className={cn(
-                      "flex items-center text-title3 w-full md:w-fit hover:text-gold-yellow text-primary transition-colors h-16",
+                      "flex items-center w-full md:w-fit !text-title3 hover:text-gold-yellow text-primary transition-colors h-16",
                       pathname.startsWith("/task") &&
                         menuItem.link[networkId] === "/task"
                         ? "text-gold-yellow"

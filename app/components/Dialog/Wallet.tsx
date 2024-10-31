@@ -94,11 +94,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     useWalletModal();
   const { status } = useSetupInfo();
   const { networkId, setNetworkId } = useNetworkInfo();
-  const {
-    isOpen: isOpenMoreWalletDialog,
-    onOpen: onOpenMoreWalletDialog,
-    onClose: onCloseMoreWalletDialog
-  } = useMoreWalletModal();
+  const { onOpen: onOpenMoreWalletDialog } = useMoreWalletModal();
   const {
     isOpen: isOpenWhitelistDialog,
     onOpen: onOpenWhitelistDialog,
@@ -194,22 +190,6 @@ export function WalletDialog({ text = "Connect", className }: any) {
     }
   };
 
-  // const verify = async () => {
-  //   const message = new TextEncoder().encode(messageToSign);
-  //   const uint8arraySignature = base58.decode(signature);
-  //   const walletIsSigner = nacl.sign.detached.verify(
-  //     message,
-  //     uint8arraySignature,
-  //     publicKey.toBuffer()
-  //   );
-
-  //   if (walletIsSigner) {
-  //     alert("The data was indeed signed with the connected wallet");
-  //   } else {
-  //     alert("The data was not signed with the connected wallet");
-  //   }
-  // };
-
   const switchMoreWallets = () => {
     onOpenMoreWalletDialog();
     onClose();
@@ -228,25 +208,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
 
   const afterWalletConnected = () => {
     if (isSupportSonic(currentWallet?.adapter.name)) {
-      // testnet
-      if (networkId === "testnet") {
-        if (isWhitelist) {
-          onOpenWhitelistDialog();
-          openModalDirectly(MODAL_HASH_MAP.setUpSonicNetwork);
-        } else {
-          onOpenWhitelistDialog();
-          if (!isSwitching) {
-            disconnect();
-            mutationLogout.mutate();
-          }
-        }
-      }
-      // devnet
-      else {
-        console.log("status", status);
-        if (!status || !status[address]) {
-          openModalDirectly(MODAL_HASH_MAP.setUpSonicNetwork);
-        }
+      if (!status || !status[address]) {
+        openModalDirectly(MODAL_HASH_MAP.setUpSonicNetwork);
       }
     } else {
       switchMoreWallets();

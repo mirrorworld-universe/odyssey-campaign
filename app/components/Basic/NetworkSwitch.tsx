@@ -1,6 +1,7 @@
 "use client";
 
-import { networks } from "@/app/data/config";
+import { Network, networkMap, networks } from "@/app/data/config";
+import { useSwitchNetwork } from "@/app/hooks";
 import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
 import { Close as IconClose } from "@/app/icons/Close";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
@@ -10,47 +11,38 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import React, { useMemo } from "react";
+import React from "react";
 import { useToggle } from "react-use";
 
 export function NetworkSwitch({ className }: any) {
-  const { token } = useAccountInfo();
-  const { setNetworkId, networkId, setSwitchTo } = useNetworkInfo();
+  const { networkId } = useNetworkInfo();
   const [isOpen, toggleOpen] = useToggle(false);
+  const { handleSwitchNetwork } = useSwitchNetwork();
 
-  const currentNetwork = useMemo(
-    () => networks.find((network) => network.id === networkId) || networks[0],
-    [networkId]
-  );
-
-  const handleSwitchNetwork = (network: any) => {
-    if (network.id === networkId) {
-      return;
-    }
-    if (token) {
-      setSwitchTo(network.id);
-      openModalDirectly(MODAL_HASH_MAP.switchNetwork);
-    } else {
-      setNetworkId(network.id);
-      if (network.id !== "testnetv1") {
-        openModalDirectly(MODAL_HASH_MAP.seasonTwo);
-      }
+  const handleOnClick = (network: Network) => {
+    handleSwitchNetwork(network.id);
+    if (network.id !== "testnetv1") {
+      openModalDirectly(MODAL_HASH_MAP.seasonTwo);
     }
   };
 
   return (
     <>
       <Popover open={isOpen} onOpenChange={toggleOpen}>
-        <PopoverTrigger className="h-16 w-full md:w-fit px-4 md:px-0 border-b md:border-b-0 border-line">
+        <PopoverTrigger className="h-16 w-full md:w-fit px-4 md:px-0 border-b md:border-b-0 border-line group/network">
           <div className="flex items-center gap-1">
             <div className="flex-center size-5 relative">
               <span className="animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] absolute inline-flex size-2 rounded-full bg-link opacity-75"></span>
               <span className="size-1.5 rounded-full bg-link"></span>
             </div>
             <h3 className="text-title3 text-link font-orbitron w-fit">
-              {currentNetwork.name}
+              {networkMap[networkId].name}
             </h3>
-            <SwitchNetworkIcon className="size-5 text-icon ml-auto md:ml-1" />
+            <SwitchNetworkIcon
+              className={cn(
+                "size-5 text-icon ml-auto md:ml-1 group-hover/network:text-primary transition-colors group-aria-expanded/network:text-primary"
+              )}
+            />
           </div>
         </PopoverTrigger>
         <PopoverContent className="p-0 text-primary w-full md:w-fit border-none outline-none mt-1 hidden md:block">
@@ -58,7 +50,7 @@ export function NetworkSwitch({ className }: any) {
             {networks.map((network: any, networkIndex: number) => (
               <div
                 key={networkIndex}
-                onClick={() => handleSwitchNetwork(network)}
+                onClick={() => handleOnClick(network)}
                 className="px-6 py-2 hover:bg-line hover:text-link transition-all cursor-pointer"
               >
                 {network.name}
@@ -80,7 +72,7 @@ export function NetworkSwitch({ className }: any) {
         {networks.map((network: any, networkIndex: number) => (
           <div
             key={networkIndex}
-            onClick={() => handleSwitchNetwork(network)}
+            onClick={() => handleOnClick(network)}
             className={cn(
               "px-4 h-16 flex items-center hover:bg-line hover:text-link transition-all cursor-pointer",
               network.id === networkId && "text-link"
