@@ -1,6 +1,12 @@
-import { storage } from "@/lib/storage";
+interface Network {
+  id: string;
+  type: "Devnet" | "Testnet"; // Using literal types since these seem to be the only options
+  name: string;
+  url: string;
+  rpc: string;
+}
 
-export const networks: any[] = [
+export const networks: Network[] = [
   {
     id: "devnet",
     type: "Devnet",

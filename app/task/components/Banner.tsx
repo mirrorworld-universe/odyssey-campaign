@@ -42,7 +42,7 @@ export default function Banner() {
             </span>
             .
           </p>
-
+          {/* pc how to play button */}
           <Button
             onClick={() => handleOpenHowToPlayDialog()}
             className="text-title3 font-orbitron mt-4 px-6 w-fit hidden md:block"
@@ -50,15 +50,6 @@ export default function Banner() {
           >
             How to Play?
           </Button>
-          <div className="fixed bottom-0 left-0 w-full p-4 z-20 bg-black md:hidden">
-            <Button
-              onClick={() => handleOpenHowToPlayDialog()}
-              className="text-title3 font-orbitron px-6 w-full"
-              variant={"outline"}
-            >
-              How to Play?
-            </Button>
-          </div>
         </div>
         {/* pc carousel */}
         <div className="h-full grow hidden md:flex justify-end items-center">
@@ -82,6 +73,17 @@ export default function Banner() {
         }}
         className="h-[164px] md:h-full absolute top-0 right-0 max-w-[912px] w-full z-0 bg-black bg-cover md:bg-contain bg-no-repeat"
       />
+
+      {/* mobile how to play button */}
+      <div className="fixed bottom-0 left-0 w-full p-4 z-20 bg-black md:hidden">
+        <Button
+          onClick={() => handleOpenHowToPlayDialog()}
+          className="text-title3 font-orbitron px-6 w-full"
+          variant={"outline"}
+        >
+          How to Play?
+        </Button>
+      </div>
     </div>
   );
 }
@@ -92,7 +94,7 @@ function Slider() {
       style={{
         boxShadow: "0px 0px 12px 0px rgba(37, 163, 237, 0.80)"
       }}
-      className="md:flex md:justify-end md:max-w-[558px] md:w-full"
+      className="md:flex md:justify-end md:max-w-[558px] md:w-full rounded"
       plugins={[Autoplay({ delay: 3000 })]}
     >
       <CarouselContent>
@@ -101,16 +103,16 @@ function Slider() {
             key={index}
             className="flex items-center basis-full cursor-pointer group/banner"
           >
-            <div className="size-full relative">
+            <div className="size-full relative border border-link rounded overflow-hidden">
               <img
-                className="size-full"
+                className="size-full transition-all duration-300 rounded group-hover/banner:scale-110"
                 src="/images/banner/banner-1.png"
                 alt=""
               />
               <Link
                 href={"/task/play-on-sonicx"}
                 className={cn(
-                  "flex-center absolute inset-0 rounded border border-link z-10 bg-black/70",
+                  "flex-center absolute inset-0 rounded z-10 bg-black/70",
                   "text-headline4 font-orbitron gap-1 group-hover/banner:opacity-100 opacity-0 transition-opacity duration-300"
                 )}
               >

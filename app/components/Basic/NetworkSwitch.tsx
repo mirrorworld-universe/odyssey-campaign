@@ -1,66 +1,42 @@
 "use client";
 
-import { networks as networkList } from "@/app/data/config";
+import { networks } from "@/app/data/config";
 import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
+import { Close as IconClose } from "@/app/icons/Close";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger
 } from "@/components/ui/popover";
-import { Close as IconClose } from "@/app/icons/Close";
-import React, { useEffect, useState } from "react";
-import { useToggle } from "react-use";
 import { cn } from "@/lib/utils";
+import React, { useMemo } from "react";
+import { useToggle } from "react-use";
 
 export function NetworkSwitch({ className }: any) {
   const { token } = useAccountInfo();
   const { setNetworkId, networkId, setSwitchTo } = useNetworkInfo();
   const [isOpen, toggleOpen] = useToggle(false);
 
-  const currentNetworkList = networkList.map((item, index) => {
-    if (networkId) {
-      return { ...item, active: networkId === item.id };
-    } else {
-      return { ...item, active: index === 0 };
-    }
-  });
-
-  const [networks, setNetworks] = useState<any[]>(currentNetworkList);
+  const currentNetwork = useMemo(
+    () => networks.find((network) => network.id === networkId) || networks[0],
+    [networkId]
+  );
 
   const handleSwitchNetwork = (network: any) => {
     if (network.id === networkId) {
       return;
     }
-
     if (token) {
       setSwitchTo(network.id);
       openModalDirectly(MODAL_HASH_MAP.switchNetwork);
     } else {
       setNetworkId(network.id);
-      setNetworks(
-        networks.map((item: any) => ({
-          ...item,
-          active: item.id === network.id
-        }))
-      );
       if (network.id !== "testnetv1") {
         openModalDirectly(MODAL_HASH_MAP.seasonTwo);
       }
     }
   };
-
-  useEffect(() => {
-    setNetworks(
-      networkList.map((item, index) => {
-        if (networkId) {
-          return { ...item, active: networkId === item.id };
-        } else {
-          return { ...item, active: index === 0 };
-        }
-      })
-    );
-  }, [networkId]);
 
   return (
     <>
@@ -68,11 +44,11 @@ export function NetworkSwitch({ className }: any) {
         <PopoverTrigger className="h-16 w-full md:w-fit px-4 md:px-0 border-b md:border-b-0 border-line">
           <div className="flex items-center gap-1">
             <div className="flex-center size-5 relative">
-              <span className="animate-ping absolute inline-flex size-2 rounded-full bg-link opacity-75"></span>
+              <span className="animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] absolute inline-flex size-2 rounded-full bg-link opacity-75"></span>
               <span className="size-1.5 rounded-full bg-link"></span>
             </div>
             <h3 className="text-title3 text-link font-orbitron w-fit">
-              {networks.find((network: any) => network.id === networkId)?.name}
+              {currentNetwork.name}
             </h3>
             <SwitchNetworkIcon className="size-5 text-icon ml-auto md:ml-1" />
           </div>
@@ -107,7 +83,7 @@ export function NetworkSwitch({ className }: any) {
             onClick={() => handleSwitchNetwork(network)}
             className={cn(
               "px-4 h-16 flex items-center hover:bg-line hover:text-link transition-all cursor-pointer",
-              network.active && "text-link"
+              network.id === networkId && "text-link"
             )}
           >
             {network.name}

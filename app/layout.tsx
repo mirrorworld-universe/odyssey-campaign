@@ -135,6 +135,7 @@ window.criteo_q.push(
             <SetUpSonicNetworkDialog />
             <SetUpFinishDialog />
             {/* <SeasonTwo /> */}
+            <SeasonTwo />
             <WhitelistDialog />
             <SwitchNetworkDialog />
 

@@ -123,7 +123,6 @@ const TaskCenter: NextPage = () => {
   return (
     <>
       <main className="md:bg-[#111] flex flex-col md:gap-12 text-primary">
-        <SeasonTwo />
         <Banner />
         <MainContent />
         <HowToPlayDialog />

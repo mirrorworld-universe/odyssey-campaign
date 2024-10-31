@@ -23,7 +23,7 @@ export const useNetworkInfo = create(
     setVisitedNetworkId: (networkId: string) => void;
   }>(
     (set, get) => ({
-      networkId: get()?.networkId || "devnet",
+      networkId: get()?.networkId || "testnetv1",
       switchTo: get()?.switchTo,
       visitedNetworkId: get()?.visitedNetworkId,
       setNetworkId: (networkId: string) => {
@@ -43,7 +43,14 @@ export const useNetworkInfo = create(
       }
     }),
     {
-      name: "sonic-network-info"
+      name: "sonic-network-info",
+      version: 1,
+      migrate: (persistedState: any, version) => {
+        if (version === 0) {
+          persistedState.networkId = "testnetv1";
+        }
+        return persistedState;
+      }
     }
   )
 );

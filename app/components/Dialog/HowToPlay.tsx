@@ -143,7 +143,7 @@ function MobileHowToPlay({
           </AccordionItem>
 
           <AccordionItem
-            value={`item-2`}
+            value={`item-3`}
             className="border-line px-4 py-6 gap-2 flex flex-col first:border-t"
           >
             <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">

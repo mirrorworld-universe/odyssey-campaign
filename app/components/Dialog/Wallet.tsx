@@ -231,6 +231,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
       // testnet
       if (networkId === "testnet") {
         if (isWhitelist) {
+          onOpenWhitelistDialog();
           openModalDirectly(MODAL_HASH_MAP.setUpSonicNetwork);
         } else {
           onOpenWhitelistDialog();
@@ -242,6 +243,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
       }
       // devnet
       else {
+        console.log("status", status);
         if (!status || !status[address]) {
           openModalDirectly(MODAL_HASH_MAP.setUpSonicNetwork);
         }

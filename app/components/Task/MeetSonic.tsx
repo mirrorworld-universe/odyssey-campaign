@@ -12,14 +12,14 @@ import {
   useAccountInfo,
   useNetworkInfo,
   useSystemInfo,
-  useWalletModal,
+  useWalletModal
 } from "@/app/store/account";
 import { cn, isInMaintenanceTime, openDialoguePopup } from "@/lib/utils";
 
 import {
   fetchFollowDiscord,
   fetchFollowTwitter,
-  fetchFollowingStatus,
+  fetchFollowingStatus
 } from "../../data/task";
 import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
@@ -48,11 +48,11 @@ export function MeetSonic() {
   const {
     data: dataFollowingStatus,
     isLoading: loadingFollowingStatus,
-    refetch: refetchFollowingStatus,
+    refetch: refetchFollowingStatus
   } = useQuery({
     queryKey: ["queryFollowingStatus", address],
     queryFn: () => fetchFollowingStatus({ token, networkId }),
-    enabled: !!token,
+    enabled: !!token
   });
 
   const showRewardsToast = () => {
@@ -67,7 +67,7 @@ export function MeetSonic() {
           </span>
           . Open it in the navbar to exchange for rings.
         </p>
-      ),
+      )
     });
   };
 
@@ -77,12 +77,12 @@ export function MeetSonic() {
       fetchFollowTwitter({
         state: authTwitterState,
         code: authTwitterCode,
-        networkId,
+        networkId
       }),
     onSuccess: ({ data, code, message }) => {
       if (code !== 0) {
         toast({
-          description: <div role="success">{message}</div>,
+          description: <div role="success">{message}</div>
         });
       } else {
         const result = data?.following_result;
@@ -91,7 +91,7 @@ export function MeetSonic() {
           showRewardsToast();
         }
       }
-    },
+    }
   });
 
   const mutationFollowDiscord = useMutation({
@@ -100,12 +100,12 @@ export function MeetSonic() {
       fetchFollowDiscord({
         state: authDiscordState,
         code: authDiscordCode,
-        networkId,
+        networkId
       }),
     onSuccess: ({ data, code, message }) => {
       if (code !== 0) {
         toast({
-          description: <div role="success">{message}</div>,
+          description: <div role="success">{message}</div>
         });
       } else {
         const result = data?.following_result;
@@ -114,7 +114,7 @@ export function MeetSonic() {
           showRewardsToast();
         }
       }
-    },
+    }
   });
 
   useEffect(() => {
@@ -187,7 +187,7 @@ export function MeetSonic() {
           `$1${currentHref}`
         );
         window.open(newUrl);
-      },
+      }
     },
     {
       id: "discord",
@@ -209,8 +209,8 @@ export function MeetSonic() {
           `$1${currentHref}`
         );
         window.open(newUrl);
-      },
-    },
+      }
+    }
   ];
 
   return (
