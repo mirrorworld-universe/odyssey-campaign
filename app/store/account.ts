@@ -16,16 +16,24 @@ export const useSystemInfo = create<{
 export const useNetworkInfo = create(
   persist<{
     networkId: string;
+    switchTo: string;
     visitedNetworkId: string;
     setNetworkId: (networkId: string) => void;
+    setSwitchTo: (switchTo: string) => void;
     setVisitedNetworkId: (networkId: string) => void;
   }>(
     (set, get) => ({
       networkId: get()?.networkId || "devnet",
+      switchTo: get()?.switchTo,
       visitedNetworkId: get()?.visitedNetworkId,
       setNetworkId: (networkId: string) => {
         set({
           networkId
+        });
+      },
+      setSwitchTo: (switchTo: string) => {
+        set({
+          switchTo
         });
       },
       setVisitedNetworkId: (visitedNetworkId: string) => {

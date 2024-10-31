@@ -1,18 +1,4 @@
-const isProduct =
-  process.env.NODE_ENV === "production" &&
-  process.env.NEXT_PUBLIC_BRANCH_NAME !== "staging";
-
-const isStaging =
-  process.env.NODE_ENV === "production" &&
-  process.env.NEXT_PUBLIC_BRANCH_NAME === "staging";
-
-function getENV() {
-  if (isProduct) return "product";
-  if (isStaging) return "staging";
-  return "local";
-}
-
-const ENV = getENV();
+import { storage } from "@/lib/storage";
 
 export const networks: any[] = [
   {
@@ -25,8 +11,15 @@ export const networks: any[] = [
   {
     id: "testnet",
     type: "Testnet",
-    name: "Frontier",
+    name: "Frontier V0",
     url: "/testnet",
     rpc: "https://api.testnet.sonic.game"
+  },
+  {
+    id: "testnetv1",
+    type: "Testnet",
+    name: "Frontier V1",
+    url: "/testnet-v1",
+    rpc: "https://devnet.sonic.game"
   }
 ];

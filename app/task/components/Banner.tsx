@@ -68,7 +68,7 @@ export default function Banner() {
       {/* mobile carousel */}
       <div
         className={cn(
-          "flex w-full relative z-30 md:hidden",
+          "flex w-full relative z-20 md:hidden",
           slides.length > 1 ? "mb-16" : "mb-10"
         )}
       >

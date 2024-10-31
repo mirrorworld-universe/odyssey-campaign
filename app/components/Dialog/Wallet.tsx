@@ -61,7 +61,11 @@ const networkSwitchingNames: any = {
   },
   testnet: {
     id: "2",
-    name: "Frontier"
+    name: "Frontier v0"
+  },
+  testnetv1: {
+    id: "3",
+    name: "Frontier v1"
   }
 };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { fetchLogout } from "@/app/data/account";
+import { networks } from "@/app/data/config";
 import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
 import { SwitchLogo } from "@/app/logos/SwitchLogo";
 import {
@@ -16,22 +17,19 @@ import { useRouter } from "next/navigation";
 
 export function SwitchNetworkDialog() {
   const router = useRouter();
-  const networkSwitchingNames: any = {
-    devnet: {
-      id: "testnet",
-      name: "Frontier"
-    },
-    testnet: {
-      id: "devnet",
-      name: "Origin"
-    }
-  };
-
   const { disconnect } = useWallet();
   const { onOpen: onOpenWalletModal, setSwitching } = useWalletModal();
   const { token, reset } = useAccountInfo();
-  const { networkId, setNetworkId } = useNetworkInfo();
+  const { networkId, setNetworkId, switchTo } = useNetworkInfo();
   const { closeModal, modalHash } = useModalHash();
+
+  const switchToNetwork = networks.find(
+    (network: any) => network.id === switchTo
+  );
+
+  const currentNetwork = networks.find(
+    (network: any) => network.id === networkId
+  );
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => fetchLogout({ token, networkId }),
@@ -39,7 +37,7 @@ export function SwitchNetworkDialog() {
       reset();
       disconnect();
 
-      setNetworkId(networkSwitchingNames[networkId || "devnet"].id);
+      setNetworkId(switchTo);
       router.push("/");
       closeModal();
 
@@ -58,12 +56,13 @@ export function SwitchNetworkDialog() {
           <SwitchLogo className="size-[54px] md:size-16 mt-4" />
           <div className="flex-v gap-4">
             <h2 className="text-headline5 md:text-headline4 font-orbitron">
-              Switching to Sonic Frontier V1
+              Switching to {switchToNetwork?.name}
             </h2>
             <p className="text-body3 text-tertary">
-              You're currently on the Origin network. To participate in tasks,
-              you'll need to switch to the latest Frontier V1 network, which
-              requires re-logging into your wallet.
+              You're currently on the {currentNetwork?.name} network. To
+              participate in tasks, you'll need to switch to the latest{" "}
+              {switchToNetwork?.name} network, which requires re-logging into
+              your wallet.
             </p>
           </div>
 

@@ -44,13 +44,15 @@ import Notification from "./Notification";
 import { NotificationBar } from "./NotificationBar";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
+import { storage } from "@/lib/storage";
 
 export const menu: any[] = [
   {
     name: "Task Center",
     link: {
       devnet: "/task",
-      testnet: "/task"
+      testnet: "/task",
+      testnetv1: "/task"
     },
     target: "_self"
   },
@@ -58,23 +60,26 @@ export const menu: any[] = [
     name: "Faucet",
     link: {
       devnet: "https://faucet.sonic.game/#/",
-      testnet: "https://faucet.sonic.game/#/?network=testnet"
+      testnet: "https://faucet.sonic.game/#/?network=testnet",
+      testnetv1: "https://faucet.sonic.game/#/"
     },
     target: "_blank"
   },
   {
-    name: "Odyssey Guide",
+    name: "Guide",
     link: {
       devnet: "https://blog.sonic.game/sonic-testnet-odyssey-guide",
-      testnet: "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide"
+      testnet: "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide",
+      testnetv1: "https://blog.sonic.game/sonic-testnet-odyssey-guide"
     },
     target: "_blank"
   },
   {
-    name: "About Sonic",
+    name: "About",
     link: {
       devnet: "https://sonic.game/",
-      testnet: "https://sonic.game/"
+      testnet: "https://sonic.game/",
+      testnetv1: "https://sonic.game/"
     },
     target: "_blank"
   }
@@ -222,14 +227,14 @@ export function Header() {
             {/* nav */}
             <div
               className={cn(
-                "flex flex-col md:flex-row fixed items-center md:static top-0 right-0 bottom-0 left-0 m-auto z-30 bg-[#111] w-full h-full md:w-auto md:h-auto duration-300 transition-transform",
+                "flex flex-col md:flex-row md:gap-8 bg-black fixed items-center md:static inset-0 m-auto z-30 size-full md:w-auto md:h-auto duration-300 transition-transform",
                 showMenu
                   ? "translate-x-0"
                   : "-translate-x-full md:translate-x-0"
               )}
             >
-              <div className="w-full flex md:hidden p-4 justify-between items-center border-b border-solid border-white/10">
-                <span className="text-[#666] text-base font-orbitron font-semibold">
+              <div className="w-full flex md:hidden p-4 justify-between items-center">
+                <span className="font-orbitron text-title2 text-tertary">
                   Menu
                 </span>
                 <span
@@ -243,35 +248,22 @@ export function Header() {
               {/* switch network */}
               {(visitedNetworkId === "testnet" ||
                 networkCookieSearch === NETWORK_COOKIE_NAME ||
-                networkCookie === "frontier") && (
-                <div className="w-full md:w-auto p-4 md:p-0">
-                  <NetworkSwitch />
-                </div>
-              )}
+                networkCookie === "frontier") && <NetworkSwitch />}
 
               {/* spliter */}
               <div className="w-px h-4 bg-white/20 hidden md:block"></div>
-              {/* <i
-              className={cn(
-                "hidden md:inline-flex h-4 w-[1px] border-solid border-white/20 md:mx-6 2xl:mx-8",
-                visitedNetworkId === "testnet" ||
-                  networkCookieSearch === NETWORK_COOKIE_NAME ||
-                  networkCookie === "frontier"
-                  ? "border-r"
-                  : "border-none"
-              )}
-            ></i> */}
 
-              <div className="w-full md:w-auto flex flex-col md:flex-row items-start md:items-center gap-8">
+              <div className="w-full px-4 md:px-0 md:w-auto flex flex-col md:flex-row items-start md:items-center gap-0 md:gap-8 font-orbitron">
                 {menu.map((menuItem, menuIndex) => (
                   <Link
                     className={cn(
-                      "gap-12 text-title3 hover:text-gold-yellow text-primary font-orbitron transition-colors px-4 py-5 md:px-0 md:py-0",
-                      pathname.startsWith("/task") && menuItem.link === "/task"
-                        ? "text-[#FBB042]"
+                      "flex items-center text-title3 w-full md:w-fit hover:text-gold-yellow text-primary transition-colors h-16",
+                      pathname.startsWith("/task") &&
+                        menuItem.link[networkId] === "/task"
+                        ? "text-gold-yellow"
                         : ""
                     )}
-                    href={menuItem.link[networkId || "devnet"]}
+                    href={menuItem.link[networkId]}
                     key={menuIndex}
                     target={menuItem.target}
                     onClick={handleClickMenu}

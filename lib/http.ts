@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { getNetworkUrl } from "./utils";
+import { storage } from "./storage";
 
 class Http {
   ins: AxiosInstance;
@@ -10,18 +11,14 @@ class Http {
     });
 
     this.ins.interceptors.request.use((config) => {
-      const accountInfo = localStorage.getItem("sonic-account-info");
-      const networkInfo = localStorage.getItem("sonic-network-info");
+      const token = storage.get("sonic-account-info", "state.token");
+      const networkId = storage.get("sonic-network-info", "state.networkId");
 
-      if (networkInfo) {
-        const networkId = JSON.parse(networkInfo).state.networkId;
+      if (networkId) {
         config.url = `${getNetworkUrl(networkId)}${config.url}`;
       }
 
-      if (accountInfo) {
-        const {
-          state: { token }
-        } = JSON.parse(accountInfo);
+      if (token) {
         config.headers["Authorization"] = token;
         config.headers["content-type"] = "application/json";
       }

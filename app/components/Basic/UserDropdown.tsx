@@ -119,7 +119,7 @@ export function UserDropdown() {
         </p>
       ) : null}
 
-      <div className="flex-v justify-center px-6 h-[82px] border-b border-line">
+      <div className="flex-v justify-center px-4 md:px-6 h-[82px] border-b border-line">
         {/* user basic info */}
         <div className="flex gap-4 md:gap-3 justify-start items-center">
           <img
@@ -160,7 +160,7 @@ export function UserDropdown() {
       </div>
 
       <a
-        className="flex items-center h-16 md:h-14 gap-2 px-6 hover:bg-line"
+        className="flex items-center h-16 md:h-14 gap-2 px-4 md:px-6 hover:bg-line"
         href={`https://explorer.sonic.game/address/${address}${
           networkId === "testnet" ? "?cluster=testnet" : ""
         }`}
@@ -177,7 +177,7 @@ export function UserDropdown() {
           item.name.toLowerCase() === wallet?.adapter.name.toLowerCase()
       ).isSupportSonic && (
         <a
-          className="flex items-center h-16 md:h-14 gap-2 px-6 hover:bg-line"
+          className="flex items-center h-16 md:h-14 gap-2 px-4 md:px-6 hover:bg-line"
           href={
             setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]
               ? setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"][
@@ -195,7 +195,7 @@ export function UserDropdown() {
       )}
 
       <div
-        className="flex items-center h-16 md:h-14 gap-2 px-6 hover:bg-line"
+        className="flex items-center h-16 md:h-14 gap-2 px-4 md:px-6 hover:bg-line"
         onClick={handleDisconnect}
       >
         <img src="/images/logout.svg" alt="" className="size-6" />

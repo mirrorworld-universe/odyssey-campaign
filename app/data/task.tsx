@@ -9,6 +9,7 @@ import { MeetSonicLogo } from "../logos/MeetSonicLogo";
 import { PlayOnSonicxLogo } from "../logos/PlayOnSonicxLogo";
 import { BybitLogo } from "../logos/BybitLogo";
 import { TaskGroup } from "@/app/types/task";
+import { storage } from "@/lib/storage";
 
 export const taskGroupList: TaskGroup[] = [
   {
@@ -31,8 +32,9 @@ export const taskGroupList: TaskGroup[] = [
           }
         ],
         available: {
-          devnet: true,
-          testnet: true
+          devnet: false,
+          testnet: false,
+          testnetv1: true
         }
       },
       {
@@ -52,8 +54,9 @@ export const taskGroupList: TaskGroup[] = [
           }
         ],
         available: {
-          devnet: true,
-          testnet: true
+          devnet: false,
+          testnet: false,
+          testnetv1: true
         }
       }
 
@@ -85,8 +88,9 @@ export const taskGroupList: TaskGroup[] = [
         iconName: "game",
         icon: <GameAdventureLogo />,
         available: {
-          devnet: true,
-          testnet: true
+          devnet: false,
+          testnet: false,
+          testnetv1: true
         }
       },
       {
@@ -99,8 +103,9 @@ export const taskGroupList: TaskGroup[] = [
         iconName: "cube",
         icon: <MysteryNftLogo />,
         available: {
-          devnet: true,
-          testnet: false
+          devnet: false,
+          testnet: false,
+          testnetv1: true
         },
         startTime: walletCampaignStartTime
       },
@@ -114,8 +119,9 @@ export const taskGroupList: TaskGroup[] = [
         iconName: "sonicX",
         icon: <PlayOnSonicxLogo />,
         available: {
-          devnet: true,
-          testnet: false
+          devnet: false,
+          testnet: false,
+          testnetv1: true
         }
       }
       // {
@@ -147,8 +153,9 @@ export const taskGroupList: TaskGroup[] = [
         iconName: "twitter",
         icon: <MeetSonicLogo />,
         available: {
-          devnet: true,
-          testnet: false
+          devnet: false,
+          testnet: false,
+          testnetv1: true
         }
       },
       {
@@ -161,8 +168,9 @@ export const taskGroupList: TaskGroup[] = [
         iconName: "diversity",
         icon: <ReferralLogo />,
         available: {
-          devnet: true,
-          testnet: false
+          devnet: false,
+          testnet: false,
+          testnetv1: true
         }
       }
     ]
@@ -170,9 +178,9 @@ export const taskGroupList: TaskGroup[] = [
 ];
 
 export function getTaskUrl(task: any, walletName?: string, networkId?: any) {
-  const networkInfo = localStorage.getItem("sonic-network-info");
-  networkId = networkId || JSON.parse(networkInfo || "{}").state.networkId;
-  walletName = walletName || localStorage.getItem("walletName") || "";
+  networkId = networkId || storage.get("sonic-network-info", "state.networkId");
+  walletName =
+    walletName || storage.get("sonic-account-info", "state.walletName") || "";
 
   if (task.available[networkId] && isSupportSonic(walletName)) {
     return `/task/${task.id}`;

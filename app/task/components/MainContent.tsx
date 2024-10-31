@@ -5,6 +5,7 @@ import { UTCDate } from "@date-fns/utc";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Link from "next/link";
 import { Go as IconGo } from "@/app/icons/Go";
+import { ExtraBonus } from "@/app/types/task";
 
 export default function MainContent() {
   const { wallet } = useWallet();
@@ -58,7 +59,11 @@ export default function MainContent() {
                       </div>
                     ) : null}
                   </div>
-                  <HourPeriod period={task.period} reward={task.reward} />
+                  <HourPeriod
+                    period={task.period}
+                    reward={task.reward}
+                    extraBonus={task.extraBonus}
+                  />
                   <div
                     className={cn(
                       "absolute transition-all duration-300  rotate-[15deg] z-0",
@@ -85,16 +90,34 @@ const hasTaskStarted = (startTime?: string) => {
   return now >= startShowTime;
 };
 
-function HourPeriod({ period, reward }: { period: string; reward?: string }) {
+function HourPeriod({
+  period,
+  reward,
+  extraBonus = []
+}: {
+  period: string;
+  reward?: string;
+  extraBonus?: ExtraBonus[];
+}) {
+  const hasExtraBonus = extraBonus.length > 0;
+  const hasReward = reward && reward.length > 0 && extraBonus.length === 0;
+
   return (
     <>
       <div className="md:hidden flex items-center gap-2 text-ten font-orbitron relative z-10">
         <div className="w-fit px-2 py-0.5 bg-[#1F2B33] text-link">{period}</div>
-        {reward ? (
+        {hasExtraBonus && (
+          <div className="flex items-center gap-2 bg-bg-tag px-2 py-0.5 text-gold-yellow">
+            Extra Bonus:
+            {extraBonus.map((extraBonus) => extraBonus.icon)}
+          </div>
+        )}
+
+        {hasReward && (
           <div className="w-fit text-gold-yellow bg-bg-tag px-2 py-0.5">
             {reward}
           </div>
-        ) : null}
+        )}
       </div>
 
       <div className="absolute bottom-0 left-0 hidden md:flex items-center h-5">
