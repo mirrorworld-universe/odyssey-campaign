@@ -32,7 +32,7 @@ interface SolanaBybitWallet {
 }
 
 interface BybitWindow extends Window {
-  bybitwallet?: {
+  bybitWallet?: {
     solana?: SolanaBybitWallet;
   };
 }
@@ -65,7 +65,7 @@ export class BybitWalletAdapter extends BaseMessageSignerWalletAdapter {
 
     if (this._readyState !== WalletReadyState.Unsupported) {
       scopePollingDetectionStrategy(() => {
-        if (window?.bybitwallet?.solana) {
+        if (window?.bybitWallet?.solana) {
           this._readyState = WalletReadyState.Installed;
           this.emit("readyStateChange", this._readyState);
           return true;
@@ -96,7 +96,7 @@ export class BybitWalletAdapter extends BaseMessageSignerWalletAdapter {
       this._connecting = true;
 
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const wallet = window.bybitwallet!.solana!;
+      const wallet = window.bybitWallet!.solana!;
 
       try {
         await wallet.connect();
