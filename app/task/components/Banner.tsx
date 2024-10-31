@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/carousel";
 import { trackClick } from "@/lib/track";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import Autoplay from "embla-carousel-autoplay";
-import { useNetworkInfo } from "@/app/store/account";
-import { useMemo } from "react";
+import { useNetworkInfo, useWalletModal } from "@/app/store/account";
 import { useSwitchNetwork } from "@/app/hooks";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useRouter } from "next/navigation";
 
 const slides = [
   {
@@ -27,8 +27,6 @@ export default function Banner() {
   const { handleSwitchNetwork } = useSwitchNetwork();
 
   const isSeasonTwo = networkId === "testnetv1";
-
-  useMemo(() => {}, [networkId]);
 
   const handleOnClick = () => {
     if (isSeasonTwo) {
@@ -122,6 +120,28 @@ export default function Banner() {
 }
 
 function Slider() {
+  const { connected } = useWallet();
+  const { onOpen: onOpenWalletModal } = useWalletModal();
+  const { networkId, setSwitchTo } = useNetworkInfo();
+  const router = useRouter();
+
+  const handleBannerClick = () => {
+    setSwitchTo("testnetv1");
+    const isTestnetV1 = networkId === "testnetv1";
+
+    if (!isTestnetV1) {
+      openModalDirectly(MODAL_HASH_MAP.switchNetwork);
+      return;
+    }
+
+    if (!connected) {
+      onOpenWalletModal();
+      return;
+    }
+
+    router.push("/task/play-on-sonicx");
+  };
+
   return (
     <Carousel
       style={{
@@ -142,8 +162,8 @@ function Slider() {
                 src="/images/banner/banner-1.png"
                 alt=""
               />
-              <Link
-                href={"/task/play-on-sonicx"}
+              <div
+                onClick={handleBannerClick}
                 className={cn(
                   "flex-center absolute inset-0 rounded z-10 bg-black/70",
                   "text-headline4 font-orbitron gap-1 group-hover/banner:opacity-100 opacity-0 transition-opacity duration-300"
@@ -151,7 +171,7 @@ function Slider() {
               >
                 <PlayLogo />
                 Start Now
-              </Link>
+              </div>
             </div>
           </CarouselItem>
         ))}

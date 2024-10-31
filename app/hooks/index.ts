@@ -16,11 +16,19 @@ export function useSwitchNetwork() {
 
   const handleSwitchNetwork = (network: string) => {
     if (network === networkId) return;
+
     if (!connected) {
       setNetworkId(network);
+      if (network !== "testnetv1") {
+        openModalDirectly(MODAL_HASH_MAP.seasonTwo);
+      }
     } else {
       setSwitchTo(network);
-      openModalDirectly(MODAL_HASH_MAP.switchNetwork);
+      if (network !== "testnetv1") {
+        openModalDirectly(MODAL_HASH_MAP.seasonTwo);
+      } else {
+        openModalDirectly(MODAL_HASH_MAP.switchNetwork);
+      }
     }
   };
 

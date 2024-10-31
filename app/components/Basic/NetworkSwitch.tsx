@@ -19,13 +19,6 @@ export function NetworkSwitch({ className }: any) {
   const [isOpen, toggleOpen] = useToggle(false);
   const { handleSwitchNetwork } = useSwitchNetwork();
 
-  const handleOnClick = (network: Network) => {
-    handleSwitchNetwork(network.id);
-    if (network.id !== "testnetv1") {
-      openModalDirectly(MODAL_HASH_MAP.seasonTwo);
-    }
-  };
-
   return (
     <>
       <Popover open={isOpen} onOpenChange={toggleOpen}>
@@ -50,7 +43,7 @@ export function NetworkSwitch({ className }: any) {
             {networks.map((network: any, networkIndex: number) => (
               <div
                 key={networkIndex}
-                onClick={() => handleOnClick(network)}
+                onClick={() => handleSwitchNetwork(network.id)}
                 className="px-6 py-2 hover:bg-line hover:text-link transition-all cursor-pointer"
               >
                 {network.name}
@@ -72,7 +65,7 @@ export function NetworkSwitch({ className }: any) {
         {networks.map((network: any, networkIndex: number) => (
           <div
             key={networkIndex}
-            onClick={() => handleOnClick(network)}
+            onClick={() => handleSwitchNetwork(network.id)}
             className={cn(
               "px-4 h-16 flex items-center hover:bg-line hover:text-link transition-all cursor-pointer",
               network.id === networkId && "text-link"

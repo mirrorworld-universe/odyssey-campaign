@@ -1,17 +1,25 @@
 "use client";
 
-import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
-import { useNetworkInfo } from "@/app/store/account";
+import { useSwitchNetwork } from "@/app/hooks";
+import useModalHash, {
+  MODAL_HASH_MAP,
+  openModalDirectly
+} from "@/app/hooks/useModalHash";
 import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export default function SeasonTwo() {
   const { closeModal, modalHash } = useModalHash();
-  const { setNetworkId } = useNetworkInfo();
+  const { connected } = useWallet();
+  const { handleSwitchNetwork } = useSwitchNetwork();
 
-  const handleSwitchNetwork = () => {
-    setNetworkId("testnetv1");
-    closeModal();
+  const handleBtnClick = () => {
+    if (connected) {
+      openModalDirectly(MODAL_HASH_MAP.switchNetwork);
+    } else {
+      closeModal();
+    }
   };
 
   const data = [
@@ -23,7 +31,10 @@ export default function SeasonTwo() {
           officially ended! Please switch to{" "}
           <span
             className="text-link cursor-pointer hover:text-primary-blue"
-            onClick={handleSwitchNetwork}
+            onClick={() => {
+              handleSwitchNetwork("testnetv1");
+              closeModal();
+            }}
           >
             Frontier V1
           </span>{" "}
@@ -75,15 +86,26 @@ export default function SeasonTwo() {
               ))}
             </div>
           ))}
-
-          <Button
-            onClick={closeModal}
-            variant={"primary"}
-            size={"lg"}
-            className="font-orbitron mt-2 md:mt-auto text-title2"
-          >
-            I Understand
-          </Button>
+          <div className="flex-v gap-2 mt-2 md:mt-auto">
+            <Button
+              onClick={handleBtnClick}
+              variant={"primary"}
+              size={"lg"}
+              className="font-orbitron text-title2"
+            >
+              I Understand
+            </Button>
+            {connected && (
+              <Button
+                onClick={closeModal}
+                variant={"cancel"}
+                size={"lg"}
+                className="font-orbitron text-title2 text-tertary"
+              >
+                Cancel
+              </Button>
+            )}
+          </div>
         </div>
       </AlertDialogContent>
     </AlertDialog>
