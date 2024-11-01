@@ -1,10 +1,9 @@
 "use client";
 
-import { Network, networkMap, networks } from "@/app/data/config";
+import { networkMap, networks } from "@/app/data/config";
 import { useSwitchNetwork } from "@/app/hooks";
-import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
 import { Close as IconClose } from "@/app/icons/Close";
-import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
+import { useNetworkInfo } from "@/app/store/account";
 import {
   Popover,
   PopoverContent,

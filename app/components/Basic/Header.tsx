@@ -44,7 +44,6 @@ import Notification from "./Notification";
 import { NotificationBar } from "./NotificationBar";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
-import { storage } from "@/lib/storage";
 
 export const menu: any[] = [
   {
@@ -163,13 +162,6 @@ export function Header() {
     return names;
   };
 
-  // useEffect(() => {
-  //   if (dataWinnerBanner?.data?.wallet) {
-  //     setBannerMessage(dataWinnerBanner.data);
-  //     onOpenLotteryBar();
-  //   }
-  // }, [dataWinnerBanner]);
-
   useEffect(() => {
     try {
       const page_name = document.title;
@@ -246,9 +238,7 @@ export function Header() {
               </div>
 
               {/* switch network */}
-              {(visitedNetworkId === "testnet" ||
-                networkCookieSearch === NETWORK_COOKIE_NAME ||
-                networkCookie === "frontier") && <NetworkSwitch />}
+              <NetworkSwitch />
 
               {/* spliter */}
               <div className="w-px h-4 bg-white/20 hidden md:block"></div>
