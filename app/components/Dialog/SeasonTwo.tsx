@@ -25,7 +25,7 @@ export default function SeasonTwo() {
 
   const data = [
     {
-      title: "Season 1 Summary & Next Steps",
+      title: "Season 1 Ended & Next Steps",
       descriptions: [
         <>
           The Sonic Odyssey Season 1 - Tasks on Origin and Frontier V0 have
