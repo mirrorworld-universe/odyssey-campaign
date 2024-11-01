@@ -1,10 +1,10 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { createBreakpoint } from "react-use";
+import { NetworkId } from "../data/config";
 import { useAccountInfo, useNetworkInfo } from "../store/account";
-import { Task, TaskAvailability } from "../types/task";
+import { Task } from "../types/task";
 import { isSupportSonic } from "../wallet/wallet-list";
 import { MODAL_HASH_MAP, openModalDirectly } from "./useModalHash";
-import { NetworkId } from "../data/config";
 
 export const useBreakpoint = createBreakpoint({
   mobile: 350,
@@ -44,7 +44,7 @@ export function useTaskUrl() {
 
   function getTaskUrl(task: Task) {
     if (
-      task.available[networkId as keyof TaskAvailability] &&
+      networkId === NetworkId.FrontierV1 &&
       isSupportSonic(wallet?.adapter.name) &&
       token
     ) {

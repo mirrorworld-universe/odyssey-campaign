@@ -13,16 +13,17 @@ import { useNetworkInfo, useWalletModal } from "@/app/store/account";
 import { useSwitchNetwork } from "@/app/hooks";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/navigation";
+import { NetworkId } from "@/app/data/config";
 
 export default function Banner() {
   const { networkId } = useNetworkInfo();
 
   const { handleSwitchNetwork } = useSwitchNetwork();
 
-  const isSeasonTwo = networkId === "testnetv1";
+  const isFrontierV1 = networkId === NetworkId.FrontierV1;
 
   const handleOnClick = () => {
-    if (isSeasonTwo) {
+    if (isFrontierV1) {
       openModalDirectly(MODAL_HASH_MAP.howToPlay);
       trackClick({ text: "How to play?" });
     } else {
@@ -39,7 +40,7 @@ export default function Banner() {
             Odyssey Task Center
           </div>
           <p className="text-title3 text-primary md:text-tertary">
-            {isSeasonTwo ? (
+            {isFrontierV1 ? (
               <>
                 Embark on your Odyssey by completing various tasks! Earn more
                 rings along the way! If you have any questions, feel free to
@@ -72,7 +73,7 @@ export default function Banner() {
             className="text-title3 font-orbitron mt-4 px-6 w-fit hidden md:block"
             variant={"outline"}
           >
-            {isSeasonTwo ? "How to Play?" : "Season 2 Guides"}
+            {isFrontierV1 ? "How to Play?" : "Season 2 Guides"}
           </Button>
         </div>
         {/* pc carousel */}
@@ -100,7 +101,7 @@ export default function Banner() {
           className="text-title3 font-orbitron px-6 w-full"
           variant={"outline"}
         >
-          {isSeasonTwo ? "How to Play?" : "Season 2 Guides"}
+          {isFrontierV1 ? "How to Play?" : "Season 2 Guides"}
         </Button>
       </div>
     </div>

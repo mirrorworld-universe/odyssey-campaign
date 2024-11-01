@@ -8,6 +8,8 @@ import { MileStoneLogo } from "../logos/MileStoneLogo";
 import { MysteryNftLogo } from "../logos/MysteryNftLogo";
 import { PlayOnSonicxLogo } from "../logos/PlayOnSonicxLogo";
 import { ReferralLogo } from "../logos/ReferralLogo";
+import { NetworkId } from "./config";
+import { RingLotteryLogo } from "../logos/RingLotteryLogo";
 
 export const taskGroupList: TaskGroup[] = [
   {
@@ -23,6 +25,11 @@ export const taskGroupList: TaskGroup[] = [
         iconName: "calendar",
         icon: <CheckInLogo />,
         bonus: true,
+        visibleInNetworks: [
+          NetworkId.Origin,
+          NetworkId.FrontierV0,
+          NetworkId.FrontierV1
+        ],
         extraBonus: [
           {
             id: "Bybit",
@@ -43,6 +50,11 @@ export const taskGroupList: TaskGroup[] = [
         period: "24-Hour Period",
         reward: "",
         iconName: "recommand",
+        visibleInNetworks: [
+          NetworkId.FrontierV0,
+          NetworkId.FrontierV1,
+          NetworkId.Origin
+        ],
         icon: <MileStoneLogo />,
         bonus: true,
         extraBonus: [
@@ -83,6 +95,11 @@ export const taskGroupList: TaskGroup[] = [
           "Play different games to enjoy a variety of fun experiences and earn exciting rewards along the way!",
         period: "24-Hour Period",
         reward: "",
+        visibleInNetworks: [
+          NetworkId.FrontierV0,
+          NetworkId.FrontierV1,
+          NetworkId.Origin
+        ],
         iconName: "game",
         icon: <GameAdventureLogo />,
         available: {
@@ -100,6 +117,11 @@ export const taskGroupList: TaskGroup[] = [
         reward: "Test SOL Needed",
         iconName: "cube",
         icon: <MysteryNftLogo />,
+        visibleInNetworks: [
+          NetworkId.FrontierV0,
+          NetworkId.FrontierV1,
+          NetworkId.Origin
+        ],
         available: {
           devnet: false,
           testnet: false,
@@ -116,26 +138,33 @@ export const taskGroupList: TaskGroup[] = [
         reward: "",
         iconName: "sonicX",
         icon: <PlayOnSonicxLogo />,
+        visibleInNetworks: [
+          NetworkId.FrontierV0,
+          NetworkId.FrontierV1,
+          NetworkId.Origin
+        ],
         available: {
           devnet: false,
           testnet: false,
           testnetv1: true
         }
+      },
+      {
+        id: "ring-lottery",
+        name: "Ring Lottery",
+        description:
+          "Participate in the lottery for a chance to win a ring; there's only one lucky winner in every block.",
+        period: "24-Hour Period",
+        reward: "Test SOL Needed",
+        icon: <RingLotteryLogo />,
+        iconName: "chip",
+        visibleInNetworks: [NetworkId.FrontierV0, NetworkId.Origin],
+        available: {
+          devnet: false,
+          testnet: false
+        },
+        showPeriod: true
       }
-      // {
-      //   id: "ring-lottery",
-      //   name: "Ring Lottery",
-      //   description:
-      //     "Participate in the lottery for a chance to win a ring; there's only one lucky winner in every block.",
-      //   period: "24-Hour Period",
-      //   reward: "Test SOL Needed",
-      //   iconName: "chip",
-      //   available: {
-      //     devnet: true,
-      //     testnet: false
-      //   },
-      //   showPeriod: true
-      // }
     ]
   },
   {
@@ -150,6 +179,11 @@ export const taskGroupList: TaskGroup[] = [
         reward: "",
         iconName: "twitter",
         icon: <MeetSonicLogo />,
+        visibleInNetworks: [
+          NetworkId.FrontierV0,
+          NetworkId.FrontierV1,
+          NetworkId.Origin
+        ],
         available: {
           devnet: false,
           testnet: false,
@@ -165,6 +199,11 @@ export const taskGroupList: TaskGroup[] = [
         reward: "",
         iconName: "diversity",
         icon: <ReferralLogo />,
+        visibleInNetworks: [
+          NetworkId.FrontierV0,
+          NetworkId.FrontierV1,
+          NetworkId.Origin
+        ],
         available: {
           devnet: false,
           testnet: false,

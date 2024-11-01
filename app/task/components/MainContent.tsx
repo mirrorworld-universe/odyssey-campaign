@@ -1,12 +1,14 @@
 import { taskGroupList } from "@/app/data/task";
 import { useTaskUrl } from "@/app/hooks";
 import { Go as IconGo } from "@/app/icons/Go";
+import { useNetworkInfo } from "@/app/store/account";
 import { ExtraBonus } from "@/app/types/task";
 import { cn } from "@/lib/utils";
 import { UTCDate } from "@date-fns/utc";
 import Link from "next/link";
 
 export default function MainContent() {
+  const { networkId } = useNetworkInfo();
   const { getTaskUrl } = useTaskUrl();
 
   return (
@@ -24,6 +26,7 @@ export default function MainContent() {
           <div className="grid grid-cols-[repeat(auto-fill,minmax(324px,1fr))] md:gap-10 gap-5">
             {taskGroup.list
               .filter((task) => hasTaskStarted(task.startTime))
+              .filter((task) => task.visibleInNetworks.includes(networkId))
               .map((task, taskIndex: number) => (
                 <Link
                   href={getTaskUrl(task)}
