@@ -1,5 +1,6 @@
 "use client";
 
+import { NetworkId } from "@/app/data/config";
 import { useSwitchNetwork } from "@/app/hooks";
 import useModalHash, {
   MODAL_HASH_MAP,
@@ -32,7 +33,7 @@ export default function SeasonTwo() {
           <span
             className="text-link cursor-pointer hover:text-primary-blue"
             onClick={() => {
-              handleSwitchNetwork("testnetv1");
+              handleSwitchNetwork(NetworkId.FrontierV1);
               closeModal();
             }}
           >

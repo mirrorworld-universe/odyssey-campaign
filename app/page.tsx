@@ -16,6 +16,7 @@ import {
   useWalletModal
 } from "./store/account";
 import { cn } from "@/lib/utils";
+import { NetworkId } from "./data/config";
 
 export default function Home() {
   const router = useRouter();
@@ -29,11 +30,11 @@ export default function Home() {
 
   const { title, description } = useMemo(() => {
     const content = {
-      title: networkId !== "testnetv1" ? "Season 1" : "Season 2",
+      title: networkId !== NetworkId.FrontierV1 ? "Season 1" : "Season 2",
       description:
-        networkId !== "testnetv1"
+        networkId !== NetworkId.FrontierV1
           ? "Thanks for participating! Sonic Odyssey Season 1 on Frontier V0 has ended. Switch to Frontier V1 to kick off your Season 2 adventure now!"
-          : "Jump into Sonic Odyssey Season 1! More games and products are coming soon to supercharge your ring rewards!"
+          : "Join the new Season 2 of Sonic Odyssey on the latest Testnet - Frontier V1! Exciting new games and products are coming soon to boost your ring rewards!"
     };
 
     return content;
@@ -78,7 +79,7 @@ export default function Home() {
 
   return (
     <main className="grow flex flex-col text-primary">
-      {networkId !== "testnetv1" ? (
+      {networkId !== NetworkId.FrontierV1 ? (
         <video
           key="mainnet-video"
           className={cn(

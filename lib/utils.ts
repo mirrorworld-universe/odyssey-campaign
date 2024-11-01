@@ -1,4 +1,4 @@
-import { networks } from "@/app/data/config";
+import { NetworkId, networks } from "@/app/data/config";
 import { WalletList } from "@/app/wallet/wallet-list";
 import { UTCDate } from "@date-fns/utc";
 import { Wallet } from "@solana/wallet-adapter-react";
@@ -123,9 +123,9 @@ export const isMobileDevice = () => {
 
 export const walletCampaignStartTime = "2024-08-30T10:00:00+08:00";
 export const walletCampaignEndTime = "2024-10-18T10:00:00+08:00";
-export const walletCampaignNetworks = ["testnetv1"];
+export const walletCampaignNetworks = [NetworkId.FrontierV1];
 
-export const isInWalletCampaignTime = (networkId = "devnet") => {
+export const isInWalletCampaignTime = (networkId: any = "devnet") => {
   const isWalletCampaignNetwork =
     walletCampaignNetworks.indexOf(networkId) > -1;
   const now = new UTCDate();

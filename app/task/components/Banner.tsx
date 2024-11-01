@@ -58,7 +58,7 @@ export default function Banner() {
                 Season 1 on Origin has officially ended! Switch over now to join
                 the latest tasks on{" "}
                 <span
-                  onClick={() => handleSwitchNetwork("testnetv1")}
+                  onClick={() => handleSwitchNetwork(NetworkId.FrontierV1)}
                   className="text-link cursor-pointer hover:text-primary-blue"
                 >
                   Frontier V1

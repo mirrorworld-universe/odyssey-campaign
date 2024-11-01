@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { NetworkId } from "../data/config";
 
 export const useSystemInfo = create<{
   isInMaintenance: boolean;
@@ -23,7 +24,7 @@ export const useNetworkInfo = create(
     setVisitedNetworkId: (networkId: string) => void;
   }>(
     (set, get) => ({
-      networkId: get()?.networkId || "testnetv1",
+      networkId: get()?.networkId || NetworkId.FrontierV1,
       switchTo: get()?.switchTo,
       visitedNetworkId: get()?.visitedNetworkId,
       setNetworkId: (networkId: string) => {
@@ -47,7 +48,7 @@ export const useNetworkInfo = create(
       version: 1,
       migrate: (persistedState: any, version) => {
         if (version === 0) {
-          persistedState.networkId = "testnetv1";
+          persistedState.networkId = NetworkId.FrontierV1;
         }
         return persistedState;
       }
