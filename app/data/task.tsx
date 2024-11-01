@@ -20,7 +20,7 @@ export const taskGroupList: TaskGroup[] = [
         name: "Check-in",
         description:
           "Check in on Sonic every day. The longer your streak, the greater your rewards.",
-        period: "24-Hour Period",
+        period: "Daily Task",
         reward: "Test SOL Needed",
         iconName: "calendar",
         icon: <CheckInLogo />,
@@ -47,7 +47,7 @@ export const taskGroupList: TaskGroup[] = [
         name: "TX Milestone",
         description:
           "Earn bigger rewards by engaging with Sonic through any transaction!",
-        period: "24-Hour Period",
+        period: "Daily Task",
         reward: "",
         iconName: "recommand",
         visibleInNetworks: [
@@ -134,7 +134,7 @@ export const taskGroupList: TaskGroup[] = [
         name: "Play on Sonic X",
         description:
           "Sign up for your first Sonic X wallet and play on Sonic X to earn more rewards!",
-        period: "24-Hour Period",
+        period: "One-Time",
         reward: "",
         iconName: "sonicX",
         icon: <PlayOnSonicxLogo />,
@@ -175,7 +175,7 @@ export const taskGroupList: TaskGroup[] = [
         name: "Meet Sonic",
         description:
           "Follow Sonic on social media to get the latest updates and your rewards.",
-        period: "24-Hour Period",
+        period: "One-Time",
         reward: "",
         iconName: "twitter",
         icon: <MeetSonicLogo />,
