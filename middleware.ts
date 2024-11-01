@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-const THRESHOLD = 0.8; // initial threshold for the frontier variant (80%)
+const THRESHOLD = 1; // initial threshold for the frontier variant (80%)
 const COOKIE_NAME = "experiment-cookie-frontier"; // name of the cookie to store the variant
 
 export function middleware(req: NextRequest) {
