@@ -177,6 +177,8 @@ export const taskGroupList: TaskGroup[] = [
   }
 ];
 
+export const tasks = taskGroupList.flatMap((group) => group.list);
+
 export function getTaskUrl(task: any, walletName?: string, networkId?: any) {
   networkId = networkId || storage.get("sonic-network-info", "state.networkId");
   walletName =

@@ -15,7 +15,7 @@ export const WalletList: any[] = [
     name: "OKX Wallet",
     isSupportSonic: true,
     hasExtraBonus: {
-      devnet: true,
+      devnet: false,
       testnet: false
     },
     adapter: new OKXWalletAdapter(),
@@ -35,7 +35,7 @@ export const WalletList: any[] = [
     name: "Backpack",
     isSupportSonic: true,
     hasExtraBonus: {
-      devnet: true,
+      devnet: false,
       testnet: false
     },
     adapter: new BackpackWalletAdapter(),

@@ -14,13 +14,6 @@ import { useSwitchNetwork } from "@/app/hooks";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/navigation";
 
-const slides = [
-  {
-    src: "/images/banner/banner-1.png",
-    href: "/task/play-on-sonicx"
-  }
-];
-
 export default function Banner() {
   const { networkId } = useNetworkInfo();
 
@@ -88,12 +81,7 @@ export default function Banner() {
         </div>
       </div>
       {/* mobile carousel */}
-      <div
-        className={cn(
-          "flex w-full relative z-20 md:hidden",
-          slides.length > 1 ? "mb-16" : "mb-10"
-        )}
-      >
+      <div className={cn("flex w-full relative z-20 md:hidden")}>
         <Slider />
       </div>
       {/* banner background */}
@@ -125,33 +113,42 @@ function Slider() {
   const { networkId, setSwitchTo } = useNetworkInfo();
   const router = useRouter();
 
-  const handleBannerClick = () => {
-    setSwitchTo("testnetv1");
-    const isTestnetV1 = networkId === "testnetv1";
+  const slides = [
+    {
+      src: "/images/banner/banner-1.png",
+      href: "/task/play-on-sonicx",
+      handleClick: () => {
+        setSwitchTo("testnetv1");
+        const isTestnetV1 = networkId === "testnetv1";
 
-    if (!isTestnetV1) {
-      openModalDirectly(MODAL_HASH_MAP.switchNetwork);
-      return;
+        if (!isTestnetV1) {
+          openModalDirectly(MODAL_HASH_MAP.switchNetwork);
+          return;
+        }
+
+        if (!connected) {
+          onOpenWalletModal();
+          return;
+        }
+
+        router.push("/task/play-on-sonicx");
+      }
     }
-
-    if (!connected) {
-      onOpenWalletModal();
-      return;
-    }
-
-    router.push("/task/play-on-sonicx");
-  };
+  ];
 
   return (
     <Carousel
       style={{
         boxShadow: "0px 0px 12px 0px rgba(37, 163, 237, 0.80)"
       }}
-      className="md:flex md:justify-end md:max-w-[558px] md:w-full rounded"
+      className={cn(
+        "md:flex md:justify-end md:max-w-[558px] md:w-full rounded",
+        slides.length > 1 ? "mb-16" : "mb-10"
+      )}
       plugins={[Autoplay({ delay: 3000 })]}
     >
       <CarouselContent>
-        {Array.from({ length: 1 }).map((_, index) => (
+        {slides.map((slide, index) => (
           <CarouselItem
             key={index}
             className="flex items-center basis-full cursor-pointer group/banner"
@@ -159,11 +156,11 @@ function Slider() {
             <div className="size-full relative border border-link rounded overflow-hidden">
               <img
                 className="size-full transition-all duration-300 rounded group-hover/banner:scale-110"
-                src="/images/banner/banner-1.png"
+                src={slide.src}
                 alt=""
               />
               <div
-                onClick={handleBannerClick}
+                onClick={slide.handleClick}
                 className={cn(
                   "flex-center absolute inset-0 rounded z-10 bg-black/70",
                   "text-headline4 font-orbitron gap-1 group-hover/banner:opacity-100 opacity-0 transition-opacity duration-300"

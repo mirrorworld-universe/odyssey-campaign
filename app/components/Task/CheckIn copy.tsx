@@ -1,29 +1,36 @@
 "use client";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { Transaction } from "@solana/web3.js";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-
-import { Backpack as IconBackpack } from "@/app/icons/Backpack";
-import { Gift } from "@/app/icons/Gift";
-import { OKXTransparent as IconOKXTransparent } from "@/app/icons/OKXTransparent";
-
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {
-  fetchCheckinStatus,
-  fetchCheckinTransaction,
-  fetchFinishCheckin
-} from "@/app/data/task";
+  Keypair,
+  SystemProgram,
+  Transaction,
+  sendAndConfirmTransaction,
+  Commitment,
+  Connection
+} from "@solana/web3.js";
+
+import { Gift } from "@/app/icons/Gift";
+import { OKX as IconOKX } from "@/app/icons/OKX";
+import { OKXTransparent as IconOKXTransparent } from "@/app/icons/OKXTransparent";
+import { Backpack as IconBackpack } from "@/app/icons/Backpack";
+
+import { Button } from "@/components/ui/button";
 import {
   useAccountInfo,
   useNetworkInfo,
   useSystemInfo
 } from "@/app/store/account";
-import { Button } from "@/components/ui/button";
+import {
+  fetchCheckinStatus,
+  fetchCheckinTransaction,
+  fetchFinishCheckin
+} from "@/app/data/task";
 
-import { WalletList } from "@/app/wallet/wallet-list";
-import { toast } from "@/components/ui/use-toast";
-import { trackClick } from "@/lib/track";
-import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
+import { Card, CardSize } from "../Basic/Card";
+import base58 from "bs58";
+import { Loader2 } from "lucide-react";
 import {
   cn,
   hasExtraWalletBonus,
@@ -31,11 +38,17 @@ import {
   walletCampaignEndTime,
   walletCampaignStartTime
 } from "@/lib/utils";
-import { UTCDate } from "@date-fns/utc";
-import { format } from "date-fns";
-import { Loader2 } from "lucide-react";
-import { Card, CardSize } from "../Basic/Card";
+import {
+  confirmTransaction,
+  sendLegacyTransaction,
+  sendSignedTransaction
+} from "@/lib/transactions";
+import { toast } from "@/components/ui/use-toast";
+import { trackClick } from "@/lib/track";
 import { Rules } from "./Rules";
+import { WalletList } from "@/app/wallet/wallet-list";
+import { format } from "date-fns";
+import { UTCDate } from "@date-fns/utc";
 
 let transactionHash = "";
 let currentToken = "";
