@@ -1,12 +1,15 @@
 import { useTaskUrl } from "@/app/hooks";
 import { Go as IconGo } from "@/app/icons/Go";
 import { Task } from "@/app/types/task";
-import { cn } from "@/lib/utils";
+import { cn, isInWalletCampaignTime } from "@/lib/utils";
 import Link from "next/link";
 import ExtraTags from "./ExtraTags";
+import { useNetworkInfo } from "@/app/store/account";
 
 export function TaskItem({ task }: { task: Task }) {
   const { getTaskUrl } = useTaskUrl();
+  const { networkId } = useNetworkInfo();
+
   return (
     <Link
       href={getTaskUrl(task)}
@@ -30,7 +33,9 @@ export function TaskItem({ task }: { task: Task }) {
         <div className="hidden md:block text-body4 text-tertary">
           {task.description}
         </div>
-        {task.extraBonus && task.extraBonus.length > 0 ? (
+        {isInWalletCampaignTime(networkId) &&
+        task.extraBonus &&
+        task.extraBonus.length > 0 ? (
           <div className="md:flex hidden items-center gap-2 text-caption1 text-gold-yellow font-orbitron">
             Extra Bonus:
             {task.extraBonus?.map((extraBonus: any) => (

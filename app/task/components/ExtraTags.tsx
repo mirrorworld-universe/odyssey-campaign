@@ -1,4 +1,6 @@
+import { useNetworkInfo } from "@/app/store/account";
 import { ExtraBonus } from "@/app/types/task";
+import { isInWalletCampaignTime } from "@/lib/utils";
 
 export default function ExtraTags({
   period,
@@ -9,8 +11,10 @@ export default function ExtraTags({
   reward?: string;
   extraBonus?: ExtraBonus[];
 }) {
-  const hasExtraBonus = extraBonus.length > 0;
-  const hasReward = reward && reward.length > 0 && extraBonus.length === 0;
+  const { networkId } = useNetworkInfo();
+  const hasExtraBonus =
+    isInWalletCampaignTime(networkId) && extraBonus.length > 0;
+  const hasReward = reward && reward.length > 0 && !hasExtraBonus;
 
   return (
     <>

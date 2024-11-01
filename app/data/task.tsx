@@ -32,7 +32,7 @@ export const taskGroupList: TaskGroup[] = [
         ],
         extraBonus: [
           {
-            id: "Bybit",
+            walletId: "Bybit",
             icon: <BybitLogo />
           }
         ],
@@ -59,7 +59,7 @@ export const taskGroupList: TaskGroup[] = [
         bonus: true,
         extraBonus: [
           {
-            id: "Bybit",
+            walletId: "Bybit",
             icon: <BybitLogo />
           }
         ],

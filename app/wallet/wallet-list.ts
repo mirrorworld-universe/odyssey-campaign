@@ -8,16 +8,13 @@ import { OKXWalletAdapter } from "./okx-adapter";
 import { GateWalletAdapter } from "./gate-adapter";
 
 import { openPopup } from "@/lib/santinize";
+import { BybitWalletAdapter } from "./bybit-adapter";
 
 export const WalletList: any[] = [
   {
     id: "okx",
     name: "OKX Wallet",
     isSupportSonic: true,
-    hasExtraBonus: {
-      devnet: false,
-      testnet: false
-    },
     adapter: new OKXWalletAdapter(),
     hide: false,
     getDeepLink: () => {
@@ -34,10 +31,6 @@ export const WalletList: any[] = [
     id: "backpack",
     name: "Backpack",
     isSupportSonic: true,
-    hasExtraBonus: {
-      devnet: false,
-      testnet: false
-    },
     adapter: new BackpackWalletAdapter(),
     hide: false
   },
@@ -59,6 +52,17 @@ export const WalletList: any[] = [
     },
     hide: false
   },
+  {
+    id: "bybit",
+    name: "Bybit Wallet",
+    isSupportSonic: true,
+    adapter: new BybitWalletAdapter(),
+    hasExtraBonus: {
+      testnetv1: true
+    },
+    hide: false
+  },
+
   // {
   //   id: "bitget",
   //   name: "Bitget",

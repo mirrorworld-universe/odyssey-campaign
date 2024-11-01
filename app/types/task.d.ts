@@ -1,5 +1,5 @@
 export interface ExtraBonus {
-  id: string;
+  walletId: string;
   icon: JSX.Element;
 }
 

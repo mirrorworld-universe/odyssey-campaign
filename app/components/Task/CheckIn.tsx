@@ -36,6 +36,7 @@ import { format } from "date-fns";
 import { Loader2 } from "lucide-react";
 import { Card, CardSize } from "../Basic/Card";
 import { Rules } from "./Rules";
+import { BybitLogo } from "@/app/logos/BybitLogo";
 
 let transactionHash = "";
 let currentToken = "";
@@ -64,7 +65,8 @@ export function CheckIn() {
 
   const walletIcons: any = {
     okx: <IconOKXTransparent className="w-full h-full" color="white" />,
-    backpack: <IconBackpack className="w-full h-full" color="white" />
+    backpack: <IconBackpack className="w-full h-full" color="white" />,
+    bybit: <BybitLogo />
   };
 
   const getPartition = () => {
@@ -203,7 +205,7 @@ export function CheckIn() {
           className
         )}
       >
-        <div className={cn("inline-flex w-[14px] h-[14px]")}>
+        <div className={cn("inline-flex")}>
           {
             walletIcons[
               WalletList.find(
@@ -236,10 +238,7 @@ export function CheckIn() {
           )
             .map((wallet: any) => wallet.id)
             .map((bonus: any, bonusIndex: number) => (
-              <div
-                className={cn("inline-flex w-[14px] h-[14px]")}
-                key={bonusIndex}
-              >
+              <div className={cn("inline-flex")} key={bonusIndex}>
                 {walletIcons[bonus]}
               </div>
             ))}

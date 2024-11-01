@@ -15,11 +15,11 @@ import { Card, CardSize } from "../Basic/Card";
 import {
   useAccountInfo,
   useNetworkInfo,
-  useSystemInfo,
+  useSystemInfo
 } from "@/app/store/account";
 import {
   claimMilestoneRewards,
-  getMilestoneDailyInfo,
+  getMilestoneDailyInfo
 } from "@/app/data/reward";
 import { trackClick } from "@/lib/track";
 import {
@@ -28,18 +28,20 @@ import {
   hasExtraWalletBonus,
   isMobileViewport,
   walletCampaignStartTime,
-  walletCampaignEndTime,
+  walletCampaignEndTime
 } from "@/lib/utils";
 import { Rules } from "./Rules";
 import { WalletList } from "@/app/wallet/wallet-list";
 import { format } from "date-fns";
 import { UTCDate } from "@date-fns/utc";
+import { BybitLogo } from "@/app/logos/BybitLogo";
 
 let currentToken = "";
 
 const walletIcons: any = {
   okx: <IconOKXTransparent className="w-full h-full" color="white" />,
   backpack: <IconBackpack className="w-full h-full" color="white" />,
+  bybit: <BybitLogo />
 };
 
 export function MileStone() {
@@ -47,7 +49,7 @@ export function MileStone() {
   const linearGradients = [
     "from-[#00F] to-[#25A3ED]",
     "from-[#00F] via-[#25A3ED] to-[#90D2F9]",
-    "from-[#FBB042] to-[#FF5C00]",
+    "from-[#FBB042] to-[#FF5C00]"
   ];
   const [transactionAmount, setTransactionAmount] = useState(0);
   const [claimStage, setClaimStage] = useState(1);
@@ -75,11 +77,11 @@ export function MileStone() {
   const {
     data: dataMilestoneDailyInfo,
     isLoading: loadingMilestoneDailyInfo,
-    refetch: refetchMilestoneDailyInfo,
+    refetch: refetchMilestoneDailyInfo
   } = useQuery({
     queryKey: ["queryMilestoneDailyInfo", address],
     queryFn: () => getMilestoneDailyInfo({ token, networkId }),
-    enabled: !!token,
+    enabled: !!token
   });
 
   const mutationClaimRewards = useMutation({
@@ -93,9 +95,9 @@ export function MileStone() {
           ...{
             [currentStageKey]: {
               ...stageList[currentStageKey],
-              ...{ claimed: true },
-            },
-          },
+              ...{ claimed: true }
+            }
+          }
         });
         let rewards = stageList[currentStageKey].rewards;
         if (
@@ -116,10 +118,10 @@ export function MileStone() {
               </span>
               . Open it in the navbar to exchange for rings.
             </p>
-          ),
+          )
         });
       }
-    },
+    }
   });
 
   const findNextUnclaimedStageKey = (stages: any[]) => {
@@ -197,7 +199,7 @@ export function MileStone() {
           className
         )}
       >
-        <div className={cn("inline-flex w-[14px] h-[14px]")}>
+        <div className={cn("inline-flex")}>
           {
             walletIcons[
               WalletList.find(
@@ -230,9 +232,7 @@ export function MileStone() {
           )
             .map((wallet: any) => wallet.id)
             .map((bonus: any) => (
-              <div className={cn("inline-flex w-[14px] h-[14px]")}>
-                {walletIcons[bonus]}
-              </div>
+              <div className={cn("inline-flex")}>{walletIcons[bonus]}</div>
             ))}
         </div>
       </div>
@@ -349,7 +349,7 @@ export function MileStone() {
                     transactionAmount > totalAmount
                       ? 100
                       : (transactionAmount / totalAmount) * 100
-                  }%`,
+                  }%`
                 }}
               ></div>
               <div
@@ -362,7 +362,7 @@ export function MileStone() {
                     transactionAmount > totalAmount
                       ? 100
                       : (transactionAmount / totalAmount) * 100
-                  }%`,
+                  }%`
                 }}
               ></div>
               <ul className="w-full flex flex-row justify-between text-white/50 text-2xl font-semibold font-orbitron absolute -top-4 md:-top-6">

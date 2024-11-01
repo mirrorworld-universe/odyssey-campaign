@@ -26,7 +26,7 @@ export const networks: Network[] = [
     type: "Testnet",
     name: "Frontier V1",
     url: "/testnet-v1",
-    rpc: "https://devnet.sonic.game"
+    rpc: "https://api.testnet.sonic.game"
   }
 ];
 
