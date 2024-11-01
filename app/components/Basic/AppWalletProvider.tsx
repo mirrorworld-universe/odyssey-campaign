@@ -1,54 +1,30 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  ConnectionProvider,
-  WalletProvider,
-  useWallet,
-} from "@solana/wallet-adapter-react";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { Connection, clusterApiUrl } from "@solana/web3.js";
-import {
-  PhantomWalletAdapter,
-  NightlyWalletAdapter,
-} from "@solana/wallet-adapter-wallets";
+import { DEFAULT_RPC, networkMap } from "@/app/data/config";
+import { useNetworkInfo } from "@/app/store/account";
 import { isInMaintenanceTime } from "@/lib/utils";
 import {
-  useAccountInfo,
-  useNetworkInfo,
-  useWalletModal,
-} from "@/app/store/account";
-import { networks } from "@/app/data/config";
+  ConnectionProvider,
+  WalletProvider
+} from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import React, { useEffect, useMemo, useState } from "react";
 
 export default function AppWalletProvider({
-  children,
+  children
 }: {
   children: React.ReactNode;
 }) {
   const { networkId } = useNetworkInfo();
 
-  const defaultRpc = (
-    networks.find((network: any) => network.id === networkId) || networks[0]
-  ).rpc;
   const [showWalletProvider, setShowWalletProvider] = useState(false);
-  const [network, setNetwork] = useState(defaultRpc);
-  // const network = WalletAdapterNetwork.Devnet;
 
-  // const connection = new Connection(customRpcUrl, { commitment: "confirmed" });
-  // const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-  const endpoint = useMemo(() => defaultRpc, [defaultRpc]);
-  // const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  const endpoint = useMemo(
+    () => networkMap[networkId]?.rpc || DEFAULT_RPC,
+    [networkId]
+  );
 
   useEffect(() => {
-    if (networkId) {
-      setNetwork(networks.find((network: any) => network.id === networkId).rpc);
-    }
-  }, [networkId]);
-
-  useEffect(() => {
-    setNetwork(defaultRpc);
-
     // set compatibility with OKX
     setTimeout(() => {
       setShowWalletProvider(true);
@@ -61,17 +37,11 @@ export default function AppWalletProvider({
       // new NightlyWalletAdapter(),
       // new PhantomWalletAdapter(),
     ],
-    [network]
+    []
   );
 
   return (
-    <ConnectionProvider
-      endpoint={endpoint}
-      // config={{
-      //   commitment: "confirmed",
-      //   wsEndpoint: "wss://ws-proxy-staging-api.mirrorworld.fun",
-      // }}
-    >
+    <ConnectionProvider endpoint={endpoint}>
       {showWalletProvider && (
         <WalletProvider
           wallets={wallets}

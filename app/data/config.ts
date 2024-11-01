@@ -40,3 +40,5 @@ export enum NetworkId {
   FrontierV0 = "testnet",
   FrontierV1 = "testnetv1"
 }
+
+export const DEFAULT_RPC = "https://devnet.sonic.game";

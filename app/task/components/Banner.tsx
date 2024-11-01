@@ -119,8 +119,8 @@ function Slider() {
       src: "/images/banner/banner-1.png",
       href: "/task/play-on-sonicx",
       handleClick: () => {
-        setSwitchTo("testnetv1");
-        const isTestnetV1 = networkId === "testnetv1";
+        setSwitchTo(NetworkId.FrontierV1);
+        const isTestnetV1 = networkId === NetworkId.FrontierV1;
 
         if (!isTestnetV1) {
           openModalDirectly(MODAL_HASH_MAP.switchNetwork);
