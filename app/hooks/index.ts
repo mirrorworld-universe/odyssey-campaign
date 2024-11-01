@@ -1,8 +1,10 @@
-import { createBreakpoint } from "react-use";
-import { useNetworkInfo } from "../store/account";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { MODAL_HASH_MAP } from "./useModalHash";
-import { openModalDirectly } from "./useModalHash";
+import { createBreakpoint } from "react-use";
+import { useAccountInfo, useNetworkInfo } from "../store/account";
+import { Task, TaskAvailability } from "../types/task";
+import { isSupportSonic } from "../wallet/wallet-list";
+import { MODAL_HASH_MAP, openModalDirectly } from "./useModalHash";
+import { NetworkId } from "../data/config";
 
 export const useBreakpoint = createBreakpoint({
   mobile: 350,
@@ -19,12 +21,12 @@ export function useSwitchNetwork() {
 
     if (!connected) {
       setNetworkId(network);
-      if (network !== "testnetv1") {
+      if (network !== NetworkId.FrontierV1) {
         openModalDirectly(MODAL_HASH_MAP.seasonTwo);
       }
     } else {
       setSwitchTo(network);
-      if (network !== "testnetv1") {
+      if (network !== NetworkId.FrontierV1) {
         openModalDirectly(MODAL_HASH_MAP.seasonTwo);
       } else {
         openModalDirectly(MODAL_HASH_MAP.switchNetwork);
@@ -33,4 +35,23 @@ export function useSwitchNetwork() {
   };
 
   return { handleSwitchNetwork };
+}
+
+export function useTaskUrl() {
+  const { networkId } = useNetworkInfo();
+  const { wallet } = useWallet();
+  const { token } = useAccountInfo();
+
+  function getTaskUrl(task: Task) {
+    if (
+      task.available[networkId as keyof TaskAvailability] &&
+      isSupportSonic(wallet?.adapter.name) &&
+      token
+    ) {
+      return `/task/${task.id}`;
+    }
+    return "#";
+  }
+
+  return { getTaskUrl };
 }

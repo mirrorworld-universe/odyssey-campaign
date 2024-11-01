@@ -4,9 +4,9 @@ export interface ExtraBonus {
 }
 
 export interface TaskAvailability {
-  devnet: boolean;
-  testnet: boolean;
-  testnetv1: boolean;
+  devnet?: boolean;
+  testnet?: boolean;
+  testnetv1?: boolean;
 }
 
 export interface Task {

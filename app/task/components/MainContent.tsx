@@ -1,15 +1,13 @@
-import { getTaskUrl, taskGroupList } from "@/app/data/task";
-import { useNetworkInfo } from "@/app/store/account";
-import { cn } from "@/lib/utils";
-import { UTCDate } from "@date-fns/utc";
-import { useWallet } from "@solana/wallet-adapter-react";
-import Link from "next/link";
+import { taskGroupList } from "@/app/data/task";
+import { useTaskUrl } from "@/app/hooks";
 import { Go as IconGo } from "@/app/icons/Go";
 import { ExtraBonus } from "@/app/types/task";
+import { cn } from "@/lib/utils";
+import { UTCDate } from "@date-fns/utc";
+import Link from "next/link";
 
 export default function MainContent() {
-  const { wallet } = useWallet();
-  const { networkId } = useNetworkInfo();
+  const { getTaskUrl } = useTaskUrl();
 
   return (
     <div
@@ -28,11 +26,11 @@ export default function MainContent() {
               .filter((task) => hasTaskStarted(task.startTime))
               .map((task, taskIndex: number) => (
                 <Link
-                  href={getTaskUrl(task, wallet?.adapter.name, networkId)}
+                  href={getTaskUrl(task)}
                   key={taskIndex}
                   className={cn(
                     "p-4 overflow-hidden group/task transition-colors duration-300 bg-[#1E1E1E] rounded h-[88px] md:h-[146px] relative cursor-pointer flex-v gap-4",
-                    getTaskUrl(task, wallet?.adapter.name, networkId) === "#"
+                    getTaskUrl(task) === "#"
                       ? "opacity-30 cursor-not-allowed"
                       : "opacity-100 cursor-pointer hover:bg-[#181818]"
                   )}

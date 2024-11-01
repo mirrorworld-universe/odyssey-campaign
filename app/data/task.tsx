@@ -1,15 +1,13 @@
-import { getNetworkUrl, walletCampaignStartTime } from "@/lib/utils";
-import { isSupportSonic } from "../wallet/wallet-list";
-import { CheckInLogo } from "../logos/CheckInLogo";
-import { MileStoneLogo } from "../logos/MileStoneLogo";
-import { GameAdventureLogo } from "../logos/GameAdventure";
-import { MysteryNftLogo } from "../logos/MysteryNftLogo";
-import { ReferralLogo } from "../logos/ReferralLogo";
-import { MeetSonicLogo } from "../logos/MeetSonicLogo";
-import { PlayOnSonicxLogo } from "../logos/PlayOnSonicxLogo";
-import { BybitLogo } from "../logos/BybitLogo";
 import { TaskGroup } from "@/app/types/task";
-import { storage } from "@/lib/storage";
+import { getNetworkUrl, walletCampaignStartTime } from "@/lib/utils";
+import { BybitLogo } from "../logos/BybitLogo";
+import { CheckInLogo } from "../logos/CheckInLogo";
+import { GameAdventureLogo } from "../logos/GameAdventure";
+import { MeetSonicLogo } from "../logos/MeetSonicLogo";
+import { MileStoneLogo } from "../logos/MileStoneLogo";
+import { MysteryNftLogo } from "../logos/MysteryNftLogo";
+import { PlayOnSonicxLogo } from "../logos/PlayOnSonicxLogo";
+import { ReferralLogo } from "../logos/ReferralLogo";
 
 export const taskGroupList: TaskGroup[] = [
   {
@@ -178,17 +176,6 @@ export const taskGroupList: TaskGroup[] = [
 ];
 
 export const tasks = taskGroupList.flatMap((group) => group.list);
-
-export function getTaskUrl(task: any, walletName?: string, networkId?: any) {
-  networkId = networkId || storage.get("sonic-network-info", "state.networkId");
-  walletName =
-    walletName || storage.get("sonic-account-info", "state.walletName") || "";
-
-  if (task.available[networkId] && isSupportSonic(walletName)) {
-    return `/task/${task.id}`;
-  }
-  return "#";
-}
 
 export const fetchFollowingStatus = async ({ token, networkId }: any) => {
   const response = await fetch(

@@ -34,3 +34,9 @@ export const networkMap = networks.reduce((acc, network) => {
   acc[network.id] = network;
   return acc;
 }, {} as Record<string, Network>);
+
+export enum NetworkId {
+  Origin = "devnet",
+  FrontierV0 = "testnet",
+  FrontierV1 = "testnetv1"
+}
