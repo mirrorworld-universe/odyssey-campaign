@@ -32,6 +32,8 @@ import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { Card, CardSize } from "../Basic/Card";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { NetworkId } from "@/app/data/config";
+import { EXPLORER_CLUSTER } from "@/app/data/config";
 
 let txHash = "";
 let currentRecord: any = {
@@ -130,7 +132,7 @@ export function MysteryBoxRecordDialog() {
           loaded: true,
           quantity: data.amount,
           link: `https://explorer.sonic.game/tx/${txHash}${
-            networkId === "testnet" ? "?cluster=testnet" : ""
+            EXPLORER_CLUSTER[networkId as NetworkId]
           }`
         };
         setMysteryBoxRecords([...boxRecords]);

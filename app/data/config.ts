@@ -42,3 +42,9 @@ export enum NetworkId {
 }
 
 export const DEFAULT_RPC = "https://devnet.sonic.game";
+
+export const EXPLORER_CLUSTER = {
+  [NetworkId.Origin]: "",
+  [NetworkId.FrontierV0]: "?cluster=testnet",
+  [NetworkId.FrontierV1]: "?cluster=testnet.v1"
+};

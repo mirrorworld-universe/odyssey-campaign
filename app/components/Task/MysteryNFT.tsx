@@ -35,6 +35,7 @@ import { trackClick } from "@/lib/track";
 import { cn, prettyNumber } from "@/lib/utils";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { Close } from "@/app/icons/Close";
+import { EXPLORER_CLUSTER, NetworkId } from "@/app/data/config";
 
 let transactionHash = "";
 let isMintingStatus = false;
@@ -217,7 +218,7 @@ export function MysteryNFT() {
             <a
               className="text-[#25A3ED]"
               href={`https://explorer.sonic.game/tx/${transactionHash}${
-                networkId === "testnet" ? "?cluster=testnet" : ""
+                EXPLORER_CLUSTER[networkId as NetworkId]
               }`}
               target="_blank"
             >

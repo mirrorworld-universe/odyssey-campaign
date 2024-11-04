@@ -48,7 +48,7 @@ export default function SeasonTwo() {
       descriptions: [
         <>
           {" "}
-          All Sonic boxes, rings and all on-chain data on Origin or Fronter V0
+          All Sonic boxes, rings and all on-chain data on Origin or Frontier V0
           remain on their respective networks. You can still view or use them as
           usual.
         </>
@@ -59,8 +59,8 @@ export default function SeasonTwo() {
       descriptions: [
         <>
           Your “Referral,” “Meet Sonic” and "Play on Sonic X" data will be
-          migrated to Fronter V1, so if you've already completed these tasks on
-          Origin and Fronter V0, you won’t need to redo them.
+          migrated to Frontier V1, so if you've already completed these tasks on
+          Origin and Frontier V0, you won’t need to redo them.
         </>
       ]
     }

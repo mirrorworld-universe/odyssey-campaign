@@ -22,6 +22,8 @@ import {
 } from "../../store/account";
 import { Button } from "@/components/ui/button";
 import { useBreakpoint } from "@/app/hooks";
+import { EXPLORER_CLUSTER } from "@/app/data/config";
+import { NetworkId } from "@/app/data/config";
 
 export function UserDropdown() {
   const { isInMaintenance } = useSystemInfo();
@@ -162,7 +164,7 @@ export function UserDropdown() {
       <a
         className="flex items-center h-16 md:h-14 gap-2 px-4 md:px-6 hover:bg-line"
         href={`https://explorer.sonic.game/address/${address}${
-          networkId === "testnet" ? "?cluster=testnet" : ""
+          EXPLORER_CLUSTER[networkId as NetworkId]
         }`}
         target="_blank"
       >
