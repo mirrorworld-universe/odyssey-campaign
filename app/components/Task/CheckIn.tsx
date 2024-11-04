@@ -347,14 +347,11 @@ export function CheckIn() {
                   .
                 </li>
               </ul>
-              {isInWalletCampaignTime(networkId) ? (
-                <li>
-                  The duration for the extra bonus for OKX Wallet and Backpack
-                  Wallet is from{" "}
-                  {format(new UTCDate(walletCampaignStartTime), "PPP")} to{" "}
-                  {format(new UTCDate(walletCampaignEndTime), "PPP")}
-                </li>
-              ) : null}
+              <li>
+                The duration for the extra bonus for Bybit Wallet is from{" "}
+                {format(new UTCDate(walletCampaignStartTime), "PPP")} to{" "}
+                {format(new UTCDate(walletCampaignEndTime), "PPP")}
+              </li>
             </li>
           </ul>
         </Rules>
