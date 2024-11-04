@@ -11,7 +11,7 @@ import { useLotteryBar } from "@/app/store/lottery";
 import { cn, isMobileViewport } from "@/lib/utils";
 
 export function TaskNavigator({ taskId, className }: any) {
-  let tasks = taskGroupList.map((item) => item.list).flat();
+  let tasks = taskGroupList.flatMap((item) => item.list);
 
   const currentTask = tasks.find((task: any) => task.id === taskId);
   const [isExpand, setIsExpand] = useState(false);
@@ -157,7 +157,11 @@ export function TaskNavigator({ taskId, className }: any) {
       </Link>
 
       {tasks
-        .filter((task) => hasTaskStarted(task.startTime))
+        .filter(
+          (task) =>
+            hasTaskStarted(task.startTime) &&
+            task.visibleInNetworks.includes(networkId)
+        )
         .map((task, taskIndex) => (
           <div
             key={taskIndex}
