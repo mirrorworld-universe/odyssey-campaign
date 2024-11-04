@@ -180,7 +180,7 @@ export function MeetSonic() {
           return;
         }
         const { data } = dataFollowingStatus;
-        const currentHref = `${process.env.NEXT_PUBLIC_DOMAIN}/task/meet-sonic?source=twitter`;
+        const currentHref = `${location.origin}/task/meet-sonic?source=twitter`;
         const redirectUrl = data.twitter.url;
         const newUrl = redirectUrl.replace(
           /(redirect_uri=)[^&]+/,
@@ -202,7 +202,7 @@ export function MeetSonic() {
           return;
         }
         const { data } = dataFollowingStatus;
-        const currentHref = `${process.env.NEXT_PUBLIC_DOMAIN}/task/meet-sonic?source=discord`;
+        const currentHref = `${location.origin}/task/meet-sonic?source=discord`;
         const redirectUrl = data.discord.url;
         const newUrl = redirectUrl.replace(
           /(redirect_uri=)[^&]+/,
