@@ -6,9 +6,9 @@ import {
 import { BackpackWalletAdapter } from "./backpack-adapter";
 import { OKXWalletAdapter } from "./okx-adapter";
 import { GateWalletAdapter } from "./gate-adapter";
+import { BybitWalletAdapter } from "./bybit-adapter";
 
 import { openPopup } from "@/lib/santinize";
-import { BybitWalletAdapter } from "./bybit-adapter";
 
 export const WalletList: any[] = [
   {
