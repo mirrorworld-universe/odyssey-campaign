@@ -7,18 +7,17 @@ import {
   fetchBasicInfo,
   fetchLogout
 } from "@/app/data/account";
+import { useBreakpoint } from "@/app/hooks";
+import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
 import {
   useAccountInfo,
   useNetworkInfo,
   useWalletModal
 } from "@/app/store/account";
 import { useTaskInfo } from "@/app/store/task";
-import {
-  useMoreWalletModal,
-  useSetupInfo,
-  useWhitelistModal
-} from "@/app/store/tutorials";
+import { useSetupInfo, useWhitelistModal } from "@/app/store/tutorials";
 import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -34,7 +33,6 @@ import {
   trackCriteoWalletTransactionClick
 } from "@/lib/track";
 import {
-  cn,
   isInMaintenanceTime,
   isInWalletCampaignTime,
   isMobileDevice,
@@ -44,9 +42,6 @@ import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { encodeBase64 } from "tweetnacl-util";
-import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
-import { Button } from "@/components/ui/button";
-import { useBreakpoint } from "@/app/hooks";
 
 let lastAddress = "";
 let currentSignature = "";
@@ -94,7 +89,6 @@ export function WalletDialog({ text = "Connect", className }: any) {
     useWalletModal();
   const { status } = useSetupInfo();
   const { networkId, setNetworkId } = useNetworkInfo();
-  const { onOpen: onOpenMoreWalletDialog } = useMoreWalletModal();
   const {
     isOpen: isOpenWhitelistDialog,
     onOpen: onOpenWhitelistDialog,
@@ -191,7 +185,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
   };
 
   const switchMoreWallets = () => {
-    onOpenMoreWalletDialog();
+    openModalDirectly(MODAL_HASH_MAP.moreWallet);
     onClose();
   };
 

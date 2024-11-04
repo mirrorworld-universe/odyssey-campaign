@@ -13,7 +13,7 @@ import { useNetworkInfo, useWalletModal } from "@/app/store/account";
 import { useSwitchNetwork } from "@/app/hooks";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/navigation";
-import { NetworkId } from "@/app/data/config";
+import { NetworkId, networkMap } from "@/app/data/config";
 
 export default function Banner() {
   const { networkId } = useNetworkInfo();
@@ -55,8 +55,8 @@ export default function Banner() {
               </>
             ) : (
               <>
-                Season 1 on Origin has officially ended! Switch over now to join
-                the latest tasks on{" "}
+                Season 1 on {networkMap[networkId]?.name} has officially ended!
+                Switch over now to join the latest tasks on{" "}
                 <span
                   onClick={() => handleSwitchNetwork(NetworkId.FrontierV1)}
                   className="text-link cursor-pointer hover:text-primary-blue"

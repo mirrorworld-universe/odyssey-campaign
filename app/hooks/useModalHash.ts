@@ -52,7 +52,8 @@ export const MODAL_HASH_MAP = {
   faq: "#/modal/faq",
   howToPlay: "#/modal/howToPlay",
   switchNetwork: "#/modal/switchNetwork",
-  seasonTwo: "#/modal/seasonTwo"
+  seasonTwo: "#/modal/seasonTwo",
+  moreWallet: "#/modal/moreWallet"
 } as const;
 
 export type ModalHashValues =
@@ -63,3 +64,13 @@ export function openModalDirectly(hash: ModalHashValues) {
   const event = new HashChangeEvent("hashchange");
   window.dispatchEvent(event);
 }
+
+declare global {
+  interface Window {
+    openModalDirectly: typeof openModalDirectly;
+    MODAL_HASH_MAP: typeof MODAL_HASH_MAP;
+  }
+}
+
+window["openModalDirectly"] = openModalDirectly;
+window["MODAL_HASH_MAP"] = MODAL_HASH_MAP;

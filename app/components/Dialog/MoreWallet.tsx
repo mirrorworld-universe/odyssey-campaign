@@ -1,23 +1,27 @@
 "use client";
+import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
 import { InfoILogo } from "@/app/logos/InfoILogo";
 import { useWalletModal } from "@/app/store/account";
-import { useMoreWalletModal } from "@/app/store/tutorials";
 import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 export function MoreWalletDialog() {
   const { wallet } = useWallet();
-  const { isOpen, onClose } = useMoreWalletModal();
   const { onOpen: onOpenWalletDialog } = useWalletModal();
+
+  const { modalHash, closeModal } = useModalHash();
 
   const handleSwitchWallet = () => {
     onOpenWalletDialog();
-    onClose();
+    closeModal();
   };
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={onClose}>
+    <AlertDialog
+      open={modalHash === MODAL_HASH_MAP.moreWallet}
+      onOpenChange={closeModal}
+    >
       <AlertDialogContent className="md:max-w-[360px] w-full px-10 md:p-0 text-primary text-center">
         <div className="p-6 flex-v bg-bg-popup items-center gap-6 md:gap-8">
           <InfoILogo className="size-14 md:size-16 text-[#FBD314] mt-4" />
@@ -61,7 +65,7 @@ export function MoreWalletDialog() {
             <Button variant="primary" onClick={handleSwitchWallet} size={"lg"}>
               Switch Wallet
             </Button>
-            <Button variant="cancel" onClick={onClose} size={"lg"}>
+            <Button variant="cancel" onClick={closeModal} size={"lg"}>
               Cancel
             </Button>
           </div>
