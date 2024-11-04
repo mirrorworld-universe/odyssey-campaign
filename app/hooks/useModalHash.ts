@@ -1,6 +1,13 @@
 import { useCallback, useState } from "react";
 import { useLifecycles } from "react-use";
 
+declare global {
+  interface Window {
+    openModalDirectly: typeof openModalDirectly;
+    MODAL_HASH_MAP: typeof MODAL_HASH_MAP;
+  }
+}
+
 /**
  * read and write url hash, response to url hash change
  */
@@ -15,6 +22,8 @@ export default function useModalHash(addToHistory = false) {
 
   useLifecycles(
     () => {
+      window["MODAL_HASH_MAP"] = MODAL_HASH_MAP;
+      window["openModalDirectly"] = openModalDirectly;
       window.addEventListener("hashchange", onHashChange);
     },
     () => {
@@ -64,13 +73,3 @@ export function openModalDirectly(hash: ModalHashValues) {
   const event = new HashChangeEvent("hashchange");
   window.dispatchEvent(event);
 }
-
-declare global {
-  interface Window {
-    openModalDirectly: typeof openModalDirectly;
-    MODAL_HASH_MAP: typeof MODAL_HASH_MAP;
-  }
-}
-
-window["openModalDirectly"] = openModalDirectly;
-window["MODAL_HASH_MAP"] = MODAL_HASH_MAP;
