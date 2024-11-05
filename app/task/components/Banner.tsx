@@ -39,7 +39,7 @@ export default function Banner() {
           <div className="font-orbitron sonic-headline5 md:sonic-headline3">
             Odyssey Task Center
           </div>
-          <p className="sonic-title3 text-primary md:text-tertary">
+          <p className="sonic-body3 text-primary">
             {isFrontierV1 ? (
               <>
                 Embark on your Odyssey by completing various tasks! Earn more
@@ -143,7 +143,7 @@ function Slider() {
         boxShadow: "0px 0px 12px 0px rgba(37, 163, 237, 0.80)"
       }}
       className={cn(
-        "md:flex md:justify-end md:max-w-[558px] md:w-full rounded",
+        "md:flex md:justify-end md:max-w-[558px] md:w-full rounded md:mb-0",
         slides.length > 1 ? "mb-16" : "mb-10"
       )}
       plugins={[Autoplay({ delay: 3000 })]}
@@ -154,9 +154,9 @@ function Slider() {
             key={index}
             className="flex items-center basis-full cursor-pointer group/banner"
           >
-            <div className="size-full relative border border-link rounded overflow-hidden">
+            <div className="size-full relative border-t md:border border-link rounded overflow-hidden">
               <img
-                className="size-full transition-all duration-300 rounded group-hover/banner:scale-110"
+                className="size-full transition-all duration-300 group-hover/banner:scale-110"
                 src={slide.src}
                 alt=""
               />

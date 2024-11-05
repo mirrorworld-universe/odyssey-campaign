@@ -206,7 +206,7 @@ export default function RingPopover() {
                     color="#FBB042"
                     className="mr-1"
                   />{" "}
-                  <span className="text-white text-base font-orbitron font-semibold">
+                  <span className="text-white sonic-title3 font-orbitron">
                     {isInMaintenance ? "--" : ringMonitorAmount}
                   </span>
                 </div>
@@ -217,7 +217,7 @@ export default function RingPopover() {
                     color="#FBB042"
                     className="mr-1"
                   />{" "}
-                  <span className="text-white text-base font-orbitron font-semibold">
+                  <span className="text-white font-orbitron sonic-title3">
                     {isInMaintenance ? "--" : ringAmount}
                   </span>
                 </div>
@@ -247,7 +247,7 @@ export default function RingPopover() {
               {isOpeningMysterybox && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              <span className="text-white text-sm font-orbitron">
+              <span className="text-white sonic-title3 font-orbitron">
                 Open Mystery Box
               </span>
               <Gift width={16} height={16} color="white" className="mx-[2px]" />
@@ -341,43 +341,41 @@ export default function RingPopover() {
               </div>
             </div>
             <ScrollArea className="flex flex-col w-full h-full overflow-y-auto">
-              {[...historyList, ...historyList].map(
-                (history: any, historyIndex: number) => (
+              {historyList.map((history: any, historyIndex: number) => (
+                <div
+                  key={historyIndex}
+                  className={cn(
+                    "border-solid border-line px-4 md:px-6 flex flex-col justify-center h-[62px] border-b last:border-b-0"
+                  )}
+                >
                   <div
                     key={historyIndex}
-                    className={cn(
-                      "border-solid border-line px-4 md:px-6 flex flex-col justify-center h-[62px] border-b last:border-b-0"
-                    )}
+                    className="flex flex-row justify-between text-white text-xs font-orbitron"
                   >
-                    <div
-                      key={historyIndex}
-                      className="flex flex-row justify-between text-white text-xs font-orbitron"
-                    >
-                      <div className="flex items-center">
-                        Claimed x 1{" "}
-                        <Gift
-                          width={12}
-                          height={12}
-                          color="white"
-                          className="mx-[2px]"
-                        />
-                      </div>
-                      <div className="flex items-center">
-                        + {history.quantity}{" "}
-                        <Ring
-                          width={12}
-                          height={12}
-                          color="#FBB042"
-                          className="mx-[2px]"
-                        />
-                      </div>
+                    <div className="flex items-center">
+                      Claimed x 1{" "}
+                      <Gift
+                        width={12}
+                        height={12}
+                        color="white"
+                        className="mx-[2px]"
+                      />
                     </div>
-                    <div className="text-white/50 text-[10px] mt-1">
-                      {history.date}
+                    <div className="flex items-center gap-0.5">
+                      + {history.quantity}{" "}
+                      <Ring
+                        width={12}
+                        height={12}
+                        color="#FBB042"
+                        className="mx-[2px]"
+                      />
                     </div>
                   </div>
-                )
-              )}
+                  <div className="text-white/50 text-[10px] mt-1">
+                    {history.date}
+                  </div>
+                </div>
+              ))}
             </ScrollArea>
           </div>
         ) : null}
@@ -408,7 +406,7 @@ export default function RingPopover() {
             />
           </div>
         </PopoverTrigger>
-        <PopoverContent className="hidden md:flex max-w-full w-full md:w-[320px] bg-bg-popup border-none p-0 mt-5">
+        <PopoverContent className="hidden md:flex max-w-full w-full md:w-[280px] bg-bg-popup border-none p-0 mt-5">
           <RingPanel />
         </PopoverContent>
       </Popover>

@@ -53,7 +53,7 @@ const DialogContent = React.forwardRef<
           closeClassName
         )}
       >
-        <Close width={24} height={24} color="white" className="opacity-30" />
+        <Close width={28} height={28} color="white" className="opacity-30" />
         <span className="sr-only">Close</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>

@@ -15,7 +15,7 @@ import {
   useWalletModal
 } from "@/app/store/account";
 import { useTaskInfo } from "@/app/store/task";
-import { useSetupInfo, useWhitelistModal } from "@/app/store/tutorials";
+import { useSetupInfo } from "@/app/store/tutorials";
 import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import { Button } from "@/components/ui/button";
 import {
@@ -90,11 +90,6 @@ export function WalletDialog({ text = "Connect", className }: any) {
     useWalletModal();
   const { status } = useSetupInfo();
   const { networkId, setNetworkId } = useNetworkInfo();
-  const {
-    isOpen: isOpenWhitelistDialog,
-    onOpen: onOpenWhitelistDialog,
-    onClose: onCloseWhitelistDialog
-  } = useWhitelistModal();
 
   const [walletList, setWalletList] = useState(WalletList);
   const isMobile = useBreakpoint() === "mobile";

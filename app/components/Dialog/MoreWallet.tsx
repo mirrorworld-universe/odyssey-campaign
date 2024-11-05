@@ -37,11 +37,21 @@ export function MoreWalletDialog() {
             </p>
           </div>
 
-          <div className="flex-v gap-2 sonic-title2 font-orbitron w-full mt-2 md:mt-auto">
-            <Button variant="primary" onClick={handleSwitchWallet} size={"lg"}>
+          <div className="flex-v gap-2 w-full mt-2 md:mt-auto">
+            <Button
+              className="sonic-title2"
+              variant="primary"
+              onClick={handleSwitchWallet}
+              size={"lg"}
+            >
               Switch Wallet
             </Button>
-            <Button variant="cancel" onClick={closeModal} size={"lg"}>
+            <Button
+              className="sonic-title2"
+              variant="cancel"
+              onClick={closeModal}
+              size={"lg"}
+            >
               Cancel
             </Button>
           </div>

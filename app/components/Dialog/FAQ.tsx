@@ -70,11 +70,13 @@ export function FAQDialog() {
                 value={`item-${faqIndex + 1}`}
                 className="border-line px-4 py-6 md:p-8 gap-2 flex flex-col first:border-t"
               >
-                <AccordionTrigger className="sonic-title2 group-faq text-left font-orbitron p-0 text-icon aria-expanded:text-gold-yellow transition-colors">
-                  <span className="text-primary">{faq.title}</span>
+                <AccordionTrigger className="sonic-title3 md:sonic-title2 group/faq text-left font-orbitron p-0 text-icon aria-expanded:text-gold-yellow transition-colors">
+                  <span className="text-primary group-aria-expanded/faq:text-gold-yellow transition-colors">
+                    {faq.title}
+                  </span>
                 </AccordionTrigger>
                 <AccordionContent
-                  className={cn("!sonic-body3 text-secondary p-0")}
+                  className={cn("sonic-body3 text-secondary p-0")}
                 >
                   {faq.content}
                 </AccordionContent>

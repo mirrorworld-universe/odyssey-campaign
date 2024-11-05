@@ -92,7 +92,7 @@ export default function SeasonTwo() {
               onClick={handleBtnClick}
               variant={"primary"}
               size={"lg"}
-              className="font-orbitron sonic-title2"
+              className="sonic-title2"
             >
               I Understand
             </Button>
@@ -101,7 +101,7 @@ export default function SeasonTwo() {
                 onClick={closeModal}
                 variant={"cancel"}
                 size={"lg"}
-                className="font-orbitron sonic-title2 text-tertary"
+                className="sonic-title2"
               >
                 Cancel
               </Button>

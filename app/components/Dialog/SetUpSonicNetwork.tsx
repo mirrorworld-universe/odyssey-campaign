@@ -74,7 +74,7 @@ export function SetUpSonicNetworkDialog() {
             />
           </div>
 
-          <div className="flex flex-col gap-6 sonic-title2">
+          <div className="flex flex-col gap-6 sonic-title3 md:sonic-title2">
             <p>
               1. Open this network{" "}
               <a

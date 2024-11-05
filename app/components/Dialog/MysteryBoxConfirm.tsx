@@ -180,7 +180,7 @@ export function MysteryBoxConfirmDialog() {
         <div className="flex-v bg-bg-popup justify-center gap-6 md:gap-8 p-6 text-center">
           <div className="flex-center gap-3 sonic-headline1 md:sonic-headline0 font-orbitron mt-4">
             <Gift color="#FBB042" className="size-14 md:size-16" />
-            <span>X</span>
+            <span>x</span>
             {openGroup.find((group) => group.active)?.amount}
           </div>
 
@@ -203,14 +203,12 @@ export function MysteryBoxConfirmDialog() {
                 className={cn(
                   "px-5 h-14 border rounded flex justify-between items-center sonic-title2 cursor-pointer hover:border-gold-yellow transition-colors",
                   group.active
-                    ? "border-gold-yellow bg-gold-yellow/10"
+                    ? "border-gold-yellow bg-gold-yellow/10 text-gold-yellow"
                     : "border-line"
                 )}
               >
-                <p className={cn(group.active && "text-gold-yellow")}>
-                  {group.text}
-                </p>
-                <div className="flex-center gap-0.5 font-orbitron">
+                <p>{group.text}</p>
+                <div className="flex-center gap-0.5">
                   {group.amount} x{" "}
                   <Gift
                     color={group.active ? "#FBB042" : "#FFFFFF"}
@@ -231,9 +229,10 @@ export function MysteryBoxConfirmDialog() {
             {/* tip end */}
           </div>
 
-          <div className="flex-v gap-2 sonic-title2 font-orbitron mt-2 md:mt-auto">
+          <div className="flex-v gap-2 mt-2 md:mt-auto">
             <Button
               disabled={isOpeningMysterybox}
+              className="sonic-title2"
               onClick={handleConfirm}
               variant="primary"
               size={"lg"}
@@ -243,7 +242,12 @@ export function MysteryBoxConfirmDialog() {
               ) : null}
               Open
             </Button>
-            <Button onClick={onClose} variant="cancel" size={"lg"}>
+            <Button
+              className="sonic-title2"
+              onClick={onClose}
+              variant="cancel"
+              size={"lg"}
+            >
               Cancel
             </Button>
           </div>

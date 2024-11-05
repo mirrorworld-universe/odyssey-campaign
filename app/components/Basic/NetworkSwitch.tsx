@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { useToggle } from "react-use";
 
-export function NetworkSwitch({ className }: any) {
+export function NetworkSwitch() {
   const { networkId } = useNetworkInfo();
   const [isOpen, toggleOpen] = useToggle(false);
   const { handleSwitchNetwork } = useSwitchNetwork();
@@ -56,7 +56,7 @@ export function NetworkSwitch({ className }: any) {
       </Popover>
       <div
         className={cn(
-          "fixed bottom-0 left-0 w-full pb-1 sonic-title2 bg-bg-popup text-primary flex-col font-orbitron md:hidden transform transition-transform duration-300 ease-in-out",
+          "fixed bottom-0 left-0 w-full pb-4 sonic-title2 bg-bg-popup text-primary flex-col font-orbitron md:hidden transform transition-transform duration-300 ease-in-out",
           isOpen ? "translate-y-0" : "translate-y-full"
         )}
       >

@@ -40,6 +40,11 @@ export function UserDropdown() {
   const [balance, setBalance] = useState<number | null>(null);
   const isMobile = useBreakpoint() === "mobile";
 
+  const currentWallet = WalletList.find(
+    (item: any) =>
+      item.name.toLowerCase() === wallet?.adapter.name.toLowerCase()
+  );
+
   const mutationLogout = useMutation({
     mutationFn: () => fetchLogout({ token, networkId }),
     onSuccess: () => {
@@ -126,7 +131,7 @@ export function UserDropdown() {
         <div className="flex gap-4 md:gap-3 justify-start items-center">
           <img
             className="w-10 h-10 rounded-[50%] md:rounded-none"
-            src={wallet?.adapter.icon}
+            src={currentWallet?.adapter.icon}
             alt=""
           />
           <div className="flex flex-col justify-between items-start gap-1">

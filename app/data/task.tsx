@@ -117,11 +117,7 @@ export const taskGroupList: TaskGroup[] = [
         reward: "Test SOL Needed",
         iconName: "cube",
         icon: <MysteryNftLogo />,
-        visibleInNetworks: [
-          NetworkId.FrontierV0,
-          NetworkId.FrontierV1,
-          NetworkId.Origin
-        ],
+        visibleInNetworks: [NetworkId.Origin],
         available: {
           devnet: false,
           testnet: false,
