@@ -37,6 +37,7 @@ import { Loader2 } from "lucide-react";
 import { Card, CardSize } from "../Basic/Card";
 import { Rules } from "./Rules";
 import { BybitLogo } from "@/app/logos/BybitLogo";
+import { FAUCET_URL, NetworkId } from "@/app/data/config";
 
 let transactionHash = "";
 let currentToken = "";
@@ -291,9 +292,7 @@ export function CheckIn() {
               Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
-                href={`https://faucet.sonic.game/#/${
-                  networkId === "testnet" ? "?network=testnet" : ""
-                }`}
+                href={FAUCET_URL[networkId as NetworkId] + `&wallet=${address}`}
                 target="_blank"
               >
                 Request here.

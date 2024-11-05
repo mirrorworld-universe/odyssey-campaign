@@ -403,7 +403,7 @@ export default function RingPopover() {
               color="white"
               className={cn(
                 "hidden md:inline-flex transition-transform duration-300",
-                popoverOpen ? "rotate-180" : "rotate-0"
+                popoverOpen ? "rotate-0" : "rotate-180"
               )}
             />
           </div>

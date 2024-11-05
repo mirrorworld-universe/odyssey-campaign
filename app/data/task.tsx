@@ -126,8 +126,7 @@ export const taskGroupList: TaskGroup[] = [
           devnet: false,
           testnet: false,
           testnetv1: true
-        },
-        startTime: walletCampaignStartTime
+        }
       },
       {
         id: "play-on-sonicx",

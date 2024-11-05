@@ -46,7 +46,13 @@ function MobileFooter() {
       <div className="flex items-center gap-3">
         <SonicLogo />
         <div className="w-px h-5 bg-line"></div>
-        <p className="text-title3 font-orbitron">WWW.SONIC.GAME</p>
+        <a
+          className="text-title3 font-orbitron"
+          href="https://www.sonic.game"
+          target="_blank"
+        >
+          WWW.SONIC.GAME
+        </a>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -104,7 +110,13 @@ function PcFooter() {
         <div className="flex items-center gap-4">
           <SonicLogo />
           <div className="w-px h-5 bg-line"></div>
-          <p className="text-title3 font-orbitron">WWW.SONIC.GAME</p>
+          <a
+            className="text-title3 font-orbitron"
+            href="https://www.sonic.game"
+            target="_blank"
+          >
+            WWW.SONIC.GAME
+          </a>
         </div>
         <div className="flex items-center gap-10">
           {menu.map((item, index) => (
