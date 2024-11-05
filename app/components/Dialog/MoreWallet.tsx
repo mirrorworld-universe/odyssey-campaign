@@ -32,32 +32,8 @@ export function MoreWalletDialog() {
             <p className="text-body3 text-tertary">
               {wallet?.adapter.name} doesn't support Sonic yet, so you can't
               complete tasks or claim rewards through this wallet. As Sonic is
-              the first Solana Gaming Layer 2, more wallet support is coming. We
-              recommend using{" "}
-              <a
-                className="text-link hover:text-primary-blue"
-                href="https://www.okx.com/web3"
-                target="_blank"
-              >
-                OKX Wallet
-              </a>{" "}
-              or{" "}
-              <a
-                className="text-link hover:text-primary-blue"
-                href="https://nightly.app/"
-                target="_blank"
-              >
-                Nightly
-              </a>{" "}
-              or{" "}
-              <a
-                className="text-link hover:text-primary-blue"
-                href="https://www.backpack.app/"
-                target="_blank"
-              >
-                Backpack
-              </a>{" "}
-              wallets for now. Your support will enrich the Solana ecosystem!
+              the first Solana Gaming Layer 2, more wallet support is coming.
+              Your support will enrich the Solana ecosystem!
             </p>
           </div>
 

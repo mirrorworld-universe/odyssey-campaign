@@ -48,8 +48,13 @@ export function SetUpFinishDialog() {
               .
             </p>
           </div>
-          <div className="flex flex-col gap-2 w-full font-orbitron text-title2">
-            <Button onClick={handleConfirm} variant={"primary"} size={"lg"}>
+          <div className="flex flex-col gap-2 w-full">
+            <Button
+              className="text-title2"
+              onClick={handleConfirm}
+              variant={"primary"}
+              size={"lg"}
+            >
               Task Center
             </Button>
             <Button onClick={closeModal} variant={"cancel"} size={"lg"}>

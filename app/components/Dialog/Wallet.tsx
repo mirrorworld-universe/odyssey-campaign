@@ -68,11 +68,14 @@ export function WalletDialog({ text = "Connect", className }: any) {
   const {
     select,
     wallet: currentWallet,
+    wallets,
     publicKey,
     disconnect,
     connected,
     signMessage
   } = useWallet();
+
+  console.log("wallets", wallets);
   const {
     address,
     setAddress,
