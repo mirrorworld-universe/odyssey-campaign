@@ -154,7 +154,7 @@ function Slider() {
             key={index}
             className="flex items-center basis-full cursor-pointer group/banner"
           >
-            <div className="size-full relative border-t md:border border-link rounded overflow-hidden">
+            <div className="size-full relative border-t md:border border-link md:rounded overflow-hidden">
               <img
                 className="size-full transition-all duration-300 group-hover/banner:scale-110"
                 src={slide.src}

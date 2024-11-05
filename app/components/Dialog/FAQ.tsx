@@ -76,7 +76,7 @@ export function FAQDialog() {
                   </span>
                 </AccordionTrigger>
                 <AccordionContent
-                  className={cn("sonic-body3 text-secondary p-0")}
+                  className={cn("sonic-body3 text-tertary p-0")}
                 >
                   {faq.content}
                 </AccordionContent>

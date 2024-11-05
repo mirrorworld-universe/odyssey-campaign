@@ -81,7 +81,9 @@ function MobileHowToPlay({
           >
             <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
               <div className="text-left space-y-1">
-                <h4 className="sonic-title4 text-gold-yellow">Step 1</h4>
+                <h4 className="sonic-title4 text-gold-yellow flex items-center">
+                  Step <span className="w-4 flex-center">1</span>
+                </h4>
                 <h2 className="sonic-title2 text-white">Request Test SOL</h2>
               </div>
             </AccordionTrigger>
@@ -110,7 +112,9 @@ function MobileHowToPlay({
           >
             <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
               <div className="text-left space-y-1">
-                <h4 className="sonic-title4 text-gold-yellow">Step 2</h4>
+                <h4 className="sonic-title4 text-gold-yellow flex items-center">
+                  Step <span className="flex-center w-4">2</span>
+                </h4>
                 <h2 className="sonic-title2 text-white flex gap-1 items-center">
                   Earn Mystery Box
                   <GiftLogo className="size-[18px] text-gold-yellow" />
@@ -142,7 +146,9 @@ function MobileHowToPlay({
           >
             <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
               <div className="text-left space-y-1">
-                <h4 className="sonic-title4 text-gold-yellow">Step 3</h4>
+                <h4 className="sonic-title4 text-gold-yellow flex items-center">
+                  Step <span className="flex-center w-4">3</span>
+                </h4>
                 <h2 className="sonic-title2 text-white flex gap-1 items-center">
                   Claim Rings
                   <RingLogo className="size-[18px] text-gold-yellow" />

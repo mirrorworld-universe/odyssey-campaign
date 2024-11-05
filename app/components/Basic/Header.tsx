@@ -236,7 +236,7 @@ export function Header() {
                 {menu.map((menuItem, menuIndex) => (
                   <Link
                     className={cn(
-                      "flex items-center w-full md:w-fit !sonic-title3 hover:text-gold-yellow text-primary transition-colors h-16"
+                      "flex items-center w-full md:w-fit !sonic-title3 text-primary transition-colors h-16"
                     )}
                     href={menuItem.getLink(networkId)}
                     key={menuIndex}
