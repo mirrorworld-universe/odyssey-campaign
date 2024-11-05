@@ -8,7 +8,12 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import { FAUCET_URL, GUIDE_URL, NetworkId, networks } from "@/app/data/config";
+import {
+  getFaucetUrl,
+  GUIDE_URL,
+  NetworkId,
+  networks
+} from "@/app/data/config";
 import { useBreakpoint } from "@/app/hooks";
 import { Close as IconClose } from "@/app/icons/Close";
 import { Menu as IconMenu } from "@/app/icons/Menu";
@@ -53,7 +58,7 @@ export const menu: any[] = [
   },
   {
     name: "Faucet",
-    getLink: (networkId: NetworkId) => FAUCET_URL[networkId],
+    getLink: (networkId?: string) => getFaucetUrl(),
     target: "_blank"
   },
   {

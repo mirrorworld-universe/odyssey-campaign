@@ -47,6 +47,7 @@ import { taskGroupList } from "@/app/data/task";
 import { LotteryPriceTableDialog } from "../Dialog/LotteryPriceTable";
 import { Rules } from "./Rules";
 import { Close } from "@/app/icons/Close";
+import { getFaucetUrl } from "@/app/data/config";
 
 let winnerBoardPage = 1;
 let winnerBoardList: any[] = [];
@@ -359,9 +360,7 @@ export function RingLottery() {
               Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
-                href={`https://faucet.sonic.game/#/${
-                  networkId === "testnet" ? "?network=testnet" : ""
-                }`}
+                href={getFaucetUrl()}
                 target="_blank"
               >
                 Request here.

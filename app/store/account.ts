@@ -116,7 +116,7 @@ export const useAccountInfo = create(
     reset: () => void;
   }>(
     (set, get) => ({
-      address: get()?.address,
+      address: get()?.address || "",
       setAddress: (address: string) => {
         set({
           address

@@ -1,3 +1,4 @@
+"use client";
 import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
 import { ArrowBackLogo } from "@/app/logos/ArrowBackLogo";
 import { GiftLogo } from "@/app/logos/GiftLogo";
@@ -11,23 +12,13 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { FAUCET_URL, NetworkId } from "@/app/data/config";
+import { getFaucetUrl, GUIDE_URL, NetworkId } from "@/app/data/config";
 
 export function HowToPlayDialog() {
   const { modalHash, closeModal } = useModalHash();
   const { networkId } = useNetworkInfo();
-
-  const { guideUrl } = useMemo(() => {
-    const guideUrl =
-      networkId === "testnet"
-        ? "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide"
-        : "https://blog.sonic.game/sonic-testnet-odyssey-guide";
-
-    return { guideUrl };
-  }, [networkId]);
 
   return (
     <Dialog
@@ -39,12 +30,12 @@ export function HowToPlayDialog() {
         className="max-w-[640px] p-0 w-full h-full md:h-auto text-primary"
       >
         <PcHowToPlay
-          guideUrl={guideUrl}
-          faucetUrl={FAUCET_URL[networkId as NetworkId]}
+          guideUrl={GUIDE_URL[networkId as NetworkId]}
+          faucetUrl={getFaucetUrl()}
         />
         <MobileHowToPlay
-          guideUrl={guideUrl}
-          faucetUrl={FAUCET_URL[networkId as NetworkId]}
+          guideUrl={GUIDE_URL[networkId as NetworkId]}
+          faucetUrl={getFaucetUrl()}
         />
       </DialogContent>
     </Dialog>

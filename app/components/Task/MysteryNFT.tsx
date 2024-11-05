@@ -35,7 +35,7 @@ import { trackClick } from "@/lib/track";
 import { cn, prettyNumber } from "@/lib/utils";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { Close } from "@/app/icons/Close";
-import { EXPLORER_CLUSTER, NetworkId } from "@/app/data/config";
+import { EXPLORER_CLUSTER, getFaucetUrl, NetworkId } from "@/app/data/config";
 
 let transactionHash = "";
 let isMintingStatus = false;
@@ -356,9 +356,7 @@ export function MysteryNFT() {
               Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:text-[#00F]"
-                href={`https://faucet.sonic.game/#/${
-                  networkId === "testnet" ? "?network=testnet" : ""
-                }`}
+                href={getFaucetUrl()}
                 target="_blank"
               >
                 Request here.

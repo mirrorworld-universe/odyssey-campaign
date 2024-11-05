@@ -17,14 +17,15 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "",
-        primary: "bg-primary-blue hover:bg-primary-blue-hover font-orbitron",
+        primary:
+          "bg-primary-blue hover:bg-primary-blue-hover font-orbitron text-primary",
         cancel: "text-tertary hover:text-primary font-orbitron"
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-8 px-4",
         md: "h-10 px-6",
-        lg: "h-12 px-6",
+        lg: "h-12 px-6 text-title2",
         icon: "h-10 w-10"
       }
     },

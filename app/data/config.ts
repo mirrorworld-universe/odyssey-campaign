@@ -1,3 +1,5 @@
+import { storage } from "@/lib/storage";
+
 export interface Network {
   id: string;
   type: "Devnet" | "Testnet"; // Using literal types since these seem to be the only options
@@ -41,7 +43,7 @@ export enum NetworkId {
   FrontierV1 = "testnetv1"
 }
 
-export const DEFAULT_RPC = "https://devnet.sonic.game";
+export const DEFAULT_RPC = networkMap[NetworkId.FrontierV1].rpc;
 
 export const EXPLORER_CLUSTER = {
   [NetworkId.Origin]: "",
@@ -61,3 +63,14 @@ export const GUIDE_URL = {
     "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide",
   [NetworkId.FrontierV1]: "https://blog.sonic.game/sonic-testnet-odyssey-guide"
 };
+
+export function getFaucetUrl(networkId?: string, wallet?: string) {
+  wallet = wallet ?? storage.get("sonic-account-info", "state.address") ?? "";
+  networkId =
+    networkId ??
+    storage.get("sonic-network-info", "state.networkId") ??
+    NetworkId.FrontierV1;
+
+  if (!wallet) return FAUCET_URL[networkId as NetworkId];
+  return `${FAUCET_URL[networkId as NetworkId]}&wallet=${wallet}`;
+}

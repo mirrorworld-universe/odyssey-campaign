@@ -9,13 +9,14 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Gift } from "@/app/icons/Gift";
 import { Ring } from "@/app/icons/Ring";
 import { useHowToPlayModal } from "@/app/store/tutorials";
 import { useNetworkInfo } from "@/app/store/account";
+import { getFaucetUrl, NetworkId } from "@/app/data/config";
 
 export function NFTDetailDialog() {
   const { isOpen, onOpen, onClose } = useHowToPlayModal();
@@ -62,9 +63,7 @@ export function NFTDetailDialog() {
               to transact. Click{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
-                href={`https://faucet.sonic.game/#/${
-                  networkId === "testnet" ? "?network=testnet" : ""
-                }`}
+                href={getFaucetUrl()}
                 target="_blank"
               >
                 faucet link
