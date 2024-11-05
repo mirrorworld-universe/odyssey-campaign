@@ -74,13 +74,13 @@ export default function SeasonTwo() {
         <div className="p-6 md:p-8 flex flex-col gap-6 md:gap-8 bg-bg-popup">
           {data.map((item, index) => (
             <div key={index} className="flex flex-col gap-2 md:gap-4">
-              <h3 className="text-title2 md:text-headline5 font-orbitron">
+              <h3 className="sonic-title2 md:sonic-headline5 font-orbitron">
                 {item.title}
               </h3>
               {item.descriptions.map((description, index) => (
                 <p
                   key={index}
-                  className="text-body3 md:text-body2 text-tertary"
+                  className="sonic-body3 md:sonic-body2 text-tertary"
                 >
                   {description}
                 </p>
@@ -92,7 +92,7 @@ export default function SeasonTwo() {
               onClick={handleBtnClick}
               variant={"primary"}
               size={"lg"}
-              className="font-orbitron text-title2"
+              className="font-orbitron sonic-title2"
             >
               I Understand
             </Button>
@@ -101,7 +101,7 @@ export default function SeasonTwo() {
                 onClick={closeModal}
                 variant={"cancel"}
                 size={"lg"}
-                className="font-orbitron text-title2 text-tertary"
+                className="font-orbitron sonic-title2 text-tertary"
               >
                 Cancel
               </Button>

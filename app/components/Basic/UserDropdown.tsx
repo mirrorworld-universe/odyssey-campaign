@@ -109,7 +109,7 @@ export function UserDropdown() {
     <div className={cn("bg-black md:bg-bg-popup w-full", className)}>
       {showHeader ? (
         <p className="flex justify-between items-center p-4">
-          <span className="text-title2 font-orbitron text-tertary">
+          <span className="sonic-title2 font-orbitron text-tertary">
             My Wallet
           </span>
           <span
@@ -137,7 +137,7 @@ export function UserDropdown() {
               className="flex flex-row items-center cursor-pointer"
               onClick={hanldeCopyAddress}
             >
-              <span className="text-body3 text-tertary">
+              <span className="sonic-body3 text-tertary">
                 {formatAddress(publicKey?.toBase58())}
               </span>
               <img
@@ -220,7 +220,7 @@ export function UserDropdown() {
             size={isMobile ? "sm" : "md"}
           >
             <img src="/images/wallet.svg" alt="" className="size-6" />
-            <span className="text-title3 text-primary">
+            <span className="sonic-title3 text-primary">
               {formatAddress(publicKey?.toBase58(), isMobile ? 2 : 4)}
             </span>
           </Button>

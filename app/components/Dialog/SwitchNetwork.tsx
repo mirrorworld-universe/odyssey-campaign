@@ -57,10 +57,10 @@ export function SwitchNetworkDialog() {
         <div className="p-6 bg-bg-popup items-center flex-v gap-6 md:gap-8">
           <SwitchLogo className="size-[54px] md:size-16 mt-4" />
           <div className="flex-v gap-4">
-            <h2 className="text-headline5 md:text-headline4 font-orbitron">
+            <h2 className="sonic-headline5 md:sonic-headline4 font-orbitron">
               Switching to {networkMap[switchTo]?.name}
             </h2>
-            <p className="text-body3 text-tertary">
+            <p className="sonic-body3 text-tertary">
               {switchTo === NetworkId.FrontierV1 ? (
                 <>
                   You're currently on the {networkMap[networkId]?.name} network.
@@ -78,7 +78,7 @@ export function SwitchNetworkDialog() {
             </p>
           </div>
 
-          <div className="flex-v gap-2 w-full text-title2 font-orbitron mt-2 md:mt-auto">
+          <div className="flex-v gap-2 w-full sonic-title2 font-orbitron mt-2 md:mt-auto">
             <Button
               onClick={handleClick}
               disabled={isPending}

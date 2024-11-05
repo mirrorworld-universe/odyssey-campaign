@@ -99,7 +99,7 @@ export default function Notification({ data }: any) {
   );
 
   const NotificationEmptyStatus = () => (
-    <div className="flex-center flex-col md:flex-row gap-2 text-title3 font-orbitron text-disable py-[120px] md:py-8">
+    <div className="flex-center flex-col md:flex-row gap-2 sonic-title3 font-orbitron text-disable py-[120px] md:py-8">
       <EmptyLogo />
       <span>No messages</span>
     </div>
@@ -113,8 +113,8 @@ export default function Notification({ data }: any) {
             key={index}
             className="flex-v gap-1 py-3 px-4 md:px-6 hover:bg-line"
           >
-            <p className="text-title4 text-primary">{item.text}</p>
-            <span className="text-tertary text-body4">{item.date}</span>
+            <p className="sonic-title4 text-primary">{item.text}</p>
+            <span className="text-tertary sonic-body4">{item.date}</span>
           </div>
         ))}
       </>
@@ -129,7 +129,7 @@ export default function Notification({ data }: any) {
       )}
     >
       {showHeader ? (
-        <p className="flex text-title2 text-tertary justify-between items-center px-4 h-14 font-orbitron">
+        <p className="flex sonic-title2 text-tertary justify-between items-center px-4 h-14 font-orbitron">
           Notification
           <span
             className="cursor-pointer hover:opacity-80"

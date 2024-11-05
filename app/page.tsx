@@ -133,16 +133,16 @@ export default function Home() {
             src="/images/odyssey.png"
             alt=""
           />
-          <h2 className="text-headline2 md:text-headline0 font-orbitron">
+          <h2 className="sonic-headline2 md:sonic-headline0 font-orbitron">
             {title}
           </h2>
         </div>
 
-        <p className="text-body3 md:text-headline5 max-w-[707px] text-center">
+        <p className="sonic-body3 md:sonic-headline5 max-w-[707px] text-center">
           {description}
         </p>
         <Button
-          className="text-title2 font-orbitron w-full md:w-[230px] md:mt-4 mb-4 mt-auto mx-auto"
+          className="sonic-title2 font-orbitron w-full md:w-[230px] md:mt-4 mb-4 mt-auto mx-auto"
           size={"lg"}
           variant={"primary"}
           onClick={handleGetStarted}

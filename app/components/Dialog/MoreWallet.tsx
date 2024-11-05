@@ -26,10 +26,10 @@ export function MoreWalletDialog() {
         <div className="p-6 flex-v bg-bg-popup items-center gap-6 md:gap-8">
           <InfoILogo className="size-14 md:size-16 text-[#FBD314] mt-4" />
           <div className="flex-v gap-4">
-            <h3 className="text-headline5 md:text-headline4 font-orbitron">
+            <h3 className="sonic-headline5 md:sonic-headline4 font-orbitron">
               More Wallet Support Coming Soon!
             </h3>
-            <p className="text-body3 text-tertary">
+            <p className="sonic-body3 text-tertary">
               {wallet?.adapter.name} doesn't support Sonic yet, so you can't
               complete tasks or claim rewards through this wallet. As Sonic is
               the first Solana Gaming Layer 2, more wallet support is coming.
@@ -37,7 +37,7 @@ export function MoreWalletDialog() {
             </p>
           </div>
 
-          <div className="flex-v gap-2 text-title2 font-orbitron w-full mt-2 md:mt-auto">
+          <div className="flex-v gap-2 sonic-title2 font-orbitron w-full mt-2 md:mt-auto">
             <Button variant="primary" onClick={handleSwitchWallet} size={"lg"}>
               Switch Wallet
             </Button>

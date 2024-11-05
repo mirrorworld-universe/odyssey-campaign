@@ -26,10 +26,10 @@ export function SetUpFinishDialog() {
         <div className="p-6 bg-bg-popup flex flex-col items-center gap-8">
           <CheckLogo className="size-16 pt-4" />
           <div className="flex flex-col gap-2">
-            <h1 className="text-headline4 font-orbitron text-center">
+            <h1 className="sonic-headline4 font-orbitron text-center">
               Congratulations
             </h1>
-            <p className="text-body3 text-tertary">
+            <p className="sonic-body3 text-tertary">
               You have completed the wallet setup. Start your journey now! If
               you have any questions, feel free to check out our{" "}
               <a
@@ -50,14 +50,19 @@ export function SetUpFinishDialog() {
           </div>
           <div className="flex flex-col gap-2 w-full">
             <Button
-              className="text-title2"
+              className="sonic-title2"
               onClick={handleConfirm}
               variant={"primary"}
               size={"lg"}
             >
               Task Center
             </Button>
-            <Button onClick={closeModal} variant={"cancel"} size={"lg"}>
+            <Button
+              className="sonic-title2"
+              onClick={closeModal}
+              variant={"cancel"}
+              size={"lg"}
+            >
               Cancel
             </Button>
           </div>

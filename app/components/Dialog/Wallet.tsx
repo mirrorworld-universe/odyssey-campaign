@@ -68,14 +68,12 @@ export function WalletDialog({ text = "Connect", className }: any) {
   const {
     select,
     wallet: currentWallet,
-    wallets,
     publicKey,
     disconnect,
     connected,
     signMessage
   } = useWallet();
 
-  console.log("wallets", wallets);
   const {
     address,
     setAddress,
@@ -311,14 +309,14 @@ export function WalletDialog({ text = "Connect", className }: any) {
       <DialogContent className="md:max-w-[520px] h-full md:h-auto text-primary p-0">
         <div className="px-4 md:p-8 bg-black md:bg-bg-popup">
           <DialogHeader>
-            <DialogTitle className="h-14 flex items-center md:h-auto text-title3 text-left text-tertary md:!text-primary md:text-headline5 font-orbitron">
+            <DialogTitle className="h-14 flex items-center md:h-auto sonic-title3 text-left text-tertary md:!text-primary md:sonic-headline5 font-orbitron">
               {isSwitching
                 ? `Welcome to Sonic - ${
                     networkSwitchingNames[networkId || "devnet"].name
                   }`
                 : "Connect Your Wallet"}
             </DialogTitle>
-            <DialogDescription className="hidden md:block text-body3 text-tertary">
+            <DialogDescription className="hidden md:block sonic-body3 text-tertary">
               {isSwitching ? (
                 <>
                   Re-login required for Sonic Stage{" "}
@@ -358,7 +356,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
                           alt={wallet.adapter?.name}
                           className="size-6"
                         />
-                        <span className="text-title3 md:text-title2 font-orbitron">
+                        <span className="sonic-title3 md:sonic-title2 font-orbitron">
                           {wallet.adapter?.name}
                         </span>
                         {isInWalletCampaignTime(networkId) ? (
@@ -376,7 +374,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
                         <Button
                           variant={"primary"}
                           size={isMobile ? "sm" : "md"}
-                          className="font-orbitron text-title3 w-24 md:w-[113px]"
+                          className="font-orbitron sonic-title3 w-24 md:w-[113px]"
                           onClick={() => handleWalletSelect(wallet)}
                         >
                           {isSwitching
@@ -394,7 +392,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
                           }}
                           variant="outline"
                           size={isMobile ? "sm" : "md"}
-                          className="text-title3 font-orbitron w-24 md:w-[113px]"
+                          className="sonic-title3 font-orbitron w-24 md:w-[113px]"
                         >
                           Install
                         </Button>

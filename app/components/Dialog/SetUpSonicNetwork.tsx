@@ -2,8 +2,8 @@
 import { networks } from "@/app/data/config";
 import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
-import { useSetupInfo, useWhitelistModal } from "@/app/store/tutorials";
-import { setUpUrls } from "@/app/wallet/wallet-list";
+import { useSetupInfo } from "@/app/store/tutorials";
+import { setUpUrls, WalletList } from "@/app/wallet/wallet-list";
 import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -14,15 +14,13 @@ export function SetUpSonicNetworkDialog() {
   const { address } = useAccountInfo();
   const { status, setStatus } = useSetupInfo();
   const { networkId } = useNetworkInfo();
-  const { onOpen: onOpenWhitelistDialog } = useWhitelistModal();
   const { openModal, modalHash, closeModal } = useModalHash();
 
   const currentNetwork = networks.find((network) => network.id === networkId);
 
-  const handleConfirmInTestnet = () => {
-    onOpenWhitelistDialog();
-    closeModal();
-  };
+  const currentWallet = WalletList.find(
+    (w) => w.name.toLowerCase() === wallet?.adapter.name.toLowerCase()
+  );
 
   const handleConfirm = () => {
     setStatus({
@@ -50,10 +48,10 @@ export function SetUpSonicNetworkDialog() {
       <AlertDialogContent className="px-10 md:p-0 text-primary">
         <div className="p-6 md:p-8 bg-bg-popup flex flex-col gap-6 md:gap-8 w-full max-w-[520px]">
           <div className="flex flex-col gap-2 md:gap-3">
-            <h1 className="text-headline5 font-orbitron">
+            <h1 className="sonic-headline5 font-orbitron">
               Set Up Sonic Network
             </h1>
-            <p className="text-body3 text-tertary">
+            <p className="sonic-body3 text-tertary">
               Set up Sonic network for your {wallet?.adapter.name} wallet
             </p>
           </div>
@@ -70,13 +68,13 @@ export function SetUpSonicNetworkDialog() {
               <i className="inline-block size-2 bg-white/30 rounded-full animate-loading-after"></i>
             </span>
             <img
-              src={wallet?.adapter.icon}
+              src={currentWallet?.adapter.icon}
               alt=""
               className="size-10 md:size-12"
             />
           </div>
 
-          <div className="flex flex-col gap-6 text-title2">
+          <div className="flex flex-col gap-6 sonic-title2">
             <p>
               1. Open this network{" "}
               <a
@@ -91,10 +89,8 @@ export function SetUpSonicNetworkDialog() {
             <p>3. Continue to next step</p>
           </div>
           <Button
-            className="mt-2 md:mt-auto font-orbitron"
-            onClick={
-              networkId === "testnet" ? handleConfirmInTestnet : handleConfirm
-            }
+            className="mt-2 md:mt-auto sonic-title2"
+            onClick={handleConfirm}
             variant={"primary"}
             size={"lg"}
           >

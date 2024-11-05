@@ -215,7 +215,7 @@ export function Header() {
               )}
             >
               <div className="w-full flex md:hidden p-4 justify-between items-center">
-                <span className="font-orbitron text-title2 text-tertary">
+                <span className="font-orbitron sonic-title2 text-tertary">
                   Menu
                 </span>
                 <span
@@ -236,7 +236,7 @@ export function Header() {
                 {menu.map((menuItem, menuIndex) => (
                   <Link
                     className={cn(
-                      "flex items-center w-full md:w-fit !text-title3 hover:text-gold-yellow text-primary transition-colors h-16"
+                      "flex items-center w-full md:w-fit !sonic-title3 hover:text-gold-yellow text-primary transition-colors h-16"
                     )}
                     href={menuItem.getLink(networkId)}
                     key={menuIndex}
@@ -259,7 +259,7 @@ export function Header() {
             {!publicKey ? (
               <Button
                 className={cn(
-                  "font-orbitron text-title3 text-primary",
+                  "font-orbitron sonic-title3 text-primary",
                   isInMaintenance
                     ? "hover:bg-[#0000FF] opacity-30 cursor-not-allowed"
                     : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"

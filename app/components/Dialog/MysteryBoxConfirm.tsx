@@ -178,18 +178,18 @@ export function MysteryBoxConfirmDialog() {
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="px-6 md:p-0 md:max-w-[360px] w-full text-primary">
         <div className="flex-v bg-bg-popup justify-center gap-6 md:gap-8 p-6 text-center">
-          <div className="flex-center gap-3 text-headline1 md:text-headline0 font-orbitron mt-4">
+          <div className="flex-center gap-3 sonic-headline1 md:sonic-headline0 font-orbitron mt-4">
             <Gift color="#FBB042" className="size-14 md:size-16" />
             <span>X</span>
             {openGroup.find((group) => group.active)?.amount}
           </div>
 
           <div className="flex-v gap-4">
-            <h2 className="text-headline5 md:text-headline4 font-orbitron">
+            <h2 className="sonic-headline5 md:sonic-headline4 font-orbitron">
               {" "}
               Open Mystery Box
             </h2>
-            <p className="text-body3 text-tertary">
+            <p className="sonic-body3 text-tertary">
               Please select the number of Mystery Box you would like to open.
             </p>
           </div>
@@ -201,7 +201,7 @@ export function MysteryBoxConfirmDialog() {
                 key={groupIndex}
                 onClick={() => handleOptionChanged(group)}
                 className={cn(
-                  "px-5 h-14 border rounded flex justify-between items-center text-title2 cursor-pointer hover:border-gold-yellow transition-colors",
+                  "px-5 h-14 border rounded flex justify-between items-center sonic-title2 cursor-pointer hover:border-gold-yellow transition-colors",
                   group.active
                     ? "border-gold-yellow bg-gold-yellow/10"
                     : "border-line"
@@ -222,7 +222,7 @@ export function MysteryBoxConfirmDialog() {
             {/* options end */}
             {/* tip */}
             {openGroup.find((group) => group.active)?.amount > 1 ? (
-              <div className="text-title3 text-gold-yellow text-left flex gap-2">
+              <div className="sonic-title3 text-gold-yellow text-left flex gap-2">
                 <InfoLogo className="size-5 shrink-0" />
                 You need to sign in your wallet {mysteryBoxAmount} times to
                 unlock all mystery box rewards.
@@ -231,7 +231,7 @@ export function MysteryBoxConfirmDialog() {
             {/* tip end */}
           </div>
 
-          <div className="flex-v gap-2 text-title2 font-orbitron mt-2 md:mt-auto">
+          <div className="flex-v gap-2 sonic-title2 font-orbitron mt-2 md:mt-auto">
             <Button
               disabled={isOpeningMysterybox}
               onClick={handleConfirm}

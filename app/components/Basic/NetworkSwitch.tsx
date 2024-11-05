@@ -27,7 +27,7 @@ export function NetworkSwitch({ className }: any) {
               <span className="animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] absolute inline-flex size-2 rounded-full bg-link opacity-75"></span>
               <span className="size-1.5 rounded-full bg-link"></span>
             </div>
-            <h3 className="text-title3 text-link font-orbitron w-fit">
+            <h3 className="sonic-title3 text-link font-orbitron w-fit">
               {networkMap[networkId].name}
             </h3>
             <SwitchNetworkIcon
@@ -38,7 +38,7 @@ export function NetworkSwitch({ className }: any) {
           </div>
         </PopoverTrigger>
         <PopoverContent className="p-0 text-primary w-full md:w-fit border-none outline-none mt-1 hidden md:block">
-          <div className="py-1 text-title3 bg-bg-popup flex-col font-orbitron">
+          <div className="py-1 sonic-title3 bg-bg-popup flex-col font-orbitron">
             {networks.map((network: any, networkIndex: number) => (
               <div
                 key={networkIndex}
@@ -56,11 +56,11 @@ export function NetworkSwitch({ className }: any) {
       </Popover>
       <div
         className={cn(
-          "fixed bottom-0 left-0 w-full pb-1 text-title2 bg-bg-popup text-primary flex-col font-orbitron md:hidden transform transition-transform duration-300 ease-in-out",
+          "fixed bottom-0 left-0 w-full pb-1 sonic-title2 bg-bg-popup text-primary flex-col font-orbitron md:hidden transform transition-transform duration-300 ease-in-out",
           isOpen ? "translate-y-0" : "translate-y-full"
         )}
       >
-        <div className="text-title2 h-14 flex items-center text-tertary px-4 justify-between">
+        <div className="sonic-title2 h-14 flex items-center text-tertary px-4 justify-between">
           Select Network
           <IconClose width={24} height={24} color="#4D4D4D" />
         </div>

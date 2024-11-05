@@ -21,7 +21,7 @@ export function TaskItem({ task }: { task: Task }) {
       )}
     >
       <div className="relative z-10 flex flex-col gap-2 max-w-[224px]">
-        <div className="text-title2 md:text-title1 text-secondary font-orbitron flex items-center gap-2">
+        <div className="sonic-title2 md:sonic-title1 text-secondary font-orbitron flex items-center gap-2">
           {task.name}
           <IconGo
             width={20}
@@ -30,7 +30,7 @@ export function TaskItem({ task }: { task: Task }) {
             className="inline-block md:hidden"
           />
         </div>
-        <div className="hidden md:block text-body4 text-tertary">
+        <div className="hidden md:block sonic-body4 text-tertary">
           {task.description}
         </div>
         {isInWalletCampaignTime(networkId) &&

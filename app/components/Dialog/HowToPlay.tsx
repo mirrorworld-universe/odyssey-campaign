@@ -59,8 +59,8 @@ function MobileHowToPlay({
       </div>
       <div className="p-4 space-y-6">
         <div className="space-y-2">
-          <h1 className="text-headline5 font-orbitron">How to Play ?</h1>
-          <p className="text-body3 text-tertary">
+          <h1 className="sonic-headline5 font-orbitron">How to Play ?</h1>
+          <p className="sonic-body3 text-tertary">
             Ensure you successfully switch the network in your wallet to Sonic.
             Check{" "}
             <a href={guideUrl} className="text-link">
@@ -81,17 +81,17 @@ function MobileHowToPlay({
           >
             <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
               <div className="text-left space-y-1">
-                <h4 className="text-title4 text-gold-yellow">Step 1</h4>
-                <h2 className="text-title2 text-white">Request Test SOL</h2>
+                <h4 className="sonic-title4 text-gold-yellow">Step 1</h4>
+                <h2 className="sonic-title2 text-white">Request Test SOL</h2>
               </div>
             </AccordionTrigger>
-            <AccordionContent className={cn("!text-body3 text-secondary p-0")}>
+            <AccordionContent className={cn("!sonic-body3 text-secondary p-0")}>
               <div className="flex-v gap-6">
                 On Sonic, you need test SOL for gas. Ensure your wallet has
                 enough test SOL to transact. Click faucet link or use the faucet
                 in the navigation bar to claim.
                 <Button
-                  className="text-title3 text-white font-orbitron"
+                  className="sonic-title3 text-white font-orbitron"
                   variant={"primary"}
                   size={"sm"}
                   onClick={() => {
@@ -110,19 +110,19 @@ function MobileHowToPlay({
           >
             <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
               <div className="text-left space-y-1">
-                <h4 className="text-title4 text-gold-yellow">Step 2</h4>
-                <h2 className="text-title2 text-white flex gap-1 items-center">
+                <h4 className="sonic-title4 text-gold-yellow">Step 2</h4>
+                <h2 className="sonic-title2 text-white flex gap-1 items-center">
                   Earn Mystery Box
                   <GiftLogo className="size-[18px] text-gold-yellow" />
                 </h2>
               </div>
             </AccordionTrigger>
-            <AccordionContent className={cn("!text-body3 text-secondary p-0")}>
+            <AccordionContent className={cn("!sonic-body3 text-secondary p-0")}>
               <div className="flex-v gap-6">
                 In the task center , complete tasks to receive corresponding
                 mystery boxes.
                 <Button
-                  className="text-title3 text-white font-orbitron"
+                  className="sonic-title3 text-white font-orbitron"
                   variant={"primary"}
                   size={"sm"}
                   onClick={() => {
@@ -142,14 +142,14 @@ function MobileHowToPlay({
           >
             <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
               <div className="text-left space-y-1">
-                <h4 className="text-title4 text-gold-yellow">Step 3</h4>
-                <h2 className="text-title2 text-white flex gap-1 items-center">
+                <h4 className="sonic-title4 text-gold-yellow">Step 3</h4>
+                <h2 className="sonic-title2 text-white flex gap-1 items-center">
                   Claim Rings
                   <RingLogo className="size-[18px] text-gold-yellow" />
                 </h2>
               </div>
             </AccordionTrigger>
-            <AccordionContent className={cn("!text-body3 text-secondary p-0")}>
+            <AccordionContent className={cn("!sonic-body3 text-secondary p-0")}>
               <div className="flex-v gap-6">
                 In the task center , complete tasks to receive corresponding
                 mystery boxes.
@@ -175,8 +175,8 @@ function PcHowToPlay({
     <div className="hidden md:flex-v bg-bg-popup p-8">
       {/* header */}
       <div className="space-y-3">
-        <h2 className="text-headline5 font-orbitron">How to Play?</h2>
-        <p className="text-body2/normal text-tertary">
+        <h2 className="sonic-headline5 font-orbitron">How to Play?</h2>
+        <p className="sonic-body2/normal text-tertary">
           Ensure you successfully switch the network in your wallet to Sonic.
           Check{" "}
           <a
@@ -192,7 +192,7 @@ function PcHowToPlay({
       {/* step 1 */}
       <div className="flex gap-4 mb-4 mt-8">
         <div className="text-gold-yellow flex-v gap-4">
-          <h1 className="text-title2 font-orbitron flex gap-0.5">
+          <h1 className="sonic-title2 font-orbitron flex gap-0.5">
             Step
             <span className="size-6 flex-center">1</span>
           </h1>
@@ -200,8 +200,8 @@ function PcHowToPlay({
         </div>
 
         <div className="space-y-3">
-          <h1 className="text-title2 font-orbitron">Request Test SOL</h1>
-          <p className="text-body3 text-tertary">
+          <h1 className="sonic-title2 font-orbitron">Request Test SOL</h1>
+          <p className="sonic-body3 text-tertary">
             On Sonic, you need test SOL for gas. Ensure your wallet has enough
             test SOL to transact. Click{" "}
             <a
@@ -218,7 +218,7 @@ function PcHowToPlay({
 
       <div className="flex gap-4 mb-4">
         <div className="text-gold-yellow flex-v gap-4">
-          <h1 className="text-title2 font-orbitron flex gap-0.5">
+          <h1 className="sonic-title2 font-orbitron flex gap-0.5">
             Step
             <span className="size-6 flex-center">2</span>
           </h1>
@@ -226,11 +226,11 @@ function PcHowToPlay({
         </div>
 
         <div className="space-y-3">
-          <h1 className="text-title2 font-orbitron flex items-center gap-1">
+          <h1 className="sonic-title2 font-orbitron flex items-center gap-1">
             Earn Mystery Box{" "}
             <GiftLogo className="size-[18px] text-gold-yellow" />
           </h1>
-          <p className="text-body3 text-tertary">
+          <p className="sonic-body3 text-tertary">
             In the{" "}
             <span
               className="text-link hover:text-primary-blue cursor-pointer transition-colors"
@@ -245,7 +245,7 @@ function PcHowToPlay({
 
       <div className="flex gap-4 mb-4">
         <div className="text-gold-yellow flex-v gap-4">
-          <h1 className="text-title2 font-orbitron flex gap-0.5">
+          <h1 className="sonic-title2 font-orbitron flex gap-0.5">
             Step
             <span className="size-6 flex-center">3</span>
           </h1>
@@ -253,10 +253,10 @@ function PcHowToPlay({
         </div>
 
         <div className="space-y-3">
-          <h1 className="text-title2 font-orbitron flex items-center gap-1">
+          <h1 className="sonic-title2 font-orbitron flex items-center gap-1">
             Claim Rings <RingLogo className="size-[18px] text-gold-yellow" />
           </h1>
-          <p className="text-body3 text-tertary">
+          <p className="sonic-body3 text-tertary">
             Open a mystery box to receive a varying number of rings. Each
             mystery box can yield 1-5 rings. Claim them in the "Rings" dropdown
             section in the navigation bar.

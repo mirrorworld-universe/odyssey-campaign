@@ -16,7 +16,7 @@ export default function MainContent() {
     >
       {taskGroupList.map((taskGroup, index) => (
         <div className="md:p-10 p-4 border border-line relative" key={index}>
-          <div className="absolute top-0 left-2 md:left-[22px] px-1 md:px-4 bg-[#111] -translate-y-1/2 font-orbitron text-title4 md:text-title2">
+          <div className="absolute top-0 left-2 md:left-[22px] px-1 md:px-4 bg-[#111] -translate-y-1/2 font-orbitron sonic-title4 md:sonic-title2">
             {taskGroup.name}
           </div>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(324px,1fr))] md:gap-10 gap-5">

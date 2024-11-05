@@ -47,7 +47,7 @@ function MobileFooter() {
         <SonicLogo />
         <div className="w-px h-5 bg-line"></div>
         <a
-          className="text-title3 font-orbitron"
+          className="sonic-title3 font-orbitron"
           href="https://www.sonic.game"
           target="_blank"
         >
@@ -61,7 +61,7 @@ function MobileFooter() {
           {menu.map((item, index) => (
             <div className="flex justify-between items-center">
               <Link
-                className="text-title3/[1.2] font-orbitron text-primary"
+                className="sonic-title3/[1.2] font-orbitron text-primary"
                 href={item.getLink(networkId)}
                 key={index}
                 target={item.target}
@@ -90,7 +90,7 @@ function MobileFooter() {
         </div>
       </div>
 
-      <div className="border-t border-white/20 pt-8 flex items-center gap-2 text-body4 text-tertary">
+      <div className="border-t border-white/20 pt-8 flex items-center gap-2 sonic-body4 text-tertary">
         <p>© Copyright {year} Sonic</p>
         <div className="w-px h-2.5 bg-line" />
         <Link href={"/terms-of-use"}>Term of Use</Link>
@@ -111,7 +111,7 @@ function PcFooter() {
           <SonicLogo />
           <div className="w-px h-5 bg-line"></div>
           <a
-            className="text-title3 font-orbitron"
+            className="sonic-title3 font-orbitron"
             href="https://www.sonic.game"
             target="_blank"
           >
@@ -121,7 +121,7 @@ function PcFooter() {
         <div className="flex items-center gap-10">
           {menu.map((item, index) => (
             <Link
-              className="text-title3 font-orbitron text-tertary hover:text-primary transition-colors"
+              className="sonic-title3 font-orbitron text-tertary hover:text-primary transition-colors"
               href={item.getLink(networkId)}
               key={index}
               target={item.target}
@@ -135,7 +135,7 @@ function PcFooter() {
       <div className="h-px w-full bg-line" />
 
       <div className="flex justify-between items-center">
-        <div className={cn("flex items-center gap-4 text-body2 text-tertary")}>
+        <div className={cn("flex items-center gap-4 sonic-body2 text-tertary")}>
           <p>© Copyright {year} Sonic</p>
           <div className="w-px h-2.5 bg-line" />
           <Link

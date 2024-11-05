@@ -36,10 +36,10 @@ export default function Banner() {
       <div className="text-primary max-w-view w-full mx-auto px-4 h-[164px] md:h-[300px] flex flex-col md:flex-row justify-center md:justify-start md:items-center relative z-10">
         {/* left part */}
         <div className="flex flex-col gap-1.5 md:gap-4 max-w-[486px]">
-          <div className="font-orbitron text-headline5 md:text-headline3">
+          <div className="font-orbitron sonic-headline5 md:sonic-headline3">
             Odyssey Task Center
           </div>
-          <p className="text-title3 text-primary md:text-tertary">
+          <p className="sonic-title3 text-primary md:text-tertary">
             {isFrontierV1 ? (
               <>
                 Embark on your Odyssey by completing various tasks! Earn more
@@ -70,7 +70,7 @@ export default function Banner() {
           {/* pc how to play button */}
           <Button
             onClick={handleOnClick}
-            className="text-title3 font-orbitron mt-4 px-6 w-fit hidden md:block"
+            className="sonic-title3 font-orbitron mt-4 px-6 w-fit hidden md:block"
             variant={"outline"}
           >
             {isFrontierV1 ? "How to Play?" : "Season 2 Guides"}
@@ -98,7 +98,7 @@ export default function Banner() {
       <div className="fixed bottom-0 left-0 w-full p-4 z-20 bg-black md:hidden">
         <Button
           onClick={handleOnClick}
-          className="text-title3 font-orbitron px-6 w-full"
+          className="sonic-title3 font-orbitron px-6 w-full"
           variant={"outline"}
         >
           {isFrontierV1 ? "How to Play?" : "Season 2 Guides"}
@@ -164,7 +164,7 @@ function Slider() {
                 onClick={slide.handleClick}
                 className={cn(
                   "flex-center absolute inset-0 rounded z-10 bg-black/70",
-                  "text-headline4 font-orbitron gap-1 group-hover/banner:opacity-100 opacity-0 transition-opacity duration-300"
+                  "sonic-headline4 font-orbitron gap-1 group-hover/banner:opacity-100 opacity-0 transition-opacity duration-300"
                 )}
               >
                 <PlayLogo />

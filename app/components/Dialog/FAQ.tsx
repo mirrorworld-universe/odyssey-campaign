@@ -57,7 +57,7 @@ export function FAQDialog() {
           <ArrowBackLogo onClick={closeModal} />
         </div>
         <div className="flex flex-col gap-6 md:gap-8 p-4 md:p-8 bg-black md:bg-transparent grow">
-          <div className="text-headline5 font-orbitron">FAQs</div>
+          <div className="sonic-headline5 font-orbitron">FAQs</div>
           <Accordion
             type="single"
             collapsible
@@ -70,11 +70,11 @@ export function FAQDialog() {
                 value={`item-${faqIndex + 1}`}
                 className="border-line px-4 py-6 md:p-8 gap-2 flex flex-col first:border-t"
               >
-                <AccordionTrigger className="text-title2 group-faq text-left font-orbitron p-0 text-icon aria-expanded:text-gold-yellow transition-colors">
+                <AccordionTrigger className="sonic-title2 group-faq text-left font-orbitron p-0 text-icon aria-expanded:text-gold-yellow transition-colors">
                   <span className="text-primary">{faq.title}</span>
                 </AccordionTrigger>
                 <AccordionContent
-                  className={cn("!text-body3 text-secondary p-0")}
+                  className={cn("!sonic-body3 text-secondary p-0")}
                 >
                   {faq.content}
                 </AccordionContent>

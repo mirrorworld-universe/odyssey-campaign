@@ -161,7 +161,7 @@ export default function RingPopover() {
     >
       {showHeader ? (
         <p className="flex justify-between items-center px-4 h-14">
-          <span className="text-title3 font-orbitron text-tertary px-1">
+          <span className="sonic-title3 font-orbitron text-tertary px-1">
             Current Balance
           </span>
           <span
@@ -194,7 +194,7 @@ export default function RingPopover() {
           <div className="flex flex-col px-4 md:px-6 pb-4 pt-4 md:pt-5">
             <Card
               name="Current Balance"
-              nameClassName="bg-bg-popup text-title3 text-primary"
+              nameClassName="bg-bg-popup sonic-title3 text-primary"
               size={CardSize.Small}
               className="border-line rounded-none"
             >
@@ -276,7 +276,7 @@ export default function RingPopover() {
               )}
             >
               <div className="flex flex-row items-center justify-between py-2">
-                <div className="text-title3 text-primary font-orbitron">
+                <div className="sonic-title3 text-primary font-orbitron">
                   Claim History
                 </div>
                 <div
@@ -292,7 +292,7 @@ export default function RingPopover() {
                   .map((history: any, historyIndex: number) => (
                     <div
                       key={historyIndex}
-                      className="flex flex-row justify-between text-title4 text-tertary"
+                      className="flex flex-row justify-between sonic-title4 text-tertary"
                     >
                       <div className="flex items-center">
                         Claimed x 1{" "}
@@ -336,7 +336,7 @@ export default function RingPopover() {
                 className="cursor-pointer absolute top-0 bottom-0 left-4 m-auto"
                 onClick={handleBackClaimHistory}
               />
-              <div className="text-title3 font-orbitron text-primary">
+              <div className="sonic-title3 font-orbitron text-primary">
                 Claim History
               </div>
             </div>
