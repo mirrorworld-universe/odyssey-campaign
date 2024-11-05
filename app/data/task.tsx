@@ -93,7 +93,7 @@ export const taskGroupList: TaskGroup[] = [
         name: "Game Adventure",
         description:
           "Play different games to enjoy a variety of fun experiences and earn exciting rewards along the way!",
-        period: "24-Hour Period",
+        period: "Daily Task",
         reward: "",
         visibleInNetworks: [
           NetworkId.FrontierV0,
@@ -113,7 +113,7 @@ export const taskGroupList: TaskGroup[] = [
         name: "Mystery NFT",
         description:
           "Invite friends to Sonic Odyssey! Share the thrill and explore together!",
-        period: "24-Hour Period",
+        period: "Daily Task",
         reward: "Test SOL Needed",
         iconName: "cube",
         icon: <MysteryNftLogo />,
@@ -195,7 +195,7 @@ export const taskGroupList: TaskGroup[] = [
         name: "Referral",
         description:
           "Invite friends to Sonic Odyssey and explore the adventure together!",
-        period: "24-Hour Period",
+        period: "Daily Task",
         reward: "",
         iconName: "diversity",
         icon: <ReferralLogo />,

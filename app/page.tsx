@@ -16,14 +16,14 @@ import {
   useWalletModal
 } from "./store/account";
 import { cn } from "@/lib/utils";
-import { NetworkId } from "./data/config";
+import { NetworkId, networkMap } from "./data/config";
 
 export default function Home() {
   const router = useRouter();
   const { connected } = useWallet();
   const { address, token } = useAccountInfo();
   const { onOpen } = useWalletModal();
-  const { isInMaintenance, setInMaintenance } = useSystemInfo();
+  const { isInMaintenance } = useSystemInfo();
   const searchParams = useSearchParams();
 
   const { networkId } = useNetworkInfo();
@@ -33,8 +33,14 @@ export default function Home() {
       title: networkId !== NetworkId.FrontierV1 ? "Season 1" : "Season 2",
       description:
         networkId !== NetworkId.FrontierV1
-          ? "Thanks for participating! Sonic Odyssey Season 1 on Frontier V0 has ended. Switch to Frontier V1 to kick off your Season 2 adventure now!"
-          : "Join the new Season 2 of Sonic Odyssey on the latest Testnet - Frontier V1! Exciting new games and products are coming soon to boost your ring rewards!"
+          ? `Thanks for participating! Sonic Odyssey Season 1 on ${
+              networkMap[networkId]?.name
+            } has ended. Switch to ${
+              networkMap[NetworkId.FrontierV1]?.name
+            } to kick off your Season 2 adventure now!`
+          : `Join the new Season 2 of Sonic Odyssey on the latest Testnet - ${
+              networkMap[NetworkId.FrontierV1]?.name
+            }! Exciting new games and products are coming soon to boost your ring rewards!`
     };
 
     return content;

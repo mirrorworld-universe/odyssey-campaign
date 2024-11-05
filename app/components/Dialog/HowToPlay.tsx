@@ -14,22 +14,19 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { FAUCET_URL, NetworkId } from "@/app/data/config";
 
 export function HowToPlayDialog() {
   const { modalHash, closeModal } = useModalHash();
   const { networkId } = useNetworkInfo();
 
-  const { guideUrl, faucetUrl } = useMemo(() => {
+  const { guideUrl } = useMemo(() => {
     const guideUrl =
       networkId === "testnet"
         ? "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide"
         : "https://blog.sonic.game/sonic-testnet-odyssey-guide";
 
-    const faucetUrl = `https://faucet.sonic.game/#/${
-      networkId === "testnet" ? "?network=testnet" : ""
-    }`;
-
-    return { guideUrl, faucetUrl };
+    return { guideUrl };
   }, [networkId]);
 
   return (
@@ -41,8 +38,14 @@ export function HowToPlayDialog() {
         closeClassName="hidden md:block"
         className="max-w-[640px] p-0 w-full h-full md:h-auto text-primary"
       >
-        <PcHowToPlay guideUrl={guideUrl} faucetUrl={faucetUrl} />
-        <MobileHowToPlay guideUrl={guideUrl} faucetUrl={faucetUrl} />
+        <PcHowToPlay
+          guideUrl={guideUrl}
+          faucetUrl={FAUCET_URL[networkId as NetworkId]}
+        />
+        <MobileHowToPlay
+          guideUrl={guideUrl}
+          faucetUrl={FAUCET_URL[networkId as NetworkId]}
+        />
       </DialogContent>
     </Dialog>
   );

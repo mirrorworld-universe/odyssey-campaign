@@ -91,7 +91,7 @@ export function SetUpSonicNetworkDialog() {
             <p>3. Continue to next step</p>
           </div>
           <Button
-            className="mt-2 md:mt-auto"
+            className="mt-2 md:mt-auto font-orbitron"
             onClick={
               networkId === "testnet" ? handleConfirmInTestnet : handleConfirm
             }

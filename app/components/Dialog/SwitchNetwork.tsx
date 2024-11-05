@@ -1,7 +1,7 @@
 "use client";
 
 import { fetchLogout } from "@/app/data/account";
-import { networkMap } from "@/app/data/config";
+import { NetworkId, networkMap } from "@/app/data/config";
 import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
 import { SwitchLogo } from "@/app/logos/SwitchLogo";
 import {
@@ -61,10 +61,20 @@ export function SwitchNetworkDialog() {
               Switching to {networkMap[switchTo]?.name}
             </h2>
             <p className="text-body3 text-tertary">
-              You're currently on the {networkMap[networkId]?.name} network. To
-              participate in tasks, you'll need to switch to the latest{" "}
-              {networkMap[switchTo]?.name} network, which requires re-logging
-              into your wallet.
+              {switchTo === NetworkId.FrontierV1 ? (
+                <>
+                  You're currently on the {networkMap[networkId]?.name} network.
+                  To participate in tasks, you'll need to switch to the latest{" "}
+                  {networkMap[switchTo]?.name} network, which requires
+                  re-logging into your wallet.
+                </>
+              ) : (
+                <>
+                  You're currently on the {networkMap[networkId]?.name} network.
+                  If you want to switch to the {networkMap[switchTo]?.name}{" "}
+                  network, you'll need to re-log into your wallet.
+                </>
+              )}
             </p>
           </div>
 

@@ -48,3 +48,16 @@ export const EXPLORER_CLUSTER = {
   [NetworkId.FrontierV0]: "?cluster=testnet",
   [NetworkId.FrontierV1]: "?cluster=testnet.v1"
 };
+
+export const FAUCET_URL = {
+  [NetworkId.Origin]: "https://faucet.sonic.game/#/?network=devnet",
+  [NetworkId.FrontierV0]: "https://faucet.sonic.game/#/?network=testnet.v0",
+  [NetworkId.FrontierV1]: "https://faucet.sonic.game/#/?network=testnet.v1"
+};
+
+export const GUIDE_URL = {
+  [NetworkId.Origin]: "https://blog.sonic.game/sonic-testnet-odyssey-guide",
+  [NetworkId.FrontierV0]:
+    "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide",
+  [NetworkId.FrontierV1]: "https://blog.sonic.game/sonic-testnet-odyssey-guide"
+};

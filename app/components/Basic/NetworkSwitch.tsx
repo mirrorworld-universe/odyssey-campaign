@@ -43,7 +43,10 @@ export function NetworkSwitch({ className }: any) {
               <div
                 key={networkIndex}
                 onClick={() => handleSwitchNetwork(network.id)}
-                className="px-6 py-2 hover:bg-line hover:text-link transition-all cursor-pointer"
+                className={cn(
+                  "px-6 py-2 hover:bg-line transition-all cursor-pointer",
+                  network.id === networkId && "text-link"
+                )}
               >
                 {network.name}
               </div>

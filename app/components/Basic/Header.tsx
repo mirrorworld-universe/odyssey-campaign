@@ -8,7 +8,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import { networks } from "@/app/data/config";
+import { FAUCET_URL, GUIDE_URL, NetworkId, networks } from "@/app/data/config";
 import { useBreakpoint } from "@/app/hooks";
 import { Close as IconClose } from "@/app/icons/Close";
 import { Menu as IconMenu } from "@/app/icons/Menu";
@@ -48,38 +48,22 @@ import { UserDropdown } from "./UserDropdown";
 export const menu: any[] = [
   {
     name: "Task Center",
-    link: {
-      devnet: "/task",
-      testnet: "/task",
-      testnetv1: "/task"
-    },
+    getLink: (networkId: NetworkId) => "/task",
     target: "_self"
   },
   {
     name: "Faucet",
-    link: {
-      devnet: "https://faucet.sonic.game/#/",
-      testnet: "https://faucet.sonic.game/#/?network=testnet",
-      testnetv1: "https://faucet.sonic.game/#/"
-    },
+    getLink: (networkId: NetworkId) => FAUCET_URL[networkId],
     target: "_blank"
   },
   {
     name: "Guide",
-    link: {
-      devnet: "https://blog.sonic.game/sonic-testnet-odyssey-guide",
-      testnet: "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide",
-      testnetv1: "https://blog.sonic.game/sonic-testnet-odyssey-guide"
-    },
+    getLink: (networkId: NetworkId) => GUIDE_URL[networkId],
     target: "_blank"
   },
   {
     name: "About",
-    link: {
-      devnet: "https://sonic.game/",
-      testnet: "https://sonic.game/",
-      testnetv1: "https://sonic.game/"
-    },
+    getLink: (networkId: NetworkId) => "https://sonic.game/",
     target: "_blank"
   }
 ];
@@ -247,13 +231,9 @@ export function Header() {
                 {menu.map((menuItem, menuIndex) => (
                   <Link
                     className={cn(
-                      "flex items-center w-full md:w-fit !text-title3 hover:text-gold-yellow text-primary transition-colors h-16",
-                      pathname.startsWith("/task") &&
-                        menuItem.link[networkId] === "/task"
-                        ? "text-gold-yellow"
-                        : ""
+                      "flex items-center w-full md:w-fit !text-title3 hover:text-gold-yellow text-primary transition-colors h-16"
                     )}
-                    href={menuItem.link[networkId]}
+                    href={menuItem.getLink(networkId)}
                     key={menuIndex}
                     target={menuItem.target}
                     onClick={handleClickMenu}

@@ -56,8 +56,9 @@ function MobileFooter() {
             <div className="flex justify-between items-center">
               <Link
                 className="text-title3/[1.2] font-orbitron text-primary"
-                href={item.link[networkId || "devnet"]}
+                href={item.getLink(networkId)}
                 key={index}
+                target={item.target}
               >
                 {item.name}
               </Link>
@@ -109,8 +110,9 @@ function PcFooter() {
           {menu.map((item, index) => (
             <Link
               className="text-title3 font-orbitron text-tertary hover:text-primary transition-colors"
-              href={item.link[networkId || "devnet"]}
+              href={item.getLink(networkId)}
               key={index}
+              target={item.target}
             >
               {item.name}
             </Link>

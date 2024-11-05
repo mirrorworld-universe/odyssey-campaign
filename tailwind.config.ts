@@ -24,25 +24,7 @@ const config = {
         view: "1232px"
       },
       fontSize: {
-        ten: "10px",
-        title1: ["20px", { fontWeight: 600, lineHeight: "1.4" }],
-        title2: ["16px", { fontWeight: 600, lineHeight: "1.5" }],
-        title3: ["14px", { fontWeight: 600, lineHeight: "1.57" }],
-        title4: ["12px", { fontWeight: 600, lineHeight: "1.5" }],
-
-        body1: ["20px", { lineHeight: "1.4", fontWeight: 400 }],
-        body2: ["16px", { lineHeight: "1.5", fontWeight: 400 }],
-        body3: ["14px", { lineHeight: "1.57", fontWeight: 400 }],
-        body4: ["12px", { lineHeight: "1.5", fontWeight: 400 }],
-
-        headline0: ["48px", { fontWeight: 800, lineHeight: "1.41" }],
-        headline1: ["40px", { fontWeight: 800, lineHeight: "1.4" }],
-        headline2: ["32px", { fontWeight: 800, lineHeight: "1.37" }],
-        headline3: ["28px", { fontWeight: 800, lineHeight: "1.42" }],
-        headline4: ["24px", { fontWeight: 800, lineHeight: "1.41" }],
-        headline5: ["20px", { fontWeight: 800, lineHeight: "1.4" }],
-
-        caption1: ["10px", { fontWeight: 400, lineHeight: "1.6" }]
+        ten: "10px"
       },
       colors: {
         border: "hsl(var(--border))",
@@ -234,7 +216,8 @@ const config = {
       };
 
       addUtilities(newUtilities, ["responsive", "hover"]);
-    }
+    },
+    require("./tailwind-sonic")
   ]
 } satisfies Config;
 

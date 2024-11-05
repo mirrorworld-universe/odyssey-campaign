@@ -33,8 +33,8 @@ export default function SeasonTwo() {
           <span
             className="text-link cursor-pointer hover:text-primary-blue"
             onClick={() => {
-              handleSwitchNetwork(NetworkId.FrontierV1);
               closeModal();
+              handleSwitchNetwork(NetworkId.FrontierV1);
             }}
           >
             Frontier V1
