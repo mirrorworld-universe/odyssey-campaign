@@ -48,9 +48,10 @@ export default function SeasonTwo() {
       descriptions: [
         <>
           {" "}
-          All Sonic boxes, rings and all on-chain data on Origin or Frontier V0
+          All Sonic boxes, rings and all on-chain data on Origin or Fronter V0
           remain on their respective networks. You can still view or use them as
-          usual.
+          usual. For Frontier V0, please check this guide to adjust network
+          settings and view on-chain data.
         </>
       ]
     },

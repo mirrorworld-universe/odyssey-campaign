@@ -59,7 +59,7 @@ function MobileFooter() {
         <div className="text-ten font-medium text-[#717171]">Links</div>
         <div className="flex flex-col gap-4">
           {menu.map((item, index) => (
-            <div className="flex justify-between items-center">
+            <div key={index} className="flex justify-between items-center">
               <Link
                 className="sonic-title3/[1.2] font-orbitron text-primary"
                 href={item.getLink(networkId)}
