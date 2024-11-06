@@ -32,8 +32,9 @@ export default function Slider({
     const onSelect = () => {
       const selectedSlide = api.selectedScrollSnap();
       const carouselElement = api.rootNode();
-      if (carouselElement) {
-        carouselElement.style.boxShadow = slides[selectedSlide].boxShadow;
+      if (carouselElement.parentElement) {
+        carouselElement.parentElement.style.boxShadow =
+          slides[selectedSlide].boxShadow;
       }
       setBgClassName(slides[selectedSlide].bgClassName);
     };
