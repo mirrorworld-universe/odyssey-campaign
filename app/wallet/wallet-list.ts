@@ -60,6 +60,11 @@ export const WalletList: any[] = [
     hasExtraBonus: {
       testnetv1: true
     },
+    network: {
+      devnet: false,
+      testnet: false,
+      testnetv1: true
+    },
     hide: false
   },
 

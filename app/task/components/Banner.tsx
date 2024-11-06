@@ -11,7 +11,7 @@ import Slider from "./Slider";
 export default function Banner() {
   const { networkId } = useNetworkInfo();
 
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [bgClassName, setBgClassName] = useState("");
 
   const { handleSwitchNetwork } = useSwitchNetwork();
 
@@ -73,18 +73,18 @@ export default function Banner() {
         </div>
         {/* pc carousel */}
         <div className="h-full grow hidden md:flex justify-end items-center">
-          <Slider setCurrentSlideIndex={setCurrentSlideIndex} />
+          <Slider setBgClassName={setBgClassName} />
         </div>
       </div>
       {/* mobile carousel */}
       <div className={cn("flex w-full relative z-20 md:hidden")}>
-        <Slider setCurrentSlideIndex={setCurrentSlideIndex} />
+        <Slider setBgClassName={setBgClassName} />
       </div>
       {/* banner background */}
       <div
         className={cn(
-          "h-[164px] md:h-full absolute top-0 right-0 max-w-[912px] w-full z-0 duration-100",
-          currentSlideIndex === 0 ? "banner-bg-0" : "banner-bg-1"
+          "h-[164px] md:h-full absolute top-0 right-0 max-w-[912px] w-full z-0",
+          bgClassName
         )}
       />
 

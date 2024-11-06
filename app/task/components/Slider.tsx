@@ -15,9 +15,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Slider({
-  setCurrentSlideIndex
+  setBgClassName
 }: {
-  setCurrentSlideIndex: (index: number) => void;
+  setBgClassName: (className: string) => void;
 }) {
   const { connected } = useWallet();
   const { onOpen: onOpenWalletModal } = useWalletModal();
@@ -35,9 +35,9 @@ export default function Slider({
       if (carouselElement) {
         carouselElement.style.boxShadow = slides[selectedSlide].boxShadow;
       }
-      setCurrentSlideIndex(selectedSlide);
+      setBgClassName(slides[selectedSlide].bgClassName);
     };
-
+    onSelect();
     api.on("select", onSelect);
     return () => {
       api.off("select", onSelect);
@@ -46,8 +46,21 @@ export default function Slider({
 
   const slides = [
     {
+      src: "/images/banner/banner-1.png",
+      boxShadow: "0px 0px 12px 0px #A315FF",
+      borderColor: "#9B00FF",
+      bgClassName: "banner-bg-1",
+      handleClick: () => {
+        window.open(
+          "https://www.bybit.com/en/web3/airdrop/activity?activityId=250",
+          "_blank"
+        );
+      }
+    },
+    {
       src: "/images/banner/banner-0.png",
       borderColor: "#25A3ED",
+      bgClassName: "banner-bg-0",
       boxShadow: "0px 0px 12px 0px rgba(37, 163, 237, 0.80)",
       handleClick: () => {
         setSwitchTo(NetworkId.FrontierV1);
@@ -65,17 +78,6 @@ export default function Slider({
 
         router.push("/task/play-on-sonicx");
       }
-    },
-    {
-      src: "/images/banner/banner-1.png",
-      boxShadow: "0px 0px 12px 0px #A315FF",
-      borderColor: "#9B00FF",
-      handleClick: () => {
-        window.open(
-          "https://www.bybit.com/en/web3/airdrop/activity?activityId=250",
-          "_blank"
-        );
-      }
     }
   ];
 
@@ -86,7 +88,8 @@ export default function Slider({
         boxShadow: slides[0].boxShadow
       }}
       opts={{
-        loop: true
+        loop: true,
+        dragFree: false
       }}
       plugins={[
         Autoplay({
