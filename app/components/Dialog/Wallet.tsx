@@ -42,27 +42,13 @@ import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { encodeBase64 } from "tweetnacl-util";
+import { networkMap } from "@/app/data/config";
 
 let lastAddress = "";
 let currentSignature = "";
 let currentToken = "";
 let messageToSign = "";
 let isWhitelist = false;
-
-const networkSwitchingNames: any = {
-  devnet: {
-    id: "1",
-    name: "Origin"
-  },
-  testnet: {
-    id: "2",
-    name: "Frontier v0"
-  },
-  testnetv1: {
-    id: "3",
-    name: "Frontier v1"
-  }
-};
 
 export function WalletDialog({ text = "Connect", className }: any) {
   const {
@@ -306,18 +292,12 @@ export function WalletDialog({ text = "Connect", className }: any) {
           <DialogHeader>
             <DialogTitle className="h-14 flex items-center md:h-auto sonic-title3 text-left text-tertary md:!text-primary md:sonic-headline5 font-orbitron">
               {isSwitching
-                ? `Welcome to Sonic - ${
-                    networkSwitchingNames[networkId || "devnet"].name
-                  }`
+                ? `Welcome to Sonic - ${networkMap[networkId].name}`
                 : "Connect Your Wallet"}
             </DialogTitle>
             <DialogDescription className="hidden md:block sonic-body3 text-tertary">
               {isSwitching ? (
-                <>
-                  Re-login required for Sonic Stage{" "}
-                  {networkSwitchingNames[networkId || "devnet"].id}{" "}
-                  {networkSwitchingNames[networkId || "devnet"].name}
-                </>
+                <>Re-login required for Sonic {networkMap[networkId].name}</>
               ) : (
                 <>
                   Choose one of the wallets and install the corresponding

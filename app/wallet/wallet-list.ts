@@ -9,6 +9,7 @@ import { GateWalletAdapter } from "./gate-adapter";
 import { BybitWalletAdapter } from "./bybit-adapter";
 
 import { openPopup } from "@/lib/santinize";
+import { NetworkId } from "../data/config";
 
 export const WalletList: any[] = [
   {
@@ -17,6 +18,11 @@ export const WalletList: any[] = [
     isSupportSonic: true,
     adapter: new OKXWalletAdapter(),
     hide: false,
+    network: {
+      [NetworkId.Origin]: true,
+      [NetworkId.FrontierV0]: false,
+      [NetworkId.FrontierV1]: true
+    },
     getDeepLink: () => {
       const baseUrl = "https://www.okx.com/download?deeplink=";
       const url = `${baseUrl}${encodeURIComponent(
