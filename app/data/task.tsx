@@ -153,7 +153,7 @@ export const taskGroupList: TaskGroup[] = [
         reward: "Test SOL Needed",
         icon: <RingLotteryLogo />,
         iconName: "chip",
-        visibleInNetworks: [NetworkId.Origin],
+        visibleInNetworks: [NetworkId.Origin, NetworkId.FrontierV0],
         available: {
           devnet: false,
           testnet: false
