@@ -73,16 +73,6 @@ export const WalletList: any[] = [
     },
     hide: false
   },
-
-  // {
-  //   id: "bitget",
-  //   name: "Bitget",
-  //   getDeepLink() {
-  //     const baseUrl = "https://bkcode.vip?action=dapp&url=";
-  //     const url = `${baseUrl}${window.location.href}`;
-  //     openPopup(url, "_blank");
-  //   },
-  // },
   {
     id: "phantom",
     name: "Phantom",
@@ -104,17 +94,23 @@ export const setUpUrls: any = {
     devnet:
       "https://blog.sonic.game/sonic-origin-network-settings---okx-wallet",
     testnet:
-      "https://blog.sonic.game/sonic-frontier-network-settings---okx-wallet"
+      "https://blog.sonic.game/sonic-frontier-network-settings---okx-wallet",
+    testnetv1:
+      "https://mirrorworldfun.notion.site/Sonic-Frontier-V1-Network-Setting-OKX-Wallet-1362d67d7b5f80568a44d96fb33ab8ec"
   },
   nightly: {
     devnet: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
     testnet:
-      "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet"
+      "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet",
+    testnetv1:
+      "https://mirrorworldfun.notion.site/Sonic-Frontier-V1-Network-Setting-Nightly-Wallet-1362d67d7b5f8095bdbee7b18b3f2464?pvs=73"
   },
   backpack: {
     devnet: "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
     testnet:
-      "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet"
+      "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet",
+    testnetv1:
+      "https://mirrorworldfun.notion.site/Sonic-Frontier-V1-Network-Setting-Backpack-Wallet-1362d67d7b5f805baec3f2abd65baaf9"
   },
   ["gate wallet"]: {
     devnet:
@@ -132,3 +128,7 @@ export const isSupportSonic = (walletName: string | undefined) => {
     (wallet: any) => wallet.name.toLowerCase() === walletName.toLowerCase()
   )?.isSupportSonic;
 };
+
+export const walletMap = new Map(
+  WalletList.map((wallet) => [wallet.name, wallet])
+);

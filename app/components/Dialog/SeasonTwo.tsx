@@ -50,8 +50,19 @@ export default function SeasonTwo() {
           {" "}
           All Sonic boxes, rings and all on-chain data on Origin or Fronter V0
           remain on their respective networks. You can still view or use them as
-          usual. For Frontier V0, please check this guide to adjust network
-          settings and view on-chain data.
+          usual. For Frontier V0, please check this{" "}
+          <span
+            className="text-link cursor-pointer hover:text-primary-blue"
+            onClick={() => {
+              window.open(
+                "https://mirrorworldfun.notion.site/Sonic-Frontier-V0-Wallet-Setting-1362d67d7b5f80199875de0983831596",
+                "_blank"
+              );
+            }}
+          >
+            guide
+          </span>{" "}
+          to adjust network settings and view on-chain data.
         </>
       ]
     },

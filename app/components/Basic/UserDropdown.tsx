@@ -32,6 +32,7 @@ export function UserDropdown() {
   const { isOpen, onOpen, setSwitching } = useWalletModal();
   const { select, wallet, wallets, publicKey, disconnect, connecting } =
     useWallet();
+
   const { address, token, reset } = useAccountInfo();
   const { networkId } = useNetworkInfo();
 

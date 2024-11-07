@@ -14,11 +14,10 @@ import {
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { getFaucetUrl, GUIDE_URL, NetworkId } from "@/app/data/config";
+import { getFaucetUrl, GUIDE_URL } from "@/app/data/config";
 
 export function HowToPlayDialog() {
   const { modalHash, closeModal } = useModalHash();
-  const { networkId } = useNetworkInfo();
 
   return (
     <Dialog
@@ -29,14 +28,8 @@ export function HowToPlayDialog() {
         closeClassName="hidden md:block"
         className="max-w-[640px] p-0 w-full h-full md:h-auto text-primary"
       >
-        <PcHowToPlay
-          guideUrl={GUIDE_URL[networkId as NetworkId]}
-          faucetUrl={getFaucetUrl()}
-        />
-        <MobileHowToPlay
-          guideUrl={GUIDE_URL[networkId as NetworkId]}
-          faucetUrl={getFaucetUrl()}
-        />
+        <PcHowToPlay guideUrl={GUIDE_URL} faucetUrl={getFaucetUrl()} />
+        <MobileHowToPlay guideUrl={GUIDE_URL} faucetUrl={getFaucetUrl()} />
       </DialogContent>
     </Dialog>
   );

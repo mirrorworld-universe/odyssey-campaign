@@ -53,22 +53,22 @@ import { UserDropdown } from "./UserDropdown";
 export const menu: any[] = [
   {
     name: "Task Center",
-    getLink: (networkId: NetworkId) => "/task",
+    getLink: () => "/task",
     target: "_self"
   },
   {
     name: "Faucet",
-    getLink: (networkId?: string) => getFaucetUrl(),
+    getLink: () => getFaucetUrl(),
     target: "_blank"
   },
   {
     name: "Guide",
-    getLink: (networkId: NetworkId) => GUIDE_URL[networkId],
+    getLink: () => GUIDE_URL,
     target: "_blank"
   },
   {
     name: "About",
-    getLink: (networkId: NetworkId) => "https://sonic.game/",
+    getLink: () => "https://sonic.game/",
     target: "_blank"
   }
 ];

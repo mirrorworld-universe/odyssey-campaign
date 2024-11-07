@@ -28,7 +28,7 @@ export const networks: Network[] = [
     type: "Testnet",
     name: "Frontier V1",
     url: "/testnet-v1",
-    rpc: "https://api.testnet.v1.sonic.game"
+    rpc: "https://rpc.ironforge.network/mainnet?apiKey=01JBVM90DWPB40FZWA11VVPCA3"
   }
 ];
 
@@ -57,12 +57,8 @@ export const FAUCET_URL = {
   [NetworkId.FrontierV1]: "https://faucet.sonic.game/#/?network=testnet.v1"
 };
 
-export const GUIDE_URL = {
-  [NetworkId.Origin]: "https://blog.sonic.game/sonic-testnet-odyssey-guide",
-  [NetworkId.FrontierV0]:
-    "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide",
-  [NetworkId.FrontierV1]: "https://blog.sonic.game/sonic-testnet-odyssey-guide"
-};
+export const GUIDE_URL =
+  "https://mirrorworldfun.notion.site/Sonic-Odyssey-Season-2-Guide-1302d67d7b5f808c8c20c6c8596456aa";
 
 export function getFaucetUrl(networkId?: string, wallet?: string) {
   wallet = wallet ?? storage.get("sonic-account-info", "state.address") ?? "";
