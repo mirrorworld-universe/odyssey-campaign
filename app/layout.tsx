@@ -47,7 +47,9 @@ export const metadata: Metadata = {
     title: "Sonic Odyssey",
     description:
       "Join the Sonic Odyssey Testnet Campaign. Earn Your Ring Rewards!",
-    images: ["https://storage.sonic.game/odyssey/frontend/image/bg.gif"]
+    images: [
+      "https://storage.sonic.game/odyssey/frontend/image/Season2PreviewBanner.gif"
+    ]
   },
 
   twitter: {
@@ -56,7 +58,9 @@ export const metadata: Metadata = {
     description:
       "Join the Sonic Odyssey Testnet Campaign. Earn Your Ring Rewards!",
     creator: "@SonicSVM",
-    images: ["https://storage.sonic.game/odyssey/frontend/image/bg.gif"]
+    images: [
+      "https://storage.sonic.game/odyssey/frontend/image/Season2PreviewBanner.gif"
+    ]
   }
 };
 
