@@ -51,18 +51,15 @@ export default function Slider({
       boxShadow: "0px 0px 12px 0px #A315FF",
       borderColor: "#9B00FF",
       bgClassName: "banner-bg-1",
-      handleClick: () => {
-        window.open(
-          "https://www.bybit.com/en/web3/airdrop/activity?activityId=250",
-          "_blank"
-        );
-      }
+      handleClick: () => {},
+      available: false
     },
     {
       src: "/images/banner/banner-0.png",
       borderColor: "#25A3ED",
       bgClassName: "banner-bg-0",
       boxShadow: "0px 0px 12px 0px rgba(37, 163, 237, 0.80)",
+      available: true,
       handleClick: () => {
         setSwitchTo(NetworkId.FrontierV1);
         const isTestnetV1 = networkId === NetworkId.FrontierV1;
@@ -107,27 +104,35 @@ export default function Slider({
         {slides.map((slide, index) => (
           <CarouselItem
             key={index}
-            className="flex items-center basis-full cursor-pointer group/banner"
+            className={cn(
+              "flex items-center basis-full group/banner",
+              slide.available ? "cursor-pointer" : ""
+            )}
           >
             <div
               className="size-full relative border-t md:border md:rounded overflow-hidden"
               style={{ borderColor: slide.borderColor }}
             >
               <img
-                className="size-full transition-all duration-300 group-hover/banner:scale-110"
+                className={cn(
+                  "size-full transition-all duration-300",
+                  slide.available ? "group-hover/banner:scale-110" : ""
+                )}
                 src={slide.src}
                 alt=""
               />
-              <div
-                onClick={slide.handleClick}
-                className={cn(
-                  "flex-center absolute inset-0 rounded z-10 bg-bg-mask/80",
-                  "sonic-headline4 font-orbitron gap-1 group-hover/banner:opacity-100 opacity-0 transition-opacity duration-300"
-                )}
-              >
-                <PlayLogo />
-                Start Now
-              </div>
+              {slide.available && (
+                <div
+                  onClick={slide.handleClick}
+                  className={cn(
+                    "flex-center absolute inset-0 rounded z-10 bg-bg-mask/80",
+                    "sonic-headline4 font-orbitron gap-1 group-hover/banner:opacity-100 opacity-0 transition-opacity duration-300"
+                  )}
+                >
+                  <PlayLogo />
+                  Start Now
+                </div>
+              )}
             </div>
           </CarouselItem>
         ))}
