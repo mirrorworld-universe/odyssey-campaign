@@ -77,9 +77,7 @@ export default function Banner() {
         </div>
       </div>
       {/* mobile carousel */}
-      <div
-        className={cn("flex w-full relative z-20 md:hidden mix-blend-normal")}
-      >
+      <div className={cn("flex w-full relative z-20 md:hidden")}>
         <Slider setBgClassName={setBgClassName} />
       </div>
       {/* banner background */}

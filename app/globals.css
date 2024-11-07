@@ -114,12 +114,12 @@ html {
 }
 
 .banner-bg-1 {
-  background: url("/images/banner/banner-bg-1.png") repeat 0 0 / 360px 360px,
-    linear-gradient(83deg, rgba(0, 0, 0, 0.9) 11.45%, #9b00ff 128.94%);
+  background: url("/images/banner/banner-bg-1.png") repeat 0 0 / 329px 329px,
+    linear-gradient(83deg, rgba(0, 0, 0, 0.7) 11.45%, #9b00ff 128.94%);
   background-blend-mode: overlay, normal;
 }
 .banner-bg-0 {
-  background: url("/images/banner/banner-bg-0.png") repeat 0 0 / 400px 400px,
+  background: url("/images/banner/banner-bg-0.png") repeat 0 0 / 397px 322px,
     linear-gradient(83deg, rgba(0, 0, 0, 0.9) 11.45%, #25a3ed 128.94%);
   background-blend-mode: overlay, normal;
 }
