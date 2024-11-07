@@ -47,6 +47,7 @@ export default function Slider({
 
   const slides = [
     {
+      name: "bybit",
       src: "/images/banner/banner-1.png",
       boxShadow: "0px 0px 12px 0px #A315FF",
       borderColor: "#9B00FF",
@@ -55,6 +56,7 @@ export default function Slider({
       available: false
     },
     {
+      name: "sonicx",
       src: "/images/banner/banner-0.png",
       borderColor: "#25A3ED",
       bgClassName: "banner-bg-0",
@@ -121,6 +123,11 @@ export default function Slider({
                 src={slide.src}
                 alt=""
               />
+              {slide.name === "bybit" && (
+                <div className="sonic-title3 text-[#B573FF] absolute inset-x-0 text-center bottom-9">
+                  Get Ready – Starting November 11th!
+                </div>
+              )}
               {slide.available && (
                 <div
                   onClick={slide.handleClick}
