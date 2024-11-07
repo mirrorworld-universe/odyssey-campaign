@@ -55,7 +55,7 @@ export default function SeasonTwo() {
             className="text-link cursor-pointer hover:text-primary-blue"
             onClick={() => {
               window.open(
-                "https://mirrorworldfun.notion.site/Sonic-Frontier-V0-Wallet-Setting-1362d67d7b5f80199875de0983831596",
+                "https://blog.sonic.game/sonic-frontier-v0-wallet-setting",
                 "_blank"
               );
             }}

@@ -96,21 +96,21 @@ export const setUpUrls: any = {
     testnet:
       "https://blog.sonic.game/sonic-frontier-network-settings---okx-wallet",
     testnetv1:
-      "https://mirrorworldfun.notion.site/Sonic-Frontier-V1-Network-Setting-OKX-Wallet-1362d67d7b5f80568a44d96fb33ab8ec"
+      "https://blog.sonic.game/sonic-frontier-v1-network-setting---okx-wallet"
   },
   nightly: {
     devnet: "https://blog.sonic.game/sonic-network-settings---nightly-wallet",
     testnet:
       "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet",
     testnetv1:
-      "https://mirrorworldfun.notion.site/Sonic-Frontier-V1-Network-Setting-Nightly-Wallet-1362d67d7b5f8095bdbee7b18b3f2464?pvs=73"
+      "https://blog.sonic.game/sonic-frontier-v1-network-settings---nightly-wallet"
   },
   backpack: {
     devnet: "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
     testnet:
       "https://blog.sonic.game/sonic-frontier-network-settings---backpack-wallet",
     testnetv1:
-      "https://mirrorworldfun.notion.site/Sonic-Frontier-V1-Network-Setting-Backpack-Wallet-1362d67d7b5f805baec3f2abd65baaf9"
+      "https://blog.sonic.game/sonic-frontier-v1-network-setting---backpack-wallet"
   },
   ["gate wallet"]: {
     devnet:
