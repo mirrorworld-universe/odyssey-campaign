@@ -112,6 +112,14 @@ export const setUpUrls: any = {
     testnetv1:
       "https://blog.sonic.game/sonic-frontier-v1-network-setting---backpack-wallet"
   },
+  ["Bybit Wallet"]: {
+    devnet:
+      "https://blog.sonic.game/sonic-frontier-v1-network-setting---bybit-wallet",
+    testnet:
+      "https://blog.sonic.game/sonic-frontier-v1-network-setting---bybit-wallet",
+    testnetv1:
+      "https://blog.sonic.game/sonic-frontier-v1-network-setting---bybit-wallet"
+  },
   ["gate wallet"]: {
     devnet:
       "https://blog.sonic.game/sonic-origin-network-settings---gate-wallet",

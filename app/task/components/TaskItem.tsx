@@ -36,7 +36,7 @@ export function TaskItem({ task }: { task: Task }) {
         {isInWalletCampaignTime(networkId) &&
         task.extraBonus &&
         task.extraBonus.length > 0 ? (
-          <div className="md:flex hidden items-center gap-2 text-caption1 text-gold-yellow font-orbitron">
+          <div className="md:flex hidden items-center gap-2 sonic-caption1 text-gold-yellow font-orbitron">
             Extra Bonus:
             {task.extraBonus?.map((extraBonus: any) => (
               <div key={extraBonus.id}>{extraBonus.icon}</div>
