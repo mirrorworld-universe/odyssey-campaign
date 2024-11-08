@@ -106,8 +106,8 @@ export default function RingPopover() {
     const data = dataRewardsInfo?.data;
     if (data) {
       const { wallet_balance, ring, ring_monitor } = data;
-      setRingAmount(ring);
-      setMysteryBoxRewardsAmount(ring);
+      setRingAmount(ring.toFixed(0));
+      setMysteryBoxRewardsAmount(ring.toFixed(0));
 
       setRingMonitorAmount(ring_monitor);
       setMysteryBoxAmount(ring_monitor);
