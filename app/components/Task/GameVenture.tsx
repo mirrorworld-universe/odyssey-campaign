@@ -159,6 +159,15 @@ export function GameVenture() {
         play: "https://dev.zeebit.io/",
         time: "2024-09-16T21:00:00+08:00",
         available: true
+      },
+      {
+        name: "Fomoney",
+        cover: "/images/games/b.jpg",
+        guide:
+          "https://remarkable-galette-26e.notion.site/How-to-Play-FoMoney-on-Odyssey-Season-2-131bcac170a28097adfcf92941a7b802",
+        play: "https://fomoney-sonic.io/",
+        time: "2024-09-16T21:00:00+08:00",
+        available: true
       }
     ]
   };

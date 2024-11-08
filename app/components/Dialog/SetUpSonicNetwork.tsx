@@ -52,7 +52,8 @@ export function SetUpSonicNetworkDialog() {
               Set Up Sonic Network
             </h1>
             <p className="sonic-body3 text-tertary">
-              Set up Sonic network for your {wallet?.adapter.name} wallet
+              Set up Sonic network for your{" "}
+              {wallet?.adapter.name.replace(/wallet/gi, "")} wallet
             </p>
           </div>
 
