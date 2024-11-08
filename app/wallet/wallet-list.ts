@@ -103,7 +103,7 @@ export const setUpUrls: any = {
     testnet:
       "https://blog.sonic.game/sonic-frontier-network-settings---nightly-wallet",
     testnetv1:
-      "https://blog.sonic.game/sonic-frontier-v1-network-settings---nightly-wallet"
+      "https://blog.sonic.game/sonic-frontier-v1-network-setting---nightly-wallet"
   },
   backpack: {
     devnet: "https://blog.sonic.game/sonic-network-settings---backpack-wallet",
