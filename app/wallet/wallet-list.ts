@@ -112,7 +112,7 @@ export const setUpUrls: any = {
     testnetv1:
       "https://blog.sonic.game/sonic-frontier-v1-network-setting---backpack-wallet"
   },
-  ["Bybit Wallet"]: {
+  ["bybit wallet"]: {
     devnet:
       "https://blog.sonic.game/sonic-frontier-v1-network-setting---bybit-wallet",
     testnet:
