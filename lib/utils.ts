@@ -160,3 +160,18 @@ export const isInLotteryCampaignTime = (networkId = "devnet") => {
   const endTime = new UTCDate(lotteryCampaignEndTime);
   return now >= startTime && now <= endTime && isLotteryCampaignNetwork;
 };
+
+declare global {
+  interface Window {
+    nightly?: any;
+  }
+}
+
+export function changeNetwork(wallet?: Wallet) {
+  if (wallet?.adapter.name === "Nightly") {
+    return window.nightly?.solana?.changeNetwork({
+      genesisHash: "E8nY8PG8PEdzANRsv91C2w28Dbw9w3AhLqRYfn5tNv2C",
+      url: ""
+    });
+  }
+}

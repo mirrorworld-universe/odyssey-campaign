@@ -152,14 +152,14 @@ export function GameVenture() {
         time: "2024-09-16T21:00:00+08:00",
         available: true
       },
-      {
-        name: "zeebit",
-        cover: "/images/games/zeebit.jpeg",
-        guide: "https://zeebit.gitbook.io/zeebit-sonic",
-        play: "https://dev.zeebit.io/",
-        time: "2024-09-16T21:00:00+08:00",
-        available: true
-      },
+      // {
+      //   name: "zeebit",
+      //   cover: "/images/games/zeebit.jpeg",
+      //   guide: "https://zeebit.gitbook.io/zeebit-sonic",
+      //   play: "https://dev.zeebit.io/",
+      //   time: "2024-09-16T21:00:00+08:00",
+      //   available: true
+      // },
       {
         name: "Fomoney",
         cover: "/images/games/b.jpg",
