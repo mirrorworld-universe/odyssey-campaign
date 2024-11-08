@@ -9,12 +9,12 @@ import {
   WalletNotReadyError,
   WalletPublicKeyError,
   WalletReadyState,
-  WalletSignTransactionError,
+  WalletSignTransactionError
 } from "@solana/wallet-adapter-base";
 import type {
   Transaction,
   TransactionVersion,
-  VersionedTransaction,
+  VersionedTransaction
 } from "@solana/web3.js";
 import { PublicKey } from "@solana/web3.js";
 

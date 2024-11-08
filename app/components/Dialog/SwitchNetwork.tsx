@@ -1,112 +1,96 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { useSwitchNetworkModal } from "@/app/store/tutorials";
+import { fetchLogout } from "@/app/data/account";
+import { NetworkId, networkMap } from "@/app/data/config";
+import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
+import { SwitchLogo } from "@/app/logos/SwitchLogo";
 import {
   useAccountInfo,
   useNetworkInfo,
-  useWalletModal,
+  useWalletModal
 } from "@/app/store/account";
-import { Switch } from "@/app/icons/Switch";
+import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { useMutation } from "@tanstack/react-query";
-import { fetchLogout } from "@/app/data/account";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function SwitchNetworkDialog() {
   const router = useRouter();
-  const networkSwitchingNames: any = {
-    devnet: {
-      id: "testnet",
-      name: "Frontier",
-    },
-    testnet: {
-      id: "devnet",
-      name: "Origin",
-    },
-  };
+  const { disconnect, connected } = useWallet();
+  const { onOpen: onOpenWalletModal, setSwitching } = useWalletModal();
+  const { token, reset } = useAccountInfo();
+  const { networkId, setNetworkId, switchTo } = useNetworkInfo();
+  const { closeModal, modalHash } = useModalHash();
 
-  const { disconnect } = useWallet();
-  const {
-    isOpen: isOpenWalletModal,
-    onOpen: onOpenWalletModal,
-    onClose: onCloseWalletModal,
-    setSwitching,
-  } = useWalletModal();
-  const { isOpen, onOpen, onClose } = useSwitchNetworkModal();
-  const { token, isInWhitelist, reset } = useAccountInfo();
-  const { networkId, setNetworkId } = useNetworkInfo();
-
-  const [logingOut, setLogingOut] = useState(false);
-
-  const mutationLogout = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: () => fetchLogout({ token, networkId }),
     onSuccess: () => {
       reset();
       disconnect();
 
-      setNetworkId(networkSwitchingNames[networkId || "devnet"].id);
+      setNetworkId(switchTo);
       router.push("/");
-      onClose();
-
-      setLogingOut(false);
+      closeModal();
 
       setSwitching(true);
       onOpenWalletModal();
-    },
+    }
   });
 
-  const handleToLogout = () => {
-    setLogingOut(true);
-    mutationLogout.mutate();
+  const handleClick = () => {
+    if (connected) {
+      mutate();
+    } else {
+      setNetworkId(switchTo);
+      closeModal();
+      onOpenWalletModal();
+    }
   };
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="max-w-[calc(100%_-_32px)] w-full md:w-[460px] bg-[#1A1A1A] border-none md:rounded-2xl px-8 py-8">
-        <AlertDialogHeader className="">
-          <AlertDialogTitle className="flex flex-col justify-start items-center text-white text-[32px] font-orbitron gap-8">
-            <p className="flex flex-row justify-center items-center gap-3 text-white text-5xl font-semibold font-orbitron pt-4">
-              <Switch width={64} height={64} color="#FBD314" />
+    <AlertDialog
+      open={modalHash === MODAL_HASH_MAP.switchNetwork}
+      onOpenChange={closeModal}
+    >
+      <AlertDialogContent className="px-10 md:p-0 w-full md:max-w-[360px] text-primary text-center">
+        <div className="p-6 bg-bg-popup items-center flex-v gap-6 md:gap-8">
+          <SwitchLogo className="size-[54px] md:size-16 mt-4" />
+          <div className="flex-v gap-4">
+            <h2 className="sonic-headline5 md:sonic-headline4 font-orbitron">
+              Switching to {networkMap[switchTo]?.name}
+            </h2>
+            <p className="sonic-body3 text-tertary">
+              {switchTo === NetworkId.FrontierV1 ? (
+                <>
+                  You're currently on the {networkMap[networkId]?.name} network.
+                  To participate in tasks, you'll need to switch to the latest{" "}
+                  {networkMap[switchTo]?.name} network, which requires
+                  re-logging into your wallet.
+                </>
+              ) : (
+                <>
+                  You're currently on the {networkMap[networkId]?.name} network.
+                  If you want to switch to the {networkMap[switchTo]?.name}{" "}
+                  network, you'll need to re-log into your wallet.
+                </>
+              )}
             </p>
-            <span className="text-white text-2xl font-semibold font-orbitron">
-              Switching to Sonic{" "}
-              {networkSwitchingNames[networkId || "devnet"].name}
-            </span>
-          </AlertDialogTitle>
-          <AlertDialogDescription className="text-[#717171] text-base text-center mt-4">
-            To switch to the {networkSwitchingNames[networkId || "devnet"].name}{" "}
-            network, you need to log out of your current wallet connection. Do
-            you wish to continue?
-          </AlertDialogDescription>
-        </AlertDialogHeader>
+          </div>
 
-        <div className="flex flex-col gap-4 mt-12">
-          <Button
-            className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
-            onClick={handleToLogout}
-            disabled={logingOut}
-          >
-            Log Out
-          </Button>
-          <Button
-            className="w-full h-12 bg-transparent hover:bg-transparent text-white/30 font-orbitron hover:opacity-80 active:opacity-50 transition-colors duration-300"
-            onClick={onClose}
-          >
-            Cancel
-          </Button>
+          <div className="flex-v gap-2 w-full sonic-title2 font-orbitron mt-2 md:mt-auto">
+            <Button
+              onClick={handleClick}
+              disabled={isPending}
+              variant={"primary"}
+              size={"lg"}
+            >
+              {connected ? "Log out" : "Continue"}
+            </Button>
+            <Button onClick={closeModal} variant={"cancel"} size={"lg"}>
+              Cancel
+            </Button>
+          </div>
         </div>
       </AlertDialogContent>
     </AlertDialog>

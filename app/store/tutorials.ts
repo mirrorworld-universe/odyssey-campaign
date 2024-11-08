@@ -9,14 +9,14 @@ export const useWelcomeModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));
 
 export const useWhitelistModal = create<{
@@ -27,14 +27,14 @@ export const useWhitelistModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));
 
 export const useSwitchNetworkModal = create<{
@@ -45,14 +45,14 @@ export const useSwitchNetworkModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));
 
 export const useSetUpNetworkModal = create<{
@@ -63,14 +63,14 @@ export const useSetUpNetworkModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));
 
 export const useSetUpFinishModal = create<{
@@ -81,14 +81,14 @@ export const useSetUpFinishModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));
 
 export const useMoreWalletModal = create<{
@@ -99,14 +99,14 @@ export const useMoreWalletModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));
 
 export const useHowToPlayModal = create<{
@@ -117,14 +117,14 @@ export const useHowToPlayModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));
 
 export const useFAQModal = create<{
@@ -135,14 +135,14 @@ export const useFAQModal = create<{
   isOpen: false,
   onOpen: () => {
     set({
-      isOpen: true,
+      isOpen: true
     });
   },
   onClose: () => {
     set({
-      isOpen: false,
+      isOpen: false
     });
-  },
+  }
 }));
 
 export const useSetupInfo = create(
@@ -154,12 +154,12 @@ export const useSetupInfo = create(
       status: get()?.status,
       setStatus: (status: any) => {
         set({
-          status,
+          status
         });
-      },
+      }
     }),
     {
-      name: "sonic-setup-info",
+      name: "sonic-setup-info"
     }
   )
 );

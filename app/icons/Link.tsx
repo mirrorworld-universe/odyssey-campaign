@@ -2,7 +2,7 @@ export function Link({
   width = 32,
   height = 33,
   color = "white",
-  className = "",
+  className = ""
 }) {
   return (
     <svg
@@ -16,7 +16,7 @@ export function Link({
       <mask
         id="maskXlink"
         style={{
-          maskType: "alpha",
+          maskType: "alpha"
         }}
         maskUnits="userSpaceOnUse"
         x="0"

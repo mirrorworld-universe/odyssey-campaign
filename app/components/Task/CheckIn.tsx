@@ -1,54 +1,43 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import {
-  Keypair,
-  SystemProgram,
-  Transaction,
-  sendAndConfirmTransaction,
-  Commitment,
-  Connection,
-} from "@solana/web3.js";
+import { Transaction } from "@solana/web3.js";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
-import { Gift } from "@/app/icons/Gift";
-import { OKX as IconOKX } from "@/app/icons/OKX";
-import { OKXTransparent as IconOKXTransparent } from "@/app/icons/OKXTransparent";
 import { Backpack as IconBackpack } from "@/app/icons/Backpack";
+import { Gift } from "@/app/icons/Gift";
+import { OKXTransparent as IconOKXTransparent } from "@/app/icons/OKXTransparent";
 
-import { Button } from "@/components/ui/button";
-import {
-  useAccountInfo,
-  useNetworkInfo,
-  useSystemInfo,
-} from "@/app/store/account";
 import {
   fetchCheckinStatus,
   fetchCheckinTransaction,
-  fetchFinishCheckin,
+  fetchFinishCheckin
 } from "@/app/data/task";
+import {
+  useAccountInfo,
+  useNetworkInfo,
+  useSystemInfo
+} from "@/app/store/account";
+import { Button } from "@/components/ui/button";
 
-import { Card, CardSize } from "../Basic/Card";
-import base58 from "bs58";
-import { Loader2 } from "lucide-react";
+import { WalletList } from "@/app/wallet/wallet-list";
+import { toast } from "@/components/ui/use-toast";
+import { trackClick } from "@/lib/track";
+import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import {
   cn,
   hasExtraWalletBonus,
   isInWalletCampaignTime,
   walletCampaignEndTime,
-  walletCampaignStartTime,
+  walletCampaignStartTime
 } from "@/lib/utils";
-import {
-  confirmTransaction,
-  sendLegacyTransaction,
-  sendSignedTransaction,
-} from "@/lib/transactions";
-import { toast } from "@/components/ui/use-toast";
-import { trackClick } from "@/lib/track";
-import { Rules } from "./Rules";
-import { WalletList } from "@/app/wallet/wallet-list";
-import { format } from "date-fns";
 import { UTCDate } from "@date-fns/utc";
+import { format } from "date-fns";
+import { Loader2 } from "lucide-react";
+import { Card, CardSize } from "../Basic/Card";
+import { Rules } from "./Rules";
+import { BybitLogo } from "@/app/logos/BybitLogo";
+import { getFaucetUrl } from "@/app/data/config";
 
 let transactionHash = "";
 let currentToken = "";
@@ -60,7 +49,7 @@ export function CheckIn() {
   const linearGradients = [
     "from-[#00F] to-[#25A3ED]",
     "from-[#00F] via-[#25A3ED] to-[#90D2F9]",
-    "from-[#FBB042] to-[#FF5C00]",
+    "from-[#FBB042] to-[#FF5C00]"
   ];
 
   const { isInMaintenance } = useSystemInfo();
@@ -78,6 +67,7 @@ export function CheckIn() {
   const walletIcons: any = {
     okx: <IconOKXTransparent className="w-full h-full" color="white" />,
     backpack: <IconBackpack className="w-full h-full" color="white" />,
+    bybit: <BybitLogo />
   };
 
   const getPartition = () => {
@@ -140,11 +130,11 @@ export function CheckIn() {
   const {
     data: dataCheckInInfo,
     isLoading: loadingCheckInInfo,
-    refetch: refetchCheckInInfo,
+    refetch: refetchCheckInInfo
   } = useQuery({
     queryKey: ["queryCheckInInfo", address],
     queryFn: () => fetchCheckinStatus({ token, networkId }),
-    enabled: !!token,
+    enabled: !!token
   });
 
   const getTransactionHash = useMutation({
@@ -156,7 +146,7 @@ export function CheckIn() {
       } else {
         setIsChekingIn(false);
       }
-    },
+    }
   });
 
   const mutationCheckIn = useMutation({
@@ -186,10 +176,10 @@ export function CheckIn() {
               </span>
               . Open it in the navbar to exchange for rings.
             </p>
-          ),
+          )
         });
       }
-    },
+    }
   });
 
   const computedMaxRewards = () => {
@@ -216,7 +206,7 @@ export function CheckIn() {
           className
         )}
       >
-        <div className={cn("inline-flex w-[14px] h-[14px]")}>
+        <div className={cn("inline-flex")}>
           {
             walletIcons[
               WalletList.find(
@@ -249,10 +239,7 @@ export function CheckIn() {
           )
             .map((wallet: any) => wallet.id)
             .map((bonus: any, bonusIndex: number) => (
-              <div
-                className={cn("inline-flex w-[14px] h-[14px]")}
-                key={bonusIndex}
-              >
+              <div className={cn("inline-flex")} key={bonusIndex}>
                 {walletIcons[bonus]}
               </div>
             ))}
@@ -305,9 +292,7 @@ export function CheckIn() {
               Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:underline"
-                href={`https://faucet.sonic.game/#/${
-                  networkId === "testnet" ? "?network=testnet" : ""
-                }`}
+                href={getFaucetUrl(networkId)}
                 target="_blank"
               >
                 Request here.
@@ -361,14 +346,11 @@ export function CheckIn() {
                   .
                 </li>
               </ul>
-              {isInWalletCampaignTime(networkId) ? (
-                <li>
-                  The duration for the extra bonus for OKX Wallet and Backpack
-                  Wallet is from{" "}
-                  {format(new UTCDate(walletCampaignStartTime), "PPP")} to{" "}
-                  {format(new UTCDate(walletCampaignEndTime), "PPP")}
-                </li>
-              ) : null}
+              <li>
+                The duration for the extra bonus for Bybit Wallet is from{" "}
+                {format(new UTCDate(walletCampaignStartTime), "PPP")} to{" "}
+                {format(new UTCDate(walletCampaignEndTime), "PPP")}
+              </li>
             </li>
           </ul>
         </Rules>
@@ -402,7 +384,7 @@ export function CheckIn() {
                       checkInDays > totalDays
                         ? 100
                         : (checkInDays / totalDays) * 100
-                    }%`,
+                    }%`
                   }}
                 ></div>
                 <div
@@ -415,7 +397,7 @@ export function CheckIn() {
                       checkInDays > totalDays
                         ? 100
                         : (checkInDays / totalDays) * 100
-                    }%`,
+                    }%`
                   }}
                 ></div>
               </div>

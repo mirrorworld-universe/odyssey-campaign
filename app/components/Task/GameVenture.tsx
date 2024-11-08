@@ -1,18 +1,16 @@
 "use client";
-import Link from "next/link";
+import { Close } from "@/app/icons/Close";
+import { Hour as IconHour } from "@/app/icons/Hour";
 import { Link as IconLink } from "@/app/icons/Link";
 import { Play as IconPlay } from "@/app/icons/Play";
-import { Hour as IconHour } from "@/app/icons/Hour";
-import { Card, CardSize } from "../Basic/Card";
-import { trackLinkClick } from "@/lib/track";
-import { UTCDate } from "@date-fns/utc";
-import { Rules } from "./Rules";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { useNetworkInfo } from "@/app/store/account";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Button } from "@/components/ui/button";
+import { trackLinkClick } from "@/lib/track";
 import { cn, isMobileViewport } from "@/lib/utils";
-import { Close } from "@/app/icons/Close";
+import { UTCDate } from "@date-fns/utc";
+import { useState } from "react";
+import { Rules } from "./Rules";
 
 export function GameVenture() {
   const { networkId } = useNetworkInfo();
@@ -25,14 +23,9 @@ export function GameVenture() {
           "https://mirrorworldfun.notion.site/SnakeLite-Odyssey-Game-and-Task-Guide-585d67b5d76348ba868d58a5d1acfa72?pvs=4",
         play: "https://t.me/Snakelite_official_bot",
         time: "2024-07-04T21:00:00+08:00",
-        available: true,
+        available: true
       },
-      // {
-      //   name: "Lumittera",
-      //   cover: "/images/games/a.jpg",
-      //   guide: "",
-      //   play: "",
-      // },
+
       {
         name: "FoMoney",
         cover: "/images/games/b.jpg",
@@ -40,7 +33,7 @@ export function GameVenture() {
           "https://fomoney.gitbook.io/fomoney-litepaper/how-to-play-fomoney-to-earn-1-million-usdsonic-rings-via-odyssey-campaign",
         play: "https://fomoney-sonic.io/",
         time: "2024-06-27T21:00:00+08:00",
-        available: true,
+        available: true
       },
       {
         name: "JOGO JOGO",
@@ -49,7 +42,7 @@ export function GameVenture() {
           "https://mirrorworldfun.notion.site/JOGOJOGO-Odyssey-Game-and-Task-Guide-f8b1e4d54bee4d318926964c9f87a4be",
         play: "https://app.jogojogo.game/register?code=SOSONIC",
         time: "2024-07-30T21:00:00+08:00",
-        available: true,
+        available: true
       },
       {
         name: "Startup",
@@ -57,16 +50,17 @@ export function GameVenture() {
         guide: "https://playstartup.io/guide",
         play: "https://playstartup.io/",
         time: "2024-08-23T18:00:00+08:00",
-        available: true,
+        available: true
       },
       {
         name: "Rage Effect",
         cover: "/images/games/rage.png",
-        guide: "https://www.okx.com/zh-hans/web3/campaigns/sonicadventures",
-        play: "https://app.galxe.com/quest/akm5d3TjpuWayDn9TEPLso/GCEwytxpJ1",
+        guide:
+          "https://docs.google.com/document/d/1W3E7bJ__2awDIw768xsshm3opxz45CAaAbkGzcYKv-4/edit?usp=sharing",
+        play: "https://play.google.com/store/apps/details?id=com.goldonstudios.rageeffect",
         time: "2024-09-16T21:00:00+08:00",
-        available: true,
-      },
+        available: true
+      }
     ],
 
     testnet: [
@@ -77,7 +71,7 @@ export function GameVenture() {
           "https://mirrorworldfun.notion.site/SnakeLite-Odyssey-Game-and-Task-Guide-585d67b5d76348ba868d58a5d1acfa72?pvs=4",
         play: "https://t.me/Snakelite_official_bot",
         time: "2024-08-08T21:00:00+08:00",
-        available: true,
+        available: true
       },
       {
         name: "JOGO JOGO",
@@ -86,7 +80,7 @@ export function GameVenture() {
           "https://mirrorworldfun.notion.site/JOGOJOGO-Odyssey-Game-and-Task-Guide-f8b1e4d54bee4d318926964c9f87a4be",
         play: "https://app.jogojogo.game/register?code=SOSONIC",
         time: "2024-07-30T21:00:00+08:00",
-        available: true,
+        available: true
       },
       {
         name: "Zeebit",
@@ -94,7 +88,7 @@ export function GameVenture() {
         guide: "https://zeebit.gitbook.io/zeebit-sonic",
         play: "https://dev.zeebit.io/",
         time: "2024-08-27T18:00:00+08:00",
-        available: true,
+        available: true
       },
       {
         name: "Startup",
@@ -102,9 +96,80 @@ export function GameVenture() {
         guide: "https://playstartup.io/guide",
         play: "https://playstartup.io/",
         time: "2024-09-06T21:00:00+08:00",
-        available: true,
-      },
+        available: true
+      }
     ],
+    testnetv1: [
+      // {
+      //   name: "SnakeLite",
+      //   cover: "/images/games/snakelite.jpg",
+      //   guide:
+      //     "https://mirrorworldfun.notion.site/SnakeLite-Odyssey-Game-and-Task-Guide-585d67b5d76348ba868d58a5d1acfa72?pvs=4",
+      //   play: "https://t.me/Snakelite_official_bot",
+      //   time: "2024-07-04T21:00:00+08:00",
+      //   available: true
+      // },
+      // {
+      //   name: "FoMoney",
+      //   cover: "/images/games/b.jpg",
+      //   guide:
+      //     "https://fomoney.gitbook.io/fomoney-litepaper/how-to-play-fomoney-to-earn-1-million-usdsonic-rings-via-odyssey-campaign",
+      //   play: "https://fomoney-sonic.io/",
+      //   time: "2024-06-27T21:00:00+08:00",
+      //   available: true
+      // },
+      // {
+      //   name: "JOGO JOGO",
+      //   cover: "/images/games/jogo.jpg",
+      //   guide:
+      //     "https://mirrorworldfun.notion.site/JOGOJOGO-Odyssey-Game-and-Task-Guide-f8b1e4d54bee4d318926964c9f87a4be",
+      //   play: "https://app.jogojogo.game/register?code=SOSONIC",
+      //   time: "2024-07-30T21:00:00+08:00",
+      //   available: true
+      // },
+      {
+        name: "Startup",
+        cover: "/images/games/startup.png",
+        guide: "https://playstartup.io/guide",
+        play: "https://playstartup.io/",
+        time: "2024-08-23T18:00:00+08:00",
+        available: true
+      },
+      {
+        name: "Rage Effect",
+        cover: "/images/games/rage.png",
+        guide:
+          "https://docs.google.com/document/d/1W3E7bJ__2awDIw768xsshm3opxz45CAaAbkGzcYKv-4/edit?usp=sharing",
+        play: "https://play.google.com/store/apps/details?id=com.goldonstudios.rageeffect",
+        time: "2024-09-16T21:00:00+08:00",
+        available: true
+      },
+      {
+        name: "Catoff",
+        cover: "/images/games/catoff.jpeg",
+        guide: "https://catoff-gaming.gitbook.io/catoff-gaming",
+        play: "https://www.catoff.xyz/game",
+        time: "2024-09-16T21:00:00+08:00",
+        available: true
+      },
+      // {
+      //   name: "zeebit",
+      //   cover: "/images/games/zeebit.jpeg",
+      //   guide: "https://zeebit.gitbook.io/zeebit-sonic",
+      //   play: "https://dev.zeebit.io/",
+      //   time: "2024-09-16T21:00:00+08:00",
+      //   available: true
+      // },
+      {
+        name: "Fomoney",
+        cover: "/images/games/b.jpg",
+        guide:
+          "https://remarkable-galette-26e.notion.site/How-to-Play-FoMoney-on-Odyssey-Season-2-131bcac170a28097adfcf92941a7b802",
+        play: "https://fomoney-sonic.io/",
+        time: "2024-09-16T21:00:00+08:00",
+        available: true
+      }
+    ]
   };
 
   const [showRules, setShowRules] = useState(false);

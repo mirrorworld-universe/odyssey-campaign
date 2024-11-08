@@ -12,7 +12,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
+  AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import { useWhitelistModal } from "@/app/store/tutorials";
 import { useAccountInfo, useNetworkInfo } from "@/app/store/account";

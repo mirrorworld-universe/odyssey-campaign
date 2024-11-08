@@ -1,81 +1,104 @@
 "use client";
 
-import react, { useState, useEffect } from "react";
-import { networks as networkList } from "@/app/data/config";
+import { networkMap, networks } from "@/app/data/config";
+import { useSwitchNetwork } from "@/app/hooks";
+import { Close as IconClose } from "@/app/icons/Close";
+import { useNetworkInfo } from "@/app/store/account";
 import {
-  useAccountInfo,
-  useNetworkInfo,
-  useWalletModal
-} from "@/app/store/account";
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { useSwitchNetworkModal } from "@/app/store/tutorials";
+import React from "react";
+import { useToggle } from "react-use";
 
-export function NetworkSwitch({ className }: any) {
-  const { token } = useAccountInfo();
-  const { setNetworkId, networkId } = useNetworkInfo();
-  // const { isOpen, onOpen, setSwitching, isSwitching } = useWalletModal();
-  const { isOpen, onOpen } = useSwitchNetworkModal();
-
-  const currentNetworkList = networkList.map((item, index) => {
-    if (networkId) {
-      return { ...item, active: networkId === item.id };
-    } else {
-      return { ...item, active: index === 0 };
-    }
-  });
-
-  const [networks, setNetworks] = useState<any[]>(currentNetworkList);
-
-  const handleSwitchNetwork = (network: any) => {
-    if (network.id === networkId) {
-      return;
-    }
-
-    if (token) {
-      // setSwitching(true);
-      onOpen();
-    } else {
-      setNetworkId(network.id);
-      setNetworks(
-        networks.map((item: any) => ({
-          ...item,
-          active: item.id === network.id
-        }))
-      );
-    }
-  };
-
-  useEffect(() => {
-    setNetworks(
-      networkList.map((item, index) => {
-        if (networkId) {
-          return { ...item, active: networkId === item.id };
-        } else {
-          return { ...item, active: index === 0 };
-        }
-      })
-    );
-  }, [networkId]);
+export function NetworkSwitch() {
+  const { networkId } = useNetworkInfo();
+  const [isOpen, toggleOpen] = useToggle(false);
+  const { handleSwitchNetwork } = useSwitchNetwork();
 
   return (
-    <div
-      className={cn(
-        "flex flex-row text-base md:text-xs 2xl:text-sm text-[#00F] font-semibold font-orbitron border border-solid border-[#00F] rounded-[2px] md:rounded",
-        className
-      )}
+    <>
+      <Popover open={isOpen} onOpenChange={toggleOpen}>
+        <PopoverTrigger className="h-16 w-full md:w-fit px-4 md:px-0 border-b md:border-b-0 border-line group/network">
+          <div className="flex items-center gap-1">
+            <div className="flex-center size-5 relative">
+              <span className="animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] absolute inline-flex size-2 rounded-full bg-link opacity-75"></span>
+              <span className="size-1.5 rounded-full bg-link"></span>
+            </div>
+            <h3 className="sonic-title3 text-link font-orbitron w-fit">
+              {networkMap[networkId].name}
+            </h3>
+            <SwitchNetworkIcon
+              className={cn(
+                "size-5 text-icon ml-auto md:ml-1 group-hover/network:text-primary transition-colors group-aria-expanded/network:text-primary"
+              )}
+            />
+          </div>
+        </PopoverTrigger>
+        <PopoverContent className="p-0 text-primary w-full md:w-fit border-none outline-none mt-1 hidden md:block">
+          <div className="py-1 sonic-title3 bg-bg-popup flex-col font-orbitron">
+            {networks.map((network: any, networkIndex: number) => (
+              <div
+                key={networkIndex}
+                onClick={() => handleSwitchNetwork(network.id)}
+                className={cn(
+                  "px-6 py-2 hover:bg-line transition-all cursor-pointer",
+                  network.id === networkId && "text-link"
+                )}
+              >
+                {network.name}
+              </div>
+            ))}
+          </div>
+        </PopoverContent>
+      </Popover>
+      <div
+        className={cn(
+          "fixed bottom-0 left-0 w-full pb-4 sonic-title2 bg-bg-popup text-primary flex-col font-orbitron md:hidden transform transition-transform duration-300 ease-in-out",
+          isOpen ? "translate-y-0" : "translate-y-full"
+        )}
+      >
+        <div className="sonic-title2 h-14 flex items-center text-tertary px-4 justify-between">
+          Select Network
+          <IconClose width={24} height={24} color="#4D4D4D" />
+        </div>
+        {networks.map((network: any, networkIndex: number) => (
+          <div
+            key={networkIndex}
+            onClick={() => handleSwitchNetwork(network.id)}
+            className={cn(
+              "px-4 h-16 flex items-center hover:bg-line hover:text-link transition-all cursor-pointer",
+              network.id === networkId && "text-link"
+            )}
+          >
+            {network.name}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function SwitchNetworkIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="21"
+      height="20"
+      viewBox="0 0 21 20"
+      fill="none"
+      {...props}
     >
-      {networks.map((network: any, networkIndex: number) => (
-        <span
-          key={networkIndex}
-          className={cn(
-            "w-1/2 md:w-auto px-4 md:px-2 2xl:px-4 py-[10px] md:py-1 2xl:py-[7px] cursor-pointer text-center",
-            network.active ? "bg-[#00F] text-white" : ""
-          )}
-          onClick={() => handleSwitchNetwork(network)}
-        >
-          {network.name}
-        </span>
-      ))}
-    </div>
+      <path
+        d="M5.88672 8.33203L10.8867 3.33203L15.8867 8.33203L5.88672 8.33203Z"
+        fill="currentColor"
+      />
+      <path
+        d="M15.8867 11.668L10.8867 16.668L5.88672 11.668L15.8867 11.668Z"
+        fill="currentColor"
+      />
+    </svg>
   );
 }

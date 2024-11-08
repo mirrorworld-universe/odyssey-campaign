@@ -18,12 +18,12 @@ export function middleware(req: NextRequest) {
   // set the variant in the cookie if not already set
   if (!req.cookies.get(COOKIE_NAME)) {
     res.cookies.set(COOKIE_NAME, variant as string, {
-      maxAge: 60 * 60 * 24 * 2,
+      maxAge: 60 * 60 * 24 * 2
     }); // 2 days
   }
   return res;
 }
 
 export const config = {
-  matcher: "/",
+  matcher: "/"
 };

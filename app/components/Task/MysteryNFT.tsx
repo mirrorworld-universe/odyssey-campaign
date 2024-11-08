@@ -11,14 +11,14 @@ import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
+  TooltipTrigger
 } from "@/components/ui/tooltip";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPrevious,
+  CarouselPrevious
 } from "@/components/ui/carousel";
 
 import { Go as IconGo } from "@/app/icons/Go";
@@ -29,12 +29,13 @@ import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import {
   fetchCollectionInfo,
   fetchLimitedCollectionTx,
-  fetchUnlimitedCollectionTx,
+  fetchUnlimitedCollectionTx
 } from "@/app/data/nft";
 import { trackClick } from "@/lib/track";
 import { cn, prettyNumber } from "@/lib/utils";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { Close } from "@/app/icons/Close";
+import { EXPLORER_CLUSTER, getFaucetUrl, NetworkId } from "@/app/data/config";
 
 let transactionHash = "";
 let isMintingStatus = false;
@@ -89,7 +90,7 @@ export function MysteryNFT() {
           "https://www.okx.com/web3/marketplace/nft/collection/sonic-devnet/sonic-cartridge-collection",
           "_blank"
         );
-      },
+      }
     },
     {
       id: "2",
@@ -125,18 +126,18 @@ export function MysteryNFT() {
           "https://www.okx.com/web3/marketplace/nft/collection/sonic-devnet/sonic-odyssey-pass",
           "_blank"
         );
-      },
-    },
+      }
+    }
   ]);
 
   const {
     data: dataLimitedCollectionInfo,
     isLoading: loadingLimitedCollectionInfo,
-    refetch: refetchCollectionInfo,
+    refetch: refetchCollectionInfo
   } = useQuery({
     queryKey: ["queryLimitedCollectionInfo", address],
     queryFn: () => fetchCollectionInfo({ token, networkId }),
-    enabled: !!token,
+    enabled: !!token
   });
 
   const getLimitedCollectionTXHash = useMutation({
@@ -157,13 +158,13 @@ export function MysteryNFT() {
 
             isMintingStatus = false;
             setIsMinting(isMintingStatus);
-          },
+          }
         });
       } else {
         isMintingStatus = false;
         setIsMinting(isMintingStatus);
       }
-    },
+    }
   });
 
   const getUnlimitedCollectionTXHash = useMutation({
@@ -176,13 +177,13 @@ export function MysteryNFT() {
           onFinish: () => {
             isMintingStatus = false;
             setIsMinting(isMintingStatus);
-          },
+          }
         });
       } else {
         isMintingStatus = false;
         setIsMinting(isMintingStatus);
       }
-    },
+    }
   });
 
   const triggerTransaction = async ({ transactionString, onFinish }: any) => {
@@ -217,7 +218,7 @@ export function MysteryNFT() {
             <a
               className="text-[#25A3ED]"
               href={`https://explorer.sonic.game/tx/${transactionHash}${
-                networkId === "testnet" ? "?cluster=testnet" : ""
+                EXPLORER_CLUSTER[networkId as NetworkId]
               }`}
               target="_blank"
             >
@@ -225,7 +226,7 @@ export function MysteryNFT() {
             </a>{" "}
             for details.
           </div>
-        ),
+        )
       });
     } catch (error) {
       toast({
@@ -235,7 +236,7 @@ export function MysteryNFT() {
           <div role="fail">
             Unfortunately, your mint was unsuccessful. Please try again later.
           </div>
-        ),
+        )
       });
       console.error("Transaction failed:", error);
     }
@@ -355,9 +356,7 @@ export function MysteryNFT() {
               Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:text-[#00F]"
-                href={`https://faucet.sonic.game/#/${
-                  networkId === "testnet" ? "?network=testnet" : ""
-                }`}
+                href={getFaucetUrl()}
                 target="_blank"
               >
                 Request here.
@@ -529,7 +528,7 @@ export function MysteryNFT() {
         {/* nft list (mobile version) */}
         <Carousel
           opts={{
-            align: "start",
+            align: "start"
           }}
           className="flex md:hidden w-full max-w-full"
         >

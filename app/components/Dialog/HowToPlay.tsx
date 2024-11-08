@@ -1,127 +1,267 @@
-import { Copy } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Gift } from "@/app/icons/Gift";
-import { Ring } from "@/app/icons/Ring";
-import { useHowToPlayModal } from "@/app/store/tutorials";
+"use client";
+import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
+import { ArrowBackLogo } from "@/app/logos/ArrowBackLogo";
+import { GiftLogo } from "@/app/logos/GiftLogo";
+import { RingLogo } from "@/app/logos/RingLogo";
 import { useNetworkInfo } from "@/app/store/account";
+import { cn } from "@/lib/utils";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@/components/ui/accordion";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { getFaucetUrl, GUIDE_URL } from "@/app/data/config";
 
 export function HowToPlayDialog() {
-  const { isOpen, onOpen, onClose } = useHowToPlayModal();
-  const { networkId } = useNetworkInfo();
+  const { modalHash, closeModal } = useModalHash();
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="flex flex-col max-w-full w-full md:w-[813px] max-h-full h-full md:h-[643px] bg-[#1A1A1A] border-none p-4 md:p-8">
-        <DialogHeader className="text-left space-y-0">
-          <DialogTitle className="text-white text-2xl md:text-[32px] font-orbitron">
-            How to Play?
-          </DialogTitle>
-          <DialogDescription className="text-white/60 text-sm md:text-base">
+    <Dialog
+      open={modalHash === MODAL_HASH_MAP.howToPlay}
+      onOpenChange={closeModal}
+    >
+      <DialogContent
+        closeClassName="hidden md:block"
+        className="max-w-[640px] p-0 w-full h-full md:h-auto text-primary"
+      >
+        <PcHowToPlay guideUrl={GUIDE_URL} faucetUrl={getFaucetUrl()} />
+        <MobileHowToPlay guideUrl={GUIDE_URL} faucetUrl={getFaucetUrl()} />
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function MobileHowToPlay({
+  guideUrl,
+  faucetUrl
+}: {
+  guideUrl: string;
+  faucetUrl: string;
+}) {
+  const { closeModal } = useModalHash();
+  const router = useRouter();
+
+  return (
+    <div className="md:hidden bg-black">
+      <div className="h-14 px-4 flex items-center">
+        <ArrowBackLogo onClick={closeModal} />
+      </div>
+      <div className="p-4 space-y-6">
+        <div className="space-y-2">
+          <h1 className="sonic-headline5 font-orbitron">How to Play ?</h1>
+          <p className="sonic-body3 text-tertary">
             Ensure you successfully switch the network in your wallet to Sonic.
             Check{" "}
-            <a
-              className="text-[#25A3ED] hover:underline"
-              href={
-                networkId === "testnet"
-                  ? "https://blog.sonic.game/sonic-testnet---frontier-odyssey-guide"
-                  : "https://blog.sonic.game/sonic-testnet-odyssey-guide"
-              }
-              target="_blank"
-            >
+            <a href={guideUrl} className="text-link">
               guides
             </a>
             .
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col gap-3 mt-12">
-          {/* step 1 */}
-          <div className="flex flex-row gap-4 text-lg font-semibold font-orbitron">
-            <h3 className="text-[#FBB042]">
-              <span>Step</span>
-              <span className="inline-flex justify-center w-[27px] ml-[9px]">
-                1
-              </span>
-            </h3>
-            <p className="text-white">Request Test SOL</p>
-          </div>
-          <div className="w-full flex flex-row h-[96px] pl-[70px]">
-            <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px] text-sm md:text-base">
-              On Sonic, you need SOL for gas. Ensure your wallet has enough SOL
-              to transact. Click{" "}
-              <a
-                className="text-[#25A3ED] hover:underline"
-                href={`https://faucet.sonic.game/#/${
-                  networkId === "testnet" ? "?network=testnet" : ""
-                }`}
-                target="_blank"
-              >
-                faucet link
-              </a>{" "}
-              or use the faucet in the navigation bar to claim.
-            </p>
-          </div>
-          {/* step 2 */}
-          <div className="flex flex-row gap-4 text-lg font-semibold font-orbitron">
-            <h3 className="text-[#FBB042]">
-              <span>Step</span>
-              <span className="inline-flex justify-center w-[27px] ml-[9px]">
-                2
-              </span>
-            </h3>
-            <p className="flex flex-row gap-1 items-center text-white">
-              Earn Mystery Box
-              <Gift
-                color="#FBB042"
-                className="w-3 h-3 md:w-[18px] md:h-[18px]"
-              />{" "}
-            </p>
-          </div>
-          <div className="w-full flex flex-row h-[96px] pl-[70px]">
-            <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px] text-sm md:text-base">
-              In the{" "}
-              <span
-                className="text-[#25A3ED] hover:underline"
-                onClick={onClose}
-              >
-                task center
-              </span>
-              , complete tasks to receive corresponding mystery boxes.
-            </p>
-          </div>
-          {/* step 3 */}
-          <div className="flex flex-row gap-4 text-lg font-semibold font-orbitron">
-            <h3 className="text-[#FBB042]">
-              <span>Step</span>
-              <span className="inline-flex justify-center w-[27px] ml-[9px]">
-                3
-              </span>
-            </h3>
-            <p className="flex flex-row gap-1 items-center text-white">
-              Claim Rings
-              <Ring width={18} height={18} color="#FBB042" />
-            </p>
-          </div>
-          <div className="w-full flex flex-row h-[96px] pl-[70px]">
-            <p className="border-l-[2px] border-solid border-[#FBB042] text-white/60 pl-[27px] text-sm md:text-base">
-              Open a mystery box to receive a varying number of rings. Each
-              mystery box can yield 1-5 rings. Claim them in the "Rings"
-              dropdown section in the navigation bar.
-            </p>
-          </div>
+          </p>
         </div>
-      </DialogContent>
-    </Dialog>
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full"
+          defaultValue="item-1"
+        >
+          <AccordionItem
+            value={`item-1`}
+            className="border-line px-4 py-6 gap-2 flex flex-col first:border-t"
+          >
+            <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
+              <div className="text-left space-y-1">
+                <h4 className="sonic-title4 text-gold-yellow flex items-center">
+                  Step <span className="w-4 flex-center">1</span>
+                </h4>
+                <h2 className="sonic-title2 text-white">Request Test SOL</h2>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className={cn("!sonic-body3 text-secondary p-0")}>
+              <div className="flex-v gap-6">
+                On Sonic, you need test SOL for gas. Ensure your wallet has
+                enough test SOL to transact. Click faucet link or use the faucet
+                in the navigation bar to claim.
+                <Button
+                  className="sonic-title3 text-white font-orbitron"
+                  variant={"primary"}
+                  size={"sm"}
+                  onClick={() => {
+                    window.open(faucetUrl, "_blank");
+                  }}
+                >
+                  Faucet
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem
+            value={`item-2`}
+            className="border-line px-4 py-6 gap-2 flex flex-col first:border-t"
+          >
+            <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
+              <div className="text-left space-y-1">
+                <h4 className="sonic-title4 text-gold-yellow flex items-center">
+                  Step <span className="flex-center w-4">2</span>
+                </h4>
+                <h2 className="sonic-title2 text-white flex gap-1 items-center">
+                  Earn Mystery Box
+                  <GiftLogo className="size-[18px] text-gold-yellow" />
+                </h2>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className={cn("!sonic-body3 text-secondary p-0")}>
+              <div className="flex-v gap-6">
+                In the task center , complete tasks to receive corresponding
+                mystery boxes.
+                <Button
+                  className="sonic-title3 text-white font-orbitron"
+                  variant={"primary"}
+                  size={"sm"}
+                  onClick={() => {
+                    router.push("/task");
+                    closeModal();
+                  }}
+                >
+                  Task Center
+                </Button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem
+            value={`item-3`}
+            className="border-line px-4 py-6 gap-2 flex flex-col first:border-t"
+          >
+            <AccordionTrigger className="font-orbitron p-0 text-icon aria-expanded:text-gold-yellow">
+              <div className="text-left space-y-1">
+                <h4 className="sonic-title4 text-gold-yellow flex items-center">
+                  Step <span className="flex-center w-4">3</span>
+                </h4>
+                <h2 className="sonic-title2 text-white flex gap-1 items-center">
+                  Claim Rings
+                  <RingLogo className="size-[18px] text-gold-yellow" />
+                </h2>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className={cn("!sonic-body3 text-secondary p-0")}>
+              <div className="flex-v gap-6">
+                In the task center , complete tasks to receive corresponding
+                mystery boxes.
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
+    </div>
+  );
+}
+
+function PcHowToPlay({
+  guideUrl,
+  faucetUrl
+}: {
+  guideUrl: string;
+  faucetUrl: string;
+}) {
+  const { closeModal } = useModalHash();
+
+  return (
+    <div className="hidden md:flex-v bg-bg-popup p-8">
+      {/* header */}
+      <div className="space-y-3">
+        <h2 className="sonic-headline5 font-orbitron">How to Play?</h2>
+        <p className="sonic-body2/normal text-tertary">
+          Ensure you successfully switch the network in your wallet to Sonic.
+          Check{" "}
+          <a
+            target="_blank"
+            href={guideUrl}
+            className="text-link hover:text-primary-blue transition-colors"
+          >
+            guides
+          </a>
+          .
+        </p>
+      </div>
+      {/* step 1 */}
+      <div className="flex gap-4 mb-4 mt-8">
+        <div className="text-gold-yellow flex-v gap-4">
+          <h1 className="sonic-title2 font-orbitron flex gap-0.5">
+            Step
+            <span className="size-6 flex-center">1</span>
+          </h1>
+          <div className="bg-current w-0.5 h-24 mr-3 self-end"></div>
+        </div>
+
+        <div className="space-y-3">
+          <h1 className="sonic-title2 font-orbitron">Request Test SOL</h1>
+          <p className="sonic-body3 text-tertary">
+            On Sonic, you need test SOL for gas. Ensure your wallet has enough
+            test SOL to transact. Click{" "}
+            <a
+              className="text-link hover:text-primary-blue transition-colors"
+              href={faucetUrl}
+              target="_blank"
+            >
+              faucet link
+            </a>{" "}
+            or use the faucet in the navigation bar to claim.
+          </p>
+        </div>
+      </div>
+
+      <div className="flex gap-4 mb-4">
+        <div className="text-gold-yellow flex-v gap-4">
+          <h1 className="sonic-title2 font-orbitron flex gap-0.5">
+            Step
+            <span className="size-6 flex-center">2</span>
+          </h1>
+          <div className="bg-current w-0.5 h-24 mr-3 self-end"></div>
+        </div>
+
+        <div className="space-y-3">
+          <h1 className="sonic-title2 font-orbitron flex items-center gap-1">
+            Earn Mystery Box{" "}
+            <GiftLogo className="size-[18px] text-gold-yellow" />
+          </h1>
+          <p className="sonic-body3 text-tertary">
+            In the{" "}
+            <span
+              className="text-link hover:text-primary-blue cursor-pointer transition-colors"
+              onClick={closeModal}
+            >
+              task center
+            </span>
+            , complete tasks to receive corresponding mystery boxes.
+          </p>
+        </div>
+      </div>
+
+      <div className="flex gap-4 mb-4">
+        <div className="text-gold-yellow flex-v gap-4">
+          <h1 className="sonic-title2 font-orbitron flex gap-0.5">
+            Step
+            <span className="size-6 flex-center">3</span>
+          </h1>
+          <div className="bg-current w-0.5 h-24 mr-3 self-end"></div>
+        </div>
+
+        <div className="space-y-3">
+          <h1 className="sonic-title2 font-orbitron flex items-center gap-1">
+            Claim Rings <RingLogo className="size-[18px] text-gold-yellow" />
+          </h1>
+          <p className="sonic-body3 text-tertary">
+            Open a mystery box to receive a varying number of rings. Each
+            mystery box can yield 1-5 rings. Claim them in the "Rings" dropdown
+            section in the navigation bar.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }

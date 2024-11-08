@@ -14,7 +14,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
+  AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -26,17 +26,19 @@ import { useMysteryBoxInfo, useMysteryBoxRecordModal } from "@/app/store/task";
 import {
   getMysteryboxHistory,
   getMysteryboxTx,
-  openMysterybox,
+  openMysterybox
 } from "@/app/data/reward";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { Card, CardSize } from "../Basic/Card";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { NetworkId } from "@/app/data/config";
+import { EXPLORER_CLUSTER } from "@/app/data/config";
 
 let txHash = "";
 let currentRecord: any = {
   link: "",
-  quantity: 0,
+  quantity: 0
 };
 let boxRecords: any[] = [];
 
@@ -100,7 +102,7 @@ export function MysteryBoxRecordDialog() {
     useQuery({
       queryKey: ["queryMysteryBoxHistory", address],
       queryFn: () => getMysteryboxHistory({ token }),
-      enabled: !!address && !!token,
+      enabled: !!address && !!token
     });
 
   const mutationOpenMysteryBox = useMutation({
@@ -109,7 +111,7 @@ export function MysteryBoxRecordDialog() {
       openMysterybox({
         token,
         hash: txHash,
-        networkId,
+        networkId
       }),
     onSuccess({ data, status }) {
       if (data.success) {
@@ -124,19 +126,19 @@ export function MysteryBoxRecordDialog() {
               </span>
               . Collect more rings in the Sonic Odyssey!
             </p>
-          ),
+          )
         });
         boxRecords[boxRecords.length - 1] = {
           loaded: true,
           quantity: data.amount,
           link: `https://explorer.sonic.game/tx/${txHash}${
-            networkId === "testnet" ? "?cluster=testnet" : ""
-          }`,
+            EXPLORER_CLUSTER[networkId as NetworkId]
+          }`
         };
         setMysteryBoxRecords([...boxRecords]);
         openMysteryBoxes();
       }
-    },
+    }
   });
 
   const mutationBuildTx = useMutation({
@@ -145,7 +147,7 @@ export function MysteryBoxRecordDialog() {
     onSuccess: async ({ data }) => {
       const transactionString = data.hash;
       triggerTransaction(transactionString);
-    },
+    }
   });
 
   const openMysteryBoxes = () => {
@@ -195,7 +197,7 @@ export function MysteryBoxRecordDialog() {
   }, [mysteryBoxRecords]);
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={onClose}>
+    <AlertDialog open={false} onOpenChange={onClose}>
       <AlertDialogContent className="max-w-[calc(100%_-_32px)] w-full md:w-[440px] bg-[#1A1A1A] border-none p-6 md:p-8">
         <AlertDialogHeader className="">
           {mysteryBoxRecords.every((record) => record.loaded === true) ? (

@@ -1,27 +1,29 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { toast } from "@/components/ui/use-toast";
+import { Close } from "@/app/icons/Close";
+import { WalletList, setUpUrls } from "@/app/wallet/wallet-list";
 import {
   Popover,
-  PopoverTrigger,
-  PopoverContent
+  PopoverContent,
+  PopoverTrigger
 } from "@/components/ui/popover";
+import { toast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { fetchLogout } from "../../data/account";
 import {
   formatAddress,
-  toFixed,
   useAccountInfo,
   useNetworkInfo,
   useSystemInfo,
   useWalletModal
 } from "../../store/account";
-import { fetchLogout } from "../../data/account";
-import { WalletList, setUpUrls } from "@/app/wallet/wallet-list";
-import { cn, isMobileViewport } from "@/lib/utils";
-import { Close } from "@/app/icons/Close";
-import { socketConnected } from "@/lib/ws";
+import { Button } from "@/components/ui/button";
+import { useBreakpoint } from "@/app/hooks";
+import { EXPLORER_CLUSTER } from "@/app/data/config";
+import { NetworkId } from "@/app/data/config";
 
 export function UserDropdown() {
   const { isInMaintenance } = useSystemInfo();
@@ -30,12 +32,19 @@ export function UserDropdown() {
   const { isOpen, onOpen, setSwitching } = useWalletModal();
   const { select, wallet, wallets, publicKey, disconnect, connecting } =
     useWallet();
+
   const { address, token, reset } = useAccountInfo();
   const { networkId } = useNetworkInfo();
 
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [showPanel, setShowPanel] = useState(false);
   const [balance, setBalance] = useState<number | null>(null);
+  const isMobile = useBreakpoint() === "mobile";
+
+  const currentWallet = WalletList.find(
+    (item: any) =>
+      item.name.toLowerCase() === wallet?.adapter.name.toLowerCase()
+  );
 
   const mutationLogout = useMutation({
     mutationFn: () => fetchLogout({ token, networkId }),
@@ -103,10 +112,10 @@ export function UserDropdown() {
   }, [publicKey, connection]);
 
   const UserDropdownPanel = ({ className, showHeader }: any) => (
-    <div className={cn("bg-[#111] md:bg-[#1b1b1b] w-full", className)}>
+    <div className={cn("bg-black md:bg-bg-popup w-full", className)}>
       {showHeader ? (
         <p className="flex justify-between items-center p-4">
-          <span className="text-[#666] text-base font-orbitron font-semibold">
+          <span className="sonic-title2 font-orbitron text-tertary">
             My Wallet
           </span>
           <span
@@ -118,29 +127,29 @@ export function UserDropdown() {
         </p>
       ) : null}
 
-      <div className="flex flex-col p-4 pt-6">
+      <div className="flex-v justify-center px-4 md:px-6 h-[82px] border-b border-line">
         {/* user basic info */}
-        <div className="flex gap-4 md:gap-3 justify-start items-center hover:bg-transparent md:hover:bg-[#1b1b1b]">
+        <div className="flex gap-4 md:gap-3 justify-start items-center">
           <img
             className="w-10 h-10 rounded-[50%] md:rounded-none"
-            src={wallet?.adapter.icon}
+            src={currentWallet?.adapter.icon}
             alt=""
           />
           <div className="flex flex-col justify-between items-start gap-1">
             <span className="text-white text-xl md:text-lg font-semibold md:font-bold font-manrope md:font-orbitron">
-              {isInMaintenance ? "--" : balance} SOL
+              {isInMaintenance ? "--" : balance?.toFixed(2)} SOL
             </span>
             <div
-              className="flex flex-row items-center"
+              className="flex flex-row items-center cursor-pointer"
               onClick={hanldeCopyAddress}
             >
-              <span className="text-white/50 text-sm md:text-xs font-semibold font-manrope">
+              <span className="sonic-body3 text-tertary">
                 {formatAddress(publicKey?.toBase58())}
               </span>
               <img
                 src="/images/copy.svg"
                 alt=""
-                className="w-4 h-4 ml-1 cursor-pointer"
+                className="size-4 ml-1 cursor-pointer"
               />
             </div>
           </div>
@@ -159,17 +168,13 @@ export function UserDropdown() {
       </div>
 
       <a
-        className="flex justify-start px-4 py-5 md:py-4 border-t border-white/10 border-solid cursor-pointer hover:bg-white/5"
+        className="flex items-center h-16 md:h-14 gap-2 px-4 md:px-6 hover:bg-line"
         href={`https://explorer.sonic.game/address/${address}${
-          networkId === "testnet" ? "?cluster=testnet" : ""
+          EXPLORER_CLUSTER[networkId as NetworkId]
         }`}
         target="_blank"
       >
-        <img
-          src="/images/description.svg"
-          alt=""
-          className="w-6 md:w-5 h-6 md:h-5 mr-2 md:mr-3"
-        />
+        <img src="/images/description.svg" alt="" className="size-6" />
         <span className="text-white text-base md:text-sm font-semibold font-orbitron">
           Tx History
         </span>
@@ -180,7 +185,7 @@ export function UserDropdown() {
           item.name.toLowerCase() === wallet?.adapter.name.toLowerCase()
       ).isSupportSonic && (
         <a
-          className="flex justify-start px-4 py-5 md:py-4 border-t border-white/10 border-none md:border-solid cursor-pointer hover:bg-white/5"
+          className="flex items-center h-16 md:h-14 gap-2 px-4 md:px-6 hover:bg-line"
           href={
             setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"]
               ? setUpUrls[wallet?.adapter.name.toLowerCase() || "nightly"][
@@ -190,11 +195,7 @@ export function UserDropdown() {
           }
           target="_blank"
         >
-          <img
-            src="/images/settings.svg"
-            alt=""
-            className="w-6 md:w-5 h-6 md:h-5 mr-2 md:mr-3"
-          />
+          <img src="/images/settings.svg" alt="" className="size-6" />
           <span className="text-white text-base md:text-sm font-semibold font-orbitron">
             Set up Network
           </span>
@@ -202,14 +203,10 @@ export function UserDropdown() {
       )}
 
       <div
-        className="flex justify-start px-4 py-5 md:py-4 border-t border-white/10 border-none md:border-solid cursor-pointer hover:bg-white/5"
+        className="flex items-center h-16 md:h-14 gap-2 px-4 md:px-6 hover:bg-line"
         onClick={handleDisconnect}
       >
-        <img
-          src="/images/logout.svg"
-          alt=""
-          className="w-6 md:w-5 h-6 md:h-5 mr-2 md:mr-3"
-        />
+        <img src="/images/logout.svg" alt="" className="size-6" />
         <span className="text-white text-base md:text-sm font-semibold font-orbitron">
           Disconnect
         </span>
@@ -221,22 +218,20 @@ export function UserDropdown() {
     <>
       <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
         <PopoverTrigger>
-          <div
-            className="flex flex-row gap-2 border-solid border border-white/40 hover:border-white/80 px-3 py-2 md:px-2 2xl:px-5 md:py-2 2xl:py-[10px] rounded cursor-pointer transition-all duration-300"
-            onClick={handleClickOpenMyWallet}
+          <Button
             title={publicKey?.toBase58()}
+            onClick={handleClickOpenMyWallet}
+            variant={"outline"}
+            className="flex items-center gap-2"
+            size={isMobile ? "sm" : "md"}
           >
-            <img
-              src="/images/wallet.svg"
-              alt=""
-              className="w-5 h-5 md:size-4 2xl:w-6 2xl:h-6"
-            />
-            <span className="text-white font-semibold font-orbitron text-sm md:text-xs xl:text-base">
-              {formatAddress(publicKey?.toBase58(), isMobileViewport() ? 2 : 4)}
+            <img src="/images/wallet.svg" alt="" className="size-6" />
+            <span className="sonic-title3 text-primary">
+              {formatAddress(publicKey?.toBase58(), isMobile ? 2 : 4)}
             </span>
-          </div>
+          </Button>
         </PopoverTrigger>
-        <PopoverContent className="hidden md:flex max-w-full w-full md:w-[248px] bg-[#1b1b1b] border-none rounded px-0 py-1 relative top-1 right-10 2xl:right-8">
+        <PopoverContent className="hidden md:flex max-w-full w-full md:w-[220px] bg-[#1b1b1b] border-none rounded p-0 relative top-1 right-10 2xl:right-8">
           <UserDropdownPanel />
         </PopoverContent>
       </Popover>

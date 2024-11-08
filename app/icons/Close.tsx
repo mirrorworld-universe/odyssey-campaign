@@ -2,7 +2,7 @@ export function Close({
   width = 32,
   height = 32,
   color = "white",
-  className = "",
+  className = ""
 }) {
   return (
     <svg

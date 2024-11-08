@@ -1,60 +1,51 @@
 "use client";
-import { useEffect, useState } from "react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import useModalHash, { MODAL_HASH_MAP } from "@/app/hooks/useModalHash";
+import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useWelcomeModal } from "@/app/store/tutorials";
 import { trackClick } from "@/lib/track";
+import { useLocalStorage, useMount } from "react-use";
 
 export function WelcomeDialog() {
-  const { isOpen, onOpen, onClose } = useWelcomeModal();
+  const [welcome, setWelcome] = useLocalStorage("sonic-welcome");
+  const { openModal, modalHash, closeModal } = useModalHash();
+
+  useMount(() => {
+    if (!welcome) {
+      openModal(MODAL_HASH_MAP.welcome);
+    }
+  });
 
   const handleConfirm = () => {
-    onClose();
+    closeModal();
+    setWelcome("1");
     // ga4
     trackClick({ text: "Get Started Dialog" });
   };
 
-  useEffect(() => {
-    if (!localStorage.getItem("sonic-welcome")) {
-      onOpen();
-      localStorage.setItem("sonic-welcome", "1");
-    }
-  }, []);
-
   return (
-    <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent className="max-w-[calc(100%_-_70px)] w-full md:w-[468px] bg-[#1A1A1A] border-none p-8">
-        <AlertDialogHeader className="">
-          <AlertDialogTitle className="flex flex-col justify-start items-center text-white text-[32px] font-orbitron">
-            <span className="text-white text-2xl md:text-[32px] font-semibold font-orbitron">
+    <AlertDialog
+      open={modalHash === MODAL_HASH_MAP.welcome}
+      onOpenChange={closeModal}
+    >
+      <AlertDialogContent className="px-4 md:p-0 max-w-[520px]">
+        <div className="p-6 md:p-8 flex flex-col gap-6 md:gap-8 text-primary bg-bg-popup">
+          <div className="flex flex-col gap-2 md:gap-3">
+            <p className="sonic-headline5 font-orbitron">
               Welcome to Sonic Odyssey Campaign!
-            </span>
-          </AlertDialogTitle>
-          <AlertDialogDescription className="text-[#717171] text-sm md:text-base text-left mt-3 md:mt-4">
-            Here are the steps to participate in the Odyssey Campaign:
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-
-        <div className="mt-10 md:mt-12">
-          <ul className="flex flex-col gap-6 list-decimal text-white text-lg font-semibold pl-[18px]">
-            <li className="x">Set up Sonic Network in your wallet</li>
-            <li className="x">Complete tasks</li>
-            <li className="x">Collect rings</li>
-          </ul>
-        </div>
-        <div className="flex flex-col gap-12 mt-10 md:mt-12 fixed md:static left-4 right-4 bottom-4">
+            </p>
+            <p className="sonic-body3 text-tertary">
+              Here are the steps to participate in the Odyssey Campaign:
+            </p>
+          </div>
+          <div className="flex flex-col gap-6 sonic-title3 md:sonic-title2">
+            <p>1. Set up Sonic Network in your wallet</p>
+            <p>2. Complete tasks</p>
+            <p>3. Collect rings</p>
+          </div>
           <Button
-            className="w-full h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/50 text-white text-base font-bold font-orbitron transition-colors duration-300"
+            className="!sonic-title2 font-orbitron mt-2 md:mt-auto"
+            variant={"primary"}
+            size={"lg"}
             onClick={handleConfirm}
           >
             Get Started

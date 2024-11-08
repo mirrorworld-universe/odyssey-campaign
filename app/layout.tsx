@@ -20,13 +20,14 @@ import { SetUpFinishDialog } from "./components/Dialog/SetUpFinish";
 import "../lib/track";
 import { WhitelistDialog } from "./components/Dialog/Whitelist";
 import { SwitchNetworkDialog } from "./components/Dialog/SwitchNetwork";
+import SeasonTwo from "./components/Dialog/SeasonTwo";
 
 const manrope = Manrope({
   weight: ["400", "500"],
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-manrope"
 });
 
 const orbitron = Orbitron({
@@ -34,7 +35,7 @@ const orbitron = Orbitron({
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-orbitron",
+  variable: "--font-orbitron"
 });
 
 export const metadata: Metadata = {
@@ -46,7 +47,9 @@ export const metadata: Metadata = {
     title: "Sonic Odyssey",
     description:
       "Join the Sonic Odyssey Testnet Campaign. Earn Your Ring Rewards!",
-    images: ["https://odyssey.sonic.game/seo-banner.png"],
+    images: [
+      "https://storage.sonic.game/odyssey/frontend/image/Season2PreviewBanner.gif"
+    ]
   },
 
   twitter: {
@@ -55,8 +58,10 @@ export const metadata: Metadata = {
     description:
       "Join the Sonic Odyssey Testnet Campaign. Earn Your Ring Rewards!",
     creator: "@SonicSVM",
-    images: ["https://odyssey.sonic.game/seo-banner.png"],
-  },
+    images: [
+      "https://storage.sonic.game/odyssey/frontend/image/Season2PreviewBanner.gif"
+    ]
+  }
 };
 
 export const viewport: Viewport = {
@@ -64,11 +69,11 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  userScalable: false,
+  userScalable: false
 };
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -115,7 +120,7 @@ window.criteo_q.push(
     <html lang="en">
       {/* <GoogleTagManager gtmId="AW-16645551423" /> */}
       <body
-        className={`${manrope.variable} ${orbitron.variable} bg-[#01030C] font-manrope w-full relative`}
+        className={`${manrope.variable} ${orbitron.variable} bg-[#01030C] font-manrope w-full relative flex flex-col min-h-screen`}
       >
         <Providers>
           <AppWalletProvider>
@@ -133,6 +138,8 @@ window.criteo_q.push(
             <MoreWalletDialog />
             <SetUpSonicNetworkDialog />
             <SetUpFinishDialog />
+            {/* <SeasonTwo /> */}
+            <SeasonTwo />
             <WhitelistDialog />
             <SwitchNetworkDialog />
 

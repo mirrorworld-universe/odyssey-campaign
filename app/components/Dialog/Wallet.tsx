@@ -2,75 +2,53 @@
 
 import { useEffect, useState } from "react";
 
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { WalletReadyState } from "@solana/wallet-adapter-base";
-import { Keypair } from "@solana/web3.js";
-import base58 from "bs58";
-import nacl from "tweetnacl";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { decodeUTF8, encodeBase64 } from "tweetnacl-util";
-import {
-  useWalletModal,
-  useAccountInfo,
-  useNetworkInfo,
-} from "@/app/store/account";
-import { useTaskInfo } from "@/app/store/task";
 import {
   fetchAuthorize,
   fetchBasicInfo,
-  fetchLogout,
+  fetchLogout
 } from "@/app/data/account";
+import { useBreakpoint } from "@/app/hooks";
+import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
+import {
+  useAccountInfo,
+  useNetworkInfo,
+  useWalletModal
+} from "@/app/store/account";
+import { useTaskInfo } from "@/app/store/task";
+import { useSetupInfo } from "@/app/store/tutorials";
+import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  DialogTitle
 } from "@/components/ui/dialog";
-import {
-  cn,
-  isInMaintenanceTime,
-  isInWalletCampaignTime,
-  isMobileDevice,
-  isMobileViewport,
-} from "@/lib/utils";
-import {
-  useMoreWalletModal,
-  useSetUpNetworkModal,
-  useSetupInfo,
-  useWhitelistModal,
-} from "@/app/store/tutorials";
-import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import { connectWalletStatics } from "@/lib/analytics";
 import {
   trackActionEvent,
   trackClick,
   trackCriteoWalletClick,
-  trackCriteoWalletTransactionClick,
+  trackCriteoWalletTransactionClick
 } from "@/lib/track";
-import { networks } from "@/app/data/config";
+import {
+  isInMaintenanceTime,
+  isInWalletCampaignTime,
+  isMobileDevice,
+  isMobileViewport
+} from "@/lib/utils";
+import { WalletReadyState } from "@solana/wallet-adapter-base";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { encodeBase64 } from "tweetnacl-util";
+import { networkMap } from "@/app/data/config";
 
 let lastAddress = "";
 let currentSignature = "";
 let currentToken = "";
 let messageToSign = "";
 let isWhitelist = false;
-
-const networkSwitchingNames: any = {
-  devnet: {
-    id: "1",
-    name: "Origin",
-  },
-  testnet: {
-    id: "2",
-    name: "Frontier",
-  },
-};
 
 export function WalletDialog({ text = "Connect", className }: any) {
   const {
@@ -79,8 +57,9 @@ export function WalletDialog({ text = "Connect", className }: any) {
     publicKey,
     disconnect,
     connected,
-    signMessage,
+    signMessage
   } = useWallet();
+
   const {
     address,
     setAddress,
@@ -90,35 +69,21 @@ export function WalletDialog({ text = "Connect", className }: any) {
     setSignature,
     isInWhitelist,
     setIsInWhitelist,
-    reset,
+    reset
   } = useAccountInfo();
   const { setAddress: setTaskAddress } = useTaskInfo();
   const { isOpen, onOpen, onClose, isSwitching, setSwitching } =
     useWalletModal();
   const { status } = useSetupInfo();
   const { networkId, setNetworkId } = useNetworkInfo();
-  const {
-    isOpen: isOpenMoreWalletDialog,
-    onOpen: onOpenMoreWalletDialog,
-    onClose: onCloseMoreWalletDialog,
-  } = useMoreWalletModal();
-  const {
-    isOpen: isOpenSetUpNetworkWalletDialog,
-    onOpen: onOpenSetUpNetworkWalletDialog,
-    onClose: onCloseSetUpNetworkWalletDialog,
-  } = useSetUpNetworkModal();
-  const {
-    isOpen: isOpenWhitelistDialog,
-    onOpen: onOpenWhitelistDialog,
-    onClose: onCloseWhitelistDialog,
-  } = useWhitelistModal();
 
   const [walletList, setWalletList] = useState(WalletList);
+  const isMobile = useBreakpoint() === "mobile";
 
   const {
     data: dataBasicInfo,
     isLoading: loadingBasicInfo,
-    refetch: refetchBasicInfo,
+    refetch: refetchBasicInfo
   } = useQuery({
     queryKey: ["queryBasicInfo"],
     queryFn: () =>
@@ -127,15 +92,15 @@ export function WalletDialog({ text = "Connect", className }: any) {
         source: WalletList.find(
           (wallet: any) => wallet.name === currentWallet?.adapter.name
         )?.id,
-        networkId,
+        networkId
       }),
-    enabled: false,
+    enabled: false
   });
 
   const {
     data: dataAuthorize,
     isLoading: loadingAuthorize,
-    refetch: refetchAuthorize,
+    refetch: refetchAuthorize
   } = useQuery({
     queryKey: ["queryAuthorize"],
     queryFn: () =>
@@ -143,9 +108,9 @@ export function WalletDialog({ text = "Connect", className }: any) {
         address: publicKey?.toString() || address,
         address_encoded: encodeBase64(publicKey!.toBytes()),
         signature: currentSignature || signature,
-        networkId,
+        networkId
       }),
-    enabled: false,
+    enabled: false
   });
 
   const mutationLogout = useMutation({
@@ -153,7 +118,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     onSuccess: () => {
       reset();
       disconnect();
-    },
+    }
   });
 
   const handleWalletSelect = async (currentWallet: any) => {
@@ -201,24 +166,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
     }
   };
 
-  // const verify = async () => {
-  //   const message = new TextEncoder().encode(messageToSign);
-  //   const uint8arraySignature = base58.decode(signature);
-  //   const walletIsSigner = nacl.sign.detached.verify(
-  //     message,
-  //     uint8arraySignature,
-  //     publicKey.toBuffer()
-  //   );
-
-  //   if (walletIsSigner) {
-  //     alert("The data was indeed signed with the connected wallet");
-  //   } else {
-  //     alert("The data was not signed with the connected wallet");
-  //   }
-  // };
-
   const switchMoreWallets = () => {
-    onOpenMoreWalletDialog();
+    openModalDirectly(MODAL_HASH_MAP.moreWallet);
     onClose();
   };
 
@@ -235,23 +184,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
 
   const afterWalletConnected = () => {
     if (isSupportSonic(currentWallet?.adapter.name)) {
-      // testnet
-      if (networkId === "testnet") {
-        if (isWhitelist) {
-          onOpenSetUpNetworkWalletDialog();
-        } else {
-          onOpenWhitelistDialog();
-          if (!isSwitching) {
-            disconnect();
-            mutationLogout.mutate();
-          }
-        }
-      }
-      // devnet
-      else {
-        if (!status || !status[address]) {
-          onOpenSetUpNetworkWalletDialog();
-        }
+      if (!status || !status[address]) {
+        openModalDirectly(MODAL_HASH_MAP.setUpSonicNetwork);
       }
     } else {
       switchMoreWallets();
@@ -322,7 +256,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
           page_name,
           connect_time: new Date(),
           connect_page,
-          wallet_address: publicKey.toString(),
+          wallet_address: publicKey.toString()
         });
       } catch (e) {
         console.log(e);
@@ -340,133 +274,124 @@ export function WalletDialog({ text = "Connect", className }: any) {
   }, []);
 
   const SupportSonicTag = () => (
-    <div className="text-[#fbb042] text-[10px] bg-[#2C251D] rounded px-1 py-[2px]">
+    <div className="text-gold-yellow text-ten bg-bg-tag px-2 h-5 flex-center font-orbitron">
       Support Sonic
     </div>
   );
 
   const ExtraBonusTag = () => (
-    <div className="text-[#fbb042] text-[10px] bg-[#2C251D] font-orbitron px-2 py-[2px]">
+    <div className="text-gold-yellow text-ten bg-bg-tag px-2 h-5 flex-center font-orbitron">
       Extra Bonus
     </div>
   );
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="flex flex-col w-full md:w-[520px] h-full md:h-auto bg-[#111] md:bg-[#151519] border-none p-4 md:p-8">
-        <DialogHeader className="md:max-w-[416px]">
-          <DialogTitle className="inline-flex items-center h-8 md:h-auto text-left text-white/30 md:text-white text-sm md:text-[20px] font-orbitron leading-normal">
-            {isSwitching
-              ? `Welcome to Sonic - ${
-                  networkSwitchingNames[networkId || "devnet"].name
-                }`
-              : "Connect Your Wallet"}
-          </DialogTitle>
-          <DialogDescription className="hidden md:block w-[416px] text-[#666666] text-sm font-manrope">
-            {isSwitching ? (
-              <>
-                Re-login required for Sonic Stage{" "}
-                {networkSwitchingNames[networkId || "devnet"].id}{" "}
-                {networkSwitchingNames[networkId || "devnet"].name}
-              </>
-            ) : (
-              <>
-                Choose one of the wallets and install the corresponding browser
-                extension.
-              </>
-            )}
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className="md:max-w-[520px] h-full md:h-auto text-primary p-0">
+        <div className="px-4 md:p-8 bg-black md:bg-bg-popup">
+          <DialogHeader>
+            <DialogTitle className="h-14 flex items-center md:h-auto sonic-title3 text-left text-tertary md:!text-primary md:sonic-headline5 font-orbitron">
+              {isSwitching
+                ? `Welcome to Sonic - ${networkMap[networkId].name}`
+                : "Connect Your Wallet"}
+            </DialogTitle>
+            <DialogDescription className="hidden md:block sonic-body3 text-tertary">
+              {isSwitching ? (
+                <>Re-login required for Sonic {networkMap[networkId].name}</>
+              ) : (
+                <>
+                  Choose one of the wallets and install the corresponding
+                  browser extension.
+                </>
+              )}
+            </DialogDescription>
+          </DialogHeader>
 
-        <ul className="flex gap-8 flex-col w-full mt-12 md:mt-8">
-          {walletList
-            .filter(
-              (wallet: any) =>
-                !wallet.network ||
-                (wallet.network && wallet.network[networkId || "devnet"])
-            )
-            .map(
-              (wallet: any) =>
-                !wallet.hide && (
-                  <li
-                    key={wallet.adapter?.name}
-                    //onClick={() => select(wallet.adapter?.name)}
-                    className="h-10 flex items-center w-full justify-between"
-                  >
-                    <div
-                      className="flex items-center cursor-pointer hover:opacity-80 transition-all"
-                      onClick={() => handleWalletSelect(wallet)}
+          <ul className="flex flex-col w-full mt-0 md:mt-8">
+            {walletList
+              .filter(
+                (wallet: any) =>
+                  !wallet.network ||
+                  (wallet.network && wallet.network[networkId || "devnet"])
+              )
+              .map(
+                (wallet: any) =>
+                  !wallet.hide && (
+                    <li
+                      key={wallet.adapter?.name}
+                      //onClick={() => select(wallet.adapter?.name)}
+                      className="flex items-center w-full justify-between h-16"
                     >
-                      <img
-                        src={wallet.adapter?.icon}
-                        alt={wallet.adapter?.name}
-                        className="w-6 h-6 mr-3"
-                      />
-                      <span className="text-sm md:text-base text-white font-semibold font-orbitron mr-2 md:mr-3">
-                        {wallet.adapter?.name}
-                      </span>
-                      {isInWalletCampaignTime(networkId) ? (
-                        wallet.hasExtraBonus &&
-                        wallet.hasExtraBonus[networkId || "devnet"] ? (
-                          <ExtraBonusTag />
-                        ) : null
-                      ) : wallet.isSupportSonic ? (
-                        <SupportSonicTag />
-                      ) : null}
-                    </div>
-
-                    {wallet.adapter.readyState ===
-                    WalletReadyState.Installed ? (
                       <div
-                        className={cn(
-                          "inline-flex items-center justify-center min-w-[98px] md:min-w-[136px] h-8 md:h-10 text-center rounded border-none cursor-pointer px-4 py-2.5 transition-all",
-                          "border-[#0000FF] bg-[#0000FF] hover:bg-[#0000FF]/80"
-                        )}
+                        className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-all"
                         onClick={() => handleWalletSelect(wallet)}
                       >
-                        <span className="text-white text-sm md:text-base font-orbitron font-semibold md:font-bold">
+                        <img
+                          src={wallet.adapter?.icon}
+                          alt={wallet.adapter?.name}
+                          className="size-6"
+                        />
+                        <span className="sonic-title3 md:sonic-title2 font-orbitron">
+                          {wallet.adapter?.name}
+                        </span>
+                        {isInWalletCampaignTime(networkId) ? (
+                          wallet.hasExtraBonus &&
+                          wallet.hasExtraBonus[networkId || "devnet"] ? (
+                            <ExtraBonusTag />
+                          ) : null
+                        ) : wallet.isSupportSonic ? (
+                          <SupportSonicTag />
+                        ) : null}
+                      </div>
+
+                      {wallet.adapter.readyState ===
+                      WalletReadyState.Installed ? (
+                        <Button
+                          variant={"primary"}
+                          size={isMobile ? "sm" : "md"}
+                          className="font-orbitron sonic-title3 w-24 md:w-[113px]"
+                          onClick={() => handleWalletSelect(wallet)}
+                        >
                           {isSwitching
                             ? wallet.adapter?.name ===
                               currentWallet?.adapter?.name
                               ? "Reconnect"
                               : "Connect"
                             : "Connect"}
-                        </span>
-                      </div>
-                    ) : (
-                      <a
-                        className={cn(
-                          "inline-flex items-center justify-center min-w-[98px] md:min-w-[136px] h-8 md:h-10 text-center rounded cursor-pointer px-4 py-2.5 border-solid border active:opacity-80 transition-all",
-                          "border-[#27282D] hover:border-white/80"
-                        )}
-                        href={wallet.adapter.url}
-                        target="_blank"
-                        onClick={() => handleInstallWallet(wallet)}
-                      >
-                        <span className="text-white text-sm md:text-base font-orbitron font-semibold md:font-bold">
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={() => {
+                            window.open(wallet.adapter.url, "_blank");
+                            handleInstallWallet(wallet);
+                          }}
+                          variant="outline"
+                          size={isMobile ? "sm" : "md"}
+                          className="sonic-title3 font-orbitron w-24 md:w-[113px]"
+                        >
                           Install
-                        </span>
-                      </a>
-                    )}
-                  </li>
-                )
+                        </Button>
+                      )}
+                    </li>
+                  )
+              )}
+            {walletList
+              .filter(
+                (wallet: any) =>
+                  !wallet.network ||
+                  (wallet.network && wallet.network[networkId || "devnet"])
+              )
+              .some((currentWallet: any) => currentWallet.hide) && (
+              <li
+                className="flex w-full justify-center cursor-pointer hover:opacity-80"
+                onClick={handleShowMoreWallet}
+              >
+                <img src="/images/icons/more.svg" alt="" className="w-6 h-6" />
+              </li>
             )}
-          {walletList
-            .filter(
-              (wallet: any) =>
-                !wallet.network ||
-                (wallet.network && wallet.network[networkId || "devnet"])
-            )
-            .some((currentWallet: any) => currentWallet.hide) && (
-            <li
-              className="flex w-full justify-center cursor-pointer hover:opacity-80"
-              onClick={handleShowMoreWallet}
-            >
-              <img src="/images/icons/more.svg" alt="" className="w-6 h-6" />
-            </li>
-          )}
-          {/* <WalletMultiButton style={{}} /> */}
-        </ul>
+            {/* <WalletMultiButton style={{}} /> */}
+          </ul>
+        </div>
       </DialogContent>
     </Dialog>
   );

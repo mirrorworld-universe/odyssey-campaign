@@ -33,6 +33,28 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    /* BG Color */
+    --bg1: 0 0% 0%;
+    --bg-popup: 240 9% 9%;
+    --bg-tag: 32 21% 14%;
+    --bg-mask: 0 0% 0%;
+
+    /* Text Color */
+    --primary: 0 0% 100%;
+    --secondary: 0 0% 60%;
+    --tertary: 0 0% 40%;
+    --disable: 0 0% 20%;
+    --link: 202.2 84.75% 53.73%;
+
+    /* Other Color */
+    --icon: 0 0% 30%;
+    --line: 240 3% 16%;
+    --primary-blue: 240 100% 50%;
+    --primary-blue-hover: 234 100% 24%;
+    --gold-yellow: 35.68 95.85% 62.16%;
+    --error: 0 100% 50%;
+    --success: 156 100% 50%;
   }
 
   .dark {
@@ -75,6 +97,11 @@
   }
 }
 
+html {
+  overflow-y: scroll;
+  @apply text-primary;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 100%;
@@ -84,4 +111,15 @@
 ::-webkit-scrollbar-thumb {
   background: #27282d;
   border-radius: 8px;
+}
+
+.banner-bg-1 {
+  background: url("/images/banner/banner-bg-1.png") repeat 0 0 / 329px 329px,
+    linear-gradient(83deg, rgba(0, 0, 0, 0.7) 11.45%, #9b00ff 128.94%);
+  background-blend-mode: overlay, normal;
+}
+.banner-bg-0 {
+  background: url("/images/banner/banner-bg-0.png") repeat 0 0 / 397px 322px,
+    linear-gradient(83deg, rgba(0, 0, 0, 0.9) 11.45%, #25a3ed 128.94%);
+  background-blend-mode: overlay, normal;
 }

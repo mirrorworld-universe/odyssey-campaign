@@ -1,4 +1,4 @@
-import { networks } from "@/app/data/config";
+import { NetworkId, networks } from "@/app/data/config";
 import { WalletList } from "@/app/wallet/wallet-list";
 import { UTCDate } from "@date-fns/utc";
 import { Wallet } from "@solana/wallet-adapter-react";
@@ -12,13 +12,13 @@ const DIALOGUE_FEATURES = {
   status: "no",
   menubar: "no",
   scrollbars: "yes",
-  resizable: "yes",
+  resizable: "yes"
 };
 
 const DEFAULT_SIZE = {
   width: 500,
   height: 434,
-  top: 224,
+  top: 224
 };
 
 export function cn(...inputs: ClassValue[]) {
@@ -53,7 +53,7 @@ export const openDialoguePopup = (
 ) => {
   const targetSize = {
     ...DEFAULT_SIZE,
-    ...(size || {}),
+    ...(size || {})
   };
 
   const { width } = targetSize;
@@ -81,7 +81,7 @@ export const getNetworkUrl = (networkId: any) => {
   const currentNetwork = networks.find(
     (item: any) => item.id === networkId
   ) || {
-    url: "",
+    url: ""
   };
   return currentNetwork.url;
 };
@@ -121,11 +121,11 @@ export const isMobileDevice = () => {
   );
 };
 
-export const walletCampaignStartTime = "2024-08-30T10:00:00+08:00";
-export const walletCampaignEndTime = "2024-10-18T10:00:00+08:00";
-export const walletCampaignNetworks = ["devnet"];
+export const walletCampaignStartTime = "2024-11-08T10:00:00+08:00";
+export const walletCampaignEndTime = "2024-12-09T09:00:00+00:00";
+export const walletCampaignNetworks = [NetworkId.FrontierV1];
 
-export const isInWalletCampaignTime = (networkId = "devnet") => {
+export const isInWalletCampaignTime = (networkId: any = "devnet") => {
   const isWalletCampaignNetwork =
     walletCampaignNetworks.indexOf(networkId) > -1;
   const now = new UTCDate();
@@ -160,3 +160,18 @@ export const isInLotteryCampaignTime = (networkId = "devnet") => {
   const endTime = new UTCDate(lotteryCampaignEndTime);
   return now >= startTime && now <= endTime && isLotteryCampaignNetwork;
 };
+
+declare global {
+  interface Window {
+    nightly?: any;
+  }
+}
+
+export function changeNetwork(wallet?: Wallet) {
+  if (wallet?.adapter.name === "Nightly") {
+    return window.nightly?.solana?.changeNetwork({
+      genesisHash: "E8nY8PG8PEdzANRsv91C2w28Dbw9w3AhLqRYfn5tNv2C",
+      url: ""
+    });
+  }
+}

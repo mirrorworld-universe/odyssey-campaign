@@ -4,7 +4,7 @@ export enum CardSize {
   Default = "default",
   Medium = "medium",
   Small = "small",
-  List = "list",
+  List = "list"
 }
 
 export function Card({
@@ -13,17 +13,17 @@ export function Card({
   contentClassName,
   size = CardSize.Default,
   className,
-  children,
+  children
 }: any) {
   const cardClass: any = {
     [CardSize.Medium]: "px-10 py-10 rounded-xl",
     [CardSize.Small]: "px-4 py-4 rounded",
-    [CardSize.List]: "px-0 py-6 rounded-xl",
+    [CardSize.List]: "px-0 py-6 rounded-xl"
   };
 
   const nameClass: any = {
     [CardSize.Medium]: "text-[28px] -top-[22px] px-4",
-    [CardSize.Small]: "text-base -top-3 px-1 left-[13px]",
+    [CardSize.Small]: "text-base -top-3 px-1 left-[13px]"
   };
 
   return (

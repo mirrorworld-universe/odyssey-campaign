@@ -39,9 +39,7 @@ export function Referral() {
     if (referralInfo) {
       const { invitation_code, referrals, referral_rewards } = referralInfo;
       setInviteCode(invitation_code);
-      setInviteUrl(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/?join=${invitation_code}`
-      );
+      setInviteUrl(`${location.origin}/?join=${invitation_code}`);
       setReferralAmount(referrals);
       setReferralRewards(referral_rewards);
     }
