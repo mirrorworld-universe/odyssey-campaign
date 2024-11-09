@@ -125,7 +125,7 @@ export default function Slider({
               />
               {slide.name === "bybit" && (
                 <div className="sonic-title3 text-[#B573FF] absolute inset-x-0 text-center bottom-9">
-                  Get Ready – Starting November 11th!
+                  Get Ready – Starting November 15th!
                 </div>
               )}
               {slide.available && (
