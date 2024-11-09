@@ -17,6 +17,14 @@ const nextConfig = {
     config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;
   },
+  async headers() {
+    return [
+      {
+        source: "/images/(.*)",
+        headers: [{ key: "cache-control", value: "max-age=7200" }]
+      }
+    ];
+  }
 };
 
 export default nextConfig;
