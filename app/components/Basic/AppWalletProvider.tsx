@@ -2,6 +2,7 @@
 
 import { DEFAULT_RPC, networkMap } from "@/app/data/config";
 import { useNetworkInfo } from "@/app/store/account";
+import { WalletList } from "@/app/wallet/wallet-list";
 import { isInMaintenanceTime } from "@/lib/utils";
 import {
   ConnectionProvider,
@@ -33,6 +34,7 @@ export default function AppWalletProvider({
 
   const wallets = useMemo(
     () => [
+      ...WalletList.map((wallet) => wallet.adapter)
       // manually add any legacy wallet adapters here
       // new NightlyWalletAdapter(),
       // new PhantomWalletAdapter(),
