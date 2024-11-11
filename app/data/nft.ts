@@ -8,9 +8,9 @@ export const fetchCollectionInfo = async ({ token, networkId }: any) => {
     )}/nft-campaign/collection/info`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
     }
   );
   return response.json();
@@ -24,9 +24,9 @@ export const fetchLimitedCollectionTx = async ({ token, networkId }: any) => {
     )}/nft-campaign/mint/limited/build-tx`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
     }
   );
   return response.json();
@@ -40,9 +40,59 @@ export const fetchUnlimitedCollectionTx = async ({ token, networkId }: any) => {
     )}/nft-campaign/mint/unlimited/build-tx`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
+    }
+  );
+  return response.json();
+};
+
+// get third-party collection info
+export const fetchThirdPartyCollectionInfo = async ({
+  name = "lowlife",
+  wallet,
+  token,
+  networkId
+}: any) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/nft-campaign/collection/third-part/info?${new URLSearchParams({
+      name,
+      wallet
+    })}`,
+    {
+      headers: {
+        Authorization: token
+      },
+      method: "GET"
+    }
+  );
+  return response.json();
+};
+
+// third-party collection build mint tx
+export const fetchThirdPartyCollectionTx = async ({
+  name = "lowlife",
+  wallet,
+  token,
+  networkId
+}: any) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+      networkId
+    )}/nft-campaign/mint/third-part/build-tx`,
+    {
+      headers: {
+        Authorization: token,
+        "content-type": "application/json"
+      },
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        wallet
+      })
     }
   );
   return response.json();

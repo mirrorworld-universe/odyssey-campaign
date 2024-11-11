@@ -29,13 +29,14 @@ import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import {
   fetchCollectionInfo,
   fetchLimitedCollectionTx,
-  fetchUnlimitedCollectionTx
+  fetchUnlimitedCollectionTx,
+  fetchThirdPartyCollectionInfo,
+  fetchThirdPartyCollectionTx
 } from "@/app/data/nft";
 import { trackClick } from "@/lib/track";
 import { cn, prettyNumber } from "@/lib/utils";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { Close } from "@/app/icons/Close";
-import { EXPLORER_CLUSTER, getFaucetUrl, NetworkId } from "@/app/data/config";
 
 let transactionHash = "";
 let isMintingStatus = false;
@@ -56,8 +57,47 @@ export function MysteryNFT() {
   const [showRules, setShowRules] = useState(false);
 
   const [NFTcollections, setNFTCollections] = useState<any>([
+    {
+      id: "lowlife",
+      isThirdParty: true,
+      image:
+        "https://2qdyvazekpxbfz4exewelpidbev44ooyvulymuftequ5yaor3csq.akrd.net/1AeKgyRT7hLnhLksRb0DCSvOOditF4ZQsyQp3AHR2KU",
+      name: "LLF SuperSonic Badge",
+      isLimited: true,
+      isSmallImage: true,
+      isExpanded: false,
+      introduction:
+        "Lowlife Forms SuperSonic Badge. For the LLF pioneers and the Sonic OGs. For the web3 gamers that want the best of all worlds. This testnet NFT will give access to the mainnet Badge which will unlock unique in-game and out-of-game benefits.",
+      totalAmount: 1,
+      mintedAmount: 0,
+      available: true,
+      limit: 1,
+      enable: false,
+      minted: true,
+      handleMint: () => {
+        const currentCollection = NFTcollections.find(
+          (item: any) => item.id === "lowlife"
+        );
+        setSelectedCollection(currentCollection);
+        if (
+          currentCollection.enable &&
+          !currentCollection.minted &&
+          !isMinting
+        ) {
+          isMintingStatus = true;
+          setIsMinting(isMintingStatus);
+          getThirdPartyCollectionTXHash.mutate();
+        }
+      }
+      // handleTrade: () => {
+      //   window.open(
+      //     "https://www.okx.com/web3/marketplace/nft/collection/sonic-devnet/sonic-odyssey-pass",
+      //     "_blank"
+      //   );
+      // },
+    },
     // {
-    //   id: "1",
+    //   id: 1,
     //   image: "/images/nft/1.png",
     //   name: "Sonic Cartridge Collection",
     //   isLimited: true,
@@ -72,7 +112,7 @@ export function MysteryNFT() {
     //   minted: true,
     //   handleMint: () => {
     //     const currentCollection = NFTcollections.find(
-    //       (item: any) => item.isLimited
+    //       (item: any) => item.id === 1
     //     );
     //     setSelectedCollection(currentCollection);
     //     if (
@@ -93,7 +133,7 @@ export function MysteryNFT() {
     //   }
     // },
     {
-      id: "2",
+      id: 2,
       image: "/images/nft/2.png",
       name: "Sonic Odyssey Pass",
       isLimited: false,
@@ -108,7 +148,7 @@ export function MysteryNFT() {
       minted: true,
       handleMint: () => {
         const currentCollection = NFTcollections.find(
-          (item: any) => !item.isLimited
+          (item: any) => item.id === 2
         );
         setSelectedCollection(currentCollection);
         if (
@@ -140,6 +180,22 @@ export function MysteryNFT() {
     enabled: !!token
   });
 
+  const {
+    data: dataThirdPartyCollectionInfo,
+    isLoading: loadingThirdPartyCollectionInfo,
+    refetch: refetchThirdPartyCollectionInfo
+  } = useQuery({
+    queryKey: ["queryThirdPartyCollectionInfo", address],
+    queryFn: () =>
+      fetchThirdPartyCollectionInfo({
+        name: "lowlife",
+        wallet: address,
+        token,
+        networkId
+      }),
+    enabled: !!token
+  });
+
   const getLimitedCollectionTXHash = useMutation({
     mutationKey: ["buildLimitedCollectionTx", address],
     mutationFn: () => fetchLimitedCollectionTx({ token, networkId }),
@@ -150,7 +206,11 @@ export function MysteryNFT() {
           onFinish: () => {
             const collections = [...NFTcollections];
             collections.forEach((item: any) => {
-              if (item.isLimited) {
+              if (
+                item.id === 1 &&
+                item.isLimited &&
+                item.status === "success"
+              ) {
                 item.minted = true;
               }
             });
@@ -175,6 +235,43 @@ export function MysteryNFT() {
         triggerTransaction({
           transactionString: data.hash,
           onFinish: () => {
+            isMintingStatus = false;
+            setIsMinting(isMintingStatus);
+          }
+        });
+      } else {
+        isMintingStatus = false;
+        setIsMinting(isMintingStatus);
+      }
+    }
+  });
+
+  const getThirdPartyCollectionTXHash = useMutation({
+    mutationKey: ["buildThirdPartyCollectionTx", address],
+    mutationFn: () =>
+      fetchThirdPartyCollectionTx({
+        name: "lowlife",
+        wallet: address,
+        token,
+        networkId
+      }),
+    onSuccess({ data }) {
+      if (data?.hash) {
+        triggerTransaction({
+          transactionString: data.hash,
+          onFinish: () => {
+            const collections = [...NFTcollections];
+            collections.forEach((item: any) => {
+              if (
+                item.id === "lowlife" &&
+                item.isLimited &&
+                item.status === "success"
+              ) {
+                item.minted = true;
+              }
+            });
+            setNFTCollections(collections);
+
             isMintingStatus = false;
             setIsMinting(isMintingStatus);
           }
@@ -218,7 +315,7 @@ export function MysteryNFT() {
             <a
               className="text-[#25A3ED]"
               href={`https://explorer.sonic.game/tx/${transactionHash}${
-                EXPLORER_CLUSTER[networkId as NetworkId]
+                networkId === "testnet" ? "?cluster=testnet" : ""
               }`}
               target="_blank"
             >
@@ -228,6 +325,7 @@ export function MysteryNFT() {
           </div>
         )
       });
+      onFinish && onFinish({ status: "success" });
     } catch (error) {
       toast({
         title: "Sorry",
@@ -239,9 +337,8 @@ export function MysteryNFT() {
         )
       });
       console.error("Transaction failed:", error);
+      onFinish && onFinish({ status: "fail" });
     }
-
-    onFinish && onFinish();
   };
 
   useEffect(() => {
@@ -250,9 +347,52 @@ export function MysteryNFT() {
     if (collectionInfo) {
       const collections = [...NFTcollections];
       collections.forEach((item: any) => {
-        if (item.isLimited) {
-          const { total, minted, mint_limit, enable_mint } =
-            collectionInfo.limited_coll_info;
+        if (!item.isThirdParty) {
+          if (item.isLimited) {
+            const { total, minted, mint_limit, enable_mint } =
+              collectionInfo.limited_coll_info;
+            item.totalAmount = total;
+            item.mintedAmount = minted;
+            // limit amount to mint
+            item.limit = mint_limit;
+            // is collection enable to mint
+            item.enable = enable_mint && minted < total;
+            // is collection minted
+            item.minted = !enable_mint;
+            isLimitedSoldOut = minted >= total;
+          } else {
+            const { total, minted, mint_limit, enable_mint } =
+              collectionInfo.unlimited_coll_info;
+            item.totalAmount = total > 1 ? total : -1;
+            item.mintedAmount = minted;
+            item.limit = mint_limit;
+            item.enable = enable_mint;
+            item.minted = false;
+          }
+        }
+      });
+      setLoaded(true);
+      if (isLimitedSoldOut) {
+        let index = collections.findIndex((item) => item.id === 1);
+        if (index !== -1) {
+          let [item] = collections.splice(index, 1);
+          collections.push(item);
+        }
+        setNFTCollections(collections);
+      } else {
+        setNFTCollections(collections);
+      }
+    }
+  }, [dataLimitedCollectionInfo]);
+
+  useEffect(() => {
+    let isLimitedSoldOut = false;
+    const collectionInfo = dataThirdPartyCollectionInfo?.data;
+    if (collectionInfo) {
+      const collections = [...NFTcollections];
+      collections.forEach((item: any) => {
+        if (item.id === "lowlife") {
+          const { total, minted, mint_limit, enable_mint } = collectionInfo;
           item.totalAmount = total;
           item.mintedAmount = minted;
           // limit amount to mint
@@ -262,24 +402,21 @@ export function MysteryNFT() {
           // is collection minted
           item.minted = !enable_mint;
           isLimitedSoldOut = minted >= total;
-        } else {
-          const { total, minted, mint_limit, enable_mint } =
-            collectionInfo.unlimited_coll_info;
-          item.totalAmount = total > 1 ? total : -1;
-          item.mintedAmount = minted;
-          item.limit = mint_limit;
-          item.enable = enable_mint;
-          item.minted = false;
         }
       });
       setLoaded(true);
       if (isLimitedSoldOut) {
-        setNFTCollections(collections.reverse());
+        let index = collections.findIndex((item) => item.id === "lowlife");
+        if (index !== -1) {
+          let [item] = collections.splice(index, 1);
+          collections.push(item);
+        }
+        setNFTCollections(collections);
       } else {
         setNFTCollections(collections);
       }
     }
-  }, [dataLimitedCollectionInfo]);
+  }, [dataThirdPartyCollectionInfo]);
 
   useEffect(() => {
     if (token && token !== currentToken) {
@@ -356,7 +493,9 @@ export function MysteryNFT() {
               Request test SOL first.{" "}
               <a
                 className="text-[#25A3ED] hover:text-[#00F]"
-                href={getFaucetUrl()}
+                href={`https://faucet.sonic.game/#/${
+                  networkId === "testnet" ? "?network=testnet" : ""
+                }`}
                 target="_blank"
               >
                 Request here.
@@ -402,15 +541,21 @@ export function MysteryNFT() {
                 {/* nft part */}
                 <div className="nft flex flex-row items-center gap-10">
                   {/* cover */}
-                  <div className="max-w-[200px] h-[112px] rounded overflow-hidden relative">
+                  <div
+                    className={cn(
+                      "max-w-[200px] h-[112px] rounded overflow-hidden relative",
+                      nft.isSmallImage ? "w-full flex justify-center" : ""
+                    )}
+                  >
                     <img
                       src={nft.image}
                       alt=""
-                      className={
+                      className={cn(
                         nft.isLimited && nft.mintedAmount >= nft.totalAmount
                           ? "opacity-30"
-                          : "opacity-100"
-                      }
+                          : "opacity-100",
+                        nft.isSmallImage ? "max-w-none h-full w-auto" : ""
+                      )}
                     />
                     {nft.isLimited && nft.mintedAmount >= nft.totalAmount ? (
                       <SoldoutTag className="rounded-bl rounded-tr absolute top-0 right-0" />
@@ -515,6 +660,7 @@ export function MysteryNFT() {
                       "w-1/2 xl:w-[102px] h-12 text-base font-semibold font-orbitron border rounded bg-transparent hover:bg-transparent transition-all duration-300",
                       "border-[#27282D] hover:border-[#27282D]/80 active:border-[#27282D]/60 text-white hover:text-white/80 active:text-white/60"
                     )}
+                    disabled={!nft.handleTrade}
                     onClick={nft.handleTrade}
                   >
                     Trade
@@ -559,8 +705,14 @@ export function MysteryNFT() {
                       )}
                     >
                       {/* cover */}
-                      <div className="flex items-center w-full h-[175px] overflow-hidden relative">
-                        <img src={nft.image} alt="" className="h-auto w-full" />
+                      <div className="flex items-center justify-center w-full h-[175px] overflow-hidden relative">
+                        <img
+                          src={nft.image}
+                          alt=""
+                          className={cn(
+                            nft.isSmallImage ? "h-full w-auto" : "h-auto w-full"
+                          )}
+                        />
                         {nft.isLimited &&
                         nft.mintedAmount >= nft.totalAmount ? (
                           <SoldoutTag className="absolute top-0 right-0" />
