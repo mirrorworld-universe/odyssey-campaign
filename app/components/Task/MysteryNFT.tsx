@@ -56,42 +56,42 @@ export function MysteryNFT() {
   const [showRules, setShowRules] = useState(false);
 
   const [NFTcollections, setNFTCollections] = useState<any>([
-    {
-      id: "1",
-      image: "/images/nft/1.png",
-      name: "Sonic Cartridge Collection",
-      isLimited: true,
-      isExpanded: false,
-      introduction:
-        "The Sonic Cartridge is a limited-edition NFT collection that offers special bonus effects during the Odyssey. The NFTs in this series come in four different rarities: Common, Rare, Epic, and Legendary. Each rarity provides different reward effects.",
-      totalAmount: 1,
-      mintedAmount: 0,
-      available: true,
-      limit: 1,
-      enable: false,
-      minted: true,
-      handleMint: () => {
-        const currentCollection = NFTcollections.find(
-          (item: any) => item.isLimited
-        );
-        setSelectedCollection(currentCollection);
-        if (
-          currentCollection.enable &&
-          !currentCollection.minted &&
-          !isMinting
-        ) {
-          isMintingStatus = true;
-          setIsMinting(isMintingStatus);
-          getLimitedCollectionTXHash.mutate();
-        }
-      },
-      handleTrade: () => {
-        window.open(
-          "https://www.okx.com/web3/marketplace/nft/collection/sonic-devnet/sonic-cartridge-collection",
-          "_blank"
-        );
-      }
-    },
+    // {
+    //   id: "1",
+    //   image: "/images/nft/1.png",
+    //   name: "Sonic Cartridge Collection",
+    //   isLimited: true,
+    //   isExpanded: false,
+    //   introduction:
+    //     "The Sonic Cartridge is a limited-edition NFT collection that offers special bonus effects during the Odyssey. The NFTs in this series come in four different rarities: Common, Rare, Epic, and Legendary. Each rarity provides different reward effects.",
+    //   totalAmount: 1,
+    //   mintedAmount: 0,
+    //   available: true,
+    //   limit: 1,
+    //   enable: false,
+    //   minted: true,
+    //   handleMint: () => {
+    //     const currentCollection = NFTcollections.find(
+    //       (item: any) => item.isLimited
+    //     );
+    //     setSelectedCollection(currentCollection);
+    //     if (
+    //       currentCollection.enable &&
+    //       !currentCollection.minted &&
+    //       !isMinting
+    //     ) {
+    //       isMintingStatus = true;
+    //       setIsMinting(isMintingStatus);
+    //       getLimitedCollectionTXHash.mutate();
+    //     }
+    //   },
+    //   handleTrade: () => {
+    //     window.open(
+    //       "https://www.okx.com/web3/marketplace/nft/collection/sonic-devnet/sonic-cartridge-collection",
+    //       "_blank"
+    //     );
+    //   }
+    // },
     {
       id: "2",
       image: "/images/nft/2.png",
