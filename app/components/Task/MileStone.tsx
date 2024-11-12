@@ -312,8 +312,7 @@ export function MileStone() {
             </li>
             {isInWalletCampaignTime(networkId) ? (
               <li>
-                The duration for the extra bonus for OKX Wallet and Backpack
-                Wallet is from{" "}
+                The duration for the extra bonus for Bybit Wallet is from{" "}
                 {format(new UTCDate(walletCampaignStartTime), "PPP")} to{" "}
                 {format(new UTCDate(walletCampaignEndTime), "PPP")}
               </li>
