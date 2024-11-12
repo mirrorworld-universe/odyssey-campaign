@@ -10,6 +10,7 @@ import { PlayOnSonicxLogo } from "../logos/PlayOnSonicxLogo";
 import { ReferralLogo } from "../logos/ReferralLogo";
 import { NetworkId } from "./config";
 import { RingLotteryLogo } from "../logos/RingLotteryLogo";
+import { BridgeChallengeLogo } from "../logos/BridgeChallenge";
 
 export const taskGroupList: TaskGroup[] = [
   {
@@ -159,6 +160,27 @@ export const taskGroupList: TaskGroup[] = [
           testnet: false
         },
         showPeriod: true
+      }
+    ]
+  },
+  {
+    name: "Defi && Liquidity",
+    list: [
+      {
+        id: "bridge-challenge",
+        name: "Bridge Challenge",
+        description:
+          "Experience the HyperGrid Bridge and bridge your assets to Sonic to !",
+        period: "Daily Task",
+        reward: "Test SOL Needed",
+        icon: <BridgeChallengeLogo />,
+        visibleInNetworks: [NetworkId.FrontierV1],
+        extraBonus: [
+          {
+            walletId: "Bybit",
+            icon: <BybitLogo />
+          }
+        ]
       }
     ]
   },
