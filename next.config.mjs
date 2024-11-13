@@ -21,7 +21,7 @@ const nextConfig = {
     return [
       {
         source: "/images/(.*)",
-        headers: [{ key: "cache-control", value: "max-age=7200" }]
+        headers: [{ key: "cache-control", value: "max-age=31536000" }]
       }
     ];
   }
