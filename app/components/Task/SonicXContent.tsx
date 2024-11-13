@@ -40,7 +40,7 @@ export function SonicXContent() {
     if (res?.data?.finished) {
       return "Claimed";
     }
-    return "Launch SonicX";
+    return "Launch Now";
   }, [address, res?.data?.finished]);
 
   return (
@@ -73,16 +73,18 @@ export function SonicXContent() {
               </span>{" "}
               automatically after you log in.
             </li>
-            <li>
-              Keep playing Sonic X , earn more game rewards.{" "}
-              <a
-                href="https://sonicx.app/"
-                target="_blank"
-                className="text-link hover:text-primary-blue transition-colors"
-              >
-                Visit Sonic X
-              </a>
-            </li>
+            {res?.data?.finished ? (
+              <li>
+                Keep playing Sonic X , earn more game rewards.{" "}
+                <a
+                  href="https://sonicx.app/"
+                  target="_blank"
+                  className="text-link hover:text-primary-blue transition-colors"
+                >
+                  Visit Sonic X
+                </a>
+              </li>
+            ) : null}
           </ul>
         </Rules>
         <div className="border-0 md:border border-[#27282D] md:p-10 md:mt-20 flex items-center gap-10 xl:gap-20 max-w-[1024px]">
