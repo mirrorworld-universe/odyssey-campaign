@@ -74,13 +74,13 @@ export function SonicXContent() {
               automatically after you log in.
             </li>
             <li>
-              Keep playing Sonic X , earn more game rewards. Visit{" "}
+              Keep playing Sonic X , earn more game rewards.{" "}
               <a
                 href="https://sonicx.app/"
                 target="_blank"
                 className="text-link hover:text-primary-blue transition-colors"
               >
-                Sonic X
+                Visit Sonic X
               </a>
             </li>
           </ul>
