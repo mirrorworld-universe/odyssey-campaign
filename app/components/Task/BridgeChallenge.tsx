@@ -255,7 +255,7 @@ export function BridgeChallenge() {
       <div className="">
         {/* rules */}
         <Rules show={showRules} onClose={(show: boolean) => setShowRules(show)}>
-          <ul className="list-disc font-normal pl-6">
+          <ul className="list-disc font-normal pl-6 text-secondary">
             <li className="">
               Request test SOL first.{" "}
               <a
@@ -267,33 +267,50 @@ export function BridgeChallenge() {
               </a>
               .
             </li>
+            <li>
+              Complete{" "}
+              <a
+                href="https://bridge-staging.sonic.game/"
+                target="_blank"
+                className="text-link hover:text-primary-blue transition-colors"
+              >
+                Bridge
+              </a>{" "}
+              transaction, claim rewards manually by clicking the button below.
+            </li>
             <li className="">
               Complete at least 5 successful bridge transactions from both side,
               and refresh page to claim the corresponding rewards.
             </li>
             <li className="">
-              This is a everyday task, you can join and get reward everyday.
+              Complete 1 bridge transaction to earn{" "}
+              <span className="inline-flex items-center text-gold-yellow">
+                1 x{" "}
+                <Gift
+                  color="#FBB042"
+                  className="size-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                />{" "}
+                Ring Mystery Boxes
+              </span>
             </li>
             <li className="">
-              Join our sonic-bridge channel to report any issues or bugs during
-              the bridge process. Your valuable feedback can earn you extra
-              rewards!
+              Complete 5 bridge transactions to earn{" "}
+              <span className="inline-flex items-center text-gold-yellow">
+                3 x{" "}
+                <Gift
+                  color="#FBB042"
+                  className="size-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                />{" "}
+                Ring Mystery Boxes
+              </span>
             </li>
-            {/* {isInWalletCampaignTime(networkId) ? (
-              <li>
-                The duration for the extra bonus for OKX Wallet and Backpack
-                Wallet is from{" "}
-                {format(new UTCDate(walletCampaignStartTime), "PPP")} to{" "}
-                {format(new UTCDate(walletCampaignEndTime), "PPP")}
-              </li>
-            ) : null} */}
           </ul>
         </Rules>
 
         {/* main */}
         <Card
           size={CardSize.Medium}
-          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-none md:rounded"
+          className="max-w-[1024px] md:mt-20 w-full relative p-6 md:p-10 rounded-none"
           nameClassName="bg-[#000]"
         >
           <div className="flex flex-col gap-1 md:gap-16">
@@ -436,14 +453,14 @@ export function BridgeChallenge() {
                         }`}
                         onClick={() => handleClaimGifts(stageKey, stageIndex)}
                       >
-                        Claim x{" "}
-                        {isInWalletCampaignTime(networkId) &&
+                        Claim x {stageList[stageKey].rewards}
+                        {/* {isInWalletCampaignTime(networkId) &&
                         hasExtraWalletBonus(wallet, networkId)
                           ? stageList[stageKey].rewards + 1
-                          : stageList[stageKey].rewards}{" "}
+                          : stageList[stageKey].rewards}{" "} */}
                         <Gift color="#FFFFFF" className="mx-1" />
                       </Button>
-                      {isInWalletCampaignTime(networkId) ? (
+                      {/* {isInWalletCampaignTime(networkId) ? (
                         <ExtraBonusTip
                           transparent={
                             transactionAmount < stageList[stageKey].quantity ||
@@ -451,7 +468,7 @@ export function BridgeChallenge() {
                           }
                           className="hidden md:inline-flex"
                         />
-                      ) : null}
+                      ) : null} */}
                     </div>
                   )
               )}
@@ -459,9 +476,9 @@ export function BridgeChallenge() {
           </div>
         </Card>
 
-        {isInWalletCampaignTime(networkId) ? (
+        {/* {isInWalletCampaignTime(networkId) ? (
           <ExtraBonusTip className="inline-flex md:hidden mt-4" />
-        ) : null}
+        ) : null} */}
       </div>
 
       {/* mobile version tools */}

@@ -174,13 +174,7 @@ export const taskGroupList: TaskGroup[] = [
         period: "Daily Task",
         reward: "Test SOL Needed",
         icon: <BridgeChallengeLogo />,
-        visibleInNetworks: [NetworkId.FrontierV1],
-        extraBonus: [
-          {
-            walletId: "Bybit",
-            icon: <BybitLogo />
-          }
-        ]
+        visibleInNetworks: [NetworkId.FrontierV1]
       }
     ]
   },
