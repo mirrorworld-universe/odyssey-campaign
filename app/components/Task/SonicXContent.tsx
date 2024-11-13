@@ -8,9 +8,11 @@ import { useMemo, useState } from "react";
 import { Rules } from "./Rules";
 import { useQuery } from "@tanstack/react-query";
 import { http } from "@/lib/http";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export function SonicXContent() {
   const { address, token } = useAccountInfo();
+  const { connected } = useWallet();
   const { onOpen } = useWalletModal();
 
   const [showRules, setShowRules] = useState(false);
@@ -33,7 +35,7 @@ export function SonicXContent() {
   };
 
   const btnText = useMemo(() => {
-    if (!address) {
+    if (!connected) {
       return "Connect Wallet";
     }
 
@@ -41,7 +43,7 @@ export function SonicXContent() {
       return "Claimed";
     }
     return "Launch Now";
-  }, [address, res?.data?.finished]);
+  }, [connected, res?.data?.finished]);
 
   return (
     <div className="flex flex-col w-full">
