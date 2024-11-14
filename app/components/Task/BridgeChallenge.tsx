@@ -1,41 +1,33 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
-import { Gift } from "@/app/icons/Gift";
-import { Check } from "@/app/icons/Check";
-import { OKX as IconOKX } from "@/app/icons/OKX";
-import { OKXTransparent as IconOKXTransparent } from "@/app/icons/OKXTransparent";
 import { Backpack as IconBackpack } from "@/app/icons/Backpack";
+import { Check } from "@/app/icons/Check";
+import { Gift } from "@/app/icons/Gift";
+import { OKXTransparent as IconOKXTransparent } from "@/app/icons/OKXTransparent";
 
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
-import { Card, CardSize } from "../Basic/Card";
+import { getFaucetUrl } from "@/app/data/config";
+import { BybitLogo } from "@/app/logos/BybitLogo";
 import {
   useAccountInfo,
   useNetworkInfo,
   useSystemInfo
 } from "@/app/store/account";
-import {
-  claimMilestoneRewards,
-  getMilestoneDailyInfo
-} from "@/app/data/reward";
+import { WalletList } from "@/app/wallet/wallet-list";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { http } from "@/lib/http";
 import { trackClick } from "@/lib/track";
 import {
   cn,
-  isInWalletCampaignTime,
   hasExtraWalletBonus,
-  isMobileViewport,
-  walletCampaignStartTime,
-  walletCampaignEndTime
+  isInWalletCampaignTime,
+  isMobileViewport
 } from "@/lib/utils";
+import { Card, CardSize } from "../Basic/Card";
 import { Rules } from "./Rules";
-import { WalletList } from "@/app/wallet/wallet-list";
-import { format } from "date-fns";
-import { UTCDate } from "@date-fns/utc";
-import { BybitLogo } from "@/app/logos/BybitLogo";
-import { getFaucetUrl } from "@/app/data/config";
 
 let currentToken = "";
 
@@ -75,19 +67,17 @@ export function BridgeChallenge() {
       : 2;
   };
 
-  const {
-    data: dataMilestoneDailyInfo,
-    isLoading: loadingMilestoneDailyInfo,
-    refetch: refetchMilestoneDailyInfo
-  } = useQuery({
-    queryKey: ["queryMilestoneDailyInfo", address],
-    queryFn: () => getMilestoneDailyInfo({ token, networkId }),
-    enabled: !!token
-  });
+  const { data: dataMilestoneDailyInfo, refetch: refetchMilestoneDailyInfo } =
+    useQuery({
+      queryKey: ["/bridge-campaign/state/daily", address],
+      queryFn: () => http.get("/bridge-campaign/state/daily"),
+      enabled: !!token,
+      refetchOnWindowFocus: true
+    });
 
   const mutationClaimRewards = useMutation({
     mutationFn: () =>
-      claimMilestoneRewards({ token, stage: claimStage, networkId }),
+      http.post("/bridge-campaign/reward/claim", { stage: claimStage }),
     onSuccess: ({ data, status }) => {
       if (data.claimed) {
         const currentStageKey = Object.keys(stageList)[claimStage - 1];
@@ -151,8 +141,8 @@ export function BridgeChallenge() {
   useEffect(() => {
     const data = dataMilestoneDailyInfo?.data;
     if (data) {
-      const { total_transactions, stage_info } = data;
-      setTransactionAmount(total_transactions);
+      const { total_count, stage_info } = data;
+      setTransactionAmount(total_count);
       setStageList(stage_info);
       // current stage
       setCurrentStageKey(
@@ -317,8 +307,8 @@ export function BridgeChallenge() {
             {/* wordings */}
             <p className="text-white text-sm md:text-[30px] font-orbitron font-semibold">
               You have made
-              <span className="text-[#FBB042] text-[28px] md:text-[56px] px-2 md:px-4">
-                {transactionAmount <= 5 ? transactionAmount : "5+"}
+              <span className="text-gold-yellow sonic-title2 md:sonic-headline0 px-2 md:px-4">
+                {transactionAmount}
               </span>
               {transactionAmount === 1 ? "transaction" : "transactions"} today.
             </p>
@@ -484,7 +474,7 @@ export function BridgeChallenge() {
       {/* mobile version tools */}
       <div className="flex md:hidden flex-row gap-3 fixed bottom-0 right-0 left-0 m-auto bg-[#000] p-5">
         <Button
-          className="w-2/6 h-12 border border-solid border-white/40 bg-transparent"
+          className="w-20 shrink-0 h-12 border border-solid border-line bg-transparent"
           onClick={() => setShowRules(true)}
         >
           <span className="text-white text-base font-bold font-orbitron">
@@ -493,7 +483,7 @@ export function BridgeChallenge() {
         </Button>
         <Button
           className={cn(
-            "w-4/6 h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300",
+            "grow h-12 text-white text-base font-semibold font-orbitron bg-[#0000FF] transition-colors duration-300",
             stageList[nextStageKey]?.claimed ||
               transactionAmount < stageList[nextStageKey]?.quantity ||
               isInMaintenance
