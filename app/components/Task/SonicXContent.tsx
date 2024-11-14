@@ -4,13 +4,15 @@ import { useAccountInfo, useWalletModal } from "@/app/store/account";
 import { Button } from "@/components/ui/button";
 import { trackClick } from "@/lib/track";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Rules } from "./Rules";
 import { useQuery } from "@tanstack/react-query";
 import { http } from "@/lib/http";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export function SonicXContent() {
   const { address, token } = useAccountInfo();
+  const { connected } = useWallet();
   const { onOpen } = useWalletModal();
 
   const [showRules, setShowRules] = useState(false);
@@ -31,6 +33,17 @@ export function SonicXContent() {
       window.open(res.data.sonicX_url, "_blank");
     }
   };
+
+  const btnText = useMemo(() => {
+    if (!connected) {
+      return "Connect Wallet";
+    }
+
+    if (res?.data?.finished) {
+      return "Claimed";
+    }
+    return "Launch Now";
+  }, [connected, res?.data?.finished]);
 
   return (
     <div className="flex flex-col w-full">
@@ -62,6 +75,18 @@ export function SonicXContent() {
               </span>{" "}
               automatically after you log in.
             </li>
+            {res?.data?.finished ? (
+              <li>
+                Keep playing Sonic X , earn more game rewards.{" "}
+                <a
+                  href="https://sonicx.app/"
+                  target="_blank"
+                  className="text-link hover:text-primary-blue transition-colors"
+                >
+                  Visit Sonic X
+                </a>
+              </li>
+            ) : null}
           </ul>
         </Rules>
         <div className="border-0 md:border border-[#27282D] md:p-10 md:mt-20 flex items-center gap-10 xl:gap-20 max-w-[1024px]">
@@ -85,7 +110,7 @@ export function SonicXContent() {
             )}
             onClick={handleLaunchSonicX}
           >
-            {address ? "Launch Now" : "Connect Wallet"}
+            {btnText}
           </Button>
         </div>
       </div>
@@ -105,7 +130,7 @@ export function SonicXContent() {
           onClick={handleLaunchSonicX}
           className="grow h-12 bg-[#0000FF] hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 text-white text-base font-orbitron font-semibold transition-colors duration-300"
         >
-          {address ? "Launch SonicX" : "Connect Wallet"}
+          {btnText}
         </Button>
       </div>
     </div>
