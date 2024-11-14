@@ -164,7 +164,7 @@ export const taskGroupList: TaskGroup[] = [
     ]
   },
   {
-    name: "Defi && Liquidity",
+    name: "Defi & Liquidity",
     list: [
       {
         id: "bridge-challenge",
