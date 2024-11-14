@@ -5,7 +5,7 @@ import {
   MathWalletAdapter,
   PhantomWalletAdapter,
   SolflareWalletAdapter,
-  TorusWalletAdapter,
+  TorusWalletAdapter
 } from "@solana/wallet-adapter-wallets";
 import {
   AddressLookupTableAccount,
@@ -18,7 +18,7 @@ import {
   TransactionInstruction,
   TransactionMessage,
   type TransactionSignature,
-  VersionedTransaction,
+  VersionedTransaction
 } from "@solana/web3.js";
 import { socketConnected } from "./ws";
 
@@ -50,7 +50,7 @@ export async function awaitTransactionSignatureConfirmation(
   let status: SignatureStatus | null = {
     slot: 0,
     confirmations: 0,
-    err: null,
+    err: null
   };
   let subId: number | null;
   await new Promise((resolve, reject) => {
@@ -72,7 +72,7 @@ export async function awaitTransactionSignatureConfirmation(
             status = {
               err: result.err,
               slot: context.slot,
-              confirmations: 0,
+              confirmations: 0
             };
             if (result.err) {
               if (isDevMode) {
@@ -107,7 +107,7 @@ export async function awaitTransactionSignatureConfirmation(
         (async () => {
           try {
             const signatureStatuses = await connection.getSignatureStatuses([
-              txid,
+              txid
             ]);
             status = signatureStatuses && signatureStatuses.value[0];
             if (!done) {
@@ -184,7 +184,7 @@ export const sendTransactionWithRetry = async (
   let _instructions: TransactionInstruction[] = [];
   if (computeUnits > 0) {
     const modifyComputeUnits = ComputeBudgetProgram.setComputeUnitLimit({
-      units: computeUnits,
+      units: computeUnits
     });
     _instructions.push(modifyComputeUnits);
   }
@@ -199,7 +199,7 @@ export const sendTransactionWithRetry = async (
   const message = new TransactionMessage({
     payerKey: wallet.publicKey,
     recentBlockhash: latestBlockhash.blockhash,
-    instructions: _instructions,
+    instructions: _instructions
   });
 
   const addressLookupTables = message.compileToV0Message().addressTableLookups;
@@ -212,7 +212,7 @@ export const sendTransactionWithRetry = async (
           await connection
             .getAccountInfo(lookup.accountKey)
             .then((res) => res!.data)
-        ),
+        )
       });
     })
   );
@@ -232,7 +232,7 @@ export const sendTransactionWithRetry = async (
   const { txid, slot } = await sendSignedTransaction({
     connection,
     signedTransaction,
-    commitment,
+    commitment
   });
 
   return { txid, slot };
@@ -257,7 +257,7 @@ export const sendLegacyTransaction = async (
   const { txid, slot } = await sendSignedTransaction({
     connection,
     signedTransaction,
-    commitment,
+    commitment
   });
 
   return { txid, slot };
@@ -281,7 +281,7 @@ export const sendTransaction = async (
   const { txid, slot } = await sendSignedTransaction({
     connection,
     signedTransaction,
-    commitment,
+    commitment
   });
 
   return { txid, slot };
@@ -296,7 +296,7 @@ export async function sendSignedTransaction({
   signedTransaction,
   connection,
   commitment,
-  timeout = DEFAULT_TIMEOUT,
+  timeout = DEFAULT_TIMEOUT
 }: {
   signedTransaction: VersionedTransaction | Transaction;
   connection: Connection;
@@ -309,7 +309,7 @@ export async function sendSignedTransaction({
   const txid: TransactionSignature = await connection.sendRawTransaction(
     rawTransaction,
     {
-      skipPreflight: true,
+      skipPreflight: true
     }
   );
 
@@ -395,7 +395,7 @@ export async function queueVersionedTransactionSign({
   signAllTransactions,
   signTransaction,
   txInterval,
-  connection,
+  connection
 }: QueueVersionedTransactionSignProps) {
   let signedTxs: VersionedTransaction[] = [];
 
@@ -480,7 +480,7 @@ export async function confirmTransaction(
     const result = await connection.confirmTransaction(
       {
         signature,
-        ...latestBlockHash,
+        ...latestBlockHash
       },
       commitment
     );

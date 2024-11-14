@@ -148,7 +148,7 @@ export function GameVenture() {
         name: "Catoff",
         cover: "/images/games/catoff.jpeg",
         guide: "https://catoff-gaming.gitbook.io/catoff-gaming",
-        play: "https://www.catoff.xyz/game",
+        play: "https://game.catoff.xyz/",
         time: "2024-09-16T21:00:00+08:00",
         available: true
       },
