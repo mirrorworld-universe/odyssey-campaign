@@ -7,9 +7,9 @@ export const getMilestoneDailyInfo = async ({ token, networkId }: any) => {
     )}/user/transactions/state/daily`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
     }
   );
   return response.json();
@@ -18,7 +18,7 @@ export const getMilestoneDailyInfo = async ({ token, networkId }: any) => {
 export const claimMilestoneRewards = async ({
   token,
   stage,
-  networkId,
+  networkId
 }: any) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
@@ -27,12 +27,12 @@ export const claimMilestoneRewards = async ({
     {
       headers: {
         Authorization: token,
-        "content-type": "application/json",
+        "content-type": "application/json"
       },
       method: "POST",
       body: JSON.stringify({
-        stage,
-      }),
+        stage
+      })
     }
   );
   return response.json();
@@ -45,9 +45,9 @@ export const getMysteryboxTx = async ({ token, networkId }: any) => {
     )}/user/rewards/mystery-box/build-tx`,
     {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
-      method: "GET",
+      method: "GET"
     }
   );
   return response.json();
@@ -61,12 +61,12 @@ export const openMysterybox = async ({ token, hash, networkId }: any) => {
     {
       headers: {
         Authorization: token,
-        "content-type": "application/json",
+        "content-type": "application/json"
       },
       method: "POST",
       body: JSON.stringify({
-        hash,
-      }),
+        hash
+      })
     }
   );
   return response.json();
@@ -76,7 +76,7 @@ export const getMysteryboxHistory = async ({
   token,
   page = 1,
   size = 50,
-  networkId,
+  networkId
 }: any) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
@@ -85,13 +85,13 @@ export const getMysteryboxHistory = async ({
     {
       headers: {
         Authorization: token,
-        "content-type": "application/json",
+        "content-type": "application/json"
       },
       method: "POST",
       body: JSON.stringify({
         page,
-        size,
-      }),
+        size
+      })
     }
   );
   return response.json();
