@@ -53,10 +53,7 @@ export default function Slider({
       borderColor: "#ffd257",
       bgClassName: "banner-bg-2",
       handleClick: () => {
-        window.open(
-          "https://www.bybit.com/en/web3/airdrop/activity?activityId=307&activityTag=3",
-          "_blank"
-        );
+        window.open("https://sonic.mahjong123.io", "_blank");
       },
       available: true
     },
