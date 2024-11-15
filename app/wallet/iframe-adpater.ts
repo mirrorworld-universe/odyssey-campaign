@@ -1,6 +1,7 @@
 import type { WalletName } from "@solana/wallet-adapter-base";
 import {
   BaseMessageSignerWalletAdapter,
+  scopePollingDetectionStrategy,
   WalletConnectionError,
   WalletDisconnectionError,
   WalletNotConnectedError,
@@ -13,10 +14,16 @@ import { PublicKey, Transaction } from "@solana/web3.js";
 
 export const IframeWalletName = "Iframe Wallet" as WalletName<"Iframe Wallet">;
 
-type MessageType = "connect" | "disconnect" | "signMessage" | "signTransaction";
+type MessageType =
+  | "install"
+  | "connect"
+  | "disconnect"
+  | "signMessage"
+  | "signTransaction";
+const MESSAGE_TARGET = "iframe-wallet-adapter";
 
 interface WalletMessage {
-  target: "iframe-wallet-adapter";
+  target: string;
   id: string;
   type: MessageType;
   payload?: any;
@@ -31,7 +38,10 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
 
   private _connecting: boolean;
   private _publicKey: PublicKey | null;
-  private _readyState: WalletReadyState;
+  private _readyState: WalletReadyState =
+    typeof window === "undefined" || typeof document === "undefined"
+      ? WalletReadyState.Unsupported
+      : WalletReadyState.NotDetected;
   private _messageHandlers: Map<string, (response: any) => void>;
 
   constructor({
@@ -49,8 +59,24 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
     this.url = url || "";
     this._connecting = false;
     this._publicKey = null;
-    this._readyState = WalletReadyState.Loadable;
     this._messageHandlers = new Map();
+    if (this._readyState !== WalletReadyState.Unsupported) {
+      window.addEventListener("message", this._handleMessage);
+      scopePollingDetectionStrategy(() => {
+        if (this._readyState === WalletReadyState.Installed) {
+          return true;
+        }
+        this._sendMessage("install")
+          .then(() => {
+            this._readyState = WalletReadyState.Installed;
+            this.emit("readyStateChange", this._readyState);
+          })
+          .catch(() => {
+            // skip
+          });
+        return false;
+      });
+    }
   }
 
   get publicKey() {
@@ -67,14 +93,14 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
 
   async connect(): Promise<void> {
     try {
-      if (this.connected || this.connecting) return;
+      if (this.connected || this.connecting) {
+        return;
+      }
       this._connecting = true;
-      window.addEventListener("message", this._handleMessage);
       const response = await this._sendMessage("connect");
       if (response.error) {
         throw new WalletConnectionError(response.error);
       }
-
       this._publicKey = new PublicKey(response.publicKey);
       this.emit("connect", this._publicKey);
     } catch (error: any) {
@@ -125,10 +151,13 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
         throw new WalletNotConnectedError();
       }
 
+      console.info("sonic dapp - signTransaction");
       const response = await this._sendMessage("signTransaction", {
-        transaction: transaction.serialize(),
+        transaction: Array.from(
+          transaction.serialize({ verifySignatures: false })
+        ),
       });
-
+      console.info("sonic dapp - signTransaction response", response);
       if (response.error) {
         throw new WalletSignTransactionError(response.error);
       }
@@ -141,11 +170,11 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
   }
 
   private _handleMessage = (event: MessageEvent) => {
-    console.info("_handleMessage", event.data);
     const message = event.data as WalletMessage;
-    if (!message.id) {
+    if (message.target !== MESSAGE_TARGET) {
       return;
     }
+    console.info("_handleMessage", message);
     const handler = this._messageHandlers.get(message.id);
     if (handler) {
       handler(message.payload);
@@ -157,7 +186,7 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
     return new Promise((resolve, reject) => {
       const id = Math.random().toString(36).substring(7);
       const message: WalletMessage = {
-        target: "iframe-wallet-adapter",
+        target: MESSAGE_TARGET,
         type,
         payload,
         id,
