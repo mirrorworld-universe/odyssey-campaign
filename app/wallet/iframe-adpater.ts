@@ -151,10 +151,13 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
         throw new WalletNotConnectedError();
       }
 
+      console.info("sonic dapp - signTransaction");
       const response = await this._sendMessage("signTransaction", {
-        transaction: transaction.serialize(),
+        transaction: Array.from(
+          transaction.serialize({ verifySignatures: false })
+        ),
       });
-
+      console.info("sonic dapp - signTransaction response", response);
       if (response.error) {
         throw new WalletSignTransactionError(response.error);
       }
