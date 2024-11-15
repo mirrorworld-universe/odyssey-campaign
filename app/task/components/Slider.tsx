@@ -52,8 +52,13 @@ export default function Slider({
       boxShadow: "0px 0px 12px 0px #A315FF",
       borderColor: "#9B00FF",
       bgClassName: "banner-bg-1",
-      handleClick: () => {},
-      available: false
+      handleClick: () => {
+        window.open(
+          "https://www.bybit.com/en/web3/airdrop/activity?activityId=307&activityTag=3",
+          "_blank"
+        );
+      },
+      available: true
     },
     {
       name: "sonicx",
