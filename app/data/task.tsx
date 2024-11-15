@@ -170,7 +170,7 @@ export const taskGroupList: TaskGroup[] = [
         id: "bridge-challenge",
         name: "Bridge Challenge",
         description:
-          "Use the HyperGrid Bridge to transfer assets to Sonic and earn rewards!",
+          "Use the HyperGrid Bridge to bridge assets to Sonic and earn rewards!",
         period: "Daily Task",
         reward: "Test SOL Needed",
         icon: <BridgeChallengeLogo />,

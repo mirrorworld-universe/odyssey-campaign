@@ -258,15 +258,16 @@ export function BridgeChallenge() {
               .
             </li>
             <li>
-              Complete{" "}
+              Complete bridge transactions on the bridge page and claim your
+              rewards manually by clicking the button below.{" "}
               <a
                 href="https://bridge-staging.sonic.game/"
                 target="_blank"
                 className="text-link hover:text-primary-blue transition-colors"
               >
-                Bridge
-              </a>{" "}
-              transaction, claim rewards manually by clicking the button below.
+                Visit Bridge
+              </a>
+              .
             </li>
             <li className="">
               Complete at least 5 successful bridge transactions from both side,
