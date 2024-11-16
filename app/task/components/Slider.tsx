@@ -47,6 +47,15 @@ export default function Slider({
 
   const slides = [
     {
+      name: "bybit",
+      src: "/images/banner/banner-bybit.png",
+      boxShadow: "0px 0px 12px 0px #A315FF",
+      borderColor: "#9B00FF",
+      bgClassName: "banner-bg-1",
+      handleClick: () => {},
+      available: false
+    },
+    {
       name: "more",
       src: "/images/banner/banner-more.jpeg",
       boxShadow: "0px 0px 12px 0px rgba(255, 210, 87, 0.80)",
@@ -54,20 +63,6 @@ export default function Slider({
       bgClassName: "banner-bg-2",
       handleClick: () => {
         window.open("https://sonic.mahjong123.io", "_blank");
-      },
-      available: true
-    },
-    {
-      name: "bybit",
-      src: "/images/banner/banner-1.png",
-      boxShadow: "0px 0px 12px 0px #A315FF",
-      borderColor: "#9B00FF",
-      bgClassName: "banner-bg-1",
-      handleClick: () => {
-        window.open(
-          "https://www.bybit.com/en/web3/airdrop/activity?activityId=307&activityTag=3",
-          "_blank"
-        );
       },
       available: true
     },
@@ -139,11 +134,6 @@ export default function Slider({
                 src={slide.src}
                 alt=""
               />
-              {slide.name === "bybit" && (
-                <div className="sonic-title3 text-[#B573FF] absolute inset-x-0 text-center bottom-9">
-                  Get Ready – Starting November 15th!
-                </div>
-              )}
               {slide.available && (
                 <div
                   onClick={slide.handleClick}
