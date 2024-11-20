@@ -168,6 +168,15 @@ export function GameVenture() {
         play: "https://fomoney-sonic.io/",
         time: "2024-09-16T21:00:00+08:00",
         available: true
+      },
+      {
+        name: "Mahjong",
+        cover: "/images/games/mahjong.jpg",
+        guide:
+          "https://docs.google.com/document/d/1tZjsBEUfmy6LMZZxvtKgZsOPQuvFlE6iVOE4fux9haQ/edit?tab=t.0#heading=h.mlwyidc5m1vs",
+        play: "https://sonic.mahjong123.io",
+        time: "2024-09-16T21:00:00+08:00",
+        available: true
       }
     ]
   };
