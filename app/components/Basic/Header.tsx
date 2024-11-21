@@ -29,6 +29,7 @@ import {
   trackLinkClick
 } from "@/lib/track";
 import {
+  changeNetwork,
   cn,
   isInMaintenanceTime,
   maintenanceNetworks,
@@ -78,6 +79,7 @@ const NETWORK_COOKIE_NAME = "experiment-cookie-frontier";
 export function Header() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { wallet } = useWallet();
 
   const networkCookieSearch = searchParams.get("experiment");
   const isMobile = useBreakpoint() === "mobile";
@@ -150,6 +152,11 @@ export function Header() {
 
     return names;
   };
+  useEffect(() => {
+    if (token) {
+      changeNetwork(wallet);
+    }
+  }, [token, wallet]);
 
   useEffect(() => {
     try {
