@@ -68,8 +68,10 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
         this._sendMessage("install")
           .then(() => {
-            this._readyState = WalletReadyState.Installed;
-            this.emit("readyStateChange", this._readyState);
+            if (window !== window.parent) {
+              this._readyState = WalletReadyState.Installed;
+              this.emit("readyStateChange", this._readyState);
+            }
           })
           .catch(() => {
             // skip
