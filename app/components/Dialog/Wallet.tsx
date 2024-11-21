@@ -33,6 +33,7 @@ import {
   trackCriteoWalletTransactionClick
 } from "@/lib/track";
 import {
+  changeNetwork,
   isInMaintenanceTime,
   isInWalletCampaignTime,
   isMobileDevice,
@@ -181,6 +182,12 @@ export function WalletDialog({ text = "Connect", className }: any) {
   const signWalletMessage = async () => {
     await sign();
   };
+
+  useEffect(() => {
+    if (token) {
+      changeNetwork(currentWallet);
+    }
+  }, [token]);
 
   const afterWalletConnected = () => {
     if (isSupportSonic(currentWallet?.adapter.name)) {
