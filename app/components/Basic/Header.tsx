@@ -153,7 +153,7 @@ export function Header() {
     return names;
   };
   useEffect(() => {
-    if (token) {
+    if (token && wallet) {
       console.log("changeNetwork", wallet, token);
       changeNetwork(wallet);
     }
