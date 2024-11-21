@@ -170,10 +170,11 @@ declare global {
 export function changeNetwork(wallet?: Wallet) {
   if (wallet?.adapter.name === "Nightly") {
     setTimeout(() => {
+      console.log("changeNetwork", wallet.adapter.name);
       window.nightly?.solana?.changeNetwork({
         genesisHash: "E8nY8PG8PEdzANRsv91C2w28Dbw9w3AhLqRYfn5tNv2C",
         url: ""
       });
-    }, 500);
+    }, 1000);
   }
 }
