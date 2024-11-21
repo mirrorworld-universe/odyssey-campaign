@@ -5,38 +5,39 @@ import { useEffect, useState } from "react";
 import {
   fetchAuthorize,
   fetchBasicInfo,
-  fetchLogout
+  fetchLogout,
 } from "@/app/data/account";
 import { useBreakpoint } from "@/app/hooks";
 import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
 import {
   useAccountInfo,
   useNetworkInfo,
-  useWalletModal
+  useWalletModal,
 } from "@/app/store/account";
 import { useTaskInfo } from "@/app/store/task";
 import { useSetupInfo } from "@/app/store/tutorials";
 import { WalletList, isSupportSonic } from "@/app/wallet/wallet-list";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { connectWalletStatics } from "@/lib/analytics";
 import {
   trackActionEvent,
   trackClick,
   trackCriteoWalletClick,
-  trackCriteoWalletTransactionClick
+  trackCriteoWalletTransactionClick,
 } from "@/lib/track";
 import {
   isInMaintenanceTime,
   isInWalletCampaignTime,
   isMobileDevice,
-  isMobileViewport
+  isMobileViewport,
 } from "@/lib/utils";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -57,7 +58,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     publicKey,
     disconnect,
     connected,
-    signMessage
+    signMessage,
   } = useWallet();
 
   const {
@@ -69,7 +70,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     setSignature,
     isInWhitelist,
     setIsInWhitelist,
-    reset
+    reset,
   } = useAccountInfo();
   const { setAddress: setTaskAddress } = useTaskInfo();
   const { isOpen, onOpen, onClose, isSwitching, setSwitching } =
@@ -83,7 +84,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
   const {
     data: dataBasicInfo,
     isLoading: loadingBasicInfo,
-    refetch: refetchBasicInfo
+    refetch: refetchBasicInfo,
   } = useQuery({
     queryKey: ["queryBasicInfo"],
     queryFn: () =>
@@ -92,15 +93,15 @@ export function WalletDialog({ text = "Connect", className }: any) {
         source: WalletList.find(
           (wallet: any) => wallet.name === currentWallet?.adapter.name
         )?.id,
-        networkId
+        networkId,
       }),
-    enabled: false
+    enabled: false,
   });
 
   const {
     data: dataAuthorize,
     isLoading: loadingAuthorize,
-    refetch: refetchAuthorize
+    refetch: refetchAuthorize,
   } = useQuery({
     queryKey: ["queryAuthorize"],
     queryFn: () =>
@@ -108,9 +109,9 @@ export function WalletDialog({ text = "Connect", className }: any) {
         address: publicKey?.toString() || address,
         address_encoded: encodeBase64(publicKey!.toBytes()),
         signature: currentSignature || signature,
-        networkId
+        networkId,
       }),
-    enabled: false
+    enabled: false,
   });
 
   const mutationLogout = useMutation({
@@ -118,7 +119,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     onSuccess: () => {
       reset();
       disconnect();
-    }
+    },
   });
 
   const handleWalletSelect = async (currentWallet: any) => {
@@ -256,7 +257,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
           page_name,
           connect_time: new Date(),
           connect_page,
-          wallet_address: publicKey.toString()
+          wallet_address: publicKey.toString(),
         });
       } catch (e) {
         console.log(e);
@@ -285,6 +286,63 @@ export function WalletDialog({ text = "Connect", className }: any) {
     </div>
   );
 
+  const WalletItem = ({ wallet }: any) => (
+    <li
+      key={wallet.adapter?.name}
+      //onClick={() => select(wallet.adapter?.name)}
+      className="flex items-center w-full justify-between h-16"
+    >
+      <div
+        className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-all"
+        onClick={() => handleWalletSelect(wallet)}
+      >
+        <img
+          src={wallet.adapter?.icon}
+          alt={wallet.adapter?.name}
+          className="size-6"
+        />
+        <span className="sonic-title3 md:sonic-title2 font-orbitron">
+          {wallet.adapter?.name}
+        </span>
+        {isInWalletCampaignTime(networkId) ? (
+          wallet.hasExtraBonus &&
+          wallet.hasExtraBonus[networkId || "devnet"] ? (
+            <ExtraBonusTag />
+          ) : null
+        ) : wallet.isSupportSonic ? (
+          <SupportSonicTag />
+        ) : null}
+      </div>
+
+      {wallet.adapter.readyState === WalletReadyState.Installed ? (
+        <Button
+          variant={"primary"}
+          size={isMobile ? "sm" : "md"}
+          className="font-orbitron sonic-title3 w-24 md:w-[113px]"
+          onClick={() => handleWalletSelect(wallet)}
+        >
+          {isSwitching
+            ? wallet.adapter?.name === currentWallet?.adapter?.name
+              ? "Reconnect"
+              : "Connect"
+            : "Connect"}
+        </Button>
+      ) : (
+        <Button
+          onClick={() => {
+            window.open(wallet.adapter.url, "_blank");
+            handleInstallWallet(wallet);
+          }}
+          variant={wallet.isTiktokLayer ? "primary" : "outline"}
+          size={isMobile ? "sm" : "md"}
+          className="sonic-title3 font-orbitron w-24 md:w-[113px]"
+        >
+          {wallet.isTiktokLayer ? "Launch" : "Install"}
+        </Button>
+      )}
+    </li>
+  );
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="md:max-w-[520px] h-full md:h-auto text-primary p-0">
@@ -311,69 +369,13 @@ export function WalletDialog({ text = "Connect", className }: any) {
             {walletList
               .filter(
                 (wallet: any) =>
-                  !wallet.network ||
-                  (wallet.network && wallet.network[networkId || "devnet"])
+                  (!wallet.network ||
+                    (wallet.network &&
+                      wallet.network[networkId || "devnet"])) &&
+                  !wallet.isTiktokLayer
               )
               .map(
-                (wallet: any) =>
-                  !wallet.hide && (
-                    <li
-                      key={wallet.adapter?.name}
-                      //onClick={() => select(wallet.adapter?.name)}
-                      className="flex items-center w-full justify-between h-16"
-                    >
-                      <div
-                        className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-all"
-                        onClick={() => handleWalletSelect(wallet)}
-                      >
-                        <img
-                          src={wallet.adapter?.icon}
-                          alt={wallet.adapter?.name}
-                          className="size-6"
-                        />
-                        <span className="sonic-title3 md:sonic-title2 font-orbitron">
-                          {wallet.adapter?.name}
-                        </span>
-                        {isInWalletCampaignTime(networkId) ? (
-                          wallet.hasExtraBonus &&
-                          wallet.hasExtraBonus[networkId || "devnet"] ? (
-                            <ExtraBonusTag />
-                          ) : null
-                        ) : wallet.isSupportSonic ? (
-                          <SupportSonicTag />
-                        ) : null}
-                      </div>
-
-                      {wallet.adapter.readyState ===
-                      WalletReadyState.Installed ? (
-                        <Button
-                          variant={"primary"}
-                          size={isMobile ? "sm" : "md"}
-                          className="font-orbitron sonic-title3 w-24 md:w-[113px]"
-                          onClick={() => handleWalletSelect(wallet)}
-                        >
-                          {isSwitching
-                            ? wallet.adapter?.name ===
-                              currentWallet?.adapter?.name
-                              ? "Reconnect"
-                              : "Connect"
-                            : "Connect"}
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={() => {
-                            window.open(wallet.adapter.url, "_blank");
-                            handleInstallWallet(wallet);
-                          }}
-                          variant="outline"
-                          size={isMobile ? "sm" : "md"}
-                          className="sonic-title3 font-orbitron w-24 md:w-[113px]"
-                        >
-                          Install
-                        </Button>
-                      )}
-                    </li>
-                  )
+                (wallet: any) => !wallet.hide && <WalletItem wallet={wallet} />
               )}
             {walletList
               .filter(
@@ -389,6 +391,23 @@ export function WalletDialog({ text = "Connect", className }: any) {
                 <img src="/images/icons/more.svg" alt="" className="w-6 h-6" />
               </li>
             )}
+            <div className="w-full h-[30px] flex justify-center items-center relative">
+              <Separator className="bg-[#27282D]" />
+              <span className="text-[#333] text-xs md:text-sm font-semibold font-orbitron bg-black md:bg-[#151519] px-6 absolute">
+                TikTok App-layer
+              </span>
+            </div>
+            {walletList
+              .filter(
+                (wallet: any) =>
+                  (!wallet.network ||
+                    (wallet.network &&
+                      wallet.network[networkId || "devnet"])) &&
+                  wallet.isTiktokLayer
+              )
+              .map(
+                (wallet: any) => !wallet.hide && <WalletItem wallet={wallet} />
+              )}
             {/* <WalletMultiButton style={{}} /> */}
           </ul>
         </div>
