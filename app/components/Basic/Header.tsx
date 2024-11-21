@@ -154,6 +154,7 @@ export function Header() {
   };
   useEffect(() => {
     if (token) {
+      console.log("changeNetwork", wallet, token);
       changeNetwork(wallet);
     }
   }, [token, wallet]);
