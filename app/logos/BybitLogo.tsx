@@ -8,7 +8,7 @@ export function BybitLogo(props: React.SVGProps<SVGSVGElement>) {
       fill="none"
       {...props}
     >
-      <g clip-path="url(#clip0_898_1746)">
+      <g clipPath="url(#clip0_898_1746)">
         <path
           d="M21.8857 8.94937V1.05859H23.4718V8.94937H21.8857Z"
           fill="#F7A600"
