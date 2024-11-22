@@ -123,3 +123,9 @@ html {
     linear-gradient(83deg, rgba(0, 0, 0, 0.9) 11.45%, #25a3ed 128.94%);
   background-blend-mode: overlay, normal;
 }
+
+.banner-hashkey {
+  background: url("/images/banner/hashkey-bg.png") repeat 0 0 / 67px 100px,
+    linear-gradient(83deg, rgba(0, 0, 0, 0.9) 11.45%, #bf2e8e 128.94%);
+  background-blend-mode: overlay, normal;
+}
