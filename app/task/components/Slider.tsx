@@ -48,7 +48,7 @@ export default function Slider({
   const slides = [
     {
       name: "hashKey",
-      src: "/images/banner/hashkey.png",
+      src: "/images/banner/hashkey-v1.png",
       boxShadow: "0px 0px 12px 0px rgba(243, 5, 162, 0.80)",
       borderColor: "#F305A2",
       bgClassName: "banner-hashkey",
