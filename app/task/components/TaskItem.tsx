@@ -38,8 +38,8 @@ export function TaskItem({ task }: { task: Task }) {
         task.extraBonus.length > 0 ? (
           <div className="md:flex hidden items-center gap-2 sonic-caption1 text-gold-yellow font-orbitron">
             Extra Bonus:
-            {task.extraBonus?.map((extraBonus: any) => (
-              <div key={extraBonus.id}>{extraBonus.icon}</div>
+            {task.extraBonus?.map((extraBonus: any, index: number) => (
+              <div key={index}>{extraBonus.icon}</div>
             ))}
           </div>
         ) : null}

@@ -252,9 +252,9 @@ export function Header() {
 
           {/* right */}
           <div className="gap-6 md:gap-10 flex items-center">
-            {address && token ? <RingPopover /> : null}
+            {publicKey && token ? <RingPopover /> : null}
 
-            {address && token ? <Notification /> : null}
+            {publicKey && token ? <Notification /> : null}
 
             {!publicKey ? (
               <Button
