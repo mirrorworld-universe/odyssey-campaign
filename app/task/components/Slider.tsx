@@ -80,7 +80,7 @@ export default function Slider({
     },
     {
       name: "bybit",
-      src: "/images/banner/banner-1.png",
+      src: "/images/banner/banner-bybit.png",
       boxShadow: "0px 0px 12px 0px #A315FF",
       borderColor: "#9B00FF",
       bgClassName: "banner-bg-1",
@@ -89,6 +89,17 @@ export default function Slider({
           "https://www.bybit.com/en/web3/airdrop/activity?activityId=307&activityTag=3",
           "_blank"
         );
+      },
+      available: true
+    },
+    {
+      name: "more",
+      src: "/images/banner/banner-more.jpeg",
+      boxShadow: "0px 0px 12px 0px rgba(255, 210, 87, 0.80)",
+      borderColor: "#ffd257",
+      bgClassName: "banner-bg-2",
+      handleClick: () => {
+        window.open("https://sonic.mahjong123.io", "_blank");
       },
       available: true
     },
