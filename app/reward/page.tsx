@@ -10,6 +10,7 @@ import { http } from "@/lib/http";
 import { useMemo } from "react";
 import { Tag } from "../components/Basic/Tag";
 import { format, parseISO } from "date-fns";
+import { UTCDate } from "@date-fns/utc";
 
 export default function Reward() {
   const { publicKey } = useWallet();
@@ -38,12 +39,15 @@ export default function Reward() {
         </>
       ),
       network: networkMap[item.season] || "Frontier V1",
-      startDate: format(parseISO(item.start_date), "MMM do, yyyy"),
+      startDate: format(new UTCDate(item.start_date), "MMM do, yyyy"),
       endDate: item.end_date
-        ? format(parseISO(item.end_date), "MMM do, yyyy")
+        ? format(new UTCDate(item.end_date), "MMM do, yyyy")
         : "--",
       snapshotDate: item.update_time
-        ? format(parseISO(item.update_time), "MMM do, yyyy")
+        ? format(
+            new UTCDate(item.update_time),
+            "MMM do, yyyy hh:mm aaa"
+          ).replace(/am|pm/, (match) => match.toUpperCase())
         : "--",
       rings: item.rings.toLocaleString()
     }));
