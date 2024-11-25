@@ -63,6 +63,11 @@ export const menu: any[] = [
     target: "_blank"
   },
   {
+    name: "Reward Center",
+    getLink: () => "/reward",
+    target: "_self"
+  },
+  {
     name: "Guide",
     getLink: () => GUIDE_URL,
     target: "_blank"

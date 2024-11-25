@@ -1,6 +1,6 @@
 "use client";
 
-import { networkMap, networks } from "@/app/data/config";
+import { NetworkId, networkMap, networks } from "@/app/data/config";
 import { useSwitchNetwork } from "@/app/hooks";
 import { Close as IconClose } from "@/app/icons/Close";
 import { useNetworkInfo } from "@/app/store/account";
@@ -17,6 +17,11 @@ export function NetworkSwitch() {
   const { networkId } = useNetworkInfo();
   const [isOpen, toggleOpen] = useToggle(false);
   const { handleSwitchNetwork } = useSwitchNetwork();
+
+  const handleSwitch = (networkId: NetworkId) => {
+    networkId === NetworkId.FrontierV1 && handleSwitchNetwork(networkId);
+    toggleOpen(false);
+  };
 
   return (
     <>
@@ -42,10 +47,12 @@ export function NetworkSwitch() {
             {networks.map((network: any, networkIndex: number) => (
               <div
                 key={networkIndex}
-                onClick={() => handleSwitchNetwork(network.id)}
+                onClick={() => handleSwitch(network.id)}
                 className={cn(
-                  "px-6 py-2 hover:bg-line transition-all cursor-pointer",
-                  network.id === networkId && "text-link"
+                  "px-6 py-2 hover:bg-line transition-all",
+                  network.id === NetworkId.FrontierV1
+                    ? "text-link cursor-pointer"
+                    : "text-disable cursor-not-allowed"
                 )}
               >
                 {network.name}
@@ -67,10 +74,12 @@ export function NetworkSwitch() {
         {networks.map((network: any, networkIndex: number) => (
           <div
             key={networkIndex}
-            onClick={() => handleSwitchNetwork(network.id)}
+            onClick={() => handleSwitch(network.id)}
             className={cn(
               "px-4 h-16 flex items-center hover:bg-line hover:text-link transition-all cursor-pointer",
-              network.id === networkId && "text-link"
+              network.id === NetworkId.FrontierV1
+                ? "text-link cursor-pointer"
+                : "text-disable cursor-not-allowed"
             )}
           >
             {network.name}
