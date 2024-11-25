@@ -1,6 +1,6 @@
 "use client";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { Transaction } from "@solana/web3.js";
+import { LAMPORTS_PER_SOL, Transaction } from "@solana/web3.js";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
@@ -91,6 +91,21 @@ export function CheckIn() {
 
     try {
       const tx = Transaction.from(Buffer.from(transactionString, "base64"));
+      const balance = await connection.getBalance(publicKey);
+      const fee = await connection.getFeeForMessage(tx.compileMessage());
+
+      if (fee.value && fee.value > balance) {
+        toast({
+          title: "Insufficient SOL Balance",
+          description: (
+            <div role="fail">
+              Your SOL balance is not enough to complete this transaction.
+            </div>
+          )
+        });
+        setIsChekingIn(false);
+        return;
+      }
 
       // const signedTransaction = await signTransaction(tx);
       // const txHash = await connection.sendRawTransaction(
