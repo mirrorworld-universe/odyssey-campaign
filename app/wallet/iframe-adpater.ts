@@ -7,7 +7,7 @@ import {
   WalletNotConnectedError,
   WalletReadyState,
   WalletSignMessageError,
-  WalletSignTransactionError,
+  WalletSignTransactionError
 } from "@solana/wallet-adapter-base";
 import type { TransactionVersion, VersionedTransaction } from "@solana/web3.js";
 import { PublicKey, Transaction } from "@solana/web3.js";
@@ -47,7 +47,7 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
   constructor({
     name,
     icon,
-    url,
+    url
   }: {
     name: string;
     icon?: string;
@@ -131,7 +131,7 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
       if (!this.connected) throw new WalletNotConnectedError();
 
       const response = await this._sendMessage("signMessage", {
-        message: Array.from(message),
+        message: Array.from(message)
       });
 
       if (response.error) {
@@ -157,7 +157,7 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
       const response = await this._sendMessage("signTransaction", {
         transaction: Array.from(
           transaction.serialize({ verifySignatures: false })
-        ),
+        )
       });
       console.info("sonic dapp - signTransaction response", response);
       if (response.error) {
@@ -176,7 +176,7 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
     if (message.target !== MESSAGE_TARGET) {
       return;
     }
-    console.info("_handleMessage", message);
+    // console.info("_handleMessage", message);
     const handler = this._messageHandlers.get(message.id);
     if (handler) {
       handler(message.payload);
@@ -191,7 +191,7 @@ export class IframeWalletAdapter extends BaseMessageSignerWalletAdapter {
         target: MESSAGE_TARGET,
         type,
         payload,
-        id,
+        id
       };
 
       this._messageHandlers.set(id, resolve);

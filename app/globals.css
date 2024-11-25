@@ -127,6 +127,12 @@ html {
 
 .banner-bg-2 {
   background: url("/images/banner/banner-bg-2.png") repeat 0 0 / 200px 200px,
-    linear-gradient(83deg, rgba(0, 0, 0, 0.7) 11.45%, #ffd257 128.94%);
+    linear-gradient(83deg, rgba(0, 0, 0, 0.9) 11.45%, #ffd257 128.94%);
+  background-blend-mode: overlay, normal;
+}
+
+.banner-hashkey {
+  background: url("/images/banner/hashkey-bg.png") repeat 0 0 / 67px 100px,
+    linear-gradient(83deg, rgba(0, 0, 0, 0.9) 11.45%, #bf2e8e 128.94%);
   background-blend-mode: overlay, normal;
 }
