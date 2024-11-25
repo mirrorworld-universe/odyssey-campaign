@@ -1,4 +1,3 @@
-import { Tag } from "@/app/components/Basic/Tag";
 import { Ring } from "@/app/icons/Ring";
 import {
   Accordion,
@@ -9,7 +8,6 @@ import {
 import { cn } from "@/lib/utils";
 
 export default function H5Data({ seasons }: { seasons: any[] }) {
-  console.log(seasons, 111);
   return (
     <Accordion
       type="single"
