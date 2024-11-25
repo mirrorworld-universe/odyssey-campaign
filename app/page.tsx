@@ -30,7 +30,7 @@ export default function Home() {
 
   const { title, description } = useMemo(() => {
     const content = {
-      title: networkId !== NetworkId.FrontierV1 ? "Season 1" : "Season 2",
+      title: networkId !== NetworkId.FrontierV1 ? "Season 1" : "Pre-Mainnet",
       description:
         networkId !== NetworkId.FrontierV1
           ? `Thanks for participating! Sonic Odyssey Season 1 on ${
@@ -38,9 +38,7 @@ export default function Home() {
             } has ended. Switch to ${
               networkMap[NetworkId.FrontierV1]?.name
             } to kick off your Season 2 adventure now!`
-          : `Join the new Season 2 of Sonic Odyssey on the latest Testnet - ${
-              networkMap[NetworkId.FrontierV1]?.name
-            }! Exciting new games and products are coming soon to boost your ring rewards!`
+          : `Join Sonic Odyssey's Pre-Mainnet Season 3, explore more products and games, and earn more Rings!`
     };
 
     return content;
@@ -126,23 +124,23 @@ export default function Home() {
         </video>
       )}
 
-      <div className="max-w-view px-4 w-full mx-auto flex flex-col justify-center items-center gap-6 grow">
-        <div className="flex gap-3 md:gap-4 justify-center items-center mt-auto md:mt-0">
+      <div className="max-w-view px-4 w-full mx-auto flex-center flex-col gap-4 grow">
+        <div className="flex gap-2 md:gap-5 justify-center items-end mt-auto md:mt-0">
           <img
-            className="h-11 md:h-[68px] md:w-auto object-contain"
+            className="h-11 md:h-[90px] md:w-auto object-contain"
             src="/images/odyssey.png"
             alt=""
           />
-          <h2 className="sonic-headline2 md:sonic-headline0 font-orbitron">
+          <h2 className="sonic-headline3 font-extrabold md:text-[56px]/[1.39] font-orbitron">
             {title}
           </h2>
         </div>
 
-        <p className="sonic-body3 md:sonic-headline5 max-w-[707px] text-center">
+        <p className="sonic-title2 md:sonic-headline5 max-w-[707px] text-center">
           {description}
         </p>
         <Button
-          className="sonic-title2 font-orbitron w-full md:w-[230px] md:mt-4 mb-4 mt-auto mx-auto"
+          className="sonic-title2 font-orbitron w-full md:w-[230px] md:mt-6 mb-4 mt-auto mx-auto"
           size={"lg"}
           variant={"primary"}
           onClick={handleGetStarted}

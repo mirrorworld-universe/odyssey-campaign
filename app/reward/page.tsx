@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { http } from "@/lib/http";
 import { useMemo } from "react";
 import { Tag } from "../components/Basic/Tag";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import { UTCDate } from "@date-fns/utc";
 
 export default function Reward() {
