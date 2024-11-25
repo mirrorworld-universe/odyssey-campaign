@@ -120,7 +120,7 @@ window.criteo_q.push(
     <html lang="en">
       {/* <GoogleTagManager gtmId="AW-16645551423" /> */}
       <body
-        className={`${manrope.variable} ${orbitron.variable} bg-[#01030C] font-manrope w-full relative flex flex-col min-h-screen`}
+        className={`${manrope.variable} ${orbitron.variable} bg-[#01030C] md:min-w-[1200px] font-manrope w-full relative flex flex-col min-h-screen`}
       >
         <Providers>
           <AppWalletProvider>

@@ -42,8 +42,8 @@ export default function Reward() {
       endDate: item.end_date
         ? format(parseISO(item.end_date), "MMM do, yyyy")
         : "--",
-      snapshotDate: item.snapshot_date
-        ? format(parseISO(item.snapshot_date), "MMM do, yyyy")
+      snapshotDate: item.update_time
+        ? format(parseISO(item.update_time), "MMM do, yyyy")
         : "--",
       rings: item.rings.toLocaleString()
     }));
