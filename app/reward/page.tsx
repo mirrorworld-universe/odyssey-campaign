@@ -5,10 +5,49 @@ import { useAccountInfo } from "../store/account";
 import H5Data from "./components/H5Data";
 import NotLogin from "./components/NotLogin";
 import PcData from "./components/PcData";
+import { useQuery } from "@tanstack/react-query";
+import { http } from "@/lib/http";
+import { useMemo } from "react";
+import { Tag } from "../components/Basic/Tag";
+import { format, parseISO } from "date-fns";
 
 export default function Reward() {
   const { publicKey } = useWallet();
   const { token } = useAccountInfo();
+
+  const { data: seasonInfo } = useQuery({
+    queryKey: ["/dashboard/season", token],
+    queryFn: () => http.get("/dashboard/season"),
+    enabled: !!token
+  });
+
+  const seasons = useMemo(() => {
+    if (!seasonInfo) return [];
+
+    const networkMap: Record<number, string> = {
+      1: "Origin + Frontier V0",
+      2: "Frontier V1",
+      3: "Frontier V1"
+    };
+
+    const data = seasonInfo?.data.reverse();
+    return data.map((item: any) => ({
+      season: (
+        <>
+          Season {item.season} {item.season === 3 && <Tag text="Current" />}
+        </>
+      ),
+      network: networkMap[item.season] || "Frontier V1",
+      startDate: format(parseISO(item.start_date), "MMM do, yyyy"),
+      endDate: item.end_date
+        ? format(parseISO(item.end_date), "MMM do, yyyy")
+        : "--",
+      snapshotDate: item.snapshot_date
+        ? format(parseISO(item.snapshot_date), "MMM do, yyyy")
+        : "--",
+      rings: item.rings.toLocaleString()
+    }));
+  }, [seasonInfo]);
 
   return (
     <>
@@ -24,8 +63,8 @@ export default function Reward() {
         </div>
         {publicKey && token ? (
           <>
-            <PcData />
-            <H5Data />
+            <PcData seasons={seasons} />
+            <H5Data seasons={seasons} />
           </>
         ) : (
           <NotLogin />
