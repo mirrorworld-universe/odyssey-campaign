@@ -99,7 +99,16 @@ export function CheckIn() {
           title: "Insufficient SOL Balance",
           description: (
             <div role="fail">
-              Your SOL balance is not enough to complete this transaction.
+              Your SOL balance on Sonic Frontier V1 is insufficient to complete
+              this transaction. Click{" "}
+              <a
+                className="text-link hover:text-primary-blue"
+                target="_blank"
+                href={`https://faucet.sonic.game/#/?network=testnet.v1&wallet=${publicKey.toBase58()}`}
+              >
+                here
+              </a>{" "}
+              to claim test SOL.
             </div>
           )
         });
