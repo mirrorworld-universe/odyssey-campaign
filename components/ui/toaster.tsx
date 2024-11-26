@@ -6,7 +6,7 @@ import {
   ToastDescription,
   ToastProvider,
   ToastTitle,
-  ToastViewport,
+  ToastViewport
 } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
@@ -17,7 +17,7 @@ export function Toaster() {
   const typeClassName: any = {
     success: "border-[#00FF94]",
     warning: "border-[#FBB042]",
-    fail: "border-[#FF0000]",
+    fail: "border-[#FF0000]"
   };
 
   return (
@@ -28,19 +28,19 @@ export function Toaster() {
             key={id}
             {...props}
             className={cn(
-              "bg-[#1A1A1A] border-t-0 border-b-0 border-r-0 border-solid border-[#FBB042] border-l-4 md:border-l-5 p-4 md:p-5 md:pr-14 rounded-none",
+              "bg-bg-popup border-[#FBB042] border-0 border-l-4 rounded-none px-6 py-4",
               typeClassName[(description as any).props?.role || "success"]
             )}
             duration={3000}
           >
-            <div className="grid gap-4 md:gap-1">
+            <div className="flex-v gap-1">
               {title && (
-                <ToastTitle className="text-white text-sm md:text-base font-semibold leading-none md:leading-normal">
+                <ToastTitle className="sonic-title2 text-primary">
                   {title}
                 </ToastTitle>
               )}
               {description && (
-                <ToastDescription className="text-white/60 text-xs md:text-sm leading-none md:leading-normal">
+                <ToastDescription className="sonic-body3 text-tertary">
                   {description}
                 </ToastDescription>
               )}
