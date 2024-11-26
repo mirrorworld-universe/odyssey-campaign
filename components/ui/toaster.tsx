@@ -40,7 +40,7 @@ export function Toaster() {
                 </ToastTitle>
               )}
               {description && (
-                <ToastDescription className="sonic-body3 text-tertary">
+                <ToastDescription className="sonic-body3 text-tertary max-w-[320px] hyphens-auto">
                   {description}
                 </ToastDescription>
               )}

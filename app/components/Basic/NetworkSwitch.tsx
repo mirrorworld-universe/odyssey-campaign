@@ -32,7 +32,7 @@ export function NetworkSwitch() {
               <span className="animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] absolute inline-flex size-2 rounded-full bg-link opacity-75"></span>
               <span className="size-1.5 rounded-full bg-link"></span>
             </div>
-            <h3 className="sonic-title3 text-link font-orbitron w-fit">
+            <h3 className="sonic-title2 text-link font-orbitron w-fit">
               {networkMap[networkId].name}
             </h3>
             <SwitchNetworkIcon
