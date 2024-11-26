@@ -14,7 +14,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
+  AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ import { useAccountInfo, useNetworkInfo } from "@/app/store/account";
 import {
   useDrawRecordModal,
   useDrawResultModal,
-  useLotteryInfo,
+  useLotteryInfo
 } from "@/app/store/lottery";
 import { confirmTransaction, sendLegacyTransaction } from "@/lib/transactions";
 import { Card, CardSize } from "../Basic/Card";
@@ -33,7 +33,7 @@ import { Casino } from "@/app/icons/Casino";
 import {
   drawLottery,
   getBlockNumberWinner,
-  getLotteryTx,
+  getLotteryTx
 } from "@/app/data/lottery";
 
 let txHash = "";
@@ -54,14 +54,14 @@ export function DrawRecordDialog() {
   const {
     isOpen: isOpenResultModal,
     onOpen: onOpenResultModal,
-    onClose: onCloseResultModal,
+    onClose: onCloseResultModal
   } = useDrawResultModal();
   const { lotteryDrawPrice, lotteryDrawAmount } = useLotteryInfo();
   const {
     lotteryRewardsAmount,
     setLotteryRewardsAmount,
     lotteryExtraRewardsAmount,
-    setLotteryExtraRewardsAmount,
+    setLotteryExtraRewardsAmount
   } = useLotteryInfo();
 
   const [lotteryDrawRecords, setLotteryDrawRecords] = useState<any[]>([]);
@@ -76,6 +76,31 @@ export function DrawRecordDialog() {
 
     try {
       const tx = Transaction.from(Buffer.from(transactionString, "base64"));
+      const balance = await connection.getBalance(publicKey);
+      const fee = await connection.getFeeForMessage(tx.compileMessage());
+
+      if (fee.value && fee.value > balance) {
+        toast({
+          title: "Insufficient SOL Balance",
+          description: (
+            <div role="fail">
+              Your SOL balance on Sonic Frontier V1 is insufficient to complete
+              this transaction. Click{" "}
+              <a
+                className="text-link hover:text-primary-blue"
+                target="_blank"
+                href={`https://faucet.sonic.game/#/?network=testnet.v1&wallet=${publicKey.toBase58()}`}
+              >
+                here
+              </a>{" "}
+              to claim test SOL.
+            </div>
+          )
+        });
+        setHasRefused(true);
+        return;
+      }
+
       const { txid, slot } = await sendLegacyTransaction(
         connection,
         // @ts-ignore
@@ -113,10 +138,10 @@ export function DrawRecordDialog() {
         getBlockNumberWinner({
           token,
           blockNumber: currentBlockNumber,
-          networkId,
+          networkId
         }),
       enabled: !!address && !!token && !!blockNumber,
-      refetchInterval: 3 * 1000,
+      refetchInterval: 3 * 1000
     });
 
   useEffect(() => {
@@ -135,7 +160,7 @@ export function DrawRecordDialog() {
           dataQueryLotteryResult?.data?.winner === address
             ? dataQueryLotteryResult?.data?.rewards
             : 0,
-        extraRewards: dataQueryLotteryResult?.data?.extra_rewards,
+        extraRewards: dataQueryLotteryResult?.data?.extra_rewards
       };
       setLotteryDrawRecords([...drawRecords]);
 
@@ -152,7 +177,7 @@ export function DrawRecordDialog() {
       drawLottery({
         token,
         hash: txHash,
-        networkId,
+        networkId
       }),
     onSuccess({ data, status }) {
       if (data.block_number) {
@@ -162,11 +187,11 @@ export function DrawRecordDialog() {
         console.log("currentBlockNumber", currentBlockNumber);
 
         drawRecords[drawRecords.length - 1] = {
-          blockNumber: currentBlockNumber,
+          blockNumber: currentBlockNumber
         };
         setLotteryDrawRecords([...drawRecords]);
       }
-    },
+    }
   });
 
   const mutationBuildTx = useMutation({
@@ -175,7 +200,7 @@ export function DrawRecordDialog() {
     onSuccess: async ({ data }) => {
       const transactionString = data.hash;
       triggerTransaction(transactionString);
-    },
+    }
   });
 
   const drawLotteries = () => {
