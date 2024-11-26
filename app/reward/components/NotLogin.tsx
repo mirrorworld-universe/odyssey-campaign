@@ -7,7 +7,9 @@ export default function NotLogin() {
   return (
     <div className="flex-v items-center py-[120px]">
       <EmptyLogo className="size-10" />
-      <p className="sonic-title3 text-disable mt-2 mb-4">No Record</p>
+      <p className="sonic-title3 text-disable mt-2 mb-4 font-orbitron">
+        No Record
+      </p>
       <Button
         className="sonic-title3"
         variant={"primary"}

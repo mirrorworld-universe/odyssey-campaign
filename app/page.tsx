@@ -82,7 +82,14 @@ export default function Home() {
   };
 
   return (
-    <main className="grow flex flex-col text-primary">
+    <main
+      className="grow flex flex-col text-primary"
+      style={{
+        background:
+          "linear-gradient(0deg, rgba(0, 0, 255, 0.20) 0%, rgba(0, 0, 255, 0.20) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.45) 100%)",
+        backgroundBlendMode: "saturation, normal"
+      }}
+    >
       {networkId !== NetworkId.FrontierV1 ? (
         <video
           key="mainnet-video"
