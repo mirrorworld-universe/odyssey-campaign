@@ -171,7 +171,7 @@ export function GameVenture() {
       },
       {
         name: "Mahjong",
-        cover: "/images/games/mahjong.jpg",
+        cover: "/images/games/mj.png",
         guide:
           "https://docs.google.com/document/d/1tZjsBEUfmy6LMZZxvtKgZsOPQuvFlE6iVOE4fux9haQ/edit?tab=t.0#heading=h.mlwyidc5m1vs",
         play: "https://sonic.mahjong123.io",
