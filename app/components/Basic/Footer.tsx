@@ -51,7 +51,7 @@ function MobileFooter() {
           href="https://www.sonic.game"
           target="_blank"
         >
-          WWW.SONIC.GAME
+          SONIC.GAME
         </a>
       </div>
 
@@ -61,7 +61,7 @@ function MobileFooter() {
           {menu.map((item, index) => (
             <div key={index} className="flex justify-between items-center">
               <Link
-                className="sonic-title3/[1.2] font-orbitron text-primary"
+                className="sonic-title3 !leading-[1.2] font-orbitron text-primary"
                 href={item.getLink(networkId)}
                 key={index}
                 target={item.target}
@@ -115,10 +115,10 @@ function PcFooter() {
             href="https://www.sonic.game"
             target="_blank"
           >
-            WWW.SONIC.GAME
+            SONIC.GAME
           </a>
         </div>
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-8">
           {menu.map((item, index) => (
             <Link
               className="sonic-title3 font-orbitron text-tertary hover:text-primary transition-colors"

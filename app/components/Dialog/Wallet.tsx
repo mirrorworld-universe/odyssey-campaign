@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 import {
   fetchAuthorize,
   fetchBasicInfo,
-  fetchLogout,
+  fetchLogout
 } from "@/app/data/account";
 import { useBreakpoint } from "@/app/hooks";
 import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
 import {
   useAccountInfo,
   useNetworkInfo,
-  useWalletModal,
+  useWalletModal
 } from "@/app/store/account";
 import { useTaskInfo } from "@/app/store/task";
 import { useSetupInfo } from "@/app/store/tutorials";
@@ -24,20 +24,20 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from "@/components/ui/dialog";
 import { connectWalletStatics } from "@/lib/analytics";
 import {
   trackActionEvent,
   trackClick,
   trackCriteoWalletClick,
-  trackCriteoWalletTransactionClick,
+  trackCriteoWalletTransactionClick
 } from "@/lib/track";
 import {
   isInMaintenanceTime,
   isInWalletCampaignTime,
   isMobileDevice,
-  isMobileViewport,
+  isMobileViewport
 } from "@/lib/utils";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -58,7 +58,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     publicKey,
     disconnect,
     connected,
-    signMessage,
+    signMessage
   } = useWallet();
 
   const {
@@ -70,7 +70,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     setSignature,
     isInWhitelist,
     setIsInWhitelist,
-    reset,
+    reset
   } = useAccountInfo();
   const { setAddress: setTaskAddress } = useTaskInfo();
   const { isOpen, onOpen, onClose, isSwitching, setSwitching } =
@@ -84,7 +84,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
   const {
     data: dataBasicInfo,
     isLoading: loadingBasicInfo,
-    refetch: refetchBasicInfo,
+    refetch: refetchBasicInfo
   } = useQuery({
     queryKey: ["queryBasicInfo"],
     queryFn: () =>
@@ -93,15 +93,15 @@ export function WalletDialog({ text = "Connect", className }: any) {
         source: WalletList.find(
           (wallet: any) => wallet.name === currentWallet?.adapter.name
         )?.id,
-        networkId,
+        networkId
       }),
-    enabled: false,
+    enabled: false
   });
 
   const {
     data: dataAuthorize,
     isLoading: loadingAuthorize,
-    refetch: refetchAuthorize,
+    refetch: refetchAuthorize
   } = useQuery({
     queryKey: ["queryAuthorize"],
     queryFn: () =>
@@ -109,9 +109,9 @@ export function WalletDialog({ text = "Connect", className }: any) {
         address: publicKey?.toString() || address,
         address_encoded: encodeBase64(publicKey!.toBytes()),
         signature: currentSignature || signature,
-        networkId,
+        networkId
       }),
-    enabled: false,
+    enabled: false
   });
 
   const mutationLogout = useMutation({
@@ -119,7 +119,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
     onSuccess: () => {
       reset();
       disconnect();
-    },
+    }
   });
 
   const handleWalletSelect = async (currentWallet: any) => {
@@ -257,7 +257,7 @@ export function WalletDialog({ text = "Connect", className }: any) {
           page_name,
           connect_time: new Date(),
           connect_page,
-          wallet_address: publicKey.toString(),
+          wallet_address: publicKey.toString()
         });
       } catch (e) {
         console.log(e);
@@ -375,7 +375,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
                   !wallet.isTiktokLayer
               )
               .map(
-                (wallet: any) => !wallet.hide && <WalletItem wallet={wallet} />
+                (wallet: any) =>
+                  !wallet.hide && <WalletItem wallet={wallet} key={wallet.id} />
               )}
             {walletList
               .filter(
@@ -406,7 +407,8 @@ export function WalletDialog({ text = "Connect", className }: any) {
                   wallet.isTiktokLayer
               )
               .map(
-                (wallet: any) => !wallet.hide && <WalletItem wallet={wallet} />
+                (wallet: any) =>
+                  !wallet.hide && <WalletItem wallet={wallet} key={wallet.id} />
               )}
             {/* <WalletMultiButton style={{}} /> */}
           </ul>
