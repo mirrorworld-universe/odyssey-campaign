@@ -100,33 +100,6 @@ export function GameVenture() {
       }
     ],
     testnetv1: [
-      // {
-      //   name: "SnakeLite",
-      //   cover: "/images/games/snakelite.jpg",
-      //   guide:
-      //     "https://mirrorworldfun.notion.site/SnakeLite-Odyssey-Game-and-Task-Guide-585d67b5d76348ba868d58a5d1acfa72?pvs=4",
-      //   play: "https://t.me/Snakelite_official_bot",
-      //   time: "2024-07-04T21:00:00+08:00",
-      //   available: true
-      // },
-      // {
-      //   name: "FoMoney",
-      //   cover: "/images/games/b.jpg",
-      //   guide:
-      //     "https://fomoney.gitbook.io/fomoney-litepaper/how-to-play-fomoney-to-earn-1-million-usdsonic-rings-via-odyssey-campaign",
-      //   play: "https://fomoney-sonic.io/",
-      //   time: "2024-06-27T21:00:00+08:00",
-      //   available: true
-      // },
-      // {
-      //   name: "JOGO JOGO",
-      //   cover: "/images/games/jogo.jpg",
-      //   guide:
-      //     "https://mirrorworldfun.notion.site/JOGOJOGO-Odyssey-Game-and-Task-Guide-f8b1e4d54bee4d318926964c9f87a4be",
-      //   play: "https://app.jogojogo.game/register?code=SOSONIC",
-      //   time: "2024-07-30T21:00:00+08:00",
-      //   available: true
-      // },
       {
         name: "Startup",
         cover: "/images/games/startup.png",
