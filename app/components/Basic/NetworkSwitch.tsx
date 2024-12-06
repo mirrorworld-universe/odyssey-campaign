@@ -18,6 +18,11 @@ export function NetworkSwitch() {
   const [isOpen, toggleOpen] = useToggle(false);
   const { handleSwitchNetwork } = useSwitchNetwork();
 
+  const switchNetwork = (networkId: string) => {
+    handleSwitchNetwork(networkId);
+    toggleOpen(false);
+  };
+
   return (
     <>
       <Popover open={isOpen} onOpenChange={toggleOpen}>
@@ -42,7 +47,7 @@ export function NetworkSwitch() {
             {networks.map((network: any, networkIndex: number) => (
               <div
                 key={networkIndex}
-                onClick={() => handleSwitchNetwork(network.id)}
+                onClick={() => switchNetwork(network.id)}
                 className={cn(
                   "px-6 py-2 hover:bg-line transition-all cursor-pointer",
                   network.id === networkId && "text-link"
@@ -67,7 +72,7 @@ export function NetworkSwitch() {
         {networks.map((network: any, networkIndex: number) => (
           <div
             key={networkIndex}
-            onClick={() => handleSwitchNetwork(network.id)}
+            onClick={() => switchNetwork(network.id)}
             className={cn(
               "px-4 h-16 flex items-center hover:bg-line hover:text-link transition-all cursor-pointer",
               network.id === networkId && "text-link"
