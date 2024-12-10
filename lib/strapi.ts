@@ -1,11 +1,26 @@
 import axios, { AxiosInstance } from "axios";
 
+const stagingBaseURL = "https://strapi-staging.sonic.game/api/";
+const productionBaseURL = "https://strapi.sonic.game/api/";
+
 class Strapi {
   ins: AxiosInstance;
 
   constructor() {
+    const params = new URLSearchParams(window.location.search);
+
+    let baseURL = stagingBaseURL;
+
+    const strapiEnv = params.get("strapi");
+
+    if (strapiEnv === "prod") {
+      baseURL = productionBaseURL;
+    }
+    if (location.href.startsWith("https://odyssey.sonic.game/")) {
+      baseURL = productionBaseURL;
+    }
     this.ins = axios.create({
-      baseURL: "https://strapi-staging.sonic.game/api/"
+      baseURL
     });
   }
 
