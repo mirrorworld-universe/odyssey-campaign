@@ -31,7 +31,7 @@ export default function Reward() {
       3: "Frontier V1"
     };
 
-    const data = seasonInfo?.data.reverse();
+    const data = seasonInfo?.data.sort((a: any, b: any) => b.season - a.season);
     return data.map((item: any) => ({
       season: (
         <>
