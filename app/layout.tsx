@@ -1,26 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { Manrope, Orbitron } from "next/font/google";
+import Script from "next/script";
 // import { GoogleTagManager } from "@next/third-parties/google";
 
-import "./globals.css";
-import Providers from "./providers";
+import { Toaster } from "@/components/ui/toaster";
+import "../lib/track";
 import AppWalletProvider from "./components/Basic/AppWalletProvider";
 import { Header } from "./components/Basic/Header";
-import { Footer } from "./components/Basic/Footer";
-import { Toaster } from "@/components/ui/toaster";
-import { WalletDialog } from "./components/Dialog/Wallet";
+import { MoreWalletDialog } from "./components/Dialog/MoreWallet";
 import { MysteryBoxConfirmDialog } from "./components/Dialog/MysteryBoxConfirm";
 import { MysteryBoxRecordDialog } from "./components/Dialog/MysteryBoxRecord";
 import { MysteryBoxResultDialog } from "./components/Dialog/MysteryBoxResult";
-import { WelcomeDialog } from "./components/Dialog/Welcome";
-import { MoreWalletDialog } from "./components/Dialog/MoreWallet";
-import { SetUpSonicNetworkDialog } from "./components/Dialog/SetUpSonicNetwork";
-import { SetUpFinishDialog } from "./components/Dialog/SetUpFinish";
-import "../lib/track";
-import { WhitelistDialog } from "./components/Dialog/Whitelist";
-import { SwitchNetworkDialog } from "./components/Dialog/SwitchNetwork";
 import SeasonTwo from "./components/Dialog/SeasonTwo";
+import { SetUpFinishDialog } from "./components/Dialog/SetUpFinish";
+import { SetUpSonicNetworkDialog } from "./components/Dialog/SetUpSonicNetwork";
+import { SwitchNetworkDialog } from "./components/Dialog/SwitchNetwork";
+import { WalletDialog } from "./components/Dialog/Wallet";
+import { WelcomeDialog } from "./components/Dialog/Welcome";
+import { WhitelistDialog } from "./components/Dialog/Whitelist";
+import "./globals.css";
+import Providers from "./providers";
 
 const manrope = Manrope({
   weight: ["400", "500"],

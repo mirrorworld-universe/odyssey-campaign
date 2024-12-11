@@ -19,6 +19,7 @@ class Strapi {
     if (location.href.startsWith("https://odyssey.sonic.game/")) {
       baseURL = productionBaseURL;
     }
+
     this.ins = axios.create({
       baseURL
     });

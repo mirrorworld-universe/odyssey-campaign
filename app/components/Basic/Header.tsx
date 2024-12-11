@@ -2,18 +2,12 @@
 
 import { UTCDate } from "@date-fns/utc";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { getCookie } from "cookies-next";
 import { format, formatDistance } from "date-fns";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import {
-  getFaucetUrl,
-  GUIDE_URL,
-  NetworkId,
-  networks
-} from "@/app/data/config";
+import { getFaucetUrl, GUIDE_URL, networks } from "@/app/data/config";
 import { useBreakpoint } from "@/app/hooks";
 import { Close as IconClose } from "@/app/icons/Close";
 import { Menu as IconMenu } from "@/app/icons/Menu";
@@ -28,13 +22,7 @@ import {
   trackCriteoWalletTransactionClick,
   trackLinkClick
 } from "@/lib/track";
-import {
-  cn,
-  isInMaintenanceTime,
-  maintenanceNetworks,
-  maintenanceStartTime
-} from "@/lib/utils";
-import { usePathname, useSearchParams } from "next/navigation";
+import { cn, isInMaintenanceTime } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import {
   formatAddress,
@@ -49,6 +37,7 @@ import Notification from "./Notification";
 import { NotificationBar } from "./NotificationBar";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const menu: any[] = [
   {
@@ -76,18 +65,16 @@ export const menu: any[] = [
 const NETWORK_COOKIE_NAME = "experiment-cookie-frontier";
 
 export function Header() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const networkCookieSearch = searchParams.get("experiment");
   const isMobile = useBreakpoint() === "mobile";
-  const networkCookie = getCookie(NETWORK_COOKIE_NAME);
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
   const { isOpen, onOpen, setSwitching } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
-  const { address, token, setToken } = useAccountInfo();
+  const { token } = useAccountInfo();
   const { isOpen: isOpenLotteryBar, onOpen: onOpenLotteryBar } =
     useLotteryBar();
+
+  const queryClient = useQueryClient();
+
   const {
     isOpen: isOpenNotificationBar,
     onOpen: onOpenNotificationBar,
@@ -98,23 +85,6 @@ export function Header() {
 
   const [bannerMessage, setBannerMessage] = useState<any>({});
   const [showMenu, setShowMenu] = useState(false);
-
-  // const { data: dataWinnerBanner } = useQuery({
-  //   queryKey: ["queryLotteryBanner", address],
-  //   queryFn: () => getLotteryBanner({ token, networkId }),
-  //   enabled: !!address && !!token,
-  //   refetchInterval: 30 * 60 * 1000,
-  // });
-
-  // useEffect(() => {
-  //   if (publicKey) {
-  //     (async function getBalanceEvery10Seconds() {
-  //       const newBalance = await connection.getBalance(publicKey);
-  //       setBalance(newBalance / LAMPORTS_PER_SOL);
-  //       setTimeout(getBalanceEvery10Seconds, 10000);
-  //     })();
-  //   }
-  // }, [publicKey, connection, balance]);
 
   const handleClickOpenWallet = (event: any) => {
     if (isInMaintenance) {
@@ -178,6 +148,11 @@ export function Header() {
       setVisitedNetworkId(networkId);
     }
   }, [networkId]);
+
+  const config: any = queryClient.getQueryData(["websiteConfig"]);
+  const maintenanceNetworks = config?.extra.maintenanceNetworks;
+  const maintenanceStartTime = config?.maintain_start;
+  const maintenanceEndTime = config?.maintain_end;
 
   return (
     <div className="bg-black w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">

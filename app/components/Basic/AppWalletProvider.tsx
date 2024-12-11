@@ -7,13 +7,13 @@ import { WalletList } from "@/app/wallet/wallet-list";
 import { isInMaintenanceTime } from "@/lib/utils";
 import {
   ConnectionProvider,
-  WalletProvider,
+  WalletProvider
 } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import React, { useEffect, useMemo, useState } from "react";
 
 export default function AppWalletProvider({
-  children,
+  children
 }: {
   children: React.ReactNode;
 }) {
@@ -35,7 +35,7 @@ export default function AppWalletProvider({
 
   const wallets = useMemo(
     () => [
-      ...WalletList.map((wallet) => wallet.adapter),
+      ...WalletList.map((wallet) => wallet.adapter)
       // manually add any legacy wallet adapters here
       // new NightlyWalletAdapter(),
       // new PhantomWalletAdapter(),

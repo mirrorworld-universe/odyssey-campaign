@@ -1,7 +1,9 @@
 "use client";
 
+import { strapi } from "@/lib/strapi";
 // Since QueryClientProvider relies on useContext under the hood, we have to put 'use client' on top
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -12,15 +14,15 @@ function makeQueryClient() {
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         retry: 5,
-        staleTime: 60 * 1000,
-      },
-    },
+        staleTime: 60 * 1000
+      }
+    }
   });
 }
 
 let browserQueryClient: QueryClient | undefined = undefined;
 
-function getQueryClient() {
+export function getQueryClient() {
   if (typeof window === "undefined") {
     // Server: always make a new query client
     return makeQueryClient();
@@ -40,6 +42,23 @@ export default function Providers({ children }: any) {
   //       suspend because React will throw away the client on the initial
   //       render if it suspends and there is no boundary
   const queryClient = getQueryClient();
+
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["websiteConfig"],
+      queryFn: () =>
+        strapi
+          .get("/configs", {
+            populate: "*",
+            filters: {
+              website: {
+                $eq: "odyssey"
+              }
+            }
+          })
+          .then((res) => res.data[0])
+    });
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

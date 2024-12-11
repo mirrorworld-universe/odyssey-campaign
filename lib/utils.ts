@@ -1,4 +1,5 @@
 import { NetworkId, networks } from "@/app/data/config";
+import { getQueryClient } from "@/app/providers";
 import { WalletList } from "@/app/wallet/wallet-list";
 import { UTCDate } from "@date-fns/utc";
 import { Wallet } from "@solana/wallet-adapter-react";
@@ -86,16 +87,18 @@ export const getNetworkUrl = (networkId: any) => {
   return currentNetwork.url;
 };
 
-export const maintenanceStartTime = "2024-12-06T10:00:00+08:00";
-export const maintenanceEndTime = "2024-12-07T01:00:00+08:00";
-export const maintenanceNetworks = ["testnetv1"];
 export const showInAdcance = false;
 
 export const isInMaintenanceTime = (networkId = "testnetv1") => {
-  const isMaintenanceNetwork = maintenanceNetworks.indexOf(networkId) > -1;
+  const queryClient = getQueryClient();
+  const config: any = queryClient.getQueryData(["websiteConfig"]);
+
+  const isMaintenanceNetwork =
+    config?.extra.maintenanceNetworks?.indexOf(networkId) > -1;
+
   const now = new UTCDate();
-  const startTime = new UTCDate(maintenanceStartTime);
-  const endTime = new UTCDate(maintenanceEndTime);
+  const startTime = new UTCDate(config?.maintain_start);
+  const endTime = new UTCDate(config?.maintain_end);
   return (
     showInAdcance ||
     (now >= startTime && now <= endTime && isMaintenanceNetwork)
