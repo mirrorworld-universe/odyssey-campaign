@@ -30,12 +30,7 @@ export const taskGroupList: TaskGroup[] = [
           NetworkId.FrontierV0,
           NetworkId.FrontierV1
         ],
-        extraBonus: [
-          {
-            walletId: "Bybit",
-            icon: <BybitLogo />
-          }
-        ],
+        extraBonus: [],
         available: {
           devnet: false,
           testnet: false,
@@ -57,12 +52,7 @@ export const taskGroupList: TaskGroup[] = [
         ],
         icon: <MileStoneLogo />,
         bonus: true,
-        extraBonus: [
-          {
-            walletId: "Bybit",
-            icon: <BybitLogo />
-          }
-        ],
+        extraBonus: [],
         available: {
           devnet: false,
           testnet: false,
