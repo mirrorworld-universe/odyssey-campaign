@@ -28,10 +28,10 @@ export default function Banner() {
 
   return (
     <div className="w-full bg-black relative">
-      <div className="text-primary max-w-view w-full mx-auto px-4 h-[164px] md:h-[300px] flex flex-col md:flex-row justify-center md:justify-start md:items-center relative z-10">
+      <div className="text-primary max-w-view w-full mx-auto px-4 h-[164px] lg:h-[300px] flex flex-col lg:flex-row justify-center lg:justify-start lg:items-center relative z-10">
         {/* left part */}
-        <div className="flex flex-col gap-1.5 md:gap-4 max-w-[486px]">
-          <div className="font-orbitron sonic-headline5 md:sonic-headline3">
+        <div className="flex flex-col gap-1.5 lg:gap-4 max-w-[486px]">
+          <div className="font-orbitron sonic-headline5 lg:sonic-headline3">
             Odyssey Task Center
           </div>
           <p className="sonic-body3 text-primary">
@@ -65,31 +65,31 @@ export default function Banner() {
           {/* pc how to play button */}
           <Button
             onClick={handleOnClick}
-            className="sonic-title3 font-orbitron mt-4 px-6 w-fit hidden md:block"
+            className="sonic-title3 font-orbitron mt-4 px-6 w-fit hidden lg:block"
             variant={"outline"}
           >
             {isFrontierV1 ? "How to Play?" : "Season 2 Guides"}
           </Button>
         </div>
         {/* pc carousel */}
-        <div className="h-full grow hidden md:flex justify-end items-center">
+        <div className="h-full grow hidden lg:flex justify-end items-center">
           <Slider setBgClassName={setBgClassName} />
         </div>
       </div>
       {/* mobile carousel */}
-      <div className={cn("flex w-full relative z-20 md:hidden")}>
+      <div className={cn("flex w-full relative z-20 lg:hidden")}>
         <Slider setBgClassName={setBgClassName} />
       </div>
       {/* banner background */}
       <div
         className={cn(
-          "h-[164px] md:h-full absolute top-0 right-0 md:max-w-[63%] w-full z-0",
+          "h-[164px] lg:h-full absolute top-0 right-0 md:max-w-[63%] w-full z-0",
           bgClassName
         )}
       />
 
       {/* mobile how to play button */}
-      <div className="fixed bottom-0 left-0 w-full p-4 z-20 bg-black md:hidden">
+      <div className="fixed bottom-0 left-0 w-full p-4 z-20 bg-black lg:hidden">
         <Button
           onClick={handleOnClick}
           className="sonic-title3 font-orbitron px-6 w-full"
