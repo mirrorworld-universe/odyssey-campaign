@@ -86,12 +86,12 @@ export const getNetworkUrl = (networkId: any) => {
   return currentNetwork.url;
 };
 
-export const maintenanceStartTime = "2024-10-08T15:00:00+08:00";
-export const maintenanceEndTime = "2024-10-09T21:00:00+08:00";
-export const maintenanceNetworks = ["devnet"];
+export const maintenanceStartTime = "2024-12-06T10:00:00+08:00";
+export const maintenanceEndTime = "2024-12-07T01:00:00+08:00";
+export const maintenanceNetworks = ["testnetv1"];
 export const showInAdcance = false;
 
-export const isInMaintenanceTime = (networkId = "devnet") => {
+export const isInMaintenanceTime = (networkId = "testnetv1") => {
   const isMaintenanceNetwork = maintenanceNetworks.indexOf(networkId) > -1;
   const now = new UTCDate();
   const startTime = new UTCDate(maintenanceStartTime);

@@ -47,52 +47,6 @@ export default function Slider({
 
   const slides = [
     {
-      name: "hashKey",
-      src: "/images/banner/hashkey-v1.png",
-      boxShadow: "0px 0px 12px 0px rgba(243, 5, 162, 0.80)",
-      borderColor: "#F305A2",
-      bgClassName: "banner-hashkey",
-      handleClick: () => {
-        setSwitchTo(NetworkId.FrontierV1);
-        const isTestnetV1 = networkId === NetworkId.FrontierV1;
-
-        if (!isTestnetV1) {
-          openModalDirectly(MODAL_HASH_MAP.switchNetwork);
-          return;
-        }
-
-        if (!connected) {
-          onOpenWalletModal();
-          return;
-        }
-
-        const isProd = location.origin.startsWith("https://odyssey.sonic.game");
-
-        const baseUrl = isProd
-          ? "https://sonicx.app"
-          : "https://dev.sonicx.app";
-
-        const odsCode = publicKey?.toBase58();
-
-        window.open(`${baseUrl}/click?ods_code=${odsCode}`, "_blank");
-      },
-      available: true
-    },
-    {
-      name: "bybit",
-      src: "/images/banner/banner-bybit.png",
-      boxShadow: "0px 0px 12px 0px #A315FF",
-      borderColor: "#9B00FF",
-      bgClassName: "banner-bg-1",
-      handleClick: () => {
-        window.open(
-          "https://www.bybit.com/en/web3/airdrop/activity?activityId=307&activityTag=3",
-          "_blank"
-        );
-      },
-      available: true
-    },
-    {
       name: "more",
       src: "/images/banner/banner-more.jpeg",
       boxShadow: "0px 0px 12px 0px rgba(255, 210, 87, 0.80)",

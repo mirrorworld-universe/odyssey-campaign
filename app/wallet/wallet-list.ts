@@ -65,7 +65,7 @@ export const WalletList: any[] = [
     isSupportSonic: true,
     adapter: new BybitWalletAdapter(),
     hasExtraBonus: {
-      testnetv1: true
+      testnetv1: false
     },
     network: {
       devnet: false,
