@@ -28,7 +28,7 @@ export const networks: Network[] = [
     type: "Testnet",
     name: "Frontier V1",
     url: "/testnet-v1",
-    rpc: "https://rpc.ironforge.network/mainnet?apiKey=01JBVM90DWPB40FZWA11VVPCA3"
+    rpc: "https://api.testnet.v1.sonic.game"
   }
 ];
 
