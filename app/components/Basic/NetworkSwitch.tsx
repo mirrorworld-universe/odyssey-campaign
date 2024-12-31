@@ -18,8 +18,8 @@ export function NetworkSwitch() {
   const [isOpen, toggleOpen] = useToggle(false);
   const { handleSwitchNetwork } = useSwitchNetwork();
 
-  const switchNetwork = (networkId: string) => {
-    handleSwitchNetwork(networkId);
+  const handleSwitch = (networkId: NetworkId) => {
+    networkId === NetworkId.FrontierV1 && handleSwitchNetwork(networkId);
     toggleOpen(false);
   };
 
@@ -47,7 +47,7 @@ export function NetworkSwitch() {
             {networks.map((network: any, networkIndex: number) => (
               <div
                 key={networkIndex}
-                onClick={() => switchNetwork(network.id)}
+                onClick={() => handleSwitch(network.id)}
                 className={cn(
                   "px-6 py-2 hover:bg-line transition-all",
                   network.id === NetworkId.FrontierV1
@@ -74,7 +74,7 @@ export function NetworkSwitch() {
         {networks.map((network: any, networkIndex: number) => (
           <div
             key={networkIndex}
-            onClick={() => switchNetwork(network.id)}
+            onClick={() => handleSwitch(network.id)}
             className={cn(
               "px-4 h-16 flex items-center hover:bg-line hover:text-link transition-all cursor-pointer",
               network.id === NetworkId.FrontierV1
