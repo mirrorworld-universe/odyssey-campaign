@@ -370,11 +370,11 @@ export function CheckIn() {
                   .
                 </li>
               </ul>
-              <li>
+              {/* <li>
                 The duration for the extra bonus for Bybit Wallet is from{" "}
                 {format(new UTCDate(walletCampaignStartTime), "PPP")} to{" "}
                 {format(new UTCDate(walletCampaignEndTime), "PPP")}
-              </li>
+              </li> */}
             </li>
           </ul>
         </Rules>
