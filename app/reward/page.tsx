@@ -11,6 +11,13 @@ import { useMemo } from "react";
 import { Tag } from "../components/Basic/Tag";
 import { format } from "date-fns";
 import { UTCDate } from "@date-fns/utc";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip";
+import { InfoLogo } from "../logos/InfoLogo";
 
 export default function Reward() {
   const { publicKey } = useWallet();
@@ -62,7 +69,23 @@ export default function Reward() {
           <p>Network</p>
           <p>Start Date (UTC)</p>
           <p>End Date (UTC)</p>
-          <p>Snapshot Date (UTC)</p>
+          <p className="flex items-center gap-1">
+            Snapshot Date (UTC){" "}
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="hover:text-white transition-colors">
+                    <InfoLogo />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-[240px] bg-bg-popup border border-line p-3">
+                  <p className="sonic-body4 text-secondary">
+                    This timestamp marks the exact start of the snapshot.
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </p>
           <p>Reward Rings</p>
         </div>
         {publicKey && token ? (
