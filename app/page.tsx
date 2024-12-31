@@ -30,7 +30,7 @@ export default function Home() {
 
   const { title, description } = useMemo(() => {
     const content = {
-      title: networkId !== NetworkId.FrontierV1 ? "Season 1" : "Pre-Mainnet",
+      title: networkId !== NetworkId.FrontierV1 ? "Season 1" : "Season 2",
       description:
         networkId !== NetworkId.FrontierV1
           ? `Thanks for participating! Sonic Odyssey Season 1 on ${
@@ -38,7 +38,9 @@ export default function Home() {
             } has ended. Switch to ${
               networkMap[NetworkId.FrontierV1]?.name
             } to kick off your Season 2 adventure now!`
-          : `Join Sonic Odyssey's Pre-Mainnet Season 3, explore more products and games, and earn more Rings!`
+          : `Join the new Season 2 of Sonic Odyssey on the latest Testnet - ${
+              networkMap[NetworkId.FrontierV1]?.name
+            }! Exciting new games and products are coming soon to boost your ring rewards!`
     };
 
     return content;
@@ -82,14 +84,7 @@ export default function Home() {
   };
 
   return (
-    <main
-      className="grow flex flex-col text-primary"
-      style={{
-        background:
-          "linear-gradient(0deg, rgba(0, 0, 255, 0.20) 0%, rgba(0, 0, 255, 0.20) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.45) 100%)",
-        backgroundBlendMode: "saturation, normal"
-      }}
-    >
+    <main className="grow flex flex-col text-primary">
       {networkId !== NetworkId.FrontierV1 ? (
         <video
           key="mainnet-video"
@@ -119,35 +114,35 @@ export default function Home() {
           playsInline
         >
           <source
-            src="https://storage.sonic.game/odyssey/frontend/video/sonic_logo_pc.mp4"
+            src="https://storage.sonic.game/odyssey/frontend/video/index-pc.mp4"
             type="video/mp4"
             media="(min-width: 768px)"
           />
           <source
-            src="https://storage.sonic.game/odyssey/frontend/video/sonic_logo_h5.mp4"
+            src="https://storage.sonic.game/odyssey/frontend/video/index-h5.mp4"
             type="video/mp4"
             media="(max-width: 767px)"
           />
         </video>
       )}
 
-      <div className="max-w-view px-4 w-full mx-auto flex-center flex-col gap-4 grow">
-        <div className="flex gap-2 md:gap-5 justify-center items-end mt-auto md:mt-0">
+      <div className="max-w-view px-4 w-full mx-auto flex flex-col justify-center items-center gap-6 grow">
+        <div className="flex gap-3 md:gap-4 justify-center items-center mt-auto md:mt-0">
           <img
-            className="h-11 md:h-[90px] md:w-auto object-contain"
+            className="h-11 md:h-[68px] md:w-auto object-contain"
             src="/images/odyssey.png"
             alt=""
           />
-          <h2 className="sonic-headline3 font-extrabold md:text-[56px]/[1.39] font-orbitron">
+          <h2 className="sonic-headline2 md:sonic-headline0 font-orbitron">
             {title}
           </h2>
         </div>
 
-        <p className="sonic-title2 md:sonic-headline5 max-w-[707px] text-center">
+        <p className="sonic-body3 md:sonic-headline5 max-w-[707px] text-center">
           {description}
         </p>
         <Button
-          className="sonic-title2 font-orbitron w-full md:w-[230px] md:mt-6 mb-4 mt-auto mx-auto"
+          className="sonic-title2 font-orbitron w-full md:w-[230px] md:mt-4 mb-4 mt-auto mx-auto"
           size={"lg"}
           variant={"primary"}
           onClick={handleGetStarted}
