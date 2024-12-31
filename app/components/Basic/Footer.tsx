@@ -31,7 +31,7 @@ const socialMedias = [
 
 export function Footer() {
   return (
-    <div className="max-w-view w-full mx-auto pt-20 px-4 md:pt-12 pb-14 md:pb-6 text-primary">
+    <div className="max-w-view w-full mx-auto pt-20 px-4 md:pt-12 pb-20 lg:pb-6 text-primary">
       <PcFooter />
       <MobileFooter />
     </div>

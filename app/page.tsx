@@ -127,7 +127,7 @@ export default function Home() {
       )}
 
       <div className="max-w-view px-4 w-full mx-auto flex flex-col justify-center items-center gap-6 grow">
-        <div className="flex gap-3 md:gap-4 justify-center items-center mt-auto md:mt-0">
+        <div className="flex flex-wrap gap-3 md:gap-4 justify-center items-center mt-auto md:mt-0">
           <img
             className="h-11 md:h-[68px] md:w-auto object-contain"
             src="/images/odyssey.png"

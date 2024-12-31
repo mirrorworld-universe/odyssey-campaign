@@ -100,7 +100,7 @@ export default function Slider({
         })
       ]}
       className={cn(
-        "md:flex md:justify-end md:max-w-[558px] md:w-full rounded md:mb-0",
+        "lg:flex lg:justify-end lg:max-w-[558px] lg:w-full rounded lg:mb-0",
         slides.length > 1 ? "mb-16" : "mb-10"
       )}
     >

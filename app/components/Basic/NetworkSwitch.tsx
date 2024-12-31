@@ -26,7 +26,7 @@ export function NetworkSwitch() {
   return (
     <>
       <Popover open={isOpen} onOpenChange={toggleOpen}>
-        <PopoverTrigger className="h-16 w-full md:w-fit px-4 md:px-0 border-b md:border-b-0 border-line group/network">
+        <PopoverTrigger className="h-16 w-full lg:w-fit px-4 lg:px-0 border-b lg:border-b-0 border-line group/network">
           <div className="flex items-center gap-1">
             <div className="flex-center size-5 relative">
               <span className="animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] absolute inline-flex size-2 rounded-full bg-link opacity-75"></span>
@@ -37,12 +37,12 @@ export function NetworkSwitch() {
             </h3>
             <SwitchNetworkIcon
               className={cn(
-                "size-5 text-icon ml-auto md:ml-1 group-hover/network:text-primary transition-colors group-aria-expanded/network:text-primary"
+                "size-5 text-icon ml-auto lg:ml-1 group-hover/network:text-primary transition-colors group-aria-expanded/network:text-primary"
               )}
             />
           </div>
         </PopoverTrigger>
-        <PopoverContent className="p-0 text-primary w-full md:w-fit border-none outline-none mt-1 hidden md:block">
+        <PopoverContent className="p-0 text-primary w-full lg:w-fit border-none outline-none mt-1 hidden lg:block">
           <div className="py-1 sonic-title3 bg-bg-popup flex-col font-orbitron">
             {networks.map((network: any, networkIndex: number) => (
               <div
@@ -63,7 +63,7 @@ export function NetworkSwitch() {
       </Popover>
       <div
         className={cn(
-          "fixed bottom-0 left-0 w-full pb-4 sonic-title2 bg-bg-popup text-primary flex-col font-orbitron md:hidden transform transition-transform duration-300 ease-in-out",
+          "fixed bottom-0 left-0 w-full pb-4 sonic-title2 bg-bg-popup text-primary flex-col font-orbitron lg:hidden transform transition-transform duration-300 ease-in-out",
           isOpen ? "translate-y-0" : "translate-y-full"
         )}
       >

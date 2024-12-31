@@ -187,9 +187,9 @@ export function Header() {
   return (
     <div className="bg-black w-full sticky sticky:backdrop-blur-[35px] top-0 z-30">
       <nav className="flex mx-auto flex-col w-full">
-        <div className="h-16 md:h-20 flex items-center justify-between p-4 md:px-10 md:py-4 bg-black w-full transition-all duration-300">
+        <div className="h-16 lg:h-20 flex items-center justify-between p-4 lg:px-10 lg:py-4 bg-black w-full transition-all duration-300">
           {/* left */}
-          <div className="flex items-center gap-3 md:gap-8">
+          <div className="flex items-center gap-3 lg:gap-8">
             {/* logo */}
             <Link href="/" className="inline-flex flex-row items-center gap-2">
               <img
@@ -197,14 +197,14 @@ export function Header() {
                 className="size-8 min-w-8"
                 src="/sonic.png"
               />
-              <span className="hidden md:inline text-white text-[22px] font-bold font-orbitron tracking-widest">
+              <span className="hidden lg:inline text-white text-[22px] font-bold font-orbitron tracking-widest">
                 SONIC
               </span>
             </Link>
 
             {/* menu */}
             <span
-              className="size-8 inline-flex md:hidden cursor-pointer"
+              className="size-8 inline-flex lg:hidden cursor-pointer"
               onClick={() => setShowMenu(true)}
             >
               <IconMenu color="white" />
@@ -213,13 +213,13 @@ export function Header() {
             {/* nav */}
             <div
               className={cn(
-                "flex flex-col md:flex-row md:gap-8 bg-black fixed items-center md:static inset-0 m-auto z-30 size-full md:w-auto md:h-auto duration-300 transition-transform",
+                "flex flex-col lg:flex-row lg:gap-8 bg-black fixed items-center lg:static inset-0 m-auto z-30 size-full lg:w-auto lg:h-auto duration-300 transition-transform",
                 showMenu
                   ? "translate-x-0"
-                  : "-translate-x-full md:translate-x-0"
+                  : "-translate-x-full lg:translate-x-0"
               )}
             >
-              <div className="w-full flex md:hidden p-4 justify-between items-center">
+              <div className="w-full flex lg:hidden p-4 justify-between items-center">
                 <span className="font-orbitron sonic-title2 text-tertary">
                   Menu
                 </span>
@@ -235,13 +235,13 @@ export function Header() {
               <NetworkSwitch />
 
               {/* spliter */}
-              <div className="w-px h-4 bg-white/20 hidden md:block"></div>
+              <div className="w-px h-4 bg-white/20 hidden lg:block"></div>
 
-              <div className="w-full px-4 md:px-0 md:w-auto flex flex-col md:flex-row items-start md:items-center gap-0 md:gap-8 font-orbitron">
+              <div className="w-full px-4 lg:px-0 lg:w-auto flex flex-col lg:flex-row items-start lg:items-center gap-0 lg:gap-8 font-orbitron">
                 {menu.map((menuItem, menuIndex) => (
                   <Link
                     className={cn(
-                      "flex items-center w-full md:w-fit !sonic-title3 text-primary transition-colors h-16"
+                      "flex items-center w-full lg:w-fit !sonic-title3 text-primary transition-colors h-16 hover:underline"
                     )}
                     href={menuItem.getLink(networkId)}
                     key={menuIndex}
@@ -256,7 +256,7 @@ export function Header() {
           </div>
 
           {/* right */}
-          <div className="gap-6 md:gap-10 flex items-center">
+          <div className="gap-6 lg:gap-10 flex items-center">
             {publicKey && token ? <RingPopover /> : null}
 
             {publicKey && token ? <Notification /> : null}
@@ -270,7 +270,7 @@ export function Header() {
                     : "hover:bg-[#0000FF]/80 active:bg-[#0000FF]/60 cursor-pointer"
                 )}
                 variant={"primary"}
-                size={isMobile ? "sm" : "md"}
+                size={isMobile ? "sm" : "lg"}
                 onClick={handleClickOpenWallet}
               >
                 {connecting ? "Connecting..." : "Connect Wallet"}
