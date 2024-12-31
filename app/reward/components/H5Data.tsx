@@ -1,13 +1,23 @@
 import { Ring } from "@/app/icons/Ring";
+import { InfoLogo } from "@/app/logos/InfoLogo";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import React from "react";
 
 export default function H5Data({ seasons }: { seasons: any[] }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+
   return (
     <Accordion
       type="single"
@@ -44,7 +54,31 @@ export default function H5Data({ seasons }: { seasons: any[] }) {
               <p className="text-primary">{season.endDate}</p>
             </div>
             <div>
-              <p>Snapshot Date (UTC)</p>
+              <p className="flex items-center gap-1">
+                Snapshot Date (UTC){" "}
+                <TooltipProvider>
+                  <Tooltip open={isOpen}>
+                    <TooltipTrigger
+                      asChild
+                      onClick={() => setIsOpen(!isOpen)}
+                      aria-expanded={isOpen}
+                    >
+                      <button className="hover:text-white transition-colors cursor-pointer">
+                        <InfoLogo />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="top"
+                      sideOffset={5}
+                      className="z-[100] max-w-[182px] bg-bg-popup border border-line p-3"
+                    >
+                      <p className="sonic-body4 text-secondary">
+                        This timestamp marks the exact start of the snapshot.
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </p>
               <p className="text-primary">{season.snapshotDate}</p>
             </div>
             <div>

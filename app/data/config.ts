@@ -57,7 +57,7 @@ export const FAUCET_URL = {
   [NetworkId.FrontierV1]: "https://faucet.sonic.game/#/?network=testnet.v1"
 };
 
-export const GUIDE_URL = "https://blog.sonic.game/sonic-odyssey-season-2-guide";
+export const GUIDE_URL = "https://blog.sonic.game/sonic-odyssey-season-3-guide";
 
 export function getFaucetUrl(networkId?: string, wallet?: string) {
   wallet = wallet ?? storage.get("sonic-account-info", "state.address") ?? "";
