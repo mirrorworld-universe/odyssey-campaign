@@ -56,6 +56,11 @@ export const menu: any[] = [
     getLink: () => "/task",
     target: "_self"
   },
+  // {
+  //   name: "Reward Center",
+  //   getLink: () => "/reward",
+  //   target: "_self"
+  // },
   {
     name: "Faucet",
     getLink: () => getFaucetUrl(),

@@ -45,11 +45,16 @@ export const useNetworkInfo = create(
     }),
     {
       name: "sonic-network-info",
-      version: 1,
+      version: 2,
       migrate: (persistedState: any, version) => {
         if (version === 0) {
           persistedState.networkId = NetworkId.FrontierV1;
         }
+
+        if (version === 1) {
+          persistedState.networkId = NetworkId.FrontierV1;
+        }
+
         return persistedState;
       }
     }

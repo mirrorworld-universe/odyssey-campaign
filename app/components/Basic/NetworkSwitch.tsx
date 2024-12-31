@@ -1,6 +1,6 @@
 "use client";
 
-import { networkMap, networks } from "@/app/data/config";
+import { NetworkId, networkMap, networks } from "@/app/data/config";
 import { useSwitchNetwork } from "@/app/hooks";
 import { Close as IconClose } from "@/app/icons/Close";
 import { useNetworkInfo } from "@/app/store/account";
@@ -18,8 +18,8 @@ export function NetworkSwitch() {
   const [isOpen, toggleOpen] = useToggle(false);
   const { handleSwitchNetwork } = useSwitchNetwork();
 
-  const switchNetwork = (networkId: string) => {
-    handleSwitchNetwork(networkId);
+  const handleSwitch = (networkId: NetworkId) => {
+    networkId === NetworkId.FrontierV1 && handleSwitchNetwork(networkId);
     toggleOpen(false);
   };
 
@@ -32,7 +32,7 @@ export function NetworkSwitch() {
               <span className="animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] absolute inline-flex size-2 rounded-full bg-link opacity-75"></span>
               <span className="size-1.5 rounded-full bg-link"></span>
             </div>
-            <h3 className="sonic-title3 text-link font-orbitron w-fit">
+            <h3 className="sonic-title2 text-link font-orbitron w-fit">
               {networkMap[networkId].name}
             </h3>
             <SwitchNetworkIcon
@@ -47,10 +47,12 @@ export function NetworkSwitch() {
             {networks.map((network: any, networkIndex: number) => (
               <div
                 key={networkIndex}
-                onClick={() => switchNetwork(network.id)}
+                onClick={() => handleSwitch(network.id)}
                 className={cn(
-                  "px-6 py-2 hover:bg-line transition-all cursor-pointer",
-                  network.id === networkId && "text-link"
+                  "px-6 py-2 hover:bg-line transition-all",
+                  network.id === NetworkId.FrontierV1
+                    ? "text-link cursor-pointer"
+                    : "text-disable cursor-not-allowed"
                 )}
               >
                 {network.name}
@@ -72,10 +74,12 @@ export function NetworkSwitch() {
         {networks.map((network: any, networkIndex: number) => (
           <div
             key={networkIndex}
-            onClick={() => switchNetwork(network.id)}
+            onClick={() => handleSwitch(network.id)}
             className={cn(
               "px-4 h-16 flex items-center hover:bg-line hover:text-link transition-all cursor-pointer",
-              network.id === networkId && "text-link"
+              network.id === NetworkId.FrontierV1
+                ? "text-link cursor-pointer"
+                : "text-disable cursor-not-allowed"
             )}
           >
             {network.name}
