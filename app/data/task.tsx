@@ -10,6 +10,7 @@ import { PlayOnSonicxLogo } from "../logos/PlayOnSonicxLogo";
 import { ReferralLogo } from "../logos/ReferralLogo";
 import { NetworkId } from "./config";
 import { RingLotteryLogo } from "../logos/RingLotteryLogo";
+import { SegaLogo } from "../logos/SegaLogo";
 
 export const taskGroupList: TaskGroup[] = [
   {
@@ -59,20 +60,6 @@ export const taskGroupList: TaskGroup[] = [
           testnetv1: true
         }
       }
-
-      // {
-      //   id: "follow-on-tiktok",
-      //   name: "Follow on TikTok",
-      //   description:
-      //     "Follow @SonicSVM on TikTok for the newest updating from sonic.",
-      //   period: "24-Hour Period",
-      //   reward: "",
-      //   iconName: "tiktok",
-      //   available: {
-      //     devnet: true,
-      //     testnet: false
-      //   }
-      // }
     ]
   },
   {
@@ -149,6 +136,22 @@ export const taskGroupList: TaskGroup[] = [
           testnet: false
         },
         showPeriod: true
+      }
+    ]
+  },
+  {
+    name: "Defi & Liquidity",
+    list: [
+      {
+        id: "sega-swap",
+        name: "Daily SEGA",
+        description:
+          "Complete daily swaps on SEGA Swap and Liquidity Pool to earn rewards!",
+        period: "Daily Task",
+        reward: "Test SOL Needed",
+        iconName: "sega",
+        icon: <SegaLogo />,
+        visibleInNetworks: [NetworkId.FrontierV1]
       }
     ]
   },

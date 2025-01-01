@@ -47,6 +47,17 @@ export default function Slider({
 
   const slides = [
     {
+      name: "sega-swap",
+      src: "/images/banner/sega.png",
+      boxShadow: "0px 0px 19.332px 0px #00F",
+      borderColor: "#0004FF",
+      bgClassName: "banner-sega",
+      handleClick: () => {
+        window.open("https://sonic.mahjong123.io", "_blank");
+      },
+      available: true
+    },
+    {
       name: "more",
       src: "/images/banner/banner-more.jpeg",
       boxShadow: "0px 0px 12px 0px rgba(255, 210, 87, 0.80)",
