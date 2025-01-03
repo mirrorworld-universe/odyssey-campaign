@@ -12,6 +12,7 @@ import { TaskNavigator } from "@/app/components/Basic/TaskNavigator";
 import { MysteryNFT } from "@/app/components/Task/MysteryNFT";
 import { SonicXContent } from "@/app/components/Task/SonicXContent";
 import { TiktokContent } from "@/app/components/Task/TiktokContent";
+import { SegaSwap } from "@/app/components/Task/SegaSwap";
 
 const tasks = taskGroupList.map((item) => item.list).flat();
 
@@ -38,7 +39,8 @@ export default function Page({ params }: { params: { slug: string } }) {
     ["game-venture"]: <GameVenture />,
     ["mystery-nft"]: <MysteryNFT />,
     ["play-on-sonicx"]: <SonicXContent />,
-    ["follow-on-tiktok"]: <TiktokContent />
+    ["follow-on-tiktok"]: <TiktokContent />,
+    ["sega-swap"]: <SegaSwap />
   };
 
   const Content = ({ className }: any) => (
