@@ -21,7 +21,7 @@ export interface Task {
   bonus?: boolean;
   extraBonus?: ExtraBonus[];
   /** @deprecated Please use `networkId === NetworkId.FrontierV1` prop instead */
-  available: TaskAvailability;
+  available?: TaskAvailability;
   visibleInNetworks: NetworkId[];
   startTime?: string;
   showPeriod?: boolean;
