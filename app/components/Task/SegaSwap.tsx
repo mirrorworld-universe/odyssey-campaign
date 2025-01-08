@@ -28,22 +28,6 @@ export function SegaSwap() {
 
   const [showRules, setShowRules] = useState(false);
 
-  // {
-  //   "code": 0,
-  //   "data": {
-  //     "sega_swap": {
-  //       "task_status": false,
-  //       "reward_claimed": true
-  //     },
-  //     "sega_liquidity": {
-  //       "task_status": false,
-  //       "reward_claimed": false
-  //     }
-  //   },
-  //   "status": "success",
-  //   "message": "success"
-  // }
-
   const { data: segaSwapStatus } = useQuery({
     queryKey: ["sega-swap-status"],
     queryFn: () => http.get("/user/sega/status"),
@@ -202,7 +186,7 @@ export function SegaSwap() {
               To swap tokens on SEGA DEX,{" "}
               <a
                 className="text-link hover:text-primary-blue transition-colors"
-                href="https://swap.sonic.game"
+                href="https://dev.sega.so/swap/?inputMint=7MTK1xGBbwNken7X7aHJhWaLtJFVCRd7x5EeavuUo5Wv&outputMint=sol"
                 target="_blank"
               >
                 click here
@@ -213,7 +197,7 @@ export function SegaSwap() {
               To provide liquidity on SEGA DEX,{" "}
               <a
                 className="text-link hover:text-primary-blue transition-colors"
-                href="https://swap.sonic.game"
+                href="https://dev.sega.so/liquidity-pools/"
                 target="_blank"
               >
                 click here
