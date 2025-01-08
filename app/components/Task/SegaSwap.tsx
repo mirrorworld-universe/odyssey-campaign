@@ -16,6 +16,8 @@ import { toast } from "@/components/ui/use-toast";
 import { trackClick } from "@/lib/track";
 import { Rules } from "./Rules";
 import { getFaucetUrl } from "@/app/data/config";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { http } from "@/lib/http";
 
 export function SegaSwap() {
   const { onOpen } = useWalletModal();
@@ -26,14 +28,48 @@ export function SegaSwap() {
 
   const [showRules, setShowRules] = useState(false);
 
-  const showRewardsToast = () => {
+  // {
+  //   "code": 0,
+  //   "data": {
+  //     "sega_swap": {
+  //       "task_status": false,
+  //       "reward_claimed": true
+  //     },
+  //     "sega_liquidity": {
+  //       "task_status": false,
+  //       "reward_claimed": false
+  //     }
+  //   },
+  //   "status": "success",
+  //   "message": "success"
+  // }
+
+  const { data: segaSwapStatus } = useQuery({
+    queryKey: ["sega-swap-status"],
+    queryFn: () => http.get("/user/sega/status"),
+    enabled: !!address && !!token
+  });
+
+  const { mutate: claimReward } = useMutation({
+    mutationKey: ["sega-claim-reward"],
+    mutationFn: (reward_type: string) =>
+      http.post(`/user/sega/claim`, { reward_type }),
+    onSuccess: (res) => {
+      showRewardsToast(res);
+    },
+    onError: () => {
+      console.log("error");
+    }
+  });
+
+  const showRewardsToast = (res: any) => {
     toast({
       title: '"Sega Swap" task completed.',
       description: (
         <p role="success" className="block">
           You've received{" "}
           <span className="inline-flex items-center text-[#FBB042]">
-            3 x mystery boxes
+            2 x mystery boxes
             <Gift color="#FBB042" className="w-3 h-3 mx-[2px]" />
           </span>
           . Open it in the navbar to exchange for rings.
@@ -44,19 +80,30 @@ export function SegaSwap() {
 
   const socialMediaList = [
     {
-      id: "swap-tokens",
+      id: "sega_swap",
       name: "Swap Tokens",
       link: "https://twitter.com/SonicSVM",
       description: (
         <div className="sonic-body2 text-white/50">
           Complete a trade of any token pair and amount on Sega Dex.{" "}
-          <span className="text-link hover:text-primary-blue transition-colors cursor-pointer">
+          <span
+            onClick={() =>
+              window.open(
+                "https://dev.sega.so/swap/?inputMint=7MTK1xGBbwNken7X7aHJhWaLtJFVCRd7x5EeavuUo5Wv&outputMint=sol",
+                "_blank"
+              )
+            }
+            className="text-link hover:text-primary-blue transition-colors cursor-pointer"
+          >
             Swap on SEGA
           </span>
           <p className="sonic-title4 text-secondary font-orbitron mt-2 md:mt-4">
             Swap Completed:
             <span className="sonic-body4 font-manrope pl-2">
-              <span className="text-gold-yellow">0</span>/1
+              <span className="text-gold-yellow">
+                {segaSwapStatus?.data?.sega_swap?.task_status ? 1 : 0}
+              </span>
+              /1
             </span>
           </p>
         </div>
@@ -66,22 +113,32 @@ export function SegaSwap() {
           Claim x 2 <Gift color="white" className="size-5 ml-2" />
         </>
       ),
-      handler: () => {}
+      handler: () => {
+        claimReward("swap");
+      }
     },
     {
-      id: "discord",
+      id: "sega_liquidity",
       name: "Provide Liquidities",
       link: "https://discord.gg/joinmirrorworld",
       description: (
         <div className="sonic-body2 text-white/50">
           Provide liquidity to any pool with any amount on Sega Dex.{" "}
-          <span className="text-link hover:text-primary-blue transition-colors cursor-pointer">
+          <span
+            onClick={() =>
+              window.open("https://dev.sega.so/liquidity-pools/", "_blank")
+            }
+            className="text-link hover:text-primary-blue transition-colors cursor-pointer"
+          >
             Deposit on SEGA
           </span>
           <p className="sonic-title4 text-secondary font-orbitron mt-2 md:mt-4">
             Deposit Completed:
             <span className="sonic-body4 font-manrope pl-2">
-              <span className="text-gold-yellow">0</span>/1
+              <span className="text-gold-yellow">
+                {segaSwapStatus?.data?.sega_liquidity?.task_status ? 1 : 0}
+              </span>
+              /1
             </span>
           </p>
         </div>
@@ -91,7 +148,9 @@ export function SegaSwap() {
           Claim x 2 <Gift color="white" className="size-5 ml-2" />
         </>
       ),
-      handler: () => {}
+      handler: () => {
+        claimReward("liquidity");
+      }
     }
   ];
 
@@ -194,6 +253,10 @@ export function SegaSwap() {
                     "sonic-title3 md:sonic-title2 ml-0 md:ml-20 mt-6"
                   )}
                   variant={"primary"}
+                  disabled={
+                    !segaSwapStatus?.data?.[socialMedia.id]?.task_status ||
+                    segaSwapStatus?.data?.[socialMedia.id]?.reward_claimed
+                  }
                   size={isMobile ? "sm" : "lg"}
                   onClick={() => {
                     if (isInMaintenance) {
