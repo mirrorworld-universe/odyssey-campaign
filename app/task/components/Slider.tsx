@@ -53,7 +53,10 @@ export default function Slider({
       borderColor: "#0004FF",
       bgClassName: "banner-sega",
       handleClick: () => {
-        window.open("https://sonic.mahjong123.io", "_blank");
+        window.open(
+          "https://app.galxe.com/quest/CJPiNuX64CULY5mJjGSmmP/GCYS2totEi",
+          "_blank"
+        );
       },
       available: true
     },
