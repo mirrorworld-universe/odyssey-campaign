@@ -28,7 +28,7 @@ export function SegaSwap() {
 
   const [showRules, setShowRules] = useState(false);
 
-  const { data: segaSwapStatus } = useQuery({
+  const { data: segaSwapStatus, refetch: refetchSegaSwapStatus } = useQuery({
     queryKey: ["sega-swap-status"],
     queryFn: () => http.get("/user/sega/status"),
     enabled: !!address && !!token
@@ -40,6 +40,7 @@ export function SegaSwap() {
       http.post(`/user/sega/claim`, { reward_type }),
     onSuccess: (res) => {
       showRewardsToast(res);
+      refetchSegaSwapStatus();
     },
     onError: () => {
       console.log("error");
@@ -129,7 +130,7 @@ export function SegaSwap() {
       ),
       buttonText: (
         <>
-          Claim x 2 <Gift color="white" className="size-5 ml-2" />
+          Claim x 1 <Gift color="white" className="size-5 ml-2" />
         </>
       ),
       handler: () => {
@@ -171,39 +172,44 @@ export function SegaSwap() {
               tasks, and earn rewards.
             </li>
             <li className="">
-              Complete at least 1 successful swap transaction and 1 deposit
-              transaction to earn total{" "}
+              Complete at least 1 successful swap transaction to earn{" "}
               <span className="inline-flex items-center text-[#FBB042]">
-                3 x{" "}
+                2 x{" "}
                 <Gift
                   color="#FBB042"
                   className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
                 />{" "}
                 Ring Mystery Boxes.
               </span>
-            </li>
-            <li className="">
-              To swap tokens on SEGA DEX,{" "}
               <a
                 className="text-link hover:text-primary-blue transition-colors"
                 href="https://dev.sega.so/swap/?inputMint=7MTK1xGBbwNken7X7aHJhWaLtJFVCRd7x5EeavuUo5Wv&outputMint=sol"
                 target="_blank"
               >
+                {" "}
                 click here
               </a>
-              .
             </li>
-            <li>
-              To provide liquidity on SEGA DEX,{" "}
+            <li className="">
+              Complete at least 1 successful deposit transaction to earn{" "}
+              <span className="inline-flex items-center text-[#FBB042]">
+                1 x{" "}
+                <Gift
+                  color="#FBB042"
+                  className="w-3 h-3 md:w-[18px] md:h-[18px] mx-[2px]"
+                />{" "}
+                Ring Mystery Boxes.
+              </span>
               <a
                 className="text-link hover:text-primary-blue transition-colors"
                 href="https://dev.sega.so/liquidity-pools/"
                 target="_blank"
               >
+                {" "}
                 click here
               </a>
-              .
             </li>
+
             <li>Refresh page to claim the corresponding rewards.</li>
           </ul>
         </Rules>
