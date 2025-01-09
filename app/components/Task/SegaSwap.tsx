@@ -115,7 +115,7 @@ export function SegaSwap() {
             }
             className="text-link hover:text-primary-blue transition-colors cursor-pointer"
           >
-            Deposit on SEGA
+            Provide LP on SEGA
           </span>
           <p className="sonic-title4 text-secondary font-orbitron mt-2 md:mt-4">
             Deposit Completed:

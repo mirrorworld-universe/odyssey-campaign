@@ -144,9 +144,8 @@ export const taskGroupList: TaskGroup[] = [
     list: [
       {
         id: "sega-swap",
-        name: "Daily SEGA",
-        description:
-          "Complete daily swaps on SEGA Swap and Liquidity Pool to earn rewards!",
+        name: "Trade on SEGA",
+        description: "Swap or provide liquidity on Sega to earn extra rewards!",
         period: "Daily Task",
         reward: "Test SOL Needed",
         iconName: "sega",
