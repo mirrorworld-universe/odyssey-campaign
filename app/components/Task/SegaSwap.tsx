@@ -191,7 +191,7 @@ export function SegaSwap() {
               </a>
             </li>
             <li className="">
-              Complete at least 1 successful deposit transaction to earn{" "}
+              Provide liquidity to at least one liquidity pool to earn{" "}
               <span className="inline-flex items-center text-[#FBB042]">
                 1 x{" "}
                 <Gift
