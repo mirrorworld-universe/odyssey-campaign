@@ -54,7 +54,7 @@ export function SegaSwap() {
         <p role="success" className="block">
           You've received{" "}
           <span className="inline-flex items-center text-[#FBB042]">
-            2 x mystery boxes
+            {res?.data?.amount || 2} x mystery boxes
             <Gift color="#FBB042" className="w-3 h-3 mx-[2px]" />
           </span>
           . Open it in the navbar to exchange for rings.
