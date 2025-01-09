@@ -54,7 +54,7 @@ export default function Slider({
       bgClassName: "banner-sega",
       handleClick: () => {
         window.open(
-          "https://app.galxe.com/quest/CJPiNuX64CULY5mJjGSmmP/GCYS2totEi",
+          "https://zealy.io/cw/sega-so/questboard/f410628c-1018-4651-a009-51aeeeced08d",
           "_blank"
         );
       },
