@@ -229,7 +229,7 @@ export function SegaSwap() {
         {/* main */}
         <Card
           size={CardSize.Medium}
-          className="max-w-[1024px] md:mt-20 p-0 md:p-10 rounded-none md:border border-none"
+          className="max-w-[1024px] md:mt-20 p-0 md:p-10 rounded-none md:border border-0"
           nameClassName="bg-[#000]"
         >
           <ul className="list-disc font-normal leading-relaxed">
