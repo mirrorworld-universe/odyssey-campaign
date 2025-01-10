@@ -69,7 +69,7 @@ export function SegaSwap() {
       name: "Swap Tokens",
       link: "https://twitter.com/SonicSVM",
       description: (
-        <div className="sonic-body2 text-white/50">
+        <div className="sonic-body3 md:sonic-body2 text-tertary">
           Complete a trade of any token pair and amount on Sega Dex.{" "}
           <span
             onClick={() =>
@@ -82,7 +82,7 @@ export function SegaSwap() {
           >
             Swap on SEGA
           </span>
-          <p className="sonic-title4 text-secondary font-orbitron mt-2 md:mt-4">
+          <p className="sonic-title3 md:sonic-title4 text-secondary font-orbitron mt-2 md:mt-4">
             Swap Completed:
             <span className="sonic-body4 font-manrope pl-2">
               <span className="text-gold-yellow">
@@ -95,7 +95,13 @@ export function SegaSwap() {
       ),
       buttonText: (
         <>
-          Claim x 2 <Gift color="white" className="size-5 ml-2" />
+          {segaSwapStatus?.data?.sega_swap?.reward_claimed ? (
+            "Claimed"
+          ) : (
+            <>
+              Claim x 2 <Gift color="white" className="size-5 ml-2" />
+            </>
+          )}
         </>
       ),
       handler: () => {
@@ -107,7 +113,7 @@ export function SegaSwap() {
       name: "Provide Liquidities",
       link: "https://discord.gg/joinmirrorworld",
       description: (
-        <div className="sonic-body2 text-white/50">
+        <div className="sonic-body3 md:sonic-body2 text-tertary">
           Provide liquidity to any pool with any amount on Sega Dex.{" "}
           <span
             onClick={() =>
@@ -117,7 +123,7 @@ export function SegaSwap() {
           >
             Provide LP on SEGA
           </span>
-          <p className="sonic-title4 text-secondary font-orbitron mt-2 md:mt-4">
+          <p className="sonic-title3 md:sonic-title4 text-secondary font-orbitron mt-2 md:mt-4">
             Deposit Completed:
             <span className="sonic-body4 font-manrope pl-2">
               <span className="text-gold-yellow">
@@ -130,7 +136,13 @@ export function SegaSwap() {
       ),
       buttonText: (
         <>
-          Claim x 1 <Gift color="white" className="size-5 ml-2" />
+          {segaSwapStatus?.data?.sega_liquidity?.reward_claimed ? (
+            "Claimed"
+          ) : (
+            <>
+              Claim x 1 <Gift color="white" className="size-5 ml-2" />
+            </>
+          )}
         </>
       ),
       handler: () => {
@@ -143,12 +155,12 @@ export function SegaSwap() {
     <div className="flex flex-col w-full">
       {/* title */}
       <h1 className="hidden md:flex text-white font-orbitron font-semibold text-[64px]">
-        Daily SEGA
+        Trade on SEGA
       </h1>
 
       {/* line */}
       <div className="hidden md:block w-full max-w-[1024px] h-[2px] bg-white/20 mt-10 mb-20 relative">
-        <div className="w-[396px] h-[2px] bg-[#25A3ED] shadow-[0_0_6px_0_#25A3ED] absolute top-0 left-0"></div>
+        <div className="w-[540px] h-[2px] bg-[#25A3ED] shadow-[0_0_6px_0_#25A3ED] absolute top-0 left-0"></div>
       </div>
 
       {/* content */}
@@ -217,10 +229,10 @@ export function SegaSwap() {
         {/* main */}
         <Card
           size={CardSize.Medium}
-          className="max-w-[1024px] md:mt-20 p-6 md:p-10 rounded-none"
+          className="max-w-[1024px] md:mt-20 p-0 md:p-10 rounded-none md:border border-none"
           nameClassName="bg-[#000]"
         >
-          <ul className="list-disc font-normal leading-relaxed md:pl-6">
+          <ul className="list-disc font-normal leading-relaxed">
             {socialMediaList.map((socialMedia, socialMediaIndex) => (
               <li
                 className={`flex flex-col xl:flex-row items-start xl:items-center w-full ${
@@ -230,17 +242,17 @@ export function SegaSwap() {
                 }`}
                 key={socialMediaIndex}
               >
-                <div className="flex flex-col pr-20 xl:border-r xl:border-solid xl:border-white/10">
+                <div className="flex flex-col max-w-[696px] w-full md:pr-20 xl:border-r xl:border-solid xl:border-white/10">
                   <h5 className="text-sm md:text-xl text-white font-semibold font-orbitron">
                     {socialMedia.name}
                   </h5>
-                  <p className="w-full text-xs md:text-base text-white/50 font-normal mt-2 md:mt-4">
+                  <p className="w-full sonic-body3 md:sonic-body2 text-tertary font-normal mt-2 md:mt-4">
                     {socialMedia.description}
                   </p>
                 </div>
                 <Button
                   className={cn(
-                    "sonic-title3 md:sonic-title2 ml-0 md:ml-20 mt-6"
+                    "sonic-title3 md:sonic-title2 ml-0 md:ml-auto mt-6 w-[140px] md:w-[168px]"
                   )}
                   variant={"primary"}
                   disabled={
