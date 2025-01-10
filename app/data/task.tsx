@@ -139,21 +139,21 @@ export const taskGroupList: TaskGroup[] = [
       }
     ]
   },
-  // {
-  //   name: "Defi & Liquidity",
-  //   list: [
-  //     {
-  //       id: "sega-swap",
-  //       name: "Trade on SEGA",
-  //       description: "Swap or provide liquidity on Sega to earn extra rewards!",
-  //       period: "Daily Task",
-  //       reward: "Test SOL Needed",
-  //       iconName: "sega",
-  //       icon: <SegaLogo />,
-  //       visibleInNetworks: [NetworkId.FrontierV1]
-  //     }
-  //   ]
-  // },
+  {
+    name: "Defi & Liquidity",
+    list: [
+      {
+        id: "sega-swap",
+        name: "Trade on SEGA",
+        description: "Swap or provide liquidity on Sega to earn extra rewards!",
+        period: "Daily Task",
+        reward: "Test SOL Needed",
+        iconName: "sega",
+        icon: <SegaLogo />,
+        visibleInNetworks: [NetworkId.FrontierV1]
+      }
+    ]
+  },
   {
     name: "Social Tasks",
     list: [
