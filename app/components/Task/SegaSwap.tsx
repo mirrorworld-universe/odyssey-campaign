@@ -193,14 +193,6 @@ export function SegaSwap() {
                 />{" "}
                 Ring Mystery Boxes.
               </span>
-              <a
-                className="text-link hover:text-primary-blue transition-colors"
-                href="https://dev.sega.so/swap/?inputMint=7MTK1xGBbwNken7X7aHJhWaLtJFVCRd7x5EeavuUo5Wv&outputMint=sol"
-                target="_blank"
-              >
-                {" "}
-                click here
-              </a>
             </li>
             <li className="">
               Provide liquidity to at least one liquidity pool to earn{" "}
@@ -212,14 +204,6 @@ export function SegaSwap() {
                 />{" "}
                 Ring Mystery Boxes.
               </span>
-              <a
-                className="text-link hover:text-primary-blue transition-colors"
-                href="https://dev.sega.so/liquidity-pools/"
-                target="_blank"
-              >
-                {" "}
-                click here
-              </a>
             </li>
 
             <li>Refresh page to claim the corresponding rewards.</li>
