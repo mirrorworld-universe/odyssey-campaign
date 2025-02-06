@@ -195,7 +195,7 @@ export function CheckIn() {
             <p role="success" className="block">
               You've received{" "}
               <span className="inline-flex items-center text-[#FBB042]">
-                {rewards} x mystery {rewards === 1 ? "box" : "boxes"}
+                {data.rewards} x mystery {data.rewards === 1 ? "box" : "boxes"}
                 <Gift width={12} height={12} color="#FBB042" className="mx-1" />
               </span>
               . Open it in the navbar to exchange for rings.
