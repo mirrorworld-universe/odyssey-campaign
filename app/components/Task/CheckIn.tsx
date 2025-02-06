@@ -181,14 +181,6 @@ export function CheckIn() {
       if (data.checked) {
         setHasChecked(true);
         refetchCheckInInfo();
-        let rewards =
-          Math.ceil((data.accumulative_days || 1) / (totalDays / 2)) || 1;
-        if (
-          isInWalletCampaignTime(networkId) &&
-          hasExtraWalletBonus(wallet, networkId)
-        ) {
-          rewards++;
-        }
         toast({
           title: '"Check-in" task completed.',
           description: (
