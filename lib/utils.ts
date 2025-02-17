@@ -12,13 +12,13 @@ const DIALOGUE_FEATURES = {
   status: "no",
   menubar: "no",
   scrollbars: "yes",
-  resizable: "yes"
+  resizable: "yes",
 };
 
 const DEFAULT_SIZE = {
   width: 500,
   height: 434,
-  top: 224
+  top: 224,
 };
 
 export function cn(...inputs: ClassValue[]) {
@@ -53,7 +53,7 @@ export const openDialoguePopup = (
 ) => {
   const targetSize = {
     ...DEFAULT_SIZE,
-    ...(size || {})
+    ...(size || {}),
   };
 
   const { width } = targetSize;
@@ -81,14 +81,14 @@ export const getNetworkUrl = (networkId: any) => {
   const currentNetwork = networks.find(
     (item: any) => item.id === networkId
   ) || {
-    url: ""
+    url: "",
   };
   return currentNetwork.url;
 };
 
-export const maintenanceStartTime = "2024-10-08T15:00:00+08:00";
-export const maintenanceEndTime = "2024-10-09T21:00:00+08:00";
-export const maintenanceNetworks = ["devnet"];
+export const maintenanceStartTime = "2025-02-17T10:00:00+08:00";
+export const maintenanceEndTime = "2025-02-20T10:00:00+08:00";
+export const maintenanceNetworks = ["testnetv1"];
 export const showInAdcance = false;
 
 export const isInMaintenanceTime = (networkId = "devnet") => {
@@ -172,7 +172,7 @@ export function changeNetwork(wallet?: Wallet) {
     setTimeout(() => {
       window.nightly?.solana?.changeNetwork({
         genesisHash: "E8nY8PG8PEdzANRsv91C2w28Dbw9w3AhLqRYfn5tNv2C",
-        url: ""
+        url: "",
       });
     }, 1000);
   }
