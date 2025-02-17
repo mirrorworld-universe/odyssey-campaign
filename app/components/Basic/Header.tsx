@@ -12,7 +12,7 @@ import {
   getFaucetUrl,
   GUIDE_URL,
   NetworkId,
-  networks
+  networks,
 } from "@/app/data/config";
 import { useBreakpoint } from "@/app/hooks";
 import { Close as IconClose } from "@/app/icons/Close";
@@ -26,13 +26,13 @@ import {
   trackClick,
   trackCriteoWalletClick,
   trackCriteoWalletTransactionClick,
-  trackLinkClick
+  trackLinkClick,
 } from "@/lib/track";
 import {
   cn,
   isInMaintenanceTime,
   maintenanceNetworks,
-  maintenanceStartTime
+  maintenanceStartTime,
 } from "@/lib/utils";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -42,7 +42,7 @@ import {
   useNetworkInfo,
   useNotificationBar,
   useSystemInfo,
-  useWalletModal
+  useWalletModal,
 } from "../../store/account";
 import { NetworkSwitch } from "./NetworkSwitch";
 import Notification from "./Notification";
@@ -54,28 +54,33 @@ export const menu: any[] = [
   {
     name: "Task Center",
     getLink: () => "/task",
-    target: "_self"
-  },
-  {
-    name: "Reward Center",
-    getLink: () => "/reward",
-    target: "_self"
+    target: "_self",
   },
   {
     name: "Faucet",
     getLink: () => getFaucetUrl(),
-    target: "_blank"
+    target: "_blank",
+  },
+  {
+    name: "Reward Center",
+    getLink: () => "/reward",
+    target: "_self",
+  },
+  {
+    name: "Faucet",
+    getLink: () => getFaucetUrl(),
+    target: "_blank",
   },
   {
     name: "Guide",
     getLink: () => GUIDE_URL,
-    target: "_blank"
+    target: "_blank",
   },
   {
     name: "About",
     getLink: () => "https://sonic.game/",
-    target: "_blank"
-  }
+    target: "_blank",
+  },
 ];
 
 const NETWORK_COOKIE_NAME = "experiment-cookie-frontier";
@@ -96,7 +101,7 @@ export function Header() {
   const {
     isOpen: isOpenNotificationBar,
     onOpen: onOpenNotificationBar,
-    onClose: onCloseNotificationBar
+    onClose: onCloseNotificationBar,
   } = useNotificationBar();
   const { lotterySeason } = useLotteryInfo();
   const { networkId, visitedNetworkId, setVisitedNetworkId } = useNetworkInfo();
@@ -164,7 +169,7 @@ export function Header() {
       trackActionEvent("pageLoad", {
         page_name,
         entry_time: new Date(),
-        entry_page
+        entry_page,
       });
     } catch (e) {
       console.log(e);
@@ -305,8 +310,16 @@ export function Header() {
                 . Some tasks and on-chain interactions will be paused. Thank you
                 for understanding.
               </div> */}
-                {/* maintenance */}
                 <div className="pl-[100%] animate-marquee">
+                  Important Update: Sonic{" "}
+                  {getNetworkNamesById(maintenanceNetworks).join(" & ")} will
+                  upgrade on {format(new UTCDate(maintenanceStartTime), "PPP")},
+                  at {format(new UTCDate(maintenanceStartTime), "h a")} UTC.
+                  Some tasks and on-chain interactions will be paused. Thank you
+                  for understanding.
+                </div>
+                {/* maintenance */}
+                {/* <div className="pl-[100%] animate-marquee">
                   Important Update: Sonic{" "}
                   {getNetworkNamesById(maintenanceNetworks).join(" & ")} will
                   undergo maintenance on{" "}
@@ -314,7 +327,7 @@ export function Header() {
                   {format(new UTCDate(maintenanceStartTime), "h a")} UTC. Some
                   tasks and on-chain interactions will be paused. Thank you for
                   understanding.
-                </div>
+                </div> */}
                 {/* <div className="pl-[100%] animate-marquee">
                 Sonic Devnet upgrade in progress due to upcoming{" "}
                 <a href="https://www.nodpad.ai/" className="underline mx-1">
@@ -347,7 +360,7 @@ export function Header() {
                 </a>{" "}
                 about{" "}
                 {formatDistance(new Date(bannerMessage.date), new UTCDate(), {
-                  addSuffix: true
+                  addSuffix: true,
                 })}
                 !
               </span>
