@@ -1,9 +1,16 @@
 import { EmptyLogo } from "@/app/logos/EmptyLogo";
-import { useWalletModal } from "@/app/store/account";
+import { useSystemInfo, useWalletModal } from "@/app/store/account";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function NotLogin() {
+  const { isInMaintenance } = useSystemInfo();
   const { onOpen } = useWalletModal();
+
+  const handleOpenWalletDialog = () => {
+    !isInMaintenance && onOpen();
+  };
+
   return (
     <div className="flex-v items-center py-[120px]">
       <EmptyLogo className="size-10" />
@@ -11,10 +18,13 @@ export default function NotLogin() {
         No Record
       </p>
       <Button
-        className="sonic-title3"
+        className={cn(
+          "sonic-title3",
+          !isInMaintenance ? "cursor-pointer" : "opacity-30 cursor-not-allowed"
+        )}
         variant={"primary"}
         size={"sm"}
-        onClick={onOpen}
+        onClick={handleOpenWalletDialog}
       >
         Connect Wallet
       </Button>
