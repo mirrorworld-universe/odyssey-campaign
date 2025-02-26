@@ -17,8 +17,6 @@ const TaskCenter: NextPage = () => {
         <HowToPlayDialog />
         <FAQDialog />
       </main>
-
-      {/* footer */}
       <Footer />
     </>
   );

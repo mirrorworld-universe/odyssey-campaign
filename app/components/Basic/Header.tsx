@@ -8,12 +8,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import {
-  getFaucetUrl,
-  GUIDE_URL,
-  NetworkId,
-  networks,
-} from "@/app/data/config";
+import { networks } from "@/app/data/config";
 import { useBreakpoint } from "@/app/hooks";
 import { Close as IconClose } from "@/app/icons/Close";
 import { Menu as IconMenu } from "@/app/icons/Menu";
@@ -26,15 +21,15 @@ import {
   trackClick,
   trackCriteoWalletClick,
   trackCriteoWalletTransactionClick,
-  trackLinkClick,
+  trackLinkClick
 } from "@/lib/track";
 import {
   cn,
   isInMaintenanceTime,
   maintenanceNetworks,
-  maintenanceStartTime,
+  maintenanceStartTime
 } from "@/lib/utils";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   formatAddress,
@@ -42,51 +37,35 @@ import {
   useNetworkInfo,
   useNotificationBar,
   useSystemInfo,
-  useWalletModal,
+  useWalletModal
 } from "../../store/account";
 import { NetworkSwitch } from "./NetworkSwitch";
 import Notification from "./Notification";
 import { NotificationBar } from "./NotificationBar";
 import RingPopover from "./RingPopover";
 import { UserDropdown } from "./UserDropdown";
+import Marquee from "react-fast-marquee";
 
 export const menu: any[] = [
   {
     name: "Task Center",
     getLink: () => "/task",
-    target: "_self",
+    target: "_self"
   },
   {
     name: "Reward Center",
     getLink: () => "/reward",
-    target: "_self",
-  },
-  {
-    name: "Faucet",
-    getLink: () => getFaucetUrl(),
-    target: "_blank",
-  },
-  {
-    name: "Guide",
-    getLink: () => GUIDE_URL,
-    target: "_blank",
+    target: "_self"
   },
   {
     name: "About",
     getLink: () => "https://sonic.game/",
-    target: "_blank",
-  },
+    target: "_blank"
+  }
 ];
 
-const NETWORK_COOKIE_NAME = "experiment-cookie-frontier";
-
 export function Header() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const networkCookieSearch = searchParams.get("experiment");
   const isMobile = useBreakpoint() === "mobile";
-  const networkCookie = getCookie(NETWORK_COOKIE_NAME);
   const { isInMaintenance, setInMaintenance } = useSystemInfo();
   const { isOpen, onOpen, setSwitching } = useWalletModal();
   const { select, wallets, publicKey, disconnect, connecting } = useWallet();
@@ -96,30 +75,14 @@ export function Header() {
   const {
     isOpen: isOpenNotificationBar,
     onOpen: onOpenNotificationBar,
-    onClose: onCloseNotificationBar,
+    onClose: onCloseNotificationBar
   } = useNotificationBar();
   const { lotterySeason } = useLotteryInfo();
   const { networkId, visitedNetworkId, setVisitedNetworkId } = useNetworkInfo();
 
   const [bannerMessage, setBannerMessage] = useState<any>({});
   const [showMenu, setShowMenu] = useState(false);
-
-  // const { data: dataWinnerBanner } = useQuery({
-  //   queryKey: ["queryLotteryBanner", address],
-  //   queryFn: () => getLotteryBanner({ token, networkId }),
-  //   enabled: !!address && !!token,
-  //   refetchInterval: 30 * 60 * 1000,
-  // });
-
-  // useEffect(() => {
-  //   if (publicKey) {
-  //     (async function getBalanceEvery10Seconds() {
-  //       const newBalance = await connection.getBalance(publicKey);
-  //       setBalance(newBalance / LAMPORTS_PER_SOL);
-  //       setTimeout(getBalanceEvery10Seconds, 10000);
-  //     })();
-  //   }
-  // }, [publicKey, connection, balance]);
+  const router = useRouter();
 
   const handleClickOpenWallet = (event: any) => {
     if (isInMaintenance) {
@@ -164,7 +127,7 @@ export function Header() {
       trackActionEvent("pageLoad", {
         page_name,
         entry_time: new Date(),
-        entry_page,
+        entry_page
       });
     } catch (e) {
       console.log(e);
@@ -292,19 +255,6 @@ export function Header() {
                 className="min-w-6 min-h-6"
               />
               <span className="inline-flex w-full max-w-[718px] whitespace-nowrap overflow-hidden">
-                {/* upgrade */}
-                {/* <div className="pl-[100%] animate-marquee">
-                Important Update: Sonic{" "}
-                {getNetworkNamesById(maintenanceNetworks).join(" & ")} will
-                upgrade on {format(new UTCDate(maintenanceStartTime), "PPP")},
-                at {format(new UTCDate(maintenanceStartTime), "h a")} UTC, for{" "}
-                {formatDistance(
-                  new UTCDate(maintenanceStartTime),
-                  new UTCDate(maintenanceEndTime)
-                )}
-                . Some tasks and on-chain interactions will be paused. Thank you
-                for understanding.
-              </div> */}
                 <div className="pl-[100%] animate-marquee">
                   Important Update: Sonic{" "}
                   {getNetworkNamesById(maintenanceNetworks).join(" & ")} will
@@ -313,28 +263,27 @@ export function Header() {
                   Some tasks and on-chain interactions will be paused. Thank you
                   for understanding.
                 </div>
-                {/* maintenance */}
-                {/* <div className="pl-[100%] animate-marquee">
-                  Important Update: Sonic{" "}
-                  {getNetworkNamesById(maintenanceNetworks).join(" & ")} will
-                  undergo maintenance on{" "}
-                  {format(new UTCDate(maintenanceStartTime), "PPP")}, at{" "}
-                  {format(new UTCDate(maintenanceStartTime), "h a")} UTC. Some
-                  tasks and on-chain interactions will be paused. Thank you for
-                  understanding.
-                </div> */}
-                {/* <div className="pl-[100%] animate-marquee">
-                Sonic Devnet upgrade in progress due to upcoming{" "}
-                <a href="https://www.nodpad.ai/" className="underline mx-1">
-                  Node Sale
-                </a>
-                traffic. Expected to be completed by the end of the raffle sale.
-                Some tasks will be temporarily unavailable.
-              </div> */}
               </span>
             </div>
           </NotificationBar>
         )}
+        <div className="h-9 flex items-center bg-primary-blue/20">
+          <div className="w-view mx-auto">
+            <Marquee pauseOnHover>
+              <div className="text-white sonic-body3">
+                Pre-Mainnet rewards and airdrops will be distributed in April
+                and you can check rewards in the{" "}
+                <span
+                  onClick={() => router.push("/reward")}
+                  className="text-link hover:text-primary-blue transition-colors cursor-pointer"
+                >
+                  Rewards Center
+                </span>
+                .
+              </div>
+            </Marquee>
+          </div>
+        </div>
 
         {/* notification bar */}
         {!isInMaintenance && isOpenLotteryBar && (
@@ -355,40 +304,13 @@ export function Header() {
                 </a>{" "}
                 about{" "}
                 {formatDistance(new Date(bannerMessage.date), new UTCDate(), {
-                  addSuffix: true,
+                  addSuffix: true
                 })}
                 !
               </span>
             </div>
           </NotificationBar>
         )}
-
-        {/* news notification bar */}
-        {/* {isInWalletCampaignTime(networkId) && (
-        <NotificationBar className="bg-[#00063C] min-h-12 h-auto px-3">
-          <div className="w-full inline-flex justify-center gap-2 text-base text-[#48BBFF] font-semibold py-3">
-            <Speaker
-              width={24}
-              height={24}
-              color="#48BBFF"
-              className="min-w-6 min-h-6"
-            />
-            <span className="inline-flex whitespace-nowrap overflow-hidden">
-              <div className="">
-                {`Sonic<>OKX Web3 Campaign is live now! Check`}{" "}
-                <a
-                  href="https://www.okx.com/web3/campaigns/sonicadventures"
-                  target="_blank"
-                  className="underline"
-                >
-                  here
-                </a>
-                .
-              </div>
-            </span>
-          </div>
-        </NotificationBar>
-      )} */}
       </nav>
     </div>
   );

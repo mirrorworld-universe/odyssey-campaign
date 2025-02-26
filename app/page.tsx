@@ -16,7 +16,7 @@ import {
   useWalletModal
 } from "./store/account";
 import { cn } from "@/lib/utils";
-import { NetworkId, networkMap } from "./data/config";
+import { NetworkId } from "./data/config";
 
 export default function Home() {
   const router = useRouter();
@@ -30,15 +30,9 @@ export default function Home() {
 
   const { title, description } = useMemo(() => {
     const content = {
-      title: networkId !== NetworkId.FrontierV1 ? "Season 1" : "Pre-Mainnet",
+      title: "Ended",
       description:
-        networkId !== NetworkId.FrontierV1
-          ? `Thanks for participating! Sonic Odyssey Season 1 on ${
-              networkMap[networkId]?.name
-            } has ended. Switch to ${
-              networkMap[NetworkId.FrontierV1]?.name
-            } to kick off your Season 2 adventure now!`
-          : `Join Sonic Odyssey's Pre-Mainnet Season 3, explore more products and games, and earn more Rings!`
+        "Sonic Mainnet is live, testnet tasks are discontinued. Join the Mainnet Campaign and earn $SONIC."
     };
 
     return content;
@@ -147,14 +141,44 @@ export default function Home() {
           {description}
         </p>
         <Button
-          className="sonic-title2 font-orbitron w-full md:w-[230px] md:mt-6 mb-4 mt-auto mx-auto"
+          className="sonic-title2 font-orbitron gap-2.5 w-full md:w-fit md:mt-6 mb-4 mt-auto mx-auto"
           size={"lg"}
           variant={"primary"}
           onClick={handleGetStarted}
         >
-          Get Started
+          Mainnet Campaign <ArrowRight />
         </Button>
       </div>
     </main>
+  );
+}
+
+function ArrowRight() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="25"
+      height="24"
+      viewBox="0 0 25 24"
+      fill="none"
+    >
+      <mask
+        id="mask0_2921_21609"
+        style={{ maskType: "alpha" }}
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="25"
+        height="24"
+      >
+        <rect x="0.5" width="24" height="24" fill="#D9D9D9" />
+      </mask>
+      <g mask="url(#mask0_2921_21609)">
+        <path
+          d="M14.5 18L13.1 16.55L16.65 13H4.5V11H16.65L13.1 7.45L14.5 6L20.5 12L14.5 18Z"
+          fill="white"
+        />
+      </g>
+    </svg>
   );
 }
