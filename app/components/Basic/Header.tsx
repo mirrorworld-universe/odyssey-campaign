@@ -277,7 +277,7 @@ export function Header() {
                   onClick={() => router.push("/reward")}
                   className="text-link hover:text-primary-blue transition-colors cursor-pointer"
                 >
-                  Rewards Center
+                  Reward Center
                 </span>
                 .
               </div>

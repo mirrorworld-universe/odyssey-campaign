@@ -60,19 +60,7 @@ export default function Home() {
   }, [token]);
 
   const handleGetStarted = () => {
-    if (isInMaintenance) {
-      return;
-    }
-
-    if (!connected) {
-      onOpen();
-    } else {
-      router.push("/task");
-    }
-    // ttq
-    openWalletStatics();
-    // ga4
-    trackClick({ text: "Get Started" });
+    window.open("https://mainnet-campaign.sonic.game", "_blank");
   };
 
   return (
