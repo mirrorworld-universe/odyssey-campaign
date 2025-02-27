@@ -2,7 +2,6 @@
 
 import { UTCDate } from "@date-fns/utc";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { getCookie } from "cookies-next";
 import { format, formatDistance } from "date-fns";
 import Link from "next/link";
 
