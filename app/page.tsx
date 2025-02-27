@@ -1,29 +1,18 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useWallet } from "@solana/wallet-adapter-react";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
-import { loadHomePageStatics, openWalletStatics } from "@/lib/analytics";
+import { loadHomePageStatics } from "@/lib/analytics";
 import { http } from "@/lib/http";
-import { trackClick } from "@/lib/track";
-import {
-  useAccountInfo,
-  useNetworkInfo,
-  useSystemInfo,
-  useWalletModal
-} from "./store/account";
 import { cn } from "@/lib/utils";
 import { NetworkId } from "./data/config";
+import { useAccountInfo, useNetworkInfo } from "./store/account";
 
 export default function Home() {
-  const router = useRouter();
-  const { connected } = useWallet();
   const { address, token } = useAccountInfo();
-  const { onOpen } = useWalletModal();
-  const { isInMaintenance } = useSystemInfo();
   const searchParams = useSearchParams();
 
   const { networkId } = useNetworkInfo();
@@ -32,7 +21,7 @@ export default function Home() {
     const content = {
       title: "Ended",
       description:
-        "Sonic Mainnet is live, testnet tasks are discontinued. Join the Mainnet Campaign and earn $SONIC."
+        "Sonic SVM Mainnet is live, testnet tasks are discontinued. Join the Sonic Mobius Campaign on Mainnet and earn $SONIC."
     };
 
     return content;
@@ -60,7 +49,7 @@ export default function Home() {
   }, [token]);
 
   const handleGetStarted = () => {
-    window.open("https://mainnet-campaign.sonic.game", "_blank");
+    window.open("https://mobius.sonic.game/", "_blank");
   };
 
   return (
@@ -134,7 +123,7 @@ export default function Home() {
           variant={"primary"}
           onClick={handleGetStarted}
         >
-          Mainnet Campaign <ArrowRight />
+          Mobius Campaign <ArrowRight />
         </Button>
       </div>
     </main>
