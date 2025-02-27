@@ -2,7 +2,6 @@
 
 import { UTCDate } from "@date-fns/utc";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { getCookie } from "cookies-next";
 import { format, formatDistance } from "date-fns";
 import Link from "next/link";
 
@@ -271,8 +270,8 @@ export function Header() {
           <div className="w-view mx-auto">
             <Marquee pauseOnHover>
               <div className="text-white sonic-body3">
-                Pre-Mainnet rewards will be calculated in April and you can
-                check rewards in the{" "}
+                Pre-Mainnet rewards will be calculated after Mobius Campaign
+                Season 1 ends, and you can check your rewards in the{" "}
                 <span
                   onClick={() => router.push("/reward")}
                   className="text-link hover:text-primary-blue transition-colors cursor-pointer"
