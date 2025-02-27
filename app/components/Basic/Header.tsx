@@ -271,8 +271,8 @@ export function Header() {
           <div className="w-view mx-auto">
             <Marquee pauseOnHover>
               <div className="text-white sonic-body3">
-                Pre-Mainnet rewards and airdrops will be distributed in April
-                and you can check rewards in the{" "}
+                Pre-Mainnet rewards will be calculated in April and you can
+                check rewards in the{" "}
                 <span
                   onClick={() => router.push("/reward")}
                   className="text-link hover:text-primary-blue transition-colors cursor-pointer"
