@@ -38,18 +38,7 @@ export function useSwitchNetwork() {
 }
 
 export function useTaskUrl() {
-  const { networkId } = useNetworkInfo();
-  const { wallet } = useWallet();
-  const { token } = useAccountInfo();
-
   function getTaskUrl(task: Task) {
-    if (
-      networkId === NetworkId.FrontierV1 &&
-      isSupportSonic(wallet?.adapter.name) &&
-      token
-    ) {
-      return `/task/${task.id}`;
-    }
     return "#";
   }
 

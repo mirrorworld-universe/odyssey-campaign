@@ -4,9 +4,7 @@ import { MODAL_HASH_MAP, openModalDirectly } from "@/app/hooks/useModalHash";
 import { useNetworkInfo } from "@/app/store/account";
 import { Button } from "@/components/ui/button";
 import { trackClick } from "@/lib/track";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
-import Slider from "./Slider";
 
 export default function Banner() {
   const { networkId } = useNetworkInfo();
@@ -71,32 +69,6 @@ export default function Banner() {
             {isFrontierV1 ? "How to Play?" : "Season 2 Guides"}
           </Button>
         </div>
-        {/* pc carousel */}
-        <div className="h-full grow hidden md:flex justify-end items-center">
-          <Slider setBgClassName={setBgClassName} />
-        </div>
-      </div>
-      {/* mobile carousel */}
-      <div className={cn("flex w-full relative z-20 md:hidden")}>
-        <Slider setBgClassName={setBgClassName} />
-      </div>
-      {/* banner background */}
-      <div
-        className={cn(
-          "h-[164px] md:h-full absolute top-0 right-0 md:max-w-[63%] w-full z-0",
-          bgClassName
-        )}
-      />
-
-      {/* mobile how to play button */}
-      <div className="fixed bottom-0 left-0 w-full p-4 z-20 bg-black md:hidden">
-        <Button
-          onClick={handleOnClick}
-          className="sonic-title3 font-orbitron px-6 w-full"
-          variant={"outline"}
-        >
-          {isFrontierV1 ? "How to Play?" : "Season 2 Guides"}
-        </Button>
       </div>
     </div>
   );
