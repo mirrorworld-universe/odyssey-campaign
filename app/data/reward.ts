@@ -96,5 +96,5 @@ export const getMysteryboxHistory = async ({
   //   }
   // );
   // return response.json();
-  return {};
+  return {} as any;
 };
