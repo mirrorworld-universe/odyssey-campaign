@@ -219,9 +219,9 @@ export function Header() {
 
           {/* right */}
           <div className="gap-6 md:gap-10 flex items-center">
-            {publicKey && token ? <RingPopover /> : null}
+            {/* {publicKey && token ? <RingPopover /> : null} */}
 
-            {publicKey && token ? <Notification /> : null}
+            {/* {publicKey && token ? <Notification /> : null} */}
 
             {!publicKey ? (
               <Button
@@ -270,8 +270,8 @@ export function Header() {
           <div className="w-view mx-auto">
             <Marquee pauseOnHover>
               <div className="text-white sonic-body3">
-                Pre-Mainnet rewards will be calculated after Mobius Campaign
-                Season 1 ends, and you can check your rewards in the{" "}
+                Pre-Mainnet rewards were snapshotted on March 4. Unopened boxes
+                can no longer be opened, and rewards can be checked in the{" "}
                 <span
                   onClick={() => router.push("/reward")}
                   className="text-link hover:text-primary-blue transition-colors cursor-pointer"

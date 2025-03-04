@@ -79,21 +79,22 @@ export const getMysteryboxHistory = async ({
   size = 50,
   networkId = NetworkId.FrontierV1
 }: any) => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
-      networkId
-    )}/user/rewards/mystery-box/history`,
-    {
-      headers: {
-        Authorization: token,
-        "content-type": "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify({
-        page,
-        size
-      })
-    }
-  );
-  return response.json();
+  // const response = await fetch(
+  //   `${process.env.NEXT_PUBLIC_API_DOMAIN}${getNetworkUrl(
+  //     networkId
+  //   )}/user/rewards/mystery-box/history`,
+  //   {
+  //     headers: {
+  //       Authorization: token,
+  //       "content-type": "application/json"
+  //     },
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       page,
+  //       size
+  //     })
+  //   }
+  // );
+  // return response.json();
+  return {} as any;
 };
