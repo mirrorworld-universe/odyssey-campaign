@@ -51,10 +51,10 @@ export default function Reward() {
         ? format(new UTCDate(item.end_date), "MMM do, yyyy")
         : "--",
       snapshotDate: item.update_time
-        ? format(
-            new UTCDate(item.update_time),
-            "MMM do, yyyy hh:mm aaa"
-          ).replace(/am|pm/, (match) => match.toUpperCase())
+        ? format(new UTCDate(item.update_time), "MMM do, yyyy").replace(
+            /am|pm/,
+            (match) => match.toUpperCase()
+          )
         : "--",
       rings: item.rings.toLocaleString()
     }));
